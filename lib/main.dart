@@ -54,6 +54,7 @@ import 'package:ox_talk/src/l10n/localizations.dart';
 import 'package:ox_talk/src/login/login.dart';
 import 'package:ox_talk/src/main/root.dart';
 import 'package:ox_talk/src/main/splash.dart';
+import 'package:ox_talk/src/navigation/navigation.dart';
 import 'package:ox_talk/src/profile/edit_account_settings.dart';
 
 void main() {
@@ -62,11 +63,12 @@ void main() {
 }
 
 class OxTalkApp extends StatelessWidget {
-  static const String ROUTES_ROOT = "/";
+  final Navigation navigation = Navigation();
 
-  static const ROUTES_CONTACT_ADD = '/contactAdd';
-  static const ROUTES_PROFILE_EDIT = '/profileEdit';
-  static const ROUTES_CHAT_CREATE = '/chatCreate';
+  static const String ROUTES_ROOT = '/';
+  static const String ROUTES_CONTACT_ADD = '/contactAdd';
+  static const String ROUTES_PROFILE_EDIT = '/profileEdit';
+  static const String ROUTES_CHAT_CREATE = '/chatCreate';
 
   @override
   Widget build(BuildContext context) {
@@ -79,10 +81,14 @@ class OxTalkApp extends StatelessWidget {
       supportedLocales: [
         const Locale('en', 'US'),
       ],
-      initialRoute: ROUTES_ROOT,
+      theme: new ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      initialRoute: Navigation.ROUTES_ROOT,
       routes: {
-        ROUTES_ROOT: (context) => _OxTalk(),
-        ROUTES_CONTACT_ADD: (context) => ContactChange(
+        ROUTES_ROOT: (context) => OxTalkApp(),
+        ROUTES_CONTACT_ADD: (context) =>
+            ContactChange(
               contactAction: ContactAction.add,
             ),
         ROUTES_PROFILE_EDIT: (context) => EditAccountSettings(),
