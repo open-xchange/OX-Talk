@@ -74,7 +74,7 @@ class ChatListView extends BaseRootChild {
   }
 
   _showCreateChatView(BuildContext context) {
-    navigation.pushNamedNavigate(context, Navigation.ROUTES_CHAT_CREATE);
+    navigation.pushNamed(context, Navigation.ROUTES_CHAT_CREATE);
   }
 
   @override

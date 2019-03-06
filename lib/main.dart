@@ -65,11 +65,6 @@ void main() {
 class OxTalkApp extends StatelessWidget {
   final Navigation navigation = Navigation();
 
-  static const String ROUTES_ROOT = '/';
-  static const String ROUTES_CONTACT_ADD = '/contactAdd';
-  static const String ROUTES_PROFILE_EDIT = '/profileEdit';
-  static const String ROUTES_CHAT_CREATE = '/chatCreate';
-
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
@@ -85,25 +80,17 @@ class OxTalkApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       initialRoute: Navigation.ROUTES_ROOT,
-      routes: {
-        ROUTES_ROOT: (context) => OxTalkApp(),
-        ROUTES_CONTACT_ADD: (context) =>
-            ContactChange(
-              contactAction: ContactAction.add,
-            ),
-        ROUTES_PROFILE_EDIT: (context) => EditAccountSettings(),
-        ROUTES_CHAT_CREATE: (context) => CreateChat(),
-      },
+      routes: navigation.routeMapping,
     );
   }
 }
 
-class _OxTalk extends StatefulWidget {
+class OxTalk extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _OxTalkState();
 }
 
-class _OxTalkState extends State<_OxTalk> {
+class _OxTalkState extends State<OxTalk> {
   DeltaChatCore _core = DeltaChatCore();
   Context _context = Context();
   bool _coreLoaded = false;

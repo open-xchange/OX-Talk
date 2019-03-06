@@ -46,14 +46,19 @@ import 'package:ox_talk/src/chat/create_chat.dart';
 import 'package:ox_talk/src/contact/contact_change.dart';
 import 'package:ox_talk/src/profile/edit_account_settings.dart';
 
-class Navigation {
+class Navigation{
   static const String ROUTES_ROOT = '/';
   static const String ROUTES_CONTACT_ADD = '/contactAdd';
   static const String ROUTES_PROFILE_EDIT = '/profileEdit';
   static const String ROUTES_CHAT_CREATE = '/chatCreate';
 
+  static Navigation _instance;
+  factory Navigation() => _instance ??= new Navigation._();
+
+  Navigation._();
+
   final Map<String, WidgetBuilder> routeMapping = {
-    ROUTES_ROOT: (context) => OxTalkApp(),
+    ROUTES_ROOT: (context) => OxTalk(),
     ROUTES_CONTACT_ADD: (context) =>
         ContactChange(
           contactAction: ContactAction.add,
@@ -62,13 +67,28 @@ class Navigation {
     ROUTES_CHAT_CREATE: (context) => CreateChat(),
   };
 
-  void pushNavigate(BuildContext context, Route route) {
-    debugPrint("Navigation.pushNavigate");
+  void push(BuildContext context, MaterialPageRoute route) {
+    debugPrint("Navigation.push");
     Navigator.push(context, route);
   }
 
-  void pushNamedNavigate(BuildContext context, String routeName, { Object arguments }) {
-    debugPrint("Navigation.pushNamedNavigate to $routeName");
+  void pushNamed(BuildContext context, String routeName, { Object arguments }) {
+    debugPrint("Navigation.pushNamed to $routeName");
     Navigator.pushNamed(context, routeName, arguments: arguments);
+  }
+
+  void pop(BuildContext context){
+    debugPrint("Navigation.pop");
+    Navigator.pop(context);
+  }
+
+  void pushAndRemoveUntil(BuildContext context, Route newRoute, RoutePredicate predicate) {
+    debugPrint("Navigation.pushAndRemoveUntil to $newRoute until $predicate");
+    Navigator.pushAndRemoveUntil(context, newRoute, predicate);
+  }
+
+  void pushReplacement(BuildContext context, Route newRoute) {
+    debugPrint("Navigation.pushReplacement");
+    Navigator.pushReplacement(context, newRoute);
   }
 }

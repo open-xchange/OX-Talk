@@ -94,7 +94,7 @@ class ProfileView extends BaseRootChild {
 
 class _ProfileState extends State<ProfileView> {
   UserBloc _userBloc = UserBloc();
-  final Navigation navigation = Navigation();
+  Navigation navigation = Navigation();
 
   @override
   void initState() {
@@ -191,11 +191,11 @@ class _ProfileState extends State<ProfileView> {
   }
 
   _editAccountSettings(BuildContext context) {
-    navigation.pushNamedNavigate(context, Navigation.ROUTES_PROFILE_EDIT);
+    navigation.pushNamed(context, Navigation.ROUTES_PROFILE_EDIT);
   }
 
   editUserSettings() {
-    Navigator.push(
+    navigation.push(
       context,
       MaterialPageRoute(builder: (context) => EditUserSettings()),
     );

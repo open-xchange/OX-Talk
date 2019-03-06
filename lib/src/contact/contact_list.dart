@@ -85,7 +85,7 @@ class ContactListView extends BaseRootChild {
   }
 
   _showAddContactView(BuildContext context) {
-    navigation.pushNamedNavigate(context, Navigation.ROUTES_CONTACT_ADD);
+    navigation.pushNamed(context, Navigation.ROUTES_CONTACT_ADD);
   }
 
   @override
