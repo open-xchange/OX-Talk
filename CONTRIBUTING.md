@@ -3,7 +3,7 @@
 At first thanks for you interest in helping in the development of OX Talk and COI. Before contributing, please have a look at the following points.
 
 ## You have a question?
-If you have a question regarding usage or implementation details please don't open an issue. First have a look into our [Wiki](https://github.com/open-xchange/ox-talk/wiki). You can also contact the us via [coi-dev.org](https://www.coi-dev.org/) or via our [mailing list](mailto:dev-join@coi-dev.org). We are always happy to help people, but we have to keep the issue tracker as cleaned up as possible to maintain the overview.
+ You can also contact the us via [coi-dev.org](https://www.coi-dev.org/) or via our [mailing list](mailto:dev-join@coi-dev.org). 
 
 ## You found a bug?
 
