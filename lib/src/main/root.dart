@@ -69,7 +69,6 @@ class _RootState extends State<Root> {
         title: Text(child.getTitle(context)),
           actions: child.getActions(context),
       ),
-//      body: child,
       body:
       AnimatedSwitcher(
         duration: const Duration(milliseconds: 200),

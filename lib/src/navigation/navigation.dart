@@ -53,9 +53,9 @@ class Navigation{
   static const String ROUTES_CHAT_CREATE = '/chatCreate';
 
   static Navigation _instance;
-  factory Navigation() => _instance ??= new Navigation._();
+  factory Navigation() => _instance ??= new Navigation._internal();
 
-  Navigation._();
+  Navigation._internal();
 
   final Map<String, WidgetBuilder> routeMapping = {
     ROUTES_ROOT: (context) => OxTalk(),
