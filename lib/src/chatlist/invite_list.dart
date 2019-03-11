@@ -39,9 +39,19 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the Mozilla Public License 2.0
  * for more details.
  */
+ 
+import 'package:flutter/material.dart';
 
-abstract class ChatListEvent {}
+class InviteList extends StatefulWidget {
+  @override
+  _InviteListState createState() => _InviteListState();
+}
 
-class RequestChatList extends ChatListEvent {}
+class _InviteListState extends State<InviteList> {
 
-class ChatListModified extends ChatListEvent {}
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
