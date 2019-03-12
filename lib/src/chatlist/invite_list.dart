@@ -41,6 +41,13 @@
  */
  
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ox_talk/src/chatlist/chat_list_invite_item.dart';
+import 'package:ox_talk/src/l10n/localizations.dart';
+import 'package:ox_talk/src/message/messages_bloc.dart';
+import 'package:ox_talk/src/message/messages_event.dart';
+import 'package:ox_talk/src/message/messages_state.dart';
+import 'package:ox_talk/src/utils/dimensions.dart';
 
 class InviteList extends StatefulWidget {
   @override
@@ -48,10 +55,51 @@ class InviteList extends StatefulWidget {
 }
 
 class _InviteListState extends State<InviteList> {
+  MessagesBloc _messagesBloc = MessagesBloc();
 
+  @override
+  void initState(){
+    super.initState();
+    _messagesBloc.dispatch(RequestMessages(1));
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return BlocBuilder(
+      bloc: _messagesBloc,
+      builder: (context, state) {
+        if (state is MessagesStateSuccess) {
+          if(state.messageIds.length > 0) {
+            return buildListViewItems(state.messageIds, state.messageLastUpdateValues);
+          }else{
+            return Center(child: Text(AppLocalizations.of(context).inviteEmptyList),);
+          }
+        } else if (state is! MessagesLoaded) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        } else {
+          return Icon(Icons.error);
+        }
+      },
+    );
+  }
+
+  Widget buildListViewItems(List<int> messageIds, List<int> messageLastUpdateValues) {
+    return ListView.builder(
+      padding: EdgeInsets.all(listItemPadding),
+      itemCount: messageIds.length,
+      itemBuilder: (BuildContext context, int index) {
+        var messageId = messageIds[index];
+        var key = "$messageId-${messageLastUpdateValues[index]}";
+        return ChatListInviteItem(1, messageId, key);
+      },
+    );
+  }
+
+  @override
+  void dispose(){
+    super.dispose();
+    _messagesBloc.dispose();
   }
 }

@@ -44,21 +44,15 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:delta_chat_core/delta_chat_core.dart';
-import 'package:flutter/material.dart';
-import 'package:ox_talk/src/message/messages_bloc.dart';
-import 'package:ox_talk/src/message/messages_event.dart';
-import 'package:ox_talk/src/message/messages_state.dart';
 import 'package:ox_talk/src/chatlist/chat_list_event.dart';
 import 'package:ox_talk/src/chatlist/chat_list_state.dart';
 import 'package:ox_talk/src/data/repository.dart';
 import 'package:ox_talk/src/data/repository_manager.dart';
-import 'package:rxdart/rxdart.dart';
 
 class ChatListBloc extends Bloc<ChatListEvent, ChatListState> {
   final Repository<ChatList> chatListRepository = RepositoryManager.get(RepositoryType.chatList);
   final Repository<Chat> chatRepository = RepositoryManager.get(RepositoryType.chat);
   StreamSubscription streamSubscription;
-  MessagesBloc _messagesBloc = MessagesBloc();
 
   @override
   ChatListState get initialState => ChatListStateInitial();
@@ -98,18 +92,7 @@ class ChatListBloc extends Bloc<ChatListEvent, ChatListState> {
     }
     chatRepository.putIfAbsent(ids: chatIds);
     dispatch(ChatListModified());
-
-//    _messagesBloc.dispatch(RequestMessages(1));
-//    final userStatesObservable = new Observable<MessagesState>(_messagesBloc.state);
-//    userStatesObservable.listen((state) => _handleMessagesStateChange(state));
   }
-
-//  _handleMessagesStateChange(MessagesState state) {
-//    if (state is MessagesStateSuccess) {
-//      debugPrint("fhaar: _handleMessagesStateChange(MessagesState state)");
-//      dispatch(ChatListModified(state.messageIds, state.messageLastUpdateValues));
-//    }
-//  }
 
   void setupChatListListener() {
     if (streamSubscription == null) {

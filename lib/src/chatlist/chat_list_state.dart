@@ -72,14 +72,10 @@ class ChatListStateLoading extends ChatListState {
 class ChatListStateSuccess extends ChatListState {
   final List<int> chatIds;
   final List<int> chatLastUpdateValues;
-  final List<int> messageIds;
-  final List<int> messagesLastUpdateValues;
 
   ChatListStateSuccess({
     @required this.chatIds,
     @required this.chatLastUpdateValues,
-    @required this.messageIds,
-    @required this.messagesLastUpdateValues,
   }) : super(
           isLoading: false,
           isSuccess: true,
