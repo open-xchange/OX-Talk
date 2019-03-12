@@ -122,7 +122,7 @@ class AppLocalizations {
   String get coreContactVerified => Intl.message('Contact verified', name: 'coreContactVerified');
   String get coreContactNotVerified => Intl.message('Cannot verify contact', name: 'coreContactNotVerified');
   String get coreContactSetupChanged => Intl.message('Changed setup for contact', name: 'coreContactSetupChanged');
-  String get coreArchivedChats => Intl.message('aaaaaaaaaaaaaaaa', name: 'coreArchivedChats');
+  String get coreArchivedChats => Intl.message('Archived chats', name: 'coreArchivedChats');
   String get coreAutoCryptSetupSubject => Intl.message('Autocrypt Setup Message', name: 'coreAutoCryptSetupSubject');
   String get coreAutoCryptSetupBody => Intl.message('This is the Autocrypt Setup Message used to transfer your end-to-end setup between clients.\n\n'
       'To decrypt and use your setup, open the message in an Autocrypt-compliant client and enter the setup code presented on the generating device.', name: 'coreAutoCryptSetupBody');
