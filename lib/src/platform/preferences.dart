@@ -40,58 +40,31 @@
  * for more details.
  */
 
-import 'dart:core';
+import 'package:shared_preferences/shared_preferences.dart';
 
-// Global
-const zero = 0.0;
-const dividerHeight = 1.0;
+const preferenceSystemContactsImportShown = "preferenceSystemContactsImportShown";
+const preferenceAppVersion = "preferenceAppVersion";
 
-// Progress
-const verticalPaddingSmall = 8.0;
-const verticalPadding = 16.0;
+Future<dynamic> getPreference(String key) async {
+  SharedPreferences sharedPreferences = await getSharedPreferences();
+  return sharedPreferences.get(key);
+}
 
-// List
-const listItemHeaderPadding = 8.0;
-const listItemPaddingBig = 16.0;
-const listItemPadding = 8.0;
-const listItemPaddingSmall = 4.0;
-const listAvatarRadius = 24.0;
-const listAvatarDiameter = listAvatarRadius * 2;
+Future<SharedPreferences> getSharedPreferences() async {
+  return await SharedPreferences.getInstance();
+}
 
-// AppBar
-const appBarAvatarTextPadding = 16.0;
-const appBarElevationDefault = 4.0;
-
-// Icons
-const iconTextPadding = 4.0;
-const iconFormPadding = 8.0;
-const iconSize = 18.0;
-
-// Chat
-const composerHorizontalPadding = 8.0;
-const composerTextFieldPadding = 8.0;
-const composeTextBorderRadius = 24.0;
-
-// Forms
-const formHorizontalPadding = 16.0;
-const formVerticalPadding = 16.0;
-
-// Messages
-const messagesHorizontalPadding = 8.0;
-const messagesVerticalPadding = 8.0;
-const messagesInnerPadding = 8.0;
-const messagesContentTimePadding = 8.0;
-const messagesBoxRadius = 8.0;
-const messagesBlurRadius = 2.0;
-const messagesFileIconSize = 30.0;
-
-// Profile
-const profileVerticalPadding = 8.0;
-const profileSectionsVerticalPadding = 36.0;
-const profileAvatarPlaceholderIconSize = 60.0;
-const profileAvatarMaxRadius = 64.0;
-
-const editUserAvatarVerticalPadding = 24.0;
-const editUserAvatarEditIconSize = 36.0;
-const editUserAvatarImageMaxSize = 512;
-const editUserAvatarRation = 1.0;
+Future<void> setPreference(String key, value) async {
+  SharedPreferences sharedPreferences = await getSharedPreferences();
+  if (value is bool) {
+    sharedPreferences.setBool(key, value);
+  } else if (value is int) {
+    sharedPreferences.setInt(key, value);
+  } else if (value is double) {
+    sharedPreferences.setDouble(key, value);
+  } else if (value is String) {
+    sharedPreferences.setString(key, value);
+  } else if (value is List<String>) {
+    sharedPreferences.setStringList(key, value);
+  }
+}

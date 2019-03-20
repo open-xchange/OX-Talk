@@ -40,58 +40,21 @@
  * for more details.
  */
 
-import 'dart:core';
+import 'package:package_info/package_info.dart';
 
-// Global
-const zero = 0.0;
-const dividerHeight = 1.0;
+getAppVersion() async {
+  PackageInfo packageInfo = await getPackageInfo();
+  String version = packageInfo.version;
+  String buildNumber = packageInfo.buildNumber;
+  return "$version ($buildNumber)";
+}
 
-// Progress
-const verticalPaddingSmall = 8.0;
-const verticalPadding = 16.0;
+Future<PackageInfo> getPackageInfo() async {
+  PackageInfo packageInfo = await PackageInfo.fromPlatform();
+  return packageInfo;
+}
 
-// List
-const listItemHeaderPadding = 8.0;
-const listItemPaddingBig = 16.0;
-const listItemPadding = 8.0;
-const listItemPaddingSmall = 4.0;
-const listAvatarRadius = 24.0;
-const listAvatarDiameter = listAvatarRadius * 2;
-
-// AppBar
-const appBarAvatarTextPadding = 16.0;
-const appBarElevationDefault = 4.0;
-
-// Icons
-const iconTextPadding = 4.0;
-const iconFormPadding = 8.0;
-const iconSize = 18.0;
-
-// Chat
-const composerHorizontalPadding = 8.0;
-const composerTextFieldPadding = 8.0;
-const composeTextBorderRadius = 24.0;
-
-// Forms
-const formHorizontalPadding = 16.0;
-const formVerticalPadding = 16.0;
-
-// Messages
-const messagesHorizontalPadding = 8.0;
-const messagesVerticalPadding = 8.0;
-const messagesInnerPadding = 8.0;
-const messagesContentTimePadding = 8.0;
-const messagesBoxRadius = 8.0;
-const messagesBlurRadius = 2.0;
-const messagesFileIconSize = 30.0;
-
-// Profile
-const profileVerticalPadding = 8.0;
-const profileSectionsVerticalPadding = 36.0;
-const profileAvatarPlaceholderIconSize = 60.0;
-const profileAvatarMaxRadius = 64.0;
-
-const editUserAvatarVerticalPadding = 24.0;
-const editUserAvatarEditIconSize = 36.0;
-const editUserAvatarImageMaxSize = 512;
-const editUserAvatarRation = 1.0;
+getAppName() async {
+  PackageInfo packageInfo = await getPackageInfo();
+  return packageInfo.appName;
+}
