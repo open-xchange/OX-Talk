@@ -279,7 +279,7 @@ class AppLocalizations {
 
   String get recordingAudioMessageFailure => Intl.message('Audio recording failed, missing permissions', name: 'recordingAudioMessageFailure');
 
-  String get recordingVideoMessageFailure => Intl.message('Video recoridng failed, missing permissions', name: 'recordingVideoMessageFailure');
+  String get recordingVideoMessageFailure => Intl.message('Video recording failed, missing permissions', name: 'recordingVideoMessageFailure');
 
   //Chat profile view
   String get chatProfileBlockContactButtonText => Intl.message('Block contact', name: 'chatProfileBlockContactButtonText');
