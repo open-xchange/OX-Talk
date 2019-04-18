@@ -140,7 +140,7 @@ class AppLocalizations {
 
   String get yesterday => Intl.message('Yesterday', name: 'yesterday');
   
-  String get participants => Intl.message('Paticipants', name: 'participants');
+  String get participants => Intl.message('Participants', name: 'participants');
 
   // Core
   String get coreChatNoMessages => Intl.message('No messages', name: 'coreChatNoMessages');
