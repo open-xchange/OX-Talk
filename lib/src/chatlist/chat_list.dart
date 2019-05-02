@@ -101,7 +101,10 @@ class _ChatListState extends State<ChatList> {
 
   Widget buildListViewItems(List<int> chatIds, List<int> chatLastUpdateValues) {
     return ListView.builder(
-      padding: EdgeInsets.only(top: listItemPadding),
+      padding: EdgeInsets.only(
+        left: listItemPadding,
+        right: listItemPadding,
+        top: listItemPadding),
       itemCount: chatIds.length,
       itemBuilder: (BuildContext context, int index) {
         var chatId = chatIds[index];
