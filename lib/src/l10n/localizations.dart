@@ -145,6 +145,10 @@ class AppLocalizations {
 
   String get security => Intl.message('Security', name: 'security');
 
+  String get forward => Intl.message('Forward', name: 'forward');
+
+  String get share => Intl.message('Share', name: 'share');
+
   // Core
   String get coreChatStatusDefaultValue => "Sent with my Delta Chat Messenger: https://delta.chat";
 
