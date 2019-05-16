@@ -67,6 +67,10 @@ const List<MessageAction> messageActions = const <MessageAction>[
   const MessageAction(title: 'Copy', icon: Icons.content_copy, messageActionTag: MessageActionTag.copy),
 ];
 
+const List<MessageAction> messageAttachmentActions = const <MessageAction>[
+  const MessageAction(title: 'Forward', icon: Icons.forward, messageActionTag: MessageActionTag.forward),
+];
+
 enum MessageActionTag {
   forward,
   copy,
@@ -89,8 +93,9 @@ class _ChatMessageItemState extends State<ChatMessageItem> with AutomaticKeepAli
   MessageItemBloc _messagesBloc = MessageItemBloc();
   MessageAttachmentBloc _attachmentBloc = MessageAttachmentBloc();
   Navigation _navigation = Navigation();
-  String message = "";
+  String _message = "";
   Offset tapDownPosition;
+  bool _hasFile;
 
   void _selectMessageAction(MessageAction messageAction) {
     List<int> msgIds = List();
@@ -101,7 +106,7 @@ class _ChatMessageItemState extends State<ChatMessageItem> with AutomaticKeepAli
         _navigation.push(context, MaterialPageRoute(builder: (context) => ShareScreen(msgIds, messageAction.messageActionTag)));
         break;
       case MessageActionTag.copy:
-        var clipboardData = ClipboardData(text: message);
+        var clipboardData = ClipboardData(text: _message);
         Clipboard.setData(clipboardData);
         String clipboardToast = AppLocalizations.of(context).copiedToClipboard;
         showToast(clipboardToast);
@@ -127,6 +132,8 @@ class _ChatMessageItemState extends State<ChatMessageItem> with AutomaticKeepAli
       bloc: _messagesBloc,
       builder: (context, state) {
         if (state is MessageItemStateSuccess) {
+          _hasFile = state.hasFile;
+          _message = state.messageText;
           return Column(
             crossAxisAlignment: state.messageIsOutgoing ? CrossAxisAlignment.end : CrossAxisAlignment.start,
             children: buildMessageAndMarker(state),
@@ -141,7 +148,6 @@ class _ChatMessageItemState extends State<ChatMessageItem> with AutomaticKeepAli
   }
 
   List<Widget> buildMessageAndMarker(MessageItemStateSuccess state) {
-    message = state.messageText;
     List<Widget> widgets = List();
     if (widget._hasDateMarker) {
       String date = getDateFormTimestamp(state.messageTimestamp, true, true, context);
@@ -182,10 +188,11 @@ class _ChatMessageItemState extends State<ChatMessageItem> with AutomaticKeepAli
   }
 
   void _showMenu(){
+    List<MessageAction> actions = _hasFile ? messageAttachmentActions : messageActions;
     showMenu(
         context: context,
         position: RelativeRect.fromLTRB(tapDownPosition.dx, tapDownPosition.dy, tapDownPosition.dx, tapDownPosition.dy),
-        items: messageActions.map((MessageAction choice) {
+        items: actions.map((MessageAction choice) {
           return PopupMenuItem<MessageAction>(
               value: choice,
               child: InkWell(

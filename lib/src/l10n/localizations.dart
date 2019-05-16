@@ -149,6 +149,8 @@ class AppLocalizations {
 
   String get share => Intl.message('Share', name: 'share');
 
+  String get contacts => Intl.message('Contacts', name: 'contacts');
+
   // Core
   String get coreChatStatusDefaultValue => "Sent with my Delta Chat Messenger: https://delta.chat";
 
@@ -345,8 +347,6 @@ class AppLocalizations {
   String get createGroupTextFieldHint => Intl.message('Set a group name', name: 'createGroupTextFieldHint');
 
   // Contact
-  String get contactTitle => Intl.message('Contacts', name: 'contactTitle');
-
   String get contactChangeAddTitle => Intl.message('Add Contact', name: 'contactChangeAddTitle');
 
   String get contactChangeAddToast => Intl.message('Contact successfully added', name: 'contactChangeAddToast');

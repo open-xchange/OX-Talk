@@ -112,7 +112,7 @@ class _ShareScreenState extends State<ShareScreen> {
       padding: EdgeInsets.only(top: listItemPadding),
       itemCount: state.chatAndContactIds.length,
       itemBuilder: (BuildContext context, int index) {
-        if(state.chatIdCount > 0 && index <= state.chatIdCount -1){
+        if(state.chatIdCount > 0 && index < state.chatIdCount){
           var chatId = state.chatAndContactIds[index];
           if(index == 0){
             return createChatItemWithHeader(chatId);
@@ -141,7 +141,9 @@ class _ShareScreenState extends State<ShareScreen> {
     return Container(
       child: Column(
         children: <Widget>[
-          Text("Active chats"),
+            Text(AppLocalizations.of(context).chats,
+            style: Theme.of(context).textTheme.headline,
+          ),
           ChatListItem(chatId, chatItemTapped, null, false, true, chatId.toString()),
         ],
       ),
@@ -152,7 +154,10 @@ class _ShareScreenState extends State<ShareScreen> {
     return Container(
       child: Column(
         children: <Widget>[
-          Text("Active contacts"),
+          Text(
+            AppLocalizations.of(context).contacts,
+            style: Theme.of(context).textTheme.headline,
+          ),
           ContactItem(contactId, contactId.toString(), ContactItemType.forward, chatItemTapped),
         ],
       ),

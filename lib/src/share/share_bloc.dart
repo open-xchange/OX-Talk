@@ -82,10 +82,20 @@ class ShareBloc extends Bloc<ShareEvent, ShareState>{
 
   void createShareList() {
     List<int> _chatIds;
-    List<int> _completeList = new List();
+    List<int> _completeList = List();
 
-    _chatListBloc.dispatch(RequestChatList());
-    final chatListObservable = new Observable<ChatListState>(_chatListBloc.state);
+    final contactListObservable = Observable<ContactListState>(_contactListBloc.state);
+    contactListObservable.listen((state) {
+      if (state is ContactListStateSuccess) {
+        int index = _chatIds.length;
+        if(state.contactIds != null) {
+          _completeList.insertAll(index, state.contactIds);
+        }
+        dispatch(ChatsAndContactsLoaded(_completeList, _chatIds.length, state.contactIds.length));
+      }
+    });
+
+    final chatListObservable = Observable<ChatListState>(_chatListBloc.state);
     chatListObservable.listen((state) {
       if (state is ChatListStateSuccess) {
         _completeList.clear();
@@ -96,16 +106,7 @@ class ShareBloc extends Bloc<ShareEvent, ShareState>{
         _contactListBloc.dispatch(RequestContacts(listTypeOrChatId: ContactRepository.validContacts));
       }
     });
-    final contactListObservable = new Observable<ContactListState>(_contactListBloc.state);
-    contactListObservable.listen((state) {
-      if (state is ContactListStateSuccess) {
-        int index = _chatIds.length;
-        if(state.contactIds != null) {
-          _completeList.insertAll(index, state.contactIds);
-        }
-        dispatch(ChatsAndContactsLoaded(_completeList, _chatIds.length, state.contactIds.length));
-      }
-    });
+    _chatListBloc.dispatch(RequestChatList());
   }
 
   void forwardMessages(int destinationChatId, List<int> messageIds) async{
