@@ -156,9 +156,11 @@ class _ChatMessageItemState extends State<ChatMessageItem> with AutomaticKeepAli
       widgets.add(
         Center(
           child: Text(
-        date,
-        style: messageListDateSeparator,
-      )));
+          date,
+          style: messageListDateSeparator,
+          )
+        )
+      );
     }
     widgets.add(
       GestureDetector(
@@ -215,6 +217,7 @@ class _ChatMessageItemState extends State<ChatMessageItem> with AutomaticKeepAli
   Widget buildSentMessage(MessageItemStateSuccess state) {
     String text = state.messageText;
     String time = getTimeFormTimestamp(state.messageTimestamp);
+    int msgState = state.state;
     bool hasFile = state.hasFile;
     return FractionallySizedBox(
         alignment: Alignment.topRight,
@@ -227,7 +230,7 @@ class _ChatMessageItemState extends State<ChatMessageItem> with AutomaticKeepAli
               decoration: buildSenderBoxDecoration(messageSentBackground),
               child: Padding(
                 padding: EdgeInsets.all(messagesInnerPadding),
-                child: hasFile ? buildAttachmentMessage(state.attachmentWrapper, text, time) : buildTextMessage(text, time),
+                child: hasFile ? buildAttachmentMessage(state.attachmentWrapper, text, time, msgState) : buildTextMessage(text, time, msgState),
               ),
             ),
           ],
@@ -266,17 +269,17 @@ class _ChatMessageItemState extends State<ChatMessageItem> with AutomaticKeepAli
             bottomLeft: Radius.circular(messagesBoxRadius)));
   }
 
-  Widget buildAttachmentMessage(AttachmentWrapper attachment, String text, String time) {
+  Widget buildAttachmentMessage(AttachmentWrapper attachment, String text, String time, int state) {
     return GestureDetector(
       onLongPress: () => _onLongPress(),
       onTap: _openAttachment,
       child: attachment.type == ChatMsg.typeImage
-          ? buildImageAttachmentMessage(attachment, text, time)
-          : buildGenericAttachmentMessage(attachment, time),
+          ? buildImageAttachmentMessage(attachment, text, time, state)
+          : buildGenericAttachmentMessage(attachment, time, state),
     );
   }
 
-  Row buildGenericAttachmentMessage(AttachmentWrapper attachment, String time) {
+  Row buildGenericAttachmentMessage(AttachmentWrapper attachment, String time, int state) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       mainAxisSize: MainAxisSize.min,
@@ -301,11 +304,12 @@ class _ChatMessageItemState extends State<ChatMessageItem> with AutomaticKeepAli
         ),
         Padding(padding: EdgeInsets.only(left: messagesContentTimePadding)),
         buildTime(time),
+        buildStateMarker(state),
       ],
     );
   }
 
-  Widget buildImageAttachmentMessage(AttachmentWrapper attachment, String text, String time) {
+  Widget buildImageAttachmentMessage(AttachmentWrapper attachment, String text, String time, int state) {
     File file = File(attachment.path);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
@@ -319,12 +323,18 @@ class _ChatMessageItemState extends State<ChatMessageItem> with AutomaticKeepAli
               )
             : Container(),
         Padding(padding: EdgeInsets.only(top: messagesContentTimePadding)),
-        buildTime(time),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            buildTime(time),
+            buildStateMarker(state),
+          ],
+        )
       ],
     );
   }
 
-  Widget buildTextMessage(String text, String time) {
+  Widget buildTextMessage(String text, String time, int state) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       mainAxisSize: MainAxisSize.min,
@@ -337,8 +347,28 @@ class _ChatMessageItemState extends State<ChatMessageItem> with AutomaticKeepAli
         ),
         Padding(padding: EdgeInsets.only(left: messagesContentTimePadding)),
         buildTime(time),
+        buildStateMarker(state),
       ],
     );
+  }
+
+  Widget buildStateMarker(int state) {
+    switch(state){
+      case ChatMsg.messageStateDelivered:
+        return Padding(
+          padding: EdgeInsets.only(left: iconTextPadding),
+          child: Icon(Icons.done, size: 14.0,),
+        );
+        break;
+      case ChatMsg.messageStateReceived:
+        return Padding(
+          padding: EdgeInsets.only(left: iconTextPadding),
+          child: Icon(Icons.done_all, size: 14.0,),
+        );
+        break;
+      default:
+        return Container();
+    }
   }
 
   StatelessWidget buildTime(String time) {
@@ -388,7 +418,7 @@ class _ChatMessageItemState extends State<ChatMessageItem> with AutomaticKeepAli
                       : Container(
                           constraints: BoxConstraints(maxWidth: zero),
                         ),
-                  hasFile ? buildAttachmentMessage(state.attachmentWrapper, text, time) : buildTextMessage(text, time),
+                  hasFile ? buildAttachmentMessage(state.attachmentWrapper, text, time, null) : buildTextMessage(text, time, null),
                 ],
               ),
             ),
