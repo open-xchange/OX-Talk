@@ -444,6 +444,8 @@ class AppLocalizations {
 
   String get securitySettingsKeyActionFailed => Intl.message('Key action failed', name: 'securitySettingsKeyActionFailed');
 
+  String get securitySettingsKeyActionFailedNoPermission => Intl.message('Key action failed, missing permissions', name: 'securitySettingsKeyActionFailedNoPermission');
+
   // Notifications
   String get moreMessages => Intl.message('more messages', name: 'moreMessages');
 
