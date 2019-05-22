@@ -78,6 +78,8 @@ class AppLocalizations {
 
   String get bigDot => '\u2B24';
 
+  String get feedbackUrl => 'https://github.com/open-xchange/ox-coi';
+
   // Global
   String get yes => Intl.message('Yes', name: 'yes');
 
@@ -150,6 +152,10 @@ class AppLocalizations {
   String get share => Intl.message('Share', name: 'share');
 
   String get contacts => Intl.message('Contacts', name: 'contacts');
+
+  String get about => Intl.message('About', name: 'about');
+
+  String get feedback => Intl.message('Feedback', name: 'feedback');
 
   // Core
   String get coreChatStatusDefaultValue => "Sent with my Delta Chat Messenger: https://delta.chat";
@@ -445,7 +451,12 @@ class AppLocalizations {
   String get securitySettingsKeyActionFailed => Intl.message('Key action failed', name: 'securitySettingsKeyActionFailed');
 
   String get securitySettingsKeyActionFailedNoPermission => Intl.message('Key action failed, missing permissions', name: 'securitySettingsKeyActionFailedNoPermission');
+  
+  // About
+  String get aboutSettingsName => Intl.message('App name', name: 'aboutSettingsName');
 
+  String get aboutSettingsVersion => Intl.message('App version', name: 'aboutSettingsVersion');
+  
   // Notifications
   String get moreMessages => Intl.message('more messages', name: 'moreMessages');
 
