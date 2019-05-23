@@ -140,7 +140,6 @@ class _ChatMessageItemState extends State<ChatMessageItem> with AutomaticKeepAli
   }
 
   List<Widget> buildMessageAndMarker(MessageItemStateSuccess state) {
-    _message = state.messageText;
     List<Widget> widgets = List();
     if (widget._hasDateMarker) {
       String date = getDateFromTimestamp(state.messageTimestamp, true, true, AppLocalizations.of(context));
@@ -169,16 +168,19 @@ class _ChatMessageItemState extends State<ChatMessageItem> with AutomaticKeepAli
 
   Widget buildMessage(MessageItemStateSuccess state, String name, String email, Color color) {
     Widget message;
+    bool showPadlock = state.showPadlock == 1;
     if (state.isInfo) {
       message = MessageSpecial(
         isSetupMessage: state.isSetupMessage,
         messageText: state.messageText,
         timestamp: state.messageTimestamp,
+        showPadlock: showPadlock,
       );
     } else if (state.isSetupMessage) {
       message = MessageSpecial(
         isSetupMessage: state.isSetupMessage,
         timestamp: state.messageTimestamp,
+        showPadlock: showPadlock,
       );
     } else if (state.messageIsOutgoing) {
       message = MessageSent(
@@ -187,6 +189,7 @@ class _ChatMessageItemState extends State<ChatMessageItem> with AutomaticKeepAli
         hasFile: state.hasFile,
         msgState: state.state,
         attachmentWrapper: state.attachmentWrapper,
+        showPadlock: showPadlock,
       );
     } else {
       message = MessageReceived(
@@ -198,6 +201,7 @@ class _ChatMessageItemState extends State<ChatMessageItem> with AutomaticKeepAli
         email: email,
         color: color,
         isGroupChat: widget._isGroupChat,
+        showPadlock: showPadlock,
       );
     }
     return message;
