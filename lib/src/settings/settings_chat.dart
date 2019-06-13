@@ -40,12 +40,12 @@
  * for more details.
  */
 
+import 'package:delta_chat_core/delta_chat_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ox_coi/src/l10n/localizations.dart';
 import 'package:ox_coi/src/settings/settings_chat_bloc.dart';
 import 'package:ox_coi/src/settings/settings_chat_event_state.dart';
-import 'package:ox_coi/src/utils/colors.dart';
 import 'package:ox_coi/src/utils/dimensions.dart';
 import 'package:ox_coi/src/widgets/state_info.dart';
 
@@ -87,34 +87,15 @@ class _SettingsChatState extends State<SettingsChat> {
               ),
               ListTile(
                 contentPadding: EdgeInsets.symmetric(vertical: listItemPadding, horizontal: listItemPaddingBig),
-                title: FractionallySizedBox(
-                  widthFactor: 1,
-                  alignment: Alignment.centerLeft,
-                  child: Text(AppLocalizations.of(context).chatSettingsChangeMessageSync,),
+                title: Text(
+                  AppLocalizations.of(context).chatSettingsChangeMessageSync,
                 ),
-                subtitle: FractionallySizedBox(
-                  widthFactor: 1,
-                  alignment: Alignment.centerLeft,
-                  child: Text(AppLocalizations.of(context).chatSettingsChangeMessageSyncText,),
+                subtitle: Text(
+                  AppLocalizations.of(context).chatSettingsChangeMessageSyncText,
                 ),
-                trailing: DropdownButton(
-                  value: state.inviteSetting,
-                  items: [
-                    DropdownMenuItem(
-                      value: 0,
-                      child: Text(AppLocalizations.of(context).chatSettingsChangeMessageSyncOption1,),
-                    ),
-                    DropdownMenuItem(
-                      value: 1,
-                      child: Text(AppLocalizations.of(context).chatSettingsChangeMessageSyncOption2,),
-                    ),
-                    DropdownMenuItem(
-                      value: 2,
-                      child: Text(AppLocalizations.of(context).chatSettingsChangeMessageSyncOption3,),
-                    )
-                  ],
-                  onChanged: changedDropDownItem
-                ),
+                onTap: () {
+                  _buildMessageSyncChooserDialog(state.inviteSetting);
+                },
               )
             ]).toList(),
           );
@@ -125,11 +106,44 @@ class _SettingsChatState extends State<SettingsChat> {
     );
   }
 
-  void changedDropDownItem(int selectedInviteSetting) {
-    _settingsChatBloc.dispatch((ChangeInviteSetting(newInviteSetting: selectedInviteSetting)));
-  }
-
   void _changeReadReceipts() {
     _settingsChatBloc.dispatch(ChangeReadReceipts());
+  }
+
+  Future<void> _buildMessageSyncChooserDialog(int inviteSetting) async {
+    int selectedInviteSetting = await showDialog<int>(
+        context: context,
+        builder: (BuildContext context) {
+          return SimpleDialog(
+            title: Text(AppLocalizations.of(context).chatSettingsChangeMessageSyncText),
+            children: <Widget>[
+              RadioListTile<int>(
+                title: Text(AppLocalizations.of(context).chatSettingsChangeMessageSyncOption1),
+                value: Context.showEmailsOff,
+                groupValue: inviteSetting,
+                onChanged: _onMessageSyncChooserTab,
+              ),
+              RadioListTile<int>(
+                title: Text(AppLocalizations.of(context).chatSettingsChangeMessageSyncOption2),
+                value: Context.showEmailsAcceptedContacts,
+                groupValue: inviteSetting,
+                onChanged: _onMessageSyncChooserTab,
+              ),
+              RadioListTile<int>(
+                title: Text(AppLocalizations.of(context).chatSettingsChangeMessageSyncOption3),
+                value: Context.showEmailsAll,
+                groupValue: inviteSetting,
+                onChanged: _onMessageSyncChooserTab,
+              ),
+            ],
+          );
+        });
+    if (selectedInviteSetting != null) {
+      _settingsChatBloc.dispatch((ChangeInviteSetting(newInviteSetting: selectedInviteSetting)));
+    }
+  }
+
+  _onMessageSyncChooserTab(int value) {
+    Navigator.pop(context, value);
   }
 }

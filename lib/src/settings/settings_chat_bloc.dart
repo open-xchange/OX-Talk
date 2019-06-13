@@ -47,10 +47,6 @@ import 'package:delta_chat_core/delta_chat_core.dart';
 import 'package:ox_coi/src/data/config.dart';
 import 'package:ox_coi/src/settings/settings_chat_event_state.dart';
 
-enum SettingsChatType {
-  readReceipts,
-}
-
 class SettingsChatBloc extends Bloc<SettingsChatEvent, SettingsChatState> {
   @override
   SettingsChatState get initialState => SettingsChatStateInitial();
@@ -63,8 +59,7 @@ class SettingsChatBloc extends Bloc<SettingsChatEvent, SettingsChatState> {
       } catch (error) {
         yield SettingsChatStateFailure();
       }
-    }
-    else if (event is ChangeReadReceipts) {
+    } else if (event is ChangeReadReceipts) {
       try {
         _changeReadReceipts();
       } catch (error) {
@@ -72,10 +67,10 @@ class SettingsChatBloc extends Bloc<SettingsChatEvent, SettingsChatState> {
       }
     } else if (event is ChatSettingsActionSuccess) {
       yield SettingsChatStateSuccess(readReceiptsEnabled: event.readReceiptsEnabled, inviteSetting: event.inviteSetting);
-    } else if(event is ChangeInviteSetting){
-      try{
+    } else if (event is ChangeInviteSetting) {
+      try {
         _changeInviteSetting(event.newInviteSetting);
-      } catch (error){
+      } catch (error) {
         yield SettingsChatStateFailure();
       }
     }
