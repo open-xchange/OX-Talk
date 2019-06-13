@@ -39,7 +39,7 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the Mozilla Public License 2.0
  * for more details.
  */
- 
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ox_coi/src/contact/contact_item_bloc.dart';
@@ -95,7 +95,10 @@ class _ShowQrState extends State<ShowQr> {
       bloc: _userBloc,
       builder: (context,state){
         if(state is UserStateSuccess){
-          return Text(AppLocalizations.of(context).qrInviteInfoText(state.config.email));
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(AppLocalizations.of(context).qrInviteInfoText(state.config.email), textAlign: TextAlign.center,),
+          );
         }
         else{
           return Container();

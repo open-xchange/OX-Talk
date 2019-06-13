@@ -88,7 +88,6 @@ class QrBloc extends Bloc<QrEvent, QrState>{
      joinSecurejoin(event.qrText);
     }
     else if(event is QrJoinInviteProgress){
-      print("fhaar: Progress: ${event.progress}");
       if(_joinInviteSuccess(event.progress)){
         yield QrStateVerificationFinished();
       }else if(_joinInviteFailed(event.progress)){

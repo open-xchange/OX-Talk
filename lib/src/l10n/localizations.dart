@@ -418,7 +418,7 @@ class AppLocalizations {
   //QR
   String get qrTitle => Intl.message('QR', name: 'qrTitle');
 
-  String qrInviteInfoText(name) => Intl.message('Scan this code to create a contact with $name.', name: 'qrInviteInfoText', args: [name]);
+  String qrInviteInfoText(name) => Intl.message('Scan this code to create a verified chat with $name.', name: 'qrInviteInfoText', args: [name]);
 
   String get showQrTabTitle => Intl.message('Show QR', name: 'showQrTabTitle');
 

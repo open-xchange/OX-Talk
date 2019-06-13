@@ -69,6 +69,7 @@ class _QrCodeState extends State<QrCode> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: zero,
         title: Text(AppLocalizations.of(context).qrTitle),
       ),
       body: buildBody(),
