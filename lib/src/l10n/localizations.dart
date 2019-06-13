@@ -520,6 +520,16 @@ class AppLocalizations {
 
   String get chatSettingsChangeReadReceiptsText => Intl.message('Enable sending and requesting of read receipts.', name: 'chatSettingsChangeReadReceiptsText');
 
+  String get chatSettingsChangeMessageSync => Intl.message('Message syncing', name: 'chatSettingsChangeMessageSync');
+
+  String get chatSettingsChangeMessageSyncText => Intl.message('Please choose what kind of messages you would like see.', name: 'chatSettingsChangeMessageSyncText');
+
+  String get chatSettingsChangeMessageSyncOption1 => Intl.message('Only chat', name: 'chatSettingsChangeMessageSyncOption1');
+
+  String get chatSettingsChangeMessageSyncOption2 => Intl.message('My contacts', name: 'chatSettingsChangeMessageSyncOption2');
+
+  String get chatSettingsChangeMessageSyncOption3 => Intl.message('Show all', name: 'chatSettingsChangeMessageSyncOption3');
+
   // Notifications
   String get moreMessages => Intl.message('more messages', name: 'moreMessages');
 

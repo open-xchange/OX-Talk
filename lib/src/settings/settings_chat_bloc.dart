@@ -71,19 +71,31 @@ class SettingsChatBloc extends Bloc<SettingsChatEvent, SettingsChatState> {
         yield SettingsChatStateFailure();
       }
     } else if (event is ChatSettingsActionSuccess) {
-      yield SettingsChatStateSuccess(readReceiptsEnabled: event.readReceiptsEnabled);
+      yield SettingsChatStateSuccess(readReceiptsEnabled: event.readReceiptsEnabled, inviteSetting: event.inviteSetting);
+    } else if(event is ChangeInviteSetting){
+      try{
+        _changeInviteSetting(event.newInviteSetting);
+      } catch (error){
+        yield SettingsChatStateFailure();
+      }
     }
   }
 
   void _requestValues() {
     Config config = Config();
-    dispatch(ChatSettingsActionSuccess(readReceiptsEnabled: config.mdnsEnabled == 1));
+    dispatch(ChatSettingsActionSuccess(readReceiptsEnabled: config.mdnsEnabled == 1, inviteSetting: config.showEmails));
   }
 
   void _changeReadReceipts() async {
     Config config = Config();
     int enable = config.mdnsEnabled == 1 ? 0 : 1;
     await config.setValue(Context.configMdnsEnabled, enable);
-    dispatch(ChatSettingsActionSuccess(readReceiptsEnabled: enable == 1));
+    dispatch(ChatSettingsActionSuccess(readReceiptsEnabled: enable == 1, inviteSetting: config.showEmails));
+  }
+
+  void _changeInviteSetting(int newInviteSetting) async {
+    Config config = Config();
+    await config.setValue(Context.configShowEmails, newInviteSetting);
+    dispatch(ChatSettingsActionSuccess(inviteSetting: newInviteSetting, readReceiptsEnabled: config.mdnsEnabled == 1));
   }
 }

@@ -85,6 +85,37 @@ class _SettingsChatState extends State<SettingsChat> {
                 subtitle: Text(AppLocalizations.of(context).chatSettingsChangeReadReceiptsText),
                 trailing: Switch(value: state.readReceiptsEnabled, onChanged: (value) => _changeReadReceipts()),
               ),
+              ListTile(
+                contentPadding: EdgeInsets.symmetric(vertical: listItemPadding, horizontal: listItemPaddingBig),
+                title: FractionallySizedBox(
+                  widthFactor: 1,
+                  alignment: Alignment.centerLeft,
+                  child: Text(AppLocalizations.of(context).chatSettingsChangeMessageSync,),
+                ),
+                subtitle: FractionallySizedBox(
+                  widthFactor: 1,
+                  alignment: Alignment.centerLeft,
+                  child: Text(AppLocalizations.of(context).chatSettingsChangeMessageSyncText,),
+                ),
+                trailing: DropdownButton(
+                  value: state.inviteSetting,
+                  items: [
+                    DropdownMenuItem(
+                      value: 0,
+                      child: Text(AppLocalizations.of(context).chatSettingsChangeMessageSyncOption1,),
+                    ),
+                    DropdownMenuItem(
+                      value: 1,
+                      child: Text(AppLocalizations.of(context).chatSettingsChangeMessageSyncOption2,),
+                    ),
+                    DropdownMenuItem(
+                      value: 2,
+                      child: Text(AppLocalizations.of(context).chatSettingsChangeMessageSyncOption3,),
+                    )
+                  ],
+                  onChanged: changedDropDownItem
+                ),
+              )
             ]).toList(),
           );
         } else {
@@ -92,6 +123,10 @@ class _SettingsChatState extends State<SettingsChat> {
         }
       },
     );
+  }
+
+  void changedDropDownItem(int selectedInviteSetting) {
+    _settingsChatBloc.dispatch((ChangeInviteSetting(newInviteSetting: selectedInviteSetting)));
   }
 
   void _changeReadReceipts() {
