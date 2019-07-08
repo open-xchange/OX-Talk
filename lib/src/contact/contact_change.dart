@@ -247,7 +247,7 @@ class _ContactChangeState extends State<ContactChange> {
       context,
       MaterialPageRoute(
           builder: (context) => QrCode(
-                chatId: 1,
+                chatId: 0,
                 initialIndex: 1,
               )),
     );
