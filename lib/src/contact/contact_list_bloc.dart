@@ -110,20 +110,18 @@ class ContactListBloc extends Bloc<ContactListEvent, ContactListState> with Cont
   }
 
   void _setupContactListener() async {
-    if (_repositoryStreamHandler == null) {
-      _repositoryStreamHandler = RepositoryEventStreamHandler(Type.publish, Event.contactsChanged, _dispatchContactsChanged);
-      _contactRepository.addListener(_repositoryStreamHandler);
-    }
+    repositoryStreamHandler = RepositoryEventStreamHandler(Type.publish, Event.contactsChanged, _onContactsChanged);
+    contactRepository.addListener(repositoryStreamHandler);
   }
 
-  void _dispatchContactsChanged() {
+  void _onContactsChanged(event) {
     dispatch(ContactsChanged());
   }
 
   Future _setupContacts() async {
     List<int> contactIds = await getContactIdsAfterUpdate(_listTypeOrChatId);
-    _contactRepository.update(ids: contactIds);
-    _dispatchContactsChanged();
+    contactRepository.update(ids: contactIds);
+    dispatch(ContactsChanged());
   }
 
   void _searchContacts() async {
@@ -143,7 +141,7 @@ class ContactListBloc extends Bloc<ContactListEvent, ContactListState> with Cont
       _contactsSelected.add(id);
     }
     if (isNullOrEmpty(_currentSearch)) {
-      _dispatchContactsChanged();
+      dispatch(ContactsChanged());
     } else {
       _searchContacts();
     }
