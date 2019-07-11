@@ -103,6 +103,9 @@ class _ChatMessageItemState extends State<ChatMessageItem> with AutomaticKeepAli
   bool _isStarred = false;
 
   void _selectMessageAction(MessageAction messageAction) {
+    if (messageAction == null) {
+      return;
+    }
     List<int> msgIds = List();
     msgIds.add(widget._messageId);
     switch (messageAction.messageActionTag) {

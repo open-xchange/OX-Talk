@@ -88,7 +88,7 @@ class MessageChangeBloc extends Bloc<MessageChangeEvent, MessageChangeState> {
     for(int id in messageIds)
     {
       ChatMsg chatMsg = _messageListRepository.get(id);
-      _flaggedRepository.remove(id);
+      _flaggedRepository.remove(id: id);
       if(chatId == Chat.typeStarred){
         int msgChatId = await chatMsg.getChatId();
         Repository<ChatMsg> tempMessageRepository = RepositoryManager.get(RepositoryType.chatMessage, msgChatId);

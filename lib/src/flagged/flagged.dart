@@ -109,7 +109,6 @@ class _FlaggedState extends State<Flagged> {
       bloc: _flaggedBloc,
       builder: (context, state) {
         if (state is FlaggedStateSuccess) {
-          print("[_FlaggedState.buildListView] fhaar - ${state.messageIds.length}");
           if (state.messageIds.length > 0) {
             return buildListItems(state);
           } else {

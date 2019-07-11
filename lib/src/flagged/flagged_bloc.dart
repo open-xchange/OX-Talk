@@ -90,7 +90,7 @@ class FlaggedBloc extends Bloc<FlaggedEvent, FlaggedState> {
     }
   }
 
-  void _updateMessages() => dispatch(UpdateMessages());
+  void _updateMessages(Event event) => dispatch(UpdateMessages());
 
   void _loadFlaggedMessages() async{
     List<int> dateMakerIds = List();
