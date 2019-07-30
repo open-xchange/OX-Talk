@@ -54,6 +54,7 @@ import 'package:ox_coi/src/ui/color.dart';
 import 'package:ox_coi/src/ui/dimensions.dart';
 import 'package:ox_coi/src/user/user_change_bloc.dart';
 import 'package:ox_coi/src/user/user_change_event_state.dart';
+import 'package:ox_coi/src/utils/keyMapping.dart';
 import 'package:rxdart/rxdart.dart';
 
 class UserSettings extends StatefulWidget {
@@ -75,7 +76,8 @@ class _UserSettingsState extends State<UserSettings> {
     super.initState();
     navigation.current = Navigatable(Type.settingsUser);
     _userChangeBloc.dispatch(RequestUser());
-    final userStatesObservable = new Observable<UserChangeState>(_userChangeBloc.state);
+    final userStatesObservable =
+        new Observable<UserChangeState>(_userChangeBloc.state);
     userStatesObservable.listen((state) => _handleUserChangeStateChange(state));
   }
 
@@ -102,7 +104,12 @@ class _UserSettingsState extends State<UserSettings> {
             onPressed: () => navigation.pop(context),
           ),
           title: Text(AppLocalizations.of(context).userSettingsTitle),
-          actions: <Widget>[IconButton(icon: Icon(Icons.check), onPressed: _saveChanges)],
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons.check),
+                key: Key(keyUserSettingsCheckIconButton),
+                onPressed: _saveChanges)
+          ],
         ),
         body: buildForm());
   }
@@ -127,7 +134,8 @@ class _UserSettingsState extends State<UserSettings> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Padding(padding: EdgeInsets.only(top: editUserAvatarVerticalPadding)),
+            Padding(
+                padding: EdgeInsets.only(top: editUserAvatarVerticalPadding)),
             new GestureDetector(
                 onTap: () => _showAvatarSourceChooser(),
                 child: Stack(
@@ -152,17 +160,23 @@ class _UserSettingsState extends State<UserSettings> {
                   ],
                 )),
             Padding(
-              padding: EdgeInsets.only(left: listItemPaddingBig, right: listItemPaddingBig),
+              padding: EdgeInsets.only(
+                  left: listItemPaddingBig, right: listItemPaddingBig),
               child: Column(
                 children: <Widget>[
                   TextFormField(
+                      key: Key(keyUserSettingsUserSettingsUsernameLabel),
                       maxLines: 1,
                       controller: _usernameController,
-                      decoration: InputDecoration(labelText: AppLocalizations.of(context).userSettingsUsernameLabel)),
+                      decoration: InputDecoration(
+                          labelText: AppLocalizations.of(context)
+                              .userSettingsUsernameLabel)),
                   TextFormField(
                     maxLines: 2,
                     controller: _statusController,
-                    decoration: InputDecoration(labelText: AppLocalizations.of(context).userSettingsStatusLabel),
+                    decoration: InputDecoration(
+                        labelText: AppLocalizations.of(context)
+                            .userSettingsStatusLabel),
                   ),
                 ],
               ),
@@ -192,7 +206,8 @@ class _UserSettingsState extends State<UserSettings> {
               ),
               ListTile(
                 leading: Icon(Icons.delete),
-                title: Text(AppLocalizations.of(context).userSettingsRemoveImage),
+                title:
+                    Text(AppLocalizations.of(context).userSettingsRemoveImage),
                 onTap: () => _removeAvatar(),
               )
             ],
@@ -228,6 +243,9 @@ class _UserSettingsState extends State<UserSettings> {
 
   void _saveChanges() async {
     String avatarPath = _avatar != null ? _avatar.path : null;
-    _userChangeBloc.dispatch(UserPersonalDataChanged(username: _usernameController.text, status: _statusController.text, avatarPath: avatarPath));
+    _userChangeBloc.dispatch(UserPersonalDataChanged(
+        username: _usernameController.text,
+        status: _statusController.text,
+        avatarPath: avatarPath));
   }
 }

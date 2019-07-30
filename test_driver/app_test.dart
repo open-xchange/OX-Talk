@@ -43,6 +43,7 @@
 // Imports the Flutter Driver API.
 import 'dart:io';
 import 'package:flutter_driver/flutter_driver.dart';
+import 'package:ox_coi/src/utils/keyMapping.dart';
 import 'package:test/test.dart';
 import 'package:test_api/src/backend/invoker.dart';
 
@@ -53,25 +54,40 @@ void main() {
     final timeout = Duration(seconds: 120);
 
     //  SerializableFinder for the Ox coi welcome and provider page.
-    final welcomeMessage = find.text('Welcome to OX Coi');
-    final welcomeDescription = find.text(
+    final finderWelcomeMessage = find.text('Welcome to OX Coi');
+    final finderWelcomeDescription = find.text(
         'OX Coi works with any email account. If you have one, please sign in, otherwise register a new account first.');
-    final register = find.text('SIGN IN');
-    final signIn = find.text('Sign in');
-    final outlook = find.text('Outlook');
-    final yahoo = find.text('Yahoo');
-    final coiDebug = find.text('Coi debug');
-    final mailCom = find.text('Mail.com');
-    final other = find.text('Other mail account');
-    final mailbox = find.text('Mailbox.org');
+    final finderRegisterProvider = find.text('SIGN IN');
+    final finderSignInProvider = find.text('Sign in');
+    final finderOutlookProvider = find.text('Outlook');
+    final finderYahooProvider = find.text('Yahoo');
+    final finderCoiDebugProvider = find.text('Coi debug');
+    final finderMailComProvider = find.text('Mail.com');
+    final finderOtherProvider = find.text('Other mail account');
+    final finderMailboxProvider = find.text('Mailbox.org');
 
     //  SerializableFinder for Coi Debug dialog Windows.
-    final signInCoiDebug = find.text('Sign in with Coi debug?');
-    final email = find.byValueKey('keyEmail');
-    final password = find.byValueKey('keyPassword');
-    final SIGNIN = find.text('SIGN IN');
-    final chatWelcome = find.text(
+    final finderSignInCoiDebug = find.text('Sign in with Coi debug?');
+    final finderProviderEmail =
+        find.byValueKey(keyProviderSignInEmailTextField);
+    final finderProviderPassword =
+        find.byValueKey(keyProviderSignInPasswordTextField);
+    final finderSIGNIN = find.text('SIGN IN');
+    final finderChatWelcome = find.text(
         'Welcome to OX Coi!\nPlease start a new chat by tapping the chat bubble icon.');
+
+    final finderRootIconChatTextTitle = find.byType(keyRootIconChatTitleText);
+    final finderRootIconContactsTextTitle = find.byType(keyRootIconContactsTitleText);
+    final finderRootIconProfileTextTitle = find.byValueKey(keyRootIconProfileTitleText);
+    final finderUserProfileEditRaisedButton =
+        find.byValueKey(keyUserProfileEditProfilRaisedButton);
+    final finderUserSettingsCheckIconButton =
+        find.byValueKey(keyUserSettingsCheckIconButton);
+    final userSettingsUserSettingsUsernameLabel =
+        find.byValueKey(keyUserSettingsUserSettingsUsernameLabel);
+    final finderUserProfileEmailText= find.byValueKey(keyUserProfileEmailText);
+
+    final userNameUserProfil = 'EDN tester';
     final realEmail = 'enyakam3@ox.com';
     final realPassword = 'secret';
 
@@ -79,7 +95,6 @@ void main() {
     setUpAll(() async {
       driver = await FlutterDriver.connect();
       driver.setSemantics(true, timeout: timeout);
-
     });
 
     //  Close the connection to the driver after the tests have completed.
@@ -97,7 +112,7 @@ void main() {
       print(path);
     }
 
-    test('Test login', () async {
+    test('Test create profile integration tests', () async {
       //  Get and print driver status.
       Health health = await driver.checkHealth();
       print(health.status);
@@ -105,37 +120,53 @@ void main() {
       //  Test Ox.coi welcome screen and tap on SIGN In to get the provider list, and test if all provider are contained in the list.
       await checkOxCoiWelcomeAndProviderList(
           driver,
-          welcomeMessage,
-          welcomeDescription,
-          SIGNIN,
-          register,
-          outlook,
-          yahoo,
-          signIn,
-          coiDebug,
-          other,
-          mailbox);
+          finderWelcomeMessage,
+          finderWelcomeDescription,
+          finderSIGNIN,
+          finderRegisterProvider,
+          finderOutlookProvider,
+          finderYahooProvider,
+          finderSignInProvider,
+          finderCoiDebugProvider,
+          finderOtherProvider,
+          finderMailboxProvider);
       await catchScreenshot(driver, 'screenshots/providerList1.png');
-      await driver.scroll(mailCom, 0, -600, Duration(milliseconds: 500));
+      await driver.scroll(
+          finderMailComProvider, 0, -600, Duration(milliseconds: 500));
       await catchScreenshot(driver, 'screenshots/providerList2.png');
       Invoker.current.heartbeat();
-      await selectAndTapProvider(
-          driver, coiDebug, signInCoiDebug, email, password);
+      await selectAndTapProvider(driver, finderCoiDebugProvider,
+          finderSignInCoiDebug, finderProviderEmail, finderProviderPassword);
 
       //await catchScreenshot(driver, 'screenshots/CoiDebug.png');
-
-
       //  Check real authentication and get chat.
-      print('Real authentication.');
-      await getAuthentication(
-          driver, email, realEmail, password, realPassword, SIGNIN);
+      print('\nReal authentication.');
+      await getAuthentication(driver, finderProviderEmail, realEmail,
+          finderProviderPassword, realPassword, finderSIGNIN);
       await catchScreenshot(driver, 'screenshots/entered.png');
       Invoker.current.heartbeat();
-      print('SIGN IN ist done. Wait for chat.');
-      await driver.waitFor(chatWelcome);
+      print('\nSIGN IN ist done. Wait for chat.');
+      await driver.waitFor(finderChatWelcome);
       Invoker.current.heartbeat();
       await catchScreenshot(driver, 'screenshots/chat.png');
-      print('Get chat.');
+      print('\nGet chat.');
+      await driver.tap(finderRootIconProfileTextTitle);
+      print('\nGet Profile');
+      await driver.tap(finderUserProfileEditRaisedButton);
+      Invoker.current.heartbeat();
+      print('\nGet user Edit user settings to edit username.');
+      await driver.tap(userSettingsUserSettingsUsernameLabel);
+      await driver.enterText(userNameUserProfil);
+      print('\nReturn to Profile after edited profile.');
+      await driver.tap(finderUserSettingsCheckIconButton);
+      await driver.waitFor(finderUserProfileEmailText);
+     // await driver.waitFor(find.byType('Sent with OX Coi - https://github.com/open-xchange/ox-coi'));
+      Invoker.current.heartbeat();
+      await catchScreenshot(driver, 'screenshots/UserChangeProfile.png');
+
+      //  Return to chat list.
+      await driver.waitFor(finderRootIconChatTextTitle);
+      
     });
   });
 }
@@ -177,7 +208,6 @@ Future selectAndTapProvider(
   await driver.waitFor(signInCoiDebug);
   await driver.waitFor(email);
   await driver.waitFor(password);
-
 }
 
 Future getAuthentication(

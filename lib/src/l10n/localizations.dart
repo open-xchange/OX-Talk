@@ -528,7 +528,7 @@ class AppLocalizations {
   // User settings
   String get userSettingsTitle => Intl.message('Edit user settings', name: 'userSettingsTitle');
 
-  String get userSettingsUsernameLabel => Intl.message('Username', name: 'userSettingsUsernameLabel');
+  String get userSettingsUsernameLabel => Intl.message('keyUserSettingsCheckIconButton', name: 'userSettingsUsernameLabel');
 
   String get userSettingsStatusLabel => Intl.message('Status', name: 'userSettingsStatusLabel');
 

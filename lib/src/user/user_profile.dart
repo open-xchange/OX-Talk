@@ -55,6 +55,7 @@ import 'package:ox_coi/src/ui/dimensions.dart';
 import 'package:ox_coi/src/user/user_bloc.dart';
 import 'package:ox_coi/src/user/user_event_state.dart';
 import 'package:ox_coi/src/user/user_settings.dart';
+import 'package:ox_coi/src/utils/keyMapping.dart';
 import 'package:ox_coi/src/utils/widgets.dart';
 import 'package:ox_coi/src/widgets/placeholder_text.dart';
 
@@ -128,15 +129,20 @@ class _ProfileState extends State<UserProfile> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.symmetric(vertical: profileSectionsVerticalPadding),
+              padding: EdgeInsets.symmetric(
+                  vertical: profileSectionsVerticalPadding),
               child: buildAvatar(config),
             ),
             PlaceholderText(
               text: config.username,
               style: Theme.of(context).textTheme.headline,
               align: TextAlign.center,
-              placeholderText: AppLocalizations.of(context).profileUsernamePlaceholder,
-              placeholderStyle: Theme.of(context).textTheme.headline.apply(color: onBackground.withOpacity(disabled)),
+              placeholderText:
+                  AppLocalizations.of(context).profileUsernamePlaceholder,
+              placeholderStyle: Theme.of(context)
+                  .textTheme
+                  .headline
+                  .apply(color: onBackground.withOpacity(disabled)),
               placeHolderAlign: TextAlign.center,
             ),
             Padding(
@@ -144,16 +150,22 @@ class _ProfileState extends State<UserProfile> {
               child: Text(
                 config.email,
                 style: Theme.of(context).textTheme.subhead,
+                key: Key(keyUserProfileEmailText),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: profileSectionsVerticalPadding),
+              padding: const EdgeInsets.symmetric(
+                  vertical: profileSectionsVerticalPadding),
               child: PlaceholderText(
                 text: config.status,
                 align: TextAlign.center,
                 style: Theme.of(context).textTheme.subhead,
-                placeholderText: AppLocalizations.of(context).profileStatusPlaceholder,
-                placeholderStyle: Theme.of(context).textTheme.subhead.apply(color: onBackground.withOpacity(disabled)),
+                placeholderText:
+                    AppLocalizations.of(context).profileStatusPlaceholder,
+                placeholderStyle: Theme.of(context)
+                    .textTheme
+                    .subhead
+                    .apply(color: onBackground.withOpacity(disabled)),
                 placeHolderAlign: TextAlign.center,
               ),
             ),
@@ -165,13 +177,15 @@ class _ProfileState extends State<UserProfile> {
                   textColor: onAccent,
                   child: Text(AppLocalizations.of(context).profileEditButton),
                   onPressed: editUserSettings,
+                  key: Key(keyUserProfileEditProfilRaisedButton),
                 ),
-                Padding(padding:EdgeInsets.all(chatProfileButtonPadding)),
+                Padding(padding: EdgeInsets.all(chatProfileButtonPadding)),
                 RaisedButton(
                   color: accent,
                   textColor: onAccent,
                   child: Text(AppLocalizations.of(context).showQrButton),
                   onPressed: showQr,
+                  key: Key(keyUserProfileShowQrRaisedButton),
                 ),
               ],
             )
@@ -222,6 +236,4 @@ class _ProfileState extends State<UserProfile> {
       MaterialPageRoute(builder: (context) => QrCode(chatId: 0)),
     );
   }
-
-
 }

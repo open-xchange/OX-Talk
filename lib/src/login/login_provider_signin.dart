@@ -48,6 +48,7 @@ import 'package:ox_coi/src/navigation/navigation.dart';
 import 'package:ox_coi/src/ui/color.dart';
 import 'package:ox_coi/src/ui/dimensions.dart';
 import 'package:ox_coi/src/utils/dialog_builder.dart';
+import 'package:ox_coi/src/utils/keyMapping.dart';
 import 'package:ox_coi/src/widgets/fullscreen_progress.dart';
 import 'package:ox_coi/src/widgets/validatable_text_form_field.dart';
 import 'package:rxdart/rxdart.dart';
@@ -68,6 +69,7 @@ class ProviderSignIn extends StatefulWidget {
 
 class _ProviderSignInState extends State<ProviderSignIn> {
   final _simpleLoginKey = GlobalKey<FormState>();
+
   OverlayEntry _progressOverlayEntry;
   LoginBloc _loginBloc = LoginBloc();
   OverlayEntry _overlayEntry;
@@ -79,16 +81,20 @@ class _ProviderSignInState extends State<ProviderSignIn> {
     textFormType: TextFormType.email,
     inputType: TextInputType.emailAddress,
     needValidation: true,
-    validationHint: (context) => AppLocalizations.of(context).validatableTextFormFieldHintInvalidEmail,
+    validationHint: (context) =>
+        AppLocalizations.of(context).validatableTextFormFieldHintInvalidEmail,
     showIcon: true,
+    key: Key(keyProviderSignInEmailTextField),
   );
   ValidatableTextFormField passwordField = ValidatableTextFormField(
     (context) => AppLocalizations.of(context).password,
     hintText: (context) => AppLocalizations.of(context).loginHintPassword,
     textFormType: TextFormType.password,
     needValidation: true,
-    validationHint: (context) => AppLocalizations.of(context).validatableTextFormFieldHintInvalidPassword,
+    validationHint: (context) => AppLocalizations.of(context)
+        .validatableTextFormFieldHintInvalidPassword,
     showIcon: true,
+    key: Key(keyProviderSignInPasswordTextField),
   );
 
   @override
@@ -125,7 +131,10 @@ class _ProviderSignInState extends State<ProviderSignIn> {
             context,
             MaterialPageRoute(
                 builder: (context) => LoginManualSettings(
-                    success: widget.success, email: emailField.controller.text, password: passwordField.controller.text, fromError: true)));
+                    success: widget.success,
+                    email: emailField.controller.text,
+                    password: passwordField.controller.text,
+                    fromError: true)));
       }
     }
   }
@@ -137,23 +146,30 @@ class _ProviderSignInState extends State<ProviderSignIn> {
 
   Widget createProviderSignIn() {
     return SingleChildScrollView(
-        padding: EdgeInsets.only(left: loginHorizontalPadding, right: loginHorizontalPadding, bottom: loginVerticalPadding, top: loginTopPadding),
+        padding: EdgeInsets.only(
+            left: loginHorizontalPadding,
+            right: loginHorizontalPadding,
+            bottom: loginVerticalPadding,
+            top: loginTopPadding),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Image(
-              image: AssetImage(getProviderIconPath(context, widget.provider.id)),
+              image:
+                  AssetImage(getProviderIconPath(context, widget.provider.id)),
               height: loginProviderIconSizeBig,
               width: loginProviderIconSizeBig,
             ),
             Padding(padding: EdgeInsets.all(loginVerticalPadding12dp)),
             Text(
-              AppLocalizations.of(context).loginProviderSignInText(widget.provider.name),
+              AppLocalizations.of(context)
+                  .loginProviderSignInText(widget.provider.name),
               style: Theme.of(context).textTheme.headline,
             ),
             Padding(padding: EdgeInsets.all(loginVerticalPadding12dp)),
             Container(
-                padding: const EdgeInsets.symmetric(horizontal: formHorizontalPadding),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: formHorizontalPadding),
                 child: Form(
                   key: _simpleLoginKey,
                   child: Column(
@@ -204,7 +220,8 @@ class _ProviderSignInState extends State<ProviderSignIn> {
                       Row(
                         children: <Widget>[
                           Padding(
-                            padding: EdgeInsets.only(left: loginErrorOverlayLeftPadding),
+                            padding: EdgeInsets.only(
+                                left: loginErrorOverlayLeftPadding),
                           ),
                           Icon(
                             Icons.report_problem,
@@ -212,11 +229,15 @@ class _ProviderSignInState extends State<ProviderSignIn> {
                             color: onError,
                           ),
                           Padding(
-                            padding: EdgeInsets.only(left: loginErrorOverlayLeftPadding),
+                            padding: EdgeInsets.only(
+                                left: loginErrorOverlayLeftPadding),
                           ),
                           Text(
                             AppLocalizations.of(context).loginError,
-                            style: Theme.of(context).textTheme.body1.apply(color: onError),
+                            style: Theme.of(context)
+                                .textTheme
+                                .body1
+                                .apply(color: onError),
                           ),
                         ],
                       ),
@@ -254,7 +275,8 @@ class _ProviderSignInState extends State<ProviderSignIn> {
         ),
       );
       Overlay.of(context).insert(_progressOverlayEntry);
-      _loginBloc.dispatch(ProviderLoginButtonPressed(email: email, password: password, provider: widget.provider));
+      _loginBloc.dispatch(ProviderLoginButtonPressed(
+          email: email, password: password, provider: widget.provider));
     }
   }
 
@@ -268,6 +290,9 @@ class _ProviderSignInState extends State<ProviderSignIn> {
         context,
         MaterialPageRoute(
             builder: (context) => LoginManualSettings(
-                success: widget.success, email: emailField.controller.text, password: passwordField.controller.text, fromError: false)));
+                success: widget.success,
+                email: emailField.controller.text,
+                password: passwordField.controller.text,
+                fromError: false)));
   }
 }

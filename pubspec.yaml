@@ -38,17 +38,20 @@ dependencies:
   delta_chat_core:
     path: ../flutter-deltachat-core/ # Intended path outside the project context
 
+
 dev_dependencies:
-  flutter_test:
+  flutter_driver:
     sdk: flutter
   intl_translation: ^0.17.5
   mockito: ^4.1.0
   test: any
-
-
+  flutter_test:
+    sdk: flutter
+  screenshots: ^0.1.1
 
 flutter:
   assets:
     - assets/images/
     - assets/json/
   uses-material-design: true
+
