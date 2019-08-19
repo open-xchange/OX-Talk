@@ -56,6 +56,7 @@ import 'package:ox_coi/src/ui/dimensions.dart';
 import 'package:ox_coi/src/ui/text_styles.dart';
 import 'package:ox_coi/src/widgets/search.dart';
 import 'package:ox_coi/src/widgets/state_info.dart';
+import 'package:ox_coi/src/utils/keyMapping.dart';
 
 class ChatCreate extends StatefulWidget {
   @override
@@ -97,7 +98,7 @@ class _ChatCreateState extends State<ChatCreate> {
     );
     return IconButton(
       icon: Icon(Icons.search),
-      onPressed: () => search.show(context),
+      onPressed: () => search.show(context), key: Key(keyChat_createSearchIcon),
     );
   }
 
@@ -149,7 +150,7 @@ class _ChatCreateState extends State<ChatCreate> {
         ListTile(
           leading: Icon(
             Icons.person_add,
-            color: accent,
+            color: accent,key: Key(keyChat_createPerson_addIcon),
           ),
           title: Text(
             AppLocalizations.of(context).createChatNewContactButtonText,
@@ -166,7 +167,7 @@ class _ChatCreateState extends State<ChatCreate> {
           child: ListTile(
             leading: Icon(
               Icons.group_add,
-              color: accent,
+              color: accent,key: Key(keyChat_createGroup_addIcon),
             ),
             title: Text(
               AppLocalizations.of(context).createGroupButtonText,

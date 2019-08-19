@@ -53,40 +53,80 @@ void main() {
 // Define the driver.
     FlutterDriver driver;
     final timeout = Duration(seconds: 120);
+
     final realEmail = 'enyakam3@ox.com';
     final realPassword = 'secret';
+    final newTestContact01 = 'enyakam1@ox.com';
+    final newTestContact02 = 'enyakam2@ox.com';
+    final newTestName01 = 'Douglas01';
+    final newTestName02 = 'Douglas02';
+    final newMe = "newMe";
+    final meContact = "Me";
+
     final singIn = 'SIGN IN';
     final coiDebug = 'Coi debug';
     final mailCom = 'Mail.com';
-    final chatWelcomeMessage = 'Welcome to OX Coi!\nPlease start a new chat by tapping the chat bubble icon.';
+    final chatWelcomeMessage =
+        'Welcome to OX Coi!\nPlease start a new chat by tapping the chat bubble icon.';
 
 //  SerializableFinder for the Ox coi welcome and provider page.
     final finderCoiDebugProvider = find.text(coiDebug);
     final finderMailComProvider = find.text(mailCom);
 
 //  SerializableFinder for Coi Debug dialog Windows.
-    final finderProviderEmail = find.byValueKey(keyProviderSignInEmailTextField);
-    final finderProviderPassword = find.byValueKey(keyProviderSignInPasswordTextField);
+    final finderProviderEmail =
+        find.byValueKey(keyProviderSignInEmailTextField);
+    final finderProviderPassword =
+        find.byValueKey(keyProviderSignInPasswordTextField);
     final finderSIGNIN = find.text(singIn);
     final finderChatWelcome = find.text(chatWelcomeMessage);
-
-/*
-Start the app (already logged in) on the chat list
-Verify the chat list is empty (check the "empty list message")
-Push the create chat floating action button
-Verify the create chat view is opened (by title)
-Push the "Me" contact list entry
-Verify the chat view is opened (by title)
-Push the back button in  the upper left corner
-Verify the chat list is loaded with one entry
-Verify the entry is named "Me"
-Verify that is does not contain messages by checking the second line of the list entry*/
+    final finderCreateChat =
+        find.byValueKey(keyChat_listChatFloatingActionButton);
 
 // Connect to a running Flutter application instance.
     setUpAll(() async {
-      driver = await FlutterDriver.connect();
-      driver.setSemantics(true, timeout: timeout);
-    });
+      final String adbPath =
+          '/Users/openxchange/Library/Android/sdk/platform-tools/adb';
+      await Process.run(adbPath, [
+        'shell',
+        'pm',
+        'grant',
+        'com.openxchange.oxcoi.dev',
+        'android.permission.WRITE_CONTACTS'
+      ]);
+      await Process.run(adbPath, [
+        'shell',
+        'pm',
+        'grant',
+        'com.openxchange.oxcoi.dev',
+        'android.permission.READ_CONTACTS'
+      ]);
+    await Process.run(adbPath, [
+      'shell',
+      'pm',
+      'grant',
+      'com.openxchange.oxcoi.dev',
+      'android.permission.RECORD_AUDIO'
+    ]);
+
+      await Process.run(adbPath, [
+      'shell',
+      'pm',
+      'grant',
+      'com.openxchange.oxcoi.dev',
+      'android.permission.READ_EXTERNAL_STORAGE'
+    ]);
+    await Process.run(adbPath, [
+      'shell',
+      'pm',
+      'grant',
+      'com.openxchange.oxcoi.dev',
+      'android.permission.WRITE_EXTERNAL_STORAGE'
+    ]);
+    driver = await FlutterDriver.connect();
+    driver.setSemantics(true, timeout: timeout);
+  });
+
 
 //  Close the connection to the driver after the tests have completed.
     tearDownAll(() async {
@@ -111,7 +151,8 @@ Verify that is does not contain messages by checking the second line of the list
       await driver.waitFor(finderSIGNIN);
       await driver.tap(finderSIGNIN);
       await catchScreenshot(driver, 'screenshots/providerList1.png');
-      await driver.scroll(finderMailComProvider, 0, -300, Duration(milliseconds: 300));
+      await driver.scroll(
+          finderMailComProvider, 0, -300, Duration(milliseconds: 300));
       await catchScreenshot(driver, 'screenshots/providerList2.png');
       Invoker.current.heartbeat();
       await catchScreenshot(driver, 'screenshots/CoiDebug.png');
@@ -119,7 +160,8 @@ Verify that is does not contain messages by checking the second line of the list
       //  Check real authentication and get chat.
       await driver.tap(finderCoiDebugProvider);
       print('\nReal authentication.');
-      await getAuthentication(driver, finderProviderEmail, realEmail, finderProviderPassword, realPassword, finderSIGNIN);
+      await getAuthentication(driver, finderProviderEmail, realEmail,
+          finderProviderPassword, realPassword, finderSIGNIN);
       await catchScreenshot(driver, 'screenshots/entered.png');
       Invoker.current.heartbeat();
       print('\nSIGN IN ist done. Wait for chat.');
@@ -128,11 +170,28 @@ Verify that is does not contain messages by checking the second line of the list
       await catchScreenshot(driver, 'screenshots/chat.png');
       print('\nGet chat.');
 
+      // Create first Me contact.
+      await createNewChat(driver, finderCreateChat, realEmail, meContact);
+      await catchScreenshot(driver, 'screenshots/chatListe1.png');
+
+      // Create second contact
+      await createNewChat(
+          driver, finderCreateChat, newTestContact02, newTestName01);
+
+      await catchScreenshot(driver, 'screenshots/chatListe2.png');
+      await driver.tap(find.pageBack());
+
+
     });
   });
 }
 
-Future getAuthentication(FlutterDriver driver, SerializableFinder email, String fakeEmail, SerializableFinder password, String realPassword,
+Future getAuthentication(
+    FlutterDriver driver,
+    SerializableFinder email,
+    String fakeEmail,
+    SerializableFinder password,
+    String realPassword,
     SerializableFinder SIGNIN) async {
   await driver.tap(email);
   await driver.enterText(fakeEmail);
@@ -142,4 +201,60 @@ Future getAuthentication(FlutterDriver driver, SerializableFinder email, String 
   Invoker.current.heartbeat();
   await driver.tap(SIGNIN);
   Invoker.current.heartbeat();
+}
+
+Future createNewChat(FlutterDriver driver, SerializableFinder finderCreateChat,
+    String chatEmail, String chatName) async {
+  final meContact = "Me";
+  final newContact = "New contact";
+  final name = "Name";
+  final enterContactName = "Enter the contact name";
+  final emailAddress = "Email address";
+  final emptyChat = "This is a new chat. Send a message to connect!";
+  final finderMe = find.text(meContact);
+  final finderNewContact = find.text(newContact);
+  final typeSomethingComposePlaceholder = "Type something...";
+  final helloWord = "Hello word";
+
+  Invoker.current.heartbeat();
+  await driver.tap(finderCreateChat);
+
+  if (chatName == meContact) {
+    await driver.tap(finderMe);
+    await driver.tap(find.pageBack());
+    await driver.waitFor(finderMe);
+  } else {
+    Invoker.current.heartbeat();
+    await driver.tap(finderNewContact);
+    await driver.waitFor(find.text(name));
+    await driver.waitFor(find.text(emailAddress));
+    await driver
+        .tap(find.byValueKey(keyContact_changeNameValidatableTextFormField));
+    await driver.waitFor(find.text(enterContactName));
+    await driver.enterText(chatName);
+    await driver
+        .tap(find.byValueKey(keyContact_changeEmailValidatableTextFormField));
+    await driver.waitFor(find.text(emailAddress));
+    await driver.enterText(chatEmail);
+    await driver.tap(find.byValueKey(keyContact_changeCheckIconButton));
+    await driver.waitFor(find.text(emptyChat));
+
+    // Type something and get it.
+    await driver.tap(find.byValueKey(typeSomethingComposePlaceholder));
+    await driver.enterText(helloWord);
+    await driver.tap(find.byValueKey(KeyChat_Composer_MixinOnSendTextIcon));
+    await driver.waitFor(find.text(helloWord));
+    Invoker.current.heartbeat();
+
+    // Enter audio now.
+    await driver
+        .tap(find.byValueKey(KeyChat_Composer_MixinOnRecordAudioPressedIcon));
+
+    //await driver.tap(positiveFinder);
+    sleep(Duration(seconds: 3));
+    await driver
+        .tap(find.byValueKey(KeyChat_Momposer_MixinOnRecordAudioSendIcon));
+
+
+  }
 }

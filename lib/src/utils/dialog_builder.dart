@@ -44,6 +44,7 @@ import 'package:flutter/material.dart';
 import 'package:ox_coi/src/l10n/localizations.dart';
 import 'package:ox_coi/src/navigation/navigatable.dart';
 import 'package:ox_coi/src/navigation/navigation.dart';
+import 'package:ox_coi/src/utils/keyMapping.dart';
 
 showNavigatableDialog({@required BuildContext context, @required Widget dialog, @required Navigatable navigatable, Navigatable previousNavigatable}) {
   Navigation navigation = Navigation();
@@ -80,7 +81,7 @@ showConfirmationDialog(
       content: new Text(content),
       actions: <Widget>[
         new FlatButton(
-          child: new Text(negativeButton != null && negativeButton.isNotEmpty ? negativeButton : AppLocalizations.of(context).cancel),
+          child: new Text(negativeButton != null && negativeButton.isNotEmpty ? negativeButton : AppLocalizations.of(context).cancel),key: Key(keyDialog_builderCancelFlatButton),
           onPressed: () {
             if (negativeAction != null) {
               negativeAction();
@@ -90,6 +91,7 @@ showConfirmationDialog(
         ),
         new FlatButton(
           child: new Text(positiveButton),
+          key: Key(keyDialog_builderPositiveFlatButton),
           onPressed: () {
             positiveAction();
             if (selfClose) {

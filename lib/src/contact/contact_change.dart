@@ -53,6 +53,7 @@ import 'package:ox_coi/src/navigation/navigation.dart';
 import 'package:ox_coi/src/qr/qr.dart';
 import 'package:ox_coi/src/ui/color.dart';
 import 'package:ox_coi/src/ui/dimensions.dart';
+import 'package:ox_coi/src/utils/keyMapping.dart';
 import 'package:ox_coi/src/utils/toast.dart';
 import 'package:ox_coi/src/widgets/validatable_text_form_field.dart';
 import 'package:rxdart/rxdart.dart';
@@ -79,8 +80,9 @@ class _ContactChangeState extends State<ContactChange> {
   Navigation navigation = Navigation();
   GlobalKey<FormState> _formKey = GlobalKey();
   ValidatableTextFormField _nameField = ValidatableTextFormField(
-    (context) => AppLocalizations.of(context).name,
+        (context) => AppLocalizations.of(context).name,
     hintText: (context) => AppLocalizations.of(context).contactChangeNameHint,
+    key: Key(keyContact_changeNameValidatableTextFormField),
   );
   ValidatableTextFormField _emailField;
 
@@ -97,11 +99,13 @@ class _ContactChangeState extends State<ContactChange> {
     navigation.current = Navigatable(Type.contactChange);
     if (widget.contactAction == ContactAction.add) {
       _emailField = ValidatableTextFormField(
-        (context) => AppLocalizations.of(context).emailAddress,
+            (context) => AppLocalizations.of(context).emailAddress,
         textFormType: TextFormType.email,
         inputType: TextInputType.emailAddress,
         needValidation: true,
+        key: Key(keyContact_changeEmailValidatableTextFormField),
         validationHint: (context) => AppLocalizations.of(context).validatableTextFormFieldHintInvalidEmail,
+
       );
     } else {
       _nameField.controller.text = widget.name != null ? widget.name : "";
@@ -145,12 +149,14 @@ class _ContactChangeState extends State<ContactChange> {
         appBar: AppBar(
           leading: new IconButton(
             icon: new Icon(Icons.close),
+            key: Key(keyContact_changeCloseIconButton),
             onPressed: () => navigation.pop(context),
           ),
           title: Text(title),
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.check),
+              key: Key(keyContact_changeCheckIconButton),
               onPressed: () => _onSubmit(),
             )
           ],
@@ -183,20 +189,20 @@ class _ContactChangeState extends State<ContactChange> {
                   children: <Widget>[
                     widget.contactAction != ContactAction.add
                         ? Padding(
-                            padding: const EdgeInsets.only(top: formVerticalPadding, bottom: formVerticalPadding),
-                            child: Row(
-                              children: <Widget>[
-                                Icon(Icons.mail),
-                                Padding(
-                                  padding: EdgeInsets.only(right: iconFormPadding),
-                                ),
-                                Text(
-                                  widget.email,
-                                  style: Theme.of(context).textTheme.subhead,
-                                ),
-                              ],
-                            ),
-                          )
+                      padding: const EdgeInsets.only(top: formVerticalPadding, bottom: formVerticalPadding),
+                      child: Row(
+                        children: <Widget>[
+                          Icon(Icons.mail),
+                          Padding(
+                            padding: EdgeInsets.only(right: iconFormPadding),
+                          ),
+                          Text(
+                            widget.email,
+                            style: Theme.of(context).textTheme.subhead,
+                          ),
+                        ],
+                      ),
+                    )
                         : Container(),
                     Row(
                       children: <Widget>[
@@ -250,9 +256,9 @@ class _ContactChangeState extends State<ContactChange> {
       context,
       MaterialPageRoute(
           builder: (context) => QrCode(
-                chatId: 0,
-                initialIndex: 1,
-              )),
+            chatId: 0,
+            initialIndex: 1,
+          )),
     );
   }
 }

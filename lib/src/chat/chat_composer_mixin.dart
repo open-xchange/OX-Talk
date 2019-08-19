@@ -45,6 +45,7 @@ import 'package:flutter/widgets.dart';
 import 'package:ox_coi/src/l10n/localizations.dart';
 import 'package:ox_coi/src/ui/color.dart';
 import 'package:ox_coi/src/ui/dimensions.dart';
+import 'package:ox_coi/src/utils/keyMapping.dart';
 
 enum ComposerModeType {
   compose,
@@ -100,7 +101,7 @@ mixin ChatComposer {
       onChanged: onTextChanged,
       decoration: new InputDecoration.collapsed(
         hintText: AppLocalizations.of(context).composePlaceholder,
-      ),
+      ),key: Key(AppLocalizations.of(context).composePlaceholder),
     );
   }
 
@@ -123,6 +124,7 @@ mixin ChatComposer {
         widgets.add(new IconButton(
           icon: new Icon(Icons.mic),
           onPressed: onRecordAudioPressed,
+          key: Key(KeyChat_Composer_MixinOnRecordAudioPressedIcon),
         ));
         widgets.add(new IconButton(
           key: imageVideoKey,
@@ -133,13 +135,13 @@ mixin ChatComposer {
       case ComposerModeType.isComposing:
         widgets.add(new IconButton(
           icon: new Icon(Icons.send),
-          onPressed: onSendText,
+          onPressed: onSendText,key: Key(KeyChat_Composer_MixinOnSendTextIcon),
         ));
         break;
       case ComposerModeType.isVoiceRecording:
         widgets.add(new IconButton(
           icon: new Icon(Icons.send),
-          onPressed: onRecordAudioPressed,
+          onPressed: onRecordAudioPressed,key: Key(KeyChat_Momposer_MixinOnRecordAudioSendIcon),
         ));
         break;
     }
