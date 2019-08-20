@@ -42,7 +42,6 @@
 
 // Imports the Flutter Driver API.
 import 'dart:io';
-
 import 'package:flutter_driver/flutter_driver.dart';
 import 'package:ox_coi/src/utils/keyMapping.dart';
 import 'package:test/test.dart';
@@ -58,32 +57,33 @@ void main() {
     final realPassword = 'secret';
     final newTestContact01 = 'enyakam1@ox.com';
     final newTestContact02 = 'enyakam2@ox.com';
-    final newTestName01 = 'Douglas01';
+    final newTestName01 = 'Douglas001';
     final newTestName02 = 'Douglas02';
-    final newMe = "newMe";
     final meContact = "Me";
-
     final singIn = 'SIGN IN';
     final coiDebug = 'Coi debug';
-    final mailCom = 'Mail.com';
+    final searchString = "Douglas00";
     final chatWelcomeMessage =
         'Welcome to OX Coi!\nPlease start a new chat by tapping the chat bubble icon.';
+    final typeSomethingComposePlaceholder = "Type something...";
+    final helloWord = "Hello word";
 
-//  SerializableFinder for the Ox coi welcome and provider page.
+//  SerializableFinder.
     final finderCoiDebugProvider = find.text(coiDebug);
-    final finderMailComProvider = find.text(mailCom);
-
-//  SerializableFinder for Coi Debug dialog Windows.
     final finderProviderEmail =
         find.byValueKey(keyProviderSignInEmailTextField);
     final finderProviderPassword =
         find.byValueKey(keyProviderSignInPasswordTextField);
     final finderSIGNIN = find.text(singIn);
-    final finderChatWelcome = find.text(chatWelcomeMessage);
     final finderCreateChat =
         find.byValueKey(keyChat_listChatFloatingActionButton);
+    final keyChatListSearchIconButton =
+        find.byValueKey(keyChat_list_SearchIconButton);
+    final keyChatListSearchEmptyIconButton =
+        find.byValueKey(keyChat_list_SearchEmptyIconButton);
+    final finderChatWelcome = find.text(chatWelcomeMessage);
 
-// Connect to a running Flutter application instance.
+    // Connect to a running Flutter application instance.
     setUpAll(() async {
       final String adbPath =
           '/Users/openxchange/Library/Android/sdk/platform-tools/adb';
@@ -101,32 +101,31 @@ void main() {
         'com.openxchange.oxcoi.dev',
         'android.permission.READ_CONTACTS'
       ]);
-    await Process.run(adbPath, [
-      'shell',
-      'pm',
-      'grant',
-      'com.openxchange.oxcoi.dev',
-      'android.permission.RECORD_AUDIO'
-    ]);
+      await Process.run(adbPath, [
+        'shell',
+        'pm',
+        'grant',
+        'com.openxchange.oxcoi.dev',
+        'android.permission.RECORD_AUDIO'
+      ]);
 
       await Process.run(adbPath, [
-      'shell',
-      'pm',
-      'grant',
-      'com.openxchange.oxcoi.dev',
-      'android.permission.READ_EXTERNAL_STORAGE'
-    ]);
-    await Process.run(adbPath, [
-      'shell',
-      'pm',
-      'grant',
-      'com.openxchange.oxcoi.dev',
-      'android.permission.WRITE_EXTERNAL_STORAGE'
-    ]);
-    driver = await FlutterDriver.connect();
-    driver.setSemantics(true, timeout: timeout);
-  });
-
+        'shell',
+        'pm',
+        'grant',
+        'com.openxchange.oxcoi.dev',
+        'android.permission.READ_EXTERNAL_STORAGE'
+      ]);
+      await Process.run(adbPath, [
+        'shell',
+        'pm',
+        'grant',
+        'com.openxchange.oxcoi.dev',
+        'android.permission.WRITE_EXTERNAL_STORAGE'
+      ]);
+      driver = await FlutterDriver.connect();
+      driver.setSemantics(true, timeout: timeout);
+    });
 
 //  Close the connection to the driver after the tests have completed.
     tearDownAll(() async {
@@ -135,61 +134,48 @@ void main() {
       }
     });
 
-//  Take screenshot
-    catchScreenshot(FlutterDriver driver, String path) async {
-      final List<int> pixels = await driver.screenshot();
-      final File file = new File(path);
-      await file.writeAsBytes(pixels);
-      print(path);
-    }
-
-    test('Test create profile integration tests', () async {
+    test('Test Create chat list integration tests', () async {
       //  Get and print driver status.
-      Health health = await driver.checkHealth();
-      print(health.status);
-
       await driver.waitFor(finderSIGNIN);
       await driver.tap(finderSIGNIN);
       await catchScreenshot(driver, 'screenshots/providerList1.png');
-      await driver.scroll(
-          finderMailComProvider, 0, -300, Duration(milliseconds: 300));
-      await catchScreenshot(driver, 'screenshots/providerList2.png');
-      Invoker.current.heartbeat();
-      await catchScreenshot(driver, 'screenshots/CoiDebug.png');
 
       //  Check real authentication and get chat.
       await driver.tap(finderCoiDebugProvider);
       print('\nReal authentication.');
-      await getAuthentication(driver, finderProviderEmail, realEmail,
+      await getAuthentication(driver, finderProviderEmail, finderChatWelcome, realEmail,
           finderProviderPassword, realPassword, finderSIGNIN);
-      await catchScreenshot(driver, 'screenshots/entered.png');
-      Invoker.current.heartbeat();
-      print('\nSIGN IN ist done. Wait for chat.');
-      await driver.waitFor(finderChatWelcome);
-      Invoker.current.heartbeat();
-      await catchScreenshot(driver, 'screenshots/chat.png');
-      print('\nGet chat.');
-
-      // Create first Me contact.
+      //  Create first Me contact.
       await createNewChat(driver, finderCreateChat, realEmail, meContact);
-      await catchScreenshot(driver, 'screenshots/chatListe1.png');
-
-      // Create second contact
+      //  Create second contact.
       await createNewChat(
-          driver, finderCreateChat, newTestContact02, newTestName01);
-
-      await catchScreenshot(driver, 'screenshots/chatListe2.png');
-      await driver.tap(find.pageBack());
-
-
+          driver, finderCreateChat, newTestContact02, newTestName02);
+      //  create third contact
+      await createNewChat(
+          driver, finderCreateChat, newTestContact01, newTestName01);
+      //  Type something and get it.
+      await chatTest(
+          driver, newTestName01, typeSomethingComposePlaceholder, helloWord);
+      //  Search contact.
+      await chatSearch(driver, newTestName01,searchString, keyChatListSearchIconButton,
+          keyChatListSearchEmptyIconButton);
     });
   });
 }
 
+
+//  Take screenshot
+Future catchScreenshot(FlutterDriver driver, String path) async {
+  final List<int> pixels = await driver.screenshot();
+  final File file = new File(path);
+  await file.writeAsBytes(pixels);
+  print(path);
+}
+
 Future getAuthentication(
     FlutterDriver driver,
-    SerializableFinder email,
-    String fakeEmail,
+    SerializableFinder email, SerializableFinder finderChatWelcome,
+String fakeEmail,
     SerializableFinder password,
     String realPassword,
     SerializableFinder SIGNIN) async {
@@ -201,6 +187,13 @@ Future getAuthentication(
   Invoker.current.heartbeat();
   await driver.tap(SIGNIN);
   Invoker.current.heartbeat();
+  await catchScreenshot(driver, 'screenshots/entered.png');
+  Invoker.current.heartbeat();
+  print('\nSIGN IN ist done. Wait for chat.');
+  await driver.waitFor(finderChatWelcome);
+  await catchScreenshot(driver, 'screenshots/chat.png');
+  print('\nGet chat.');
+
 }
 
 Future createNewChat(FlutterDriver driver, SerializableFinder finderCreateChat,
@@ -211,14 +204,12 @@ Future createNewChat(FlutterDriver driver, SerializableFinder finderCreateChat,
   final enterContactName = "Enter the contact name";
   final emailAddress = "Email address";
   final emptyChat = "This is a new chat. Send a message to connect!";
+
   final finderMe = find.text(meContact);
   final finderNewContact = find.text(newContact);
-  final typeSomethingComposePlaceholder = "Type something...";
-  final helloWord = "Hello word";
 
   Invoker.current.heartbeat();
   await driver.tap(finderCreateChat);
-
   if (chatName == meContact) {
     await driver.tap(finderMe);
     await driver.tap(find.pageBack());
@@ -238,23 +229,42 @@ Future createNewChat(FlutterDriver driver, SerializableFinder finderCreateChat,
     await driver.enterText(chatEmail);
     await driver.tap(find.byValueKey(keyContact_changeCheckIconButton));
     await driver.waitFor(find.text(emptyChat));
-
-    // Type something and get it.
-    await driver.tap(find.byValueKey(typeSomethingComposePlaceholder));
-    await driver.enterText(helloWord);
-    await driver.tap(find.byValueKey(KeyChat_Composer_MixinOnSendTextIcon));
-    await driver.waitFor(find.text(helloWord));
-    Invoker.current.heartbeat();
-
-    // Enter audio now.
-    await driver
-        .tap(find.byValueKey(KeyChat_Composer_MixinOnRecordAudioPressedIcon));
-
-    //await driver.tap(positiveFinder);
-    sleep(Duration(seconds: 3));
-    await driver
-        .tap(find.byValueKey(KeyChat_Momposer_MixinOnRecordAudioSendIcon));
-
-
+    await driver.tap(find.pageBack());
+    await catchScreenshot(driver, 'screenshots/chatListeAfterCreated.png');
   }
+}
+
+Future chatTest(FlutterDriver driver, String chatName,
+    String typeSomethingComposePlaceholder, String helloWord) async {
+  Invoker.current.heartbeat();
+  await driver.tap(find.text(chatName));
+  await driver.tap(find.byValueKey(typeSomethingComposePlaceholder));
+  await driver.enterText(helloWord);
+  await driver.tap(find.byValueKey(KeyChat_Composer_MixinOnSendTextIcon));
+  await driver.waitFor(find.text(helloWord));
+  // Enter audio now.
+  await driver
+      .tap(find.byValueKey(KeyChat_Composer_MixinOnRecordAudioPressedIcon));
+  sleep(Duration(seconds: 3));
+  await driver
+      .tap(find.byValueKey(KeyChat_Momposer_MixinOnRecordAudioSendIcon));
+  await driver.tap(find.pageBack());
+  await catchScreenshot(driver, 'screenshots/chatListe2.png');
+}
+
+Future chatSearch(
+    FlutterDriver driver,
+    String chatName,String searchString
+    ,
+    SerializableFinder keyChatListSearchIconButton,
+    SerializableFinder keyChatListSearchEmptyIconButton) async {
+  Invoker.current.heartbeat();
+  final searchReturnIconButton = find.byValueKey(keySearchReturnIconButton);
+  await driver.tap(find.byValueKey(keyChat_list_SearchIconButton));
+  await catchScreenshot(driver, 'screenshots/searchList1.png');
+  await driver.enterText(searchString);
+  await catchScreenshot(driver, 'screenshots/searchList.png');
+  await driver.tap(find.text(chatName));
+  await driver.tap(find.pageBack());
+  await driver.tap(searchReturnIconButton);
 }

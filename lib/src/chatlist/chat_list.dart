@@ -84,7 +84,8 @@ class ChatList extends RootChild {
   @override
   FloatingActionButton getFloatingActionButton(BuildContext context) {
     return FloatingActionButton(
-      child: new Icon(Icons.chat),key:Key(keyChat_listChatFloatingActionButton) ,
+      child: new Icon(Icons.chat),
+      key: Key(keyChat_listChatFloatingActionButton),
       onPressed: () {
         _showCreateChatView(context);
       },
@@ -165,7 +166,8 @@ class _ChatListState extends State<ChatList> {
       itemCount: chatListItemWrapper.ids.length,
       itemBuilder: (BuildContext context, int index) {
         var id = chatListItemWrapper.ids[index];
-        var key = createKeyString(id, chatListItemWrapper.lastUpdateValues[index]);
+        var key =
+            createKeyString(id, chatListItemWrapper.lastUpdateValues[index]);
         if (chatListItemWrapper.types[index] == ChatListItemType.chat) {
           return ChatListItem(
             chatId: id,
@@ -198,12 +200,14 @@ class _ChatListState extends State<ChatList> {
     return IconButton(
       icon: Icon(Icons.search),
       onPressed: () => search.show(context),
+      key: Key(keyChat_list_SearchIconButton),
     );
   }
 
   Widget getFlaggedAction() {
     return IconButton(
-        icon: Icon(Icons.star), key: Key(keyChat_list_getFlaggedActionIconButton),
+        icon: Icon(Icons.star),
+        key: Key(keyChat_list_getFlaggedActionIconButton),
         onPressed: () => _navigation.push(
             context,
             MaterialPageRoute(
@@ -212,7 +216,8 @@ class _ChatListState extends State<ChatList> {
   }
 
   Widget onBuildResultOrSuggestion(String query) {
-    _chatListSearchBloc.dispatch(SearchChatList(query: query, showInvites: false));
+    _chatListSearchBloc
+        .dispatch(SearchChatList(query: query, showInvites: false));
     return buildSearchResults();
   }
 
@@ -226,6 +231,7 @@ class _ChatListState extends State<ChatList> {
           } else {
             return Center(
               child: Text(AppLocalizations.of(context).searchEmpty),
+              key: Key(AppLocalizations.of(context).searchEmpty),
             );
           }
         } else if (state is! ChatListStateFailure) {

@@ -82,6 +82,8 @@ const keyChat_list_getFlaggedActionIconButton =
     "keyChat_list_getFlaggedActionIconButton";
 const keyChat_listChatFloatingActionButton =
     "keyChat_listChatFloatingActionButton";
+const keyChat_list_SearchIconButton = "keyChat_list_SearchIconButton";
+const keyChat_list_SearchEmptyIconButton = "keyChat_list_SearchEmptyIconButton";
 
 const keyChat_createPerson_addIcon = "keyChat_createPerson_addIcon";
 const keyChat_createGroup_addIcon = "keyChat_createGroup_addIcon";
@@ -93,3 +95,5 @@ const KeyChat_Composer_MixinOnSendTextIcon =
     "KeyChat_composer_mixinOnSendTextIcon";
 const KeyChat_Composer_MixinOnRecordAudioPressedIcon =
     "keyChat_Composite_MixinOnRecordAudioPressedIcon";
+
+const keySearchReturnIconButton = "keySearchReturnIconButton";
