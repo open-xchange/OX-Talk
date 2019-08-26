@@ -40,10 +40,15 @@
  * for more details.
  */
 
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon_button.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_raised_button.dart';
 import 'package:ox_coi/src/data/config.dart';
+import 'package:ox_coi/src/invite/invite_bloc.dart';
+import 'package:ox_coi/src/invite/invite_event_state.dart';
 import 'package:ox_coi/src/l10n/l.dart';
 import 'package:ox_coi/src/l10n/l10n.dart';
 import 'package:ox_coi/src/main/root_child.dart';
@@ -102,6 +107,7 @@ class UserProfile extends RootChild {
 class _ProfileState extends State<UserProfile> {
   UserBloc _userBloc = UserBloc();
   Navigation navigation = Navigation();
+  InviteBloc _inviteBloc = InviteBloc();
 
   @override
   void initState() {
@@ -182,7 +188,14 @@ class _ProfileState extends State<UserProfile> {
                   key: Key(keyUserProfileShowQrRaisedButton),
                 ),
               ],
-            )
+            ),
+            AdaptiveRaisedButton(
+              child: Text(L10n.get(L.profileShareInviteUrl)),
+              onPressed: createInviteUrl,
+              color: accent,
+              textColor: onAccent,
+              key: Key(""),
+            ),
           ],
         ),
       ),
@@ -224,5 +237,9 @@ class _ProfileState extends State<UserProfile> {
       context,
       MaterialPageRoute(builder: (context) => QrCode(chatId: 0)),
     );
+  }
+
+  createInviteUrl() {
+    _inviteBloc.add(CreateInviteUrl());
   }
 }

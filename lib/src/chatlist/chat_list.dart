@@ -40,17 +40,26 @@
  * for more details.
  */
 
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:delta_chat_core/delta_chat_core.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon_button.dart';
 import 'package:ox_coi/src/background/background_bloc.dart';
 import 'package:ox_coi/src/background/background_event_state.dart';
+import 'package:ox_coi/src/chat/chat.dart' as ChatView;
 import 'package:ox_coi/src/chatlist/chat_list_bloc.dart';
 import 'package:ox_coi/src/chatlist/chat_list_event_state.dart';
 import 'package:ox_coi/src/chatlist/chat_list_item.dart';
 import 'package:ox_coi/src/chatlist/invite_item.dart';
+import 'package:ox_coi/src/data/invite_service_resource.dart';
 import 'package:ox_coi/src/flagged/flagged.dart';
+import 'package:ox_coi/src/invite/invite_bloc.dart';
+import 'package:ox_coi/src/invite/invite_event_state.dart';
 import 'package:ox_coi/src/l10n/l.dart';
 import 'package:ox_coi/src/l10n/l10n.dart';
 import 'package:ox_coi/src/main/root_child.dart';
@@ -62,14 +71,12 @@ import 'package:ox_coi/src/share/share_bloc.dart';
 import 'package:ox_coi/src/share/share_event_state.dart';
 import 'package:ox_coi/src/ui/color.dart';
 import 'package:ox_coi/src/ui/dimensions.dart';
+import 'package:ox_coi/src/utils/dialog_builder.dart';
 import 'package:ox_coi/src/utils/keyMapping.dart';
 import 'package:ox_coi/src/utils/key_generator.dart';
 import 'package:ox_coi/src/widgets/search.dart';
 import 'package:ox_coi/src/widgets/state_info.dart';
 import 'package:rxdart/rxdart.dart';
-
-import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon_button.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon.dart';
 
 enum ChatListItemType {
   chat,
@@ -128,6 +135,7 @@ class _ChatListState extends State<ChatList> {
   ChatListBloc _chatListBloc = ChatListBloc();
   ChatListBloc _chatListSearchBloc = ChatListBloc();
   ShareBloc shareBloc = ShareBloc();
+  InviteBloc _inviteBloc = InviteBloc();
   Navigation _navigation = Navigation();
 
   @override
@@ -136,11 +144,12 @@ class _ChatListState extends State<ChatList> {
     _navigation.current = Navigatable(Type.chatList);
     _chatListBloc.add(RequestChatList(showInvites: true));
     final shareObservable = Observable<ShareState>(shareBloc);
-    shareObservable.listen((state) => handleStateChange(state));
+    shareObservable.listen((state) => handleShareStateChange(state));
     shareBloc.add(LoadSharedData());
+    _inviteBloc.add(HandleSharedInviteLink());
   }
 
-  handleStateChange(ShareState state) {
+  handleShareStateChange(ShareState state) {
     if (state is ShareStateSuccess) {
       if (state.sharedData != null) {
         _navigation.pushAndRemoveUntil(
@@ -166,14 +175,99 @@ class _ChatListState extends State<ChatList> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<BackgroundBloc, BackgroundState>(
-      listener: (context, state) {
-        if (state is BackgroundStateSuccess) {
-          if (state.state == AppLifecycleState.resumed.toString()) {
-            shareBloc.add(LoadSharedData());
-          }
-        }
-      },
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<BackgroundBloc, BackgroundState>(
+          listener: (context, state) {
+            if (state is BackgroundStateSuccess) {
+              if (state.state == AppLifecycleState.resumed.toString()) {
+                shareBloc.add(LoadSharedData());
+                _inviteBloc.add(HandleSharedInviteLink());
+              }
+            }
+          },
+        ),
+        BlocListener<InviteBloc, InviteState>(
+          bloc: _inviteBloc,
+          listener: (context, state) {
+            if (state is InviteStateSuccess) {
+              if (state.inviteServiceResponse != null) {
+                InviteServiceResponse inviteServiceResponse = state.inviteServiceResponse;
+                String name = inviteServiceResponse.sender.name;
+                String email = inviteServiceResponse.sender.email;
+                int startIndex = inviteServiceResponse.sender.image.lastIndexOf(',') + 1;
+                String image = inviteServiceResponse.sender.image.substring(startIndex);
+                String chatListInviteDialogXYText = L10n.getFormatted(L.chatListInviteDialogXY, [name, email]);
+                String chatListInviteDialogXText = L10n.getFormatted(L.chatListInviteDialogX, [email]);
+                Uint8List imageBytes = image != null ? base64Decode(image) : Uint8List(0);
+                showNavigatableDialog(
+                  context: context,
+                  navigatable: Navigatable(Type.chatListInviteDialog),
+                  dialog: AlertDialog(
+                    content: Row(
+                      children: <Widget>[
+                        Visibility(
+                          visible: imageBytes.length > 0,
+                          child: Image.memory(
+                            imageBytes,
+                            height: listAvatarDiameter,
+                            width: listAvatarDiameter,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(verticalPaddingSmall),
+                        ),
+                        Flexible(
+                          child: Text(name == email ? chatListInviteDialogXText : chatListInviteDialogXYText),
+                        )
+                      ],
+                    ),
+                    actions: <Widget>[
+                      FlatButton(
+                        child: Text(L10n.get(L.cancel)),
+                        onPressed: () {
+                          _navigation.pop(context);
+                        },
+                      ),
+                      FlatButton(
+                        child: Text(L10n.get(L.chatStart)),
+                        onPressed: () {
+                          _navigation.pop(context);
+                          _inviteBloc.add(CreateChatWithInvite(inviteServiceResponse: inviteServiceResponse));
+                        },
+                      ),
+                    ],
+                  ),
+                );
+              }
+            } else if (state is InviteStateFailure) {
+              showNavigatableDialog(
+                context: context,
+                navigatable: Navigatable(Type.chatListInviteErrorDialog),
+                dialog: AlertDialog(
+                  title: Text(L10n.get(L.error)),
+                  content: Text(state.errorMessage),
+                  actions: <Widget>[
+                    FlatButton(
+                      child: Text(L10n.get(L.ok)),
+                      onPressed: () {
+                        _navigation.pop(context);
+                      },
+                    ),
+                  ],
+                ),
+              );
+            } else if (state is CreateInviteChatSuccess) {
+              _navigation.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ChatView.Chat(
+                            chatId: state.chatId,
+                          )));
+            }
+          },
+        )
+      ],
       child: BlocBuilder(
         bloc: _chatListBloc,
         builder: (context, state) {
@@ -237,10 +331,7 @@ class _ChatListState extends State<ChatList> {
       onBuildSuggestion: onBuildResultOrSuggestion,
     );
     return AdaptiveIconButton(
-      icon: AdaptiveIcon(
-          androidIcon: Icons.search,
-          iosIcon: CupertinoIcons.search
-      ),
+      icon: AdaptiveIcon(androidIcon: Icons.search, iosIcon: CupertinoIcons.search),
       onPressed: () => search.show(context),
       key: Key(keyChatListSearchIconButton),
     );
@@ -249,8 +340,8 @@ class _ChatListState extends State<ChatList> {
   Widget getFlaggedAction() {
     return AdaptiveIconButton(
         icon: AdaptiveIcon(
-            androidIcon: Icons.star,
-            iosIcon: Icons.star,
+          androidIcon: Icons.star,
+          iosIcon: Icons.star,
         ),
         key: Key(keyChatListGetFlaggedActionIconButton),
         onPressed: () => _navigation.push(
