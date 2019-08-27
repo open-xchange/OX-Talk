@@ -43,7 +43,8 @@
 const keyProviderSignInEmailTextField = "keyProviderSignInEmailTextField";
 const keyProviderSignInPasswordTextField = "keyProviderSignInPasswordTextField";
 
-const keyUserProfileEditProfileRaisedButton = "keyUserProfileEditProfilRaisedButton";
+const keyUserProfileEditProfileRaisedButton =
+    "keyUserProfileEditProfilRaisedButton";
 const keyUserProfileShowQrRaisedButton = "keyUserProfileShowQrRaisedButton";
 const keyUserProfileEmailText = "keyUserProfileEmailText";
 
@@ -52,64 +53,55 @@ const keyRootIconContactsTitleText = "Contacts";
 const keyRootIconProfileTitleText = "Profile";
 
 const keyUserSettingsCheckIconButton = "keyUserSettingsCheckIconButton";
-const keyUserSettingsUserSettingsUsernameLabel = "keyUserSettingsUserSettingsUsernameLabel";
+const keyUserSettingsUserSettingsUsernameLabel =
+    "keyUserSettingsUserSettingsUsernameLabel";
 
 const keyDialogBuilderPositiveFlatButton = "keyDialog_builderImportFlatButton";
 const keyDialogBuilderCancelFlatButton = "keyDialog_builderCancelFlatButton";
 
-const keyContactListPersonAddFloatingActionButton = "keyContact_listPerson_addFloatingActionButton";
+const keyContactListPersonAddFloatingActionButton =
+    "keyContact_listPerson_addFloatingActionButton";
 
 const keyContactChangeCheckIconButton = "keyContact_changeCheckIconButton";
 const keyContactChangeCloseIconButton = "keyContact_changeCloseIconButton";
-const keyContactChangeEmailValidatableTextFormField = "keyContact_changeEmailValidatableTextFormField";
-const keyContactChangeNameValidatableTextFormField = "keyContact_changeNameValidatableTextFormField";
-
-const keyContactDetailOpenChatProfileActionIcon = "keyContact_detailOpen_chatProfileActionIcon";
-const keyContactDetailEditContactProfileActionIcon = "keyContact_detailEdit_contactProfileActionIcon";
-const keyContactDetailBlockContactProfileActionIcon = "keyContact_detailBlock_contactProfileActionIcon";
-const keyContactDetailDeleteContactProfileActionIcon = "keyContact_detaildelete_contactProfileActionIcon";
-
-const keyDialog_builderPositiveFlatButton = "keyDialog_builderImportFlatButton";
-const keyDialog_builderCancelFlatButton = "keyDialog_builderCancelFlatButton";
-
-const keyContact_listPerson_addFloatingActionButton =
-    "keyContact_listPerson_addFloatingActionButton";
-
-const keyContact_changeCheckIconButton = "keyContact_changeCheckIconButton";
-const keyContact_changeCloseIconButton = "keyContact_changeCloseIconButton";
-const keyContact_changeEmailValidatableTextFormField =
+const keyContactChangeEmailValidatableTextFormField =
     "keyContact_changeEmailValidatableTextFormField";
-const keyContact_changeNameValidatableTextFormField =
+const keyContactChangeNameValidatableTextFormField =
     "keyContact_changeNameValidatableTextFormField";
+const keyContactListImportContactIconButton= "key_Contact_List_ImportContactIconButton";
+const keyContactListBlockIconButton="key_Contact_List_BlockIconButton";
+const keyContactListSearchIconButton ="key_Contact_ListSearchIconButton";
 
-const keyContact_detailOpen_chatProfileActionIcon =
+const keyContactDetailOpenChatProfileActionIcon =
     "keyContact_detailOpen_chatProfileActionIcon";
-const keyContact_detailEdit_contactProfileActionIcon =
+const keyContactDetailEditContactProfileActionIcon =
     "keyContact_detailEdit_contactProfileActionIcon";
-const keyContact_detailBlock_contactProfileActionIcon =
+const keyContactDetailBlockContactProfileActionIcon =
     "keyContact_detailBlock_contactProfileActionIcon";
-const keyContact_detailDelete_contactProfileActionIcon =
+const keyContactDetailDeleteContactProfileActionIcon =
     "keyContact_detaildelete_contactProfileActionIcon";
 
-const keyChat_list_getFlaggedActionIconButton =
+const keyContactBlockedListCloseIconButton="key_Contact_Blocked_List_CloseIconButton";
+
+const keyChatListGetFlaggedActionIconButton =
     "keyChat_list_getFlaggedActionIconButton";
-const keyChat_listChatFloatingActionButton =
+const keyChatListChatFloatingActionButton =
     "keyChat_listChatFloatingActionButton";
-const keyChat_list_SearchIconButton = "keyChat_list_SearchIconButton";
-const keyChat_list_SearchEmptyIconButton = "keyChat_list_SearchEmptyIconButton";
+const keyChatListSearchIconButton = "keyChat_list_SearchIconButton";
+const keyChatListSearchEmptyIconButton = "keyChat_list_SearchEmptyIconButton";
 
-const keyChat_createPerson_addIcon = "keyChat_createPerson_addIcon";
-const keyChat_createGroup_addIcon = "keyChat_createGroup_addIcon";
-const keyChat_createSearchIcon = "keyChat_createSearchIcon";
+const keyChatCreatePersonAddIcon = "keyChat_createPerson_addIcon";
+const keyChatCreateGroupAddIcon = "keyChat_createGroup_addIcon";
+const keyChatCreateSearchIcon = "keyChat_createSearchIcon";
 
-const KeyChat_Momposer_MixinOnRecordAudioSendIcon =
+const KeyChatMomposerMixinOnRecordAudioSendIcon =
     "KeyChat_composer_mixinOnRecordAudioPressedSendIcon";
-const KeyChat_Composer_MixinOnSendTextIcon =
+const KeyChatComposerMixinOnSendTextIcon =
     "KeyChat_composer_mixinOnSendTextIcon";
-const KeyChat_Composer_MixinOnRecordAudioPressedIcon =
+const KeyChatComposerMixinOnRecordAudioPressedIcon =
     "keyChat_Composite_MixinOnRecordAudioPressedIcon";
 
 const keySearchReturnIconButton = "keySearch_Return_IconButton";
-const keySearchFieldCloseIcon ="key_Search_FieldCloseIcon";
-const keySearchClearIconButton ="key_SearchClear_IconButton";
+const keySearchFieldCloseIcon = "key_Search_FieldCloseIcon";
+const keySearchClearIconButton = "key_SearchClear_IconButton";
 

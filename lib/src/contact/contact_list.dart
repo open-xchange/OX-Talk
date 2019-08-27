@@ -182,6 +182,7 @@ class _ContactListState extends State<ContactList> {
   Widget getImportAction() {
     return IconButton(
       icon: Icon(Icons.import_contacts),
+      key: Key(keyContactListImportContactIconButton),
       onPressed: () => _showImportDialog(false, context),
     );
   }
@@ -189,6 +190,7 @@ class _ContactListState extends State<ContactList> {
   Widget getBlockedUsersAction() {
     return IconButton(
       icon: Icon(Icons.block),
+      key: Key(keyContactListBlockIconButton),
       onPressed: () => _showBlockedUserList(context),
     );
   }
@@ -201,7 +203,7 @@ class _ContactListState extends State<ContactList> {
     );
     return IconButton(
       icon: Icon(Icons.search),
-      key: Key(keyChat_list_SearchIconButton),
+      key: Key(keyContactListSearchIconButton),
       onPressed: () => search.show(context),
     );
   }

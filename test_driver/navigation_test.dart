@@ -43,6 +43,7 @@
 // Imports the Flutter Driver API.
 import 'dart:io';
 import 'package:flutter_driver/flutter_driver.dart';
+import 'package:ox_coi/src/l10n/l.dart';
 import 'package:ox_coi/src/utils/keyMapping.dart';
 import 'package:test/test.dart';
 import 'package:test_api/src/backend/invoker.dart';
@@ -57,16 +58,16 @@ void main() {
     final realPassword = 'secret';
     final singIn = 'SIGN IN';
     final coiDebug = 'Coi debug';
-    final chatWelcomeMessage =
-        'Welcome to OX Coi!\nPlease start a new chat by tapping the chat bubble icon.';
+    final meContact = "Me";
     final profile = "Profile";
-    final chat = "Chat";
+    final chat = "Chats";
     final contacts = "Contacts";
-
-    final noResultFoundFinder = find.text('No results found.');
-    final noFlaggedButtonFinder = find.text('No flagged messages.');
-
-    final searchReturnIconButton= find.byValueKey(keySearchReturnIconButton);
+    final profileUserStatus =
+        "Sent with OX Coi Messenger - https://github.com/open-xchange/ox-coi";
+    final loginCheckMail = L.getKey(L.loginCheckMail);
+    final noFlaggedButtonFinder = find.text(L.getKey(L.chatNoFlagged));
+    final searchReturnIconButton = find.byValueKey(keySearchReturnIconButton);
+    final finderUserProfileEmailText = find.byValueKey(keyUserProfileEmailText);
 
 //  SerializableFinder.
     final finderCoiDebugProvider = find.text(coiDebug);
@@ -75,17 +76,29 @@ void main() {
     final finderProviderPassword =
         find.byValueKey(keyProviderSignInPasswordTextField);
     final finderSIGNIN = find.text(singIn);
-    final finderCreateChat =
-        find.byValueKey(keyChat_listChatFloatingActionButton);
-    final keyChatListSearchIconButton =
-        find.byValueKey(keyChat_list_SearchIconButton);
-    final keyChatListSearchEmptyIconButton =
-        find.byValueKey(keyChat_list_SearchEmptyIconButton);
-    final finderChatWelcome = find.text(chatWelcomeMessage);
 
+    final cancelFinder = find.byValueKey(keyDialogBuilderCancelFlatButton);
+    final personAddFinder =
+        find.byValueKey(keyContactListPersonAddFloatingActionButton);
+    final contactChangeNameFinder =
+        find.byValueKey(keyContactChangeNameValidatableTextFormField);
+    final contactChangeEmailFinder =
+        find.byValueKey(keyContactChangeEmailValidatableTextFormField);
+    final contactChangeCheckFinder =
+        find.byValueKey(keyContactChangeCheckIconButton);
+    final finderCreateChat =
+        find.byValueKey(keyChatListChatFloatingActionButton);
     final profileFinder = find.text(profile);
-    final contactFinder = find.text(contacts);
-    final chatFinder = find.text(chat);
+    final contactsFinder = find.text(contacts);
+    final chatsFinder = find.text(chat);
+    final finderUserProfileStatusText = find.text(profileUserStatus);
+
+    final finderUserProfileEditRaisedButton =
+        find.byValueKey(keyUserProfileEditProfileRaisedButton);
+    final finderUserSettingsCheckIconButton =
+        find.byValueKey(keyUserSettingsCheckIconButton);
+    final userSettingsUserSettingsUsernameLabel =
+        find.byValueKey(keyUserSettingsUserSettingsUsernameLabel);
 
     //  SerializableFinder for the Ox coi welcome and provider page.
 
@@ -154,43 +167,76 @@ void main() {
       await getAuthentication(driver, finderProviderEmail, realEmail,
           finderProviderPassword, realPassword, finderSIGNIN);
 
-      await driver.waitFor(profileFinder);
-      await driver.waitFor(contactFinder);
-      await driver.waitFor(chatFinder);
-
-      //  Test Navigation Chat.
-      await driver
-          .tap(find.byValueKey(keyChat_list_getFlaggedActionIconButton));
-      await driver.waitFor(noFlaggedButtonFinder);
-      await driver.waitFor(find.byValueKey("Flagged"));
-      await driver.waitFor(find.byValueKey("Your favorite messages"));
-      await driver.tap(find.pageBack());
-
-      Invoker.current.heartbeat();
-      await driver.tap(find.byValueKey(keyChat_list_SearchIconButton));
-      await driver.waitFor(noResultFoundFinder);
-      await driver.enterText("hello Word");
-      await driver.tap(find.byValueKey(keySearchClearIconButton));
-      await driver.enterText("hello Word2");
-      await driver.tap(searchReturnIconButton);
-      //await driver.waitFor();
-
-
-      //  Test Navigation Profile.
       await driver.tap(profileFinder);
+      await driver.tap(contactsFinder);
+      await driver.tap(cancelFinder);
+      await driver.tap(chatsFinder);
 
+      //  Test chat navigation.
+      await checkChat(
+          driver,
+          finderCreateChat,
+          searchReturnIconButton,
+          noFlaggedButtonFinder,
+          realEmail,
+          meContact,
+          loginCheckMail,
+          contactChangeNameFinder,
+          contactChangeEmailFinder);
 
-      //  Test Navigation contact.
-/*
-      await driver.tap(contactFinder);
-      await driver.tap(find.text(keyDialogBuilderCancelFlatButton));
-      await catchScreenshot(driver, 'screenshots/naviTest.png');
+      //  Test contact navigation.
+      await checkContact(
+          driver,
+          searchReturnIconButton,
+          personAddFinder,
+          contactChangeNameFinder,
+          meContact,
+          contactChangeEmailFinder,
+          contactChangeCheckFinder,
+          loginCheckMail,
+          contactsFinder,
+          cancelFinder,
+          meContact);
 
-      sleep(Duration(seconds:2));
-      await driver.tap(profileFinder);
-      await catchScreenshot(driver, 'screenshots/naviTest1.png');*/
+      //  Test profile navigation.
+      await checkProfile(
+          driver,
+          profileFinder,
+          finderUserProfileEmailText,
+          finderUserProfileStatusText,
+          finderUserProfileEditRaisedButton,
+          userSettingsUserSettingsUsernameLabel,
+          finderUserSettingsCheckIconButton,
+          chatsFinder);
     });
   });
+}
+
+Future checkProfile(
+    FlutterDriver driver,
+    SerializableFinder profileFinder,
+    SerializableFinder finderUserProfileEmailText,
+    SerializableFinder finderUserProfileStatusText,
+    SerializableFinder finderUserProfileEditRaisedButton,
+    SerializableFinder userSettingsUserSettingsUsernameLabel,
+    SerializableFinder finderUserSettingsCheckIconButton,
+    SerializableFinder chatsFinder) async {
+  await driver.tap(profileFinder);
+  await catchScreenshot(driver, 'screenshots/checkProfile.png');
+  await driver.waitFor(finderUserProfileEmailText);
+  await driver.waitFor(finderUserProfileStatusText);
+  await driver.tap(finderUserProfileEditRaisedButton);
+  Invoker.current.heartbeat();
+  await driver.tap(userSettingsUserSettingsUsernameLabel);
+  print('\nGet Profile after changes saved and check changes.');
+  await driver.tap(finderUserSettingsCheckIconButton);
+  //await driver.tap(finderRootIconProfileTextTitle);
+  await driver.waitFor(finderUserProfileEmailText);
+  await driver.waitFor(finderUserProfileStatusText);
+  print("\nUser name, status, email after edited profile is ok.");
+  Invoker.current.heartbeat();
+  await catchScreenshot(driver, 'screenshots/UserChangeProfile.png');
+  await driver.tap(chatsFinder);
 }
 
 Future getAuthentication(
@@ -218,40 +264,97 @@ Future catchScreenshot(FlutterDriver driver, String path) async {
   print(path);
 }
 
-Future createNewChat(FlutterDriver driver, SerializableFinder finderCreateChat,
-    String chatEmail, String chatName) async {
-  final meContact = "Me";
-  final newContact = "New contact";
-  final name = "Name";
-  final enterContactName = "Enter the contact name";
-  final emailAddress = "Email address";
-  final emptyChat = "This is a new chat. Send a message to connect!";
-
-  final finderMe = find.text(meContact);
+Future checkChat(
+    FlutterDriver driver,
+    SerializableFinder finderCreateChat,
+    SerializableFinder searchReturnIconButton,
+    SerializableFinder noFlaggedButtonFinder,
+    String chatEmail,
+    String chatName,
+    String loginCheckMail,
+    SerializableFinder keyContactChangeNameFinder,
+    SerializableFinder keyContactChangeEmailFinder) async {
+  final newContact = L.getKey(L.contactNew);
+  final name = L.getKey(L.name);
+  final enterContactName = L.getKey(L.contactName);
+  final emailAddress = L.getKey(L.emailAddress);
+  final chatCreate = L.getKey(L.chatCreate);
+  final finderMe = find.text(chatName);
   final finderNewContact = find.text(newContact);
+
+
+  //  Check flaggedButton.
+  await driver.tap(find.byValueKey(keyChatListGetFlaggedActionIconButton));
+  await driver.waitFor(noFlaggedButtonFinder);
+  await driver.waitFor(find.byValueKey(L.getKey(L.chatFavoriteMessages)));
+  await driver.waitFor(find.byValueKey(L.getKey(L.chatFlagged)));
+  await driver.tap(find.pageBack());
+  await catchScreenshot(driver, 'screenshots/afterFlaged.png');
 
   Invoker.current.heartbeat();
   await driver.tap(finderCreateChat);
-  if (chatName == meContact) {
-    await driver.tap(finderMe);
-    await driver.tap(find.pageBack());
-    await driver.waitFor(finderMe);
-  } else {
-    Invoker.current.heartbeat();
-    await driver.tap(finderNewContact);
-    await driver.waitFor(find.text(name));
-    await driver.waitFor(find.text(emailAddress));
-    await driver
-        .tap(find.byValueKey(keyContact_changeNameValidatableTextFormField));
-    await driver.waitFor(find.text(enterContactName));
-    await driver.enterText(chatName);
-    await driver
-        .tap(find.byValueKey(keyContact_changeEmailValidatableTextFormField));
-    await driver.waitFor(find.text(emailAddress));
-    await driver.enterText(chatEmail);
-    await driver.tap(find.byValueKey(keyContact_changeCheckIconButton));
-    await driver.waitFor(find.text(emptyChat));
-    await driver.tap(find.pageBack());
-    await catchScreenshot(driver, 'screenshots/chatListeAfterCreated.png');
-  }
+  await driver.waitFor(find.text(chatCreate));
+  await catchScreenshot(driver, 'screenshots/me1.png');
+
+
+  //  Check newContact.
+  await driver.tap(finderCreateChat);
+  await driver.tap(finderNewContact);
+  await driver.waitFor(find.text(name));
+  await driver.waitFor(find.text(emailAddress));
+  await driver.tap(keyContactChangeNameFinder);
+  await driver.waitFor(find.text(enterContactName));
+  await driver.tap(keyContactChangeEmailFinder);
+  await driver.waitFor(find.text(emailAddress));
+  await driver.tap(find.byValueKey(keyContactChangeCheckIconButton));
+  await catchScreenshot(driver, 'screenshots/checkNewContact.png');
+  await driver.waitFor(find.text(loginCheckMail));
+  await driver.tap(find.byValueKey(keyContactChangeCloseIconButton));
+  await driver.tap(find.pageBack());
+  await driver.waitFor(finderMe);
+
+  Invoker.current.heartbeat();
+  await driver.tap(find.byValueKey(keyChatListSearchIconButton));
+  await driver.waitFor(find.text("Me"));
+  await driver.tap(find.byValueKey(keySearchClearIconButton));
+  await driver.tap(searchReturnIconButton);
+}
+
+Future checkContact(
+    FlutterDriver driver,
+    SerializableFinder searchReturnIconButton,
+    SerializableFinder personAddFinder,
+    SerializableFinder keyContactChangeNameFinder,
+    String newTestName,
+    SerializableFinder keyContactChangeEmailFinder,
+    SerializableFinder keyContactChangeCheckFinder,
+    String loginCheckMail,
+    SerializableFinder contactsFinder,
+    SerializableFinder cancelFinder,
+    String meContact) async {
+  await driver.tap(contactsFinder);
+  //await driver.tap(cancelFinder);
+  await driver.waitFor(find.text(meContact));
+  Invoker.current.heartbeat();
+  await driver.tap(personAddFinder);
+  await driver.tap(keyContactChangeNameFinder);
+  await driver.tap(keyContactChangeEmailFinder);
+  Invoker.current.heartbeat();
+  await driver.tap(keyContactChangeCheckFinder);
+  await catchScreenshot(driver, 'screenshots/person_add01.png');
+  await driver.waitFor(find.text(loginCheckMail));
+  await driver.tap(find.byValueKey(keyContactChangeCloseIconButton));
+  await driver.waitFor(find.text(newTestName));
+  await catchScreenshot(driver, 'screenshots/persone_add02.png');
+
+  //  Check import contact
+  await driver.tap(find.byValueKey(keyContactListImportContactIconButton));
+  await driver.tap(cancelFinder);
+  await driver.tap(find.byValueKey(keyContactListBlockIconButton));
+  await driver.waitFor(find.text(L.getKey(L.contactNoBlocked)));
+  await driver.tap(find.byValueKey(keyContactBlockedListCloseIconButton));
+  await driver.tap(find.byValueKey(keyContactListSearchIconButton));
+  await driver.waitFor(find.text(newTestName));
+  await driver.tap(searchReturnIconButton);
+  print('\nNew contact is added');
 }

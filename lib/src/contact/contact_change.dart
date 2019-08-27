@@ -150,6 +150,7 @@ class _ContactChangeState extends State<ContactChange> {
         appBar: AppBar(
           leading: new IconButton(
             icon: new Icon(Icons.close),
+            key: Key(keyContactChangeCloseIconButton),
             onPressed: () => navigation.pop(context),
           ),
           title: Text(title),
