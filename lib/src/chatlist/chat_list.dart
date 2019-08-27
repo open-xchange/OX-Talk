@@ -57,6 +57,7 @@ import 'package:ox_coi/src/ui/dimensions.dart';
 import 'package:ox_coi/src/utils/key_generator.dart';
 import 'package:ox_coi/src/widgets/search.dart';
 import 'package:ox_coi/src/widgets/state_info.dart';
+import 'package:ox_coi/src/utils/keyMapping.dart';
 
 enum ChatListItemType {
   chat,
@@ -84,6 +85,7 @@ class ChatList extends RootChild {
   FloatingActionButton getFloatingActionButton(BuildContext context) {
     return FloatingActionButton(
       child: new Icon(Icons.chat),
+      key: Key(keyChat_listChatFloatingActionButton),
       onPressed: () {
         _showCreateChatView(context);
       },
@@ -197,12 +199,14 @@ class _ChatListState extends State<ChatList> {
     return IconButton(
       icon: Icon(Icons.search),
       onPressed: () => search.show(context),
+      key: Key(keyChat_list_SearchIconButton),
     );
   }
 
   Widget getFlaggedAction() {
     return IconButton(
         icon: Icon(Icons.star),
+        key: Key(keyChat_list_getFlaggedActionIconButton),
         onPressed: () => _navigation.push(
             context,
             MaterialPageRoute(

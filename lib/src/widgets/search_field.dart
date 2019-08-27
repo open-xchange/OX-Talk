@@ -42,6 +42,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:ox_coi/src/l10n/localizations.dart';
+import 'package:ox_coi/src/utils/keyMapping.dart';
 
 class Search extends StatelessWidget {
   final TextEditingController controller;
@@ -57,7 +58,7 @@ class Search extends StatelessWidget {
           labelText: AppLocalizations.of(context).contactsSearchHint,
           prefixIcon: Icon(Icons.search),
           suffixIcon: GestureDetector(
-            child: Icon(Icons.close),
+            child: Icon(Icons.close),key: Key(keySearchFieldCloseIcon),
             onTap: () => _exitSearch(context),
           ),
         ),

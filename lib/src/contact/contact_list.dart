@@ -60,6 +60,7 @@ import 'package:ox_coi/src/widgets/fullscreen_progress.dart';
 import 'package:ox_coi/src/widgets/search.dart';
 import 'package:ox_coi/src/widgets/state_info.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:ox_coi/src/utils/keyMapping.dart';
 
 class ContactList extends RootChild {
   final Navigation navigation = Navigation();
@@ -197,6 +198,7 @@ class _ContactListState extends State<ContactList> {
     );
     return IconButton(
       icon: Icon(Icons.search),
+      key: Key(keyChat_list_SearchIconButton),
       onPressed: () => search.show(context),
     );
   }

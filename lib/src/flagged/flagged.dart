@@ -87,12 +87,14 @@ class _FlaggedState extends State<Flagged> {
       children: <Widget>[
         Text(
           AppLocalizations.of(context).flaggedTitle,
+          key: Key(AppLocalizations.of(context).flaggedTitle),
           softWrap: true,
           overflow: TextOverflow.ellipsis,
           style: Theme.of(context).textTheme.title.apply(color: onPrimary),
         ),
         Text(
           AppLocalizations.of(context).flaggedSubTitle,
+          key: Key( AppLocalizations.of(context).flaggedSubTitle),
           style: Theme.of(context).textTheme.subtitle.apply(color: onPrimary),
           softWrap: true,
           overflow: TextOverflow.ellipsis,
