@@ -22,6 +22,14 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSContactsUsageDescription</key>
+	<string>This app requires contacts access to TODO</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>This app uses the microphone to record your speech to TODO.</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>audio</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -29,8 +37,6 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
@@ -41,14 +47,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>NSContactsUsageDescription</key>
-    <string>This app requires contacts access to TODO</string>
-    <key>NSMicrophoneUsageDescription</key>
-    <string>This app uses the microphone to record your speech to TODO.</string>
-    <key>UIBackgroundModes</key>
-    <array>
-    	<string>audio</string>
-    </array>
-
 </dict>
 </plist>

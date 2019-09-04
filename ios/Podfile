@@ -3,6 +3,7 @@
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
+ENV['SWIFT_VERSION'] = '5'
 
 project 'Runner', {
   'Debug' => :debug,
@@ -33,6 +34,9 @@ def parse_KV_file(file, separator='=')
 end
 
 target 'Runner' do
+  platform :ios, '11.0'
+  use_frameworks!
+  
   # Prepare symlinks folder. We use symlinks to avoid having Podfile.lock
   # referring to absolute paths on developers' machines.
   system('rm -rf .symlinks')
