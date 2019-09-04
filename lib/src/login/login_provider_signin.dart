@@ -59,6 +59,8 @@ import 'login_bloc.dart';
 import 'login_events_state.dart';
 import 'login_manual_settings.dart';
 
+import 'package:ox_coi/src/adaptiveWidgets/adaptiveRaisedButton.dart';
+
 class ProviderSignIn extends StatefulWidget {
   final Provider provider;
   final Function success;
@@ -172,7 +174,14 @@ class _ProviderSignInState extends State<ProviderSignIn> {
                   ),
                 )),
             Padding(padding: EdgeInsets.all(loginVerticalPadding24dp)),
-            RaisedButton(
+            AdaptiveRaisedButton(
+              text: L10n.get(L.loginSignIn).toUpperCase(),
+              func: _signIn,
+              buttonWidth: loginButtonWidth,
+              color: accent,
+              textColor: onAccent
+            ),
+            /*RaisedButton(
                 color: accent,
                 textColor: onAccent,
                 child: SizedBox(
@@ -182,7 +191,7 @@ class _ProviderSignInState extends State<ProviderSignIn> {
                     textAlign: TextAlign.center,
                   ),
                 ),
-                onPressed: _signIn),
+                onPressed: _signIn),*/
             Visibility(
               visible: widget.provider.id == other,
               child: FlatButton(

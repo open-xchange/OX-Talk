@@ -57,6 +57,8 @@ import 'login_bloc.dart';
 import 'login_events_state.dart';
 import 'login_provider_signin.dart';
 
+import 'package:ox_coi/src/adaptiveWidgets/adaptiveInkwell.dart';
+
 enum ProviderListType {
   login,
   register,
@@ -174,8 +176,8 @@ class _ProviderListState extends State<ProviderList> {
     }
     return SizedBox(
       height: loginListItemHeight,
-      child: InkWell(
-        onTap: () => _onItemTap(provider),
+      child: AdaptiveInkWell(
+        func: () => _onItemTap(provider),
         child: Column(
           children: <Widget>[
             Padding(

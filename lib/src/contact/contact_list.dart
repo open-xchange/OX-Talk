@@ -41,6 +41,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ox_coi/src/contact/contact_import_bloc.dart';
 import 'package:ox_coi/src/contact/contact_import_event_state.dart';
@@ -62,6 +63,9 @@ import 'package:ox_coi/src/widgets/fullscreen_progress.dart';
 import 'package:ox_coi/src/widgets/search.dart';
 import 'package:ox_coi/src/widgets/state_info.dart';
 import 'package:rxdart/rxdart.dart';
+
+import 'package:ox_coi/src/adaptiveWidgets/adaptiveIconButton.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptiveIcon.dart';
 
 class ContactList extends RootChild {
   final Navigation navigation = Navigation();
@@ -179,18 +183,24 @@ class _ContactListState extends State<ContactList> {
   }
 
   Widget getImportAction() {
-    return IconButton(
-      icon: Icon(Icons.import_contacts),
+    return AdaptiveIconButton(
+      icon: AdaptiveIcon(
+          androidIcon: Icons.import_contacts,
+          iosIcon: CupertinoIcons.person_add
+      ),
       key: Key(keyContactListImportContactIconButton),
-      onPressed: () => _showImportDialog(false, context),
+      func: () => _showImportDialog(false, context),
     );
   }
 
   Widget getBlockedUsersAction() {
-    return IconButton(
-      icon: Icon(Icons.block),
+    return AdaptiveIconButton(
+      icon: AdaptiveIcon(
+          androidIcon: Icons.block,
+          iosIcon: CupertinoIcons.padlock
+      ),
       key: Key(keyContactListBlockIconButton),
-      onPressed: () => _showBlockedUserList(context),
+      func: () => _showBlockedUserList(context),
     );
   }
 
@@ -200,10 +210,13 @@ class _ContactListState extends State<ContactList> {
       onBuildSuggestion: onBuildResultOrSuggestion,
       onClose: onSearchClose,
     );
-    return IconButton(
-      icon: Icon(Icons.search),
+    return AdaptiveIconButton(
+      icon: AdaptiveIcon(
+          androidIcon: Icons.search,
+          iosIcon: CupertinoIcons.search
+      ),
       key: Key(keyContactListSearchIconButton),
-      onPressed: () => search.show(context),
+      func: () => search.show(context),
     );
   }
 

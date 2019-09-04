@@ -40,6 +40,8 @@
  * for more details.
  */
 
+import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -87,24 +89,49 @@ class OxCoiApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        primaryColor: primary,
-        accentColor: accent,
-      ),
-      localizationsDelegates: [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
-      supportedLocales: L10n.supportedLocales,
-      localeResolutionCallback: (deviceLocale, supportedLocales) {
-        L10n.loadTranslation(deviceLocale);
-        L10n.setLanguage(deviceLocale);
-        return deviceLocale;
-      },
-      initialRoute: Navigation.root,
-      routes: navigation.routesMapping,
-    );
+    if (Platform.isIOS) {
+      print("ist ios");
+      return CupertinoApp(
+        theme: CupertinoThemeData(
+          primaryColor: primary,
+          primaryContrastingColor: Colors.white,
+          barBackgroundColor: primary,
+          textTheme: CupertinoTextThemeData(
+            primaryColor: Colors.white
+          )
+        ),
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        localeResolutionCallback: (deviceLocale, supportedLocales) {
+          L10n.loadTranslation(deviceLocale);
+          L10n.setLanguage(deviceLocale);
+          return deviceLocale;
+        },
+        initialRoute: Navigation.root,
+        routes: navigation.routesMapping,
+      );
+    } else {
+      print("is Android");
+      return MaterialApp(
+        theme: ThemeData(
+          primaryColor: primary,
+          accentColor: accent,
+        ),
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        supportedLocales: L10n.supportedLocales,localeResolutionCallback: (deviceLocale, supportedLocales) {
+          L10n.loadTranslation(deviceLocale);
+          L10n.setLanguage(deviceLocale);
+          return deviceLocale;
+        },
+        initialRoute: Navigation.root,
+        routes: navigation.routesMapping,
+      );
+    }
   }
 }
 

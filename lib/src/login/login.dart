@@ -57,6 +57,8 @@ import 'package:rxdart/rxdart.dart';
 
 import 'login_provider_list.dart';
 
+import 'package:ox_coi/src/adaptiveWidgets/adaptiveRaisedButton.dart';
+
 class Login extends StatefulWidget {
   final Function success;
 
@@ -205,6 +207,10 @@ class _LoginState extends State<Login> {
             )),
       );
     });
+  }
+
+  void _goToProviderListForLoginType() {
+    _goToProviderList(ProviderListType.login);
   }
 
   void _goToProviderList(ProviderListType type) {

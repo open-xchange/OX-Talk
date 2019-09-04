@@ -62,6 +62,8 @@ import 'chat_bloc.dart';
 import 'chat_event_state.dart';
 import 'edit_name.dart';
 
+import 'package:ox_coi/src/adaptiveWidgets/adaptiveInkwell.dart';
+
 class ChatProfileGroup extends StatefulWidget {
   final int chatId;
   final Color chatColor;
@@ -152,8 +154,8 @@ class _ChatProfileGroupState extends State<ChatProfileGroup> {
                     child: ProfileMemberHeaderText(),
                   )),
               Divider(),
-              InkWell(
-                onTap: () => _navigation.push(
+              AdaptiveInkWell(
+                func: () => _navigation.push(
                     context, MaterialPageRoute(builder: (context) => ChatAddGroupParticipants(chatId: widget.chatId, contactIds: state.contactIds))),
                 child: Container(
                   padding: const EdgeInsets.only(left: 16.0, bottom: 12.0),

@@ -61,6 +61,10 @@ import 'package:ox_coi/src/utils/toast.dart';
 import 'package:ox_coi/src/widgets/fullscreen_progress.dart';
 import 'package:rxdart/rxdart.dart';
 
+import 'package:ox_coi/src/adaptiveWidgets/adaptiveIconButton.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptiveIcon.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptiveAppBar.dart';
+
 class UserAccountSettings extends StatefulWidget {
   @override
   _UserAccountSettingsState createState() => _UserAccountSettingsState();
@@ -157,13 +161,16 @@ class _UserAccountSettingsState extends State<UserAccountSettings> {
           }
         },
         child: Scaffold(
-          appBar: AppBar(
-            leading: new IconButton(
-              icon: new Icon(Icons.close),
-              onPressed: () => navigation.pop(context),
+          appBar: AdaptiveAppBar(
+            leadingIcon: new AdaptiveIconButton(
+              icon: new AdaptiveIcon(
+                  androidIcon: Icons.close,
+                  iosIcon: CupertinoIcons.back
+              ),
+              func: () => navigation.pop(context),
             ),
-            title: Text(L10n.get(L.settingAccount)),
-            actions: <Widget>[
+            title: Text(L10n.get(L.settingAccount), style: TextStyle(color: Colors.white)),
+            icons: <Widget>[
               SaveDataButton(),
             ],
           ),
@@ -182,9 +189,12 @@ class _UserAccountSettingsState extends State<UserAccountSettings> {
 class SaveDataButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      icon: Icon(Icons.check),
-      onPressed: () {
+    return AdaptiveIconButton(
+      icon: AdaptiveIcon(
+          androidIcon: Icons.check,
+          iosIcon: CupertinoIcons.check_mark
+      ),
+      func: () {
         _saveData(context);
       },
     );

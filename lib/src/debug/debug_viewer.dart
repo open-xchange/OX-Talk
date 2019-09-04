@@ -41,6 +41,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ox_coi/src/debug/debug_viewer_bloc.dart';
 import 'package:ox_coi/src/debug/debug_viewer_event_state.dart';
@@ -51,6 +52,10 @@ import 'package:ox_coi/src/navigation/navigation.dart';
 import 'package:ox_coi/src/utils/clipboard.dart';
 import 'package:ox_coi/src/utils/text.dart';
 import 'package:ox_coi/src/widgets/state_info.dart';
+
+import 'package:ox_coi/src/adaptiveWidgets/adaptiveAppBar.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptiveIconButton.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptiveIcon.dart';
 
 class DebugViewer extends StatefulWidget {
   final String input;
@@ -63,11 +68,11 @@ class DebugViewer extends StatefulWidget {
 
 class _DebugViewerState extends State<DebugViewer> {
   DebugViewerBloc _debugViewerBloc = DebugViewerBloc();
+  Navigation navigation = Navigation();
 
   @override
   void initState() {
     super.initState();
-    Navigation navigation = Navigation();
     navigation.current = Navigatable(Type.debugViewer);
     if (isNullOrEmpty(widget.input)) {
       _debugViewerBloc.dispatch(RequestLog());
@@ -85,12 +90,22 @@ class _DebugViewerState extends State<DebugViewer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(L10n.get(L.debug)),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.content_copy),
-              onPressed: () => _onCopy(),
+        appBar: AdaptiveAppBar(
+          leadingIcon: new AdaptiveIconButton(
+            icon: new AdaptiveIcon(
+                androidIcon: Icons.close,
+                iosIcon: CupertinoIcons.back
+            ),
+            func: () => navigation.pop(context),
+          ),
+          title: Text(L10n.get(L.debug), style: TextStyle(color: Colors.white)),
+          icons: <Widget>[
+            AdaptiveIconButton(
+              icon: AdaptiveIcon(
+                  androidIcon: Icons.content_copy,
+                  iosIcon: CupertinoIcons.collections
+              ),
+              func: () => _onCopy(),
             )
           ],
         ),

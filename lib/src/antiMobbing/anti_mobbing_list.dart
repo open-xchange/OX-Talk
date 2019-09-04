@@ -42,6 +42,7 @@
 
 import 'package:delta_chat_core/delta_chat_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ox_coi/src/chatlist/invite_item.dart';
 import 'package:ox_coi/src/l10n/l.dart';
@@ -54,6 +55,10 @@ import 'package:ox_coi/src/widgets/state_info.dart';
 import 'anti_mobbing_list_bloc.dart';
 import 'anti_mobbing_list_event_state.dart';
 
+import 'package:ox_coi/src/adaptiveWidgets/adaptiveAppBar.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptiveIconButton.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptiveIcon.dart';
+
 class AntiMobbingList extends StatefulWidget {
   @override
   _AntiMobbingListState createState() => _AntiMobbingListState();
@@ -61,11 +66,11 @@ class AntiMobbingList extends StatefulWidget {
 
 class _AntiMobbingListState extends State<AntiMobbingList> {
   AntiMobbingListBloc _antiMobbingListBloc = AntiMobbingListBloc();
+  Navigation navigation = Navigation();
 
   @override
   void initState() {
     super.initState();
-    var navigation = Navigation();
     navigation.current = Navigatable(Type.antiMobbingList);
     _antiMobbingListBloc.dispatch(RequestMessages());
   }
@@ -79,8 +84,16 @@ class _AntiMobbingListState extends State<AntiMobbingList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(L10n.get(L.invites)),
+      appBar: AdaptiveAppBar(
+          leadingIcon: new AdaptiveIconButton(
+            icon: new AdaptiveIcon(
+                androidIcon: Icons.close,
+                iosIcon: CupertinoIcons.back
+            ),
+            func: () => navigation.pop(context),
+          ),
+          title: Text(L10n.get(L.invites), style: TextStyle(color: Colors.white)),
+          icons: <Widget>[],
       ),
       body: BlocBuilder(
         bloc: _antiMobbingListBloc,

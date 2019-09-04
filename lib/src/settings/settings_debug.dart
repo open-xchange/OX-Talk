@@ -41,6 +41,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logging/logging.dart';
 import 'package:ox_coi/src/l10n/l.dart';
@@ -58,6 +59,10 @@ import 'package:ox_coi/src/utils/toast.dart';
 import 'package:ox_coi/src/widgets/state_info.dart';
 import 'package:rxdart/rxdart.dart';
 
+import 'package:ox_coi/src/adaptiveWidgets/adaptiveAppBar.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptiveIconButton.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptiveIcon.dart';
+
 class SettingsDebug extends StatefulWidget {
   @override
   _SettingsDebugState createState() => _SettingsDebugState();
@@ -67,11 +72,11 @@ class _SettingsDebugState extends State<SettingsDebug> {
   SettingsDebugBloc _settingsDebugBloc = SettingsDebugBloc();
   Logger _logger;
   PushBloc _pushBloc;
+  Navigation navigation = Navigation();
 
   @override
   void initState() {
     super.initState();
-    Navigation navigation = Navigation();
     var type = Type.settingsDebug;
     navigation.current = Navigatable(type);
     _logger = Logger(Navigatable.getTag(type));
@@ -94,8 +99,16 @@ class _SettingsDebugState extends State<SettingsDebug> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(L10n.get(L.debug)),
+      appBar: AdaptiveAppBar(
+        leadingIcon: new AdaptiveIconButton(
+          icon: new AdaptiveIcon(
+              androidIcon: Icons.close,
+              iosIcon: CupertinoIcons.back
+          ),
+          func: () => navigation.pop(context),
+        ),
+        title: Text(L10n.get(L.debug), style: TextStyle(color: Colors.white)),
+        icons: <Widget> [],
       ),
       body: BlocBuilder(
         bloc: _settingsDebugBloc,
