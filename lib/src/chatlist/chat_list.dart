@@ -204,7 +204,8 @@ class _ChatListState extends State<ChatList> {
       itemCount: chatListItemWrapper.ids.length,
       itemBuilder: (BuildContext context, int index) {
         var id = chatListItemWrapper.ids[index];
-        var key = createKeyString(id, chatListItemWrapper.lastUpdateValues[index]);
+        var key =
+            createKeyString(id, chatListItemWrapper.lastUpdateValues[index]);
         if (chatListItemWrapper.types[index] == ChatListItemType.chat) {
           return ChatListItem(
             chatId: id,
@@ -253,7 +254,8 @@ class _ChatListState extends State<ChatList> {
   }
 
   Widget onBuildResultOrSuggestion(String query) {
-    _chatListSearchBloc.dispatch(SearchChatList(query: query, showInvites: false));
+    _chatListSearchBloc
+        .dispatch(SearchChatList(query: query, showInvites: false));
     return buildSearchResults();
   }
 

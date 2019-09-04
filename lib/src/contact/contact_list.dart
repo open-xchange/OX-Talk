@@ -72,7 +72,11 @@ class ContactList extends RootChild {
   @override
   _ContactListState createState() {
     final state = _ContactListState();
-    setActions([state.getImportAction(), state.getBlockedUsersAction(), state.getSearchAction()]);
+    setActions([
+      state.getImportAction(),
+      state.getBlockedUsersAction(),
+      state.getSearchAction()
+    ]);
     return state;
   }
 
@@ -126,14 +130,16 @@ class _ContactListState extends State<ContactList> {
     setupContactImport();
   }
 
-  void requestValidContacts() => _contactListBloc.dispatch(RequestContacts(typeOrChatId: validContacts));
+  void requestValidContacts() =>
+      _contactListBloc.dispatch(RequestContacts(typeOrChatId: validContacts));
 
   setupContactImport() async {
     if (await _contactImportBloc.isInitialContactsOpening()) {
       _contactImportBloc.dispatch(MarkContactsAsInitiallyLoaded());
       _showImportDialog(true, context);
     }
-    final contactImportObservable = new Observable<ContactImportState>(_contactImportBloc.state);
+    final contactImportObservable =
+        new Observable<ContactImportState>(_contactImportBloc.state);
     contactImportObservable.listen((state) => handleContactImport(state));
   }
 
@@ -144,7 +150,9 @@ class _ContactListState extends State<ContactList> {
     }
     if (state is ContactsImportSuccess) {
       requestValidContacts();
-      String contactImportSuccess = L10n.getFormatted(L.contactImportedXP, [state.changedCount], count: state.changedCount);
+      String contactImportSuccess = L10n.getFormatted(
+          L.contactImportedXP, [state.changedCount],
+          count: state.changedCount);
       showToast(contactImportSuccess);
     } else if (state is ContactsImportFailure) {
       String contactImportFailure = L10n.get(L.contactImportFailed);
@@ -169,7 +177,8 @@ class _ContactListState extends State<ContactList> {
       bloc: _contactListBloc,
       builder: (context, state) {
         if (state is ContactListStateSuccess) {
-          return buildListViewItems(state.contactIds, state.contactLastUpdateValues);
+          return buildListViewItems(
+              state.contactIds, state.contactLastUpdateValues);
         } else if (state is! ContactListStateFailure) {
           return StateInfo(showLoading: true);
         } else {
@@ -226,7 +235,8 @@ class _ContactListState extends State<ContactList> {
     var importText = L10n.get(L.contactSystemImportText);
     var importTextInitial = L10n.get(L.contactInitialImportText);
     var importTextRepeat = L10n.get(L.contactReImportText);
-    var content = "$importText ${initialImport ? importTextInitial : importTextRepeat}";
+    var content =
+        "$importText ${initialImport ? importTextInitial : importTextRepeat}";
     var importPositive = L10n.get(L.import);
     showConfirmationDialog(
       context: context,
@@ -249,14 +259,18 @@ class _ContactListState extends State<ContactList> {
     );
   }
 
-  Widget buildListViewItems(List<int> contactIds, List<int> contactLastUpdateValues) {
+  Widget buildListViewItems(
+      List<int> contactIds, List<int> contactLastUpdateValues) {
     return ListView.builder(
         padding: EdgeInsets.only(top: listItemPadding),
         itemCount: contactIds.length,
         itemBuilder: (BuildContext context, int index) {
           var contactId = contactIds[index];
           var key = "$contactId-${contactLastUpdateValues[index]}";
-          return ContactItem(contactId: contactId, contactItemType: ContactItemType.edit, key: key);
+          return ContactItem(
+              contactId: contactId,
+              contactItemType: ContactItemType.edit,
+              key: key);
         });
   }
 }

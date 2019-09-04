@@ -58,6 +58,7 @@ void main() {
     final realPassword = 'secret';
     final singIn = 'SIGN IN';
     final coiDebug = 'Coi debug';
+
     final meContact = "Me";
     final profile = "Profile";
     final chat = "Chats";
@@ -67,24 +68,25 @@ void main() {
 //  SerializableFinder.
     final finderCoiDebugProvider = find.text(coiDebug);
     final finderProviderEmail =
-        find.byValueKey(keyProviderSignInEmailTextField);
+    find.byValueKey(keyProviderSignInEmailTextField);
     final finderProviderPassword =
-        find.byValueKey(keyProviderSignInPasswordTextField);
+    find.byValueKey(keyProviderSignInPasswordTextField);
     final finderSIGNIN = find.text(singIn);
+
     final cancelFinder = find.byValueKey(keyDialogBuilderCancelFlatButton);
     final personAddFinder =
-        find.byValueKey(keyContactListPersonAddFloatingActionButton);
+    find.byValueKey(keyContactListPersonAddFloatingActionButton);
     final finderCreateChat =
-        find.byValueKey(keyChatListChatFloatingActionButton);
+    find.byValueKey(keyChatListChatFloatingActionButton);
     final profileFinder = find.text(profile);
     final contactsFinder = find.text(contacts);
     final chatsFinder = find.text(chat);
     final finderUserProfileEditRaisedButton =
-        find.byValueKey(keyUserProfileEditProfileRaisedButton);
+    find.byValueKey(keyUserProfileEditProfileRaisedButton);
     final finderUserSettingsCheckIconButton =
-        find.byValueKey(keyUserSettingsCheckIconButton);
+    find.byValueKey(keyUserSettingsCheckIconButton);
     final userSettingsUserSettingsUsernameLabel =
-        find.byValueKey(keyUserSettingsUserSettingsUsernameLabel);
+    find.byValueKey(keyUserSettingsUserSettingsUsernameLabel);
 
     // Connect to a running Flutter application instance.
     setUpAll(() async {
@@ -184,8 +186,8 @@ void main() {
   });
 }
 
-Future checkProfile(
-    FlutterDriver driver,
+
+Future checkProfile(FlutterDriver driver,
     SerializableFinder profileFinder,
     SerializableFinder finderUserProfileEditRaisedButton,
     SerializableFinder userSettingsUserSettingsUsernameLabel,
@@ -205,8 +207,8 @@ Future checkProfile(
   await driver.waitForAbsent(cancelFinder);
 }
 
-Future getAuthentication(
-    FlutterDriver driver,
+
+Future getAuthentication(FlutterDriver driver,
     SerializableFinder email,
     String fakeEmail,
     SerializableFinder password,
@@ -219,6 +221,7 @@ Future getAuthentication(
   await driver.enterText(realPassword);
   Invoker.current.heartbeat();
   await driver.tap(signIn);
+
   Invoker.current.heartbeat();
 }
 
@@ -230,11 +233,9 @@ Future catchScreenshot(FlutterDriver driver, String path) async {
   print(path);
 }
 
-Future checkChat(
-  FlutterDriver driver,
-  SerializableFinder finderCreateChat,
-  SerializableFinder searchReturnIconButton,
-) async {
+Future checkChat(FlutterDriver driver,
+    SerializableFinder finderCreateChat,
+    SerializableFinder searchReturnIconButton,) async {
   final chatCreate = L.getKey(L.chatCreate);
 
   //  Check flaggedButton.
@@ -253,14 +254,12 @@ Future checkChat(
   await driver.tap(searchReturnIconButton);
 }
 
-Future checkContact(
-  FlutterDriver driver,
-  SerializableFinder searchReturnIconButton,
-  SerializableFinder personAddFinder,
-  String newTestName,
-  SerializableFinder contactsFinder,
-  SerializableFinder cancelFinder,
-) async {
+Future checkContact(FlutterDriver driver,
+    SerializableFinder searchReturnIconButton,
+    SerializableFinder personAddFinder,
+    String newTestName,
+    SerializableFinder contactsFinder,
+    SerializableFinder cancelFinder,) async {
   await driver.tap(contactsFinder);
   await driver.waitForAbsent(cancelFinder);
   Invoker.current.heartbeat();

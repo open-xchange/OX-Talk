@@ -72,7 +72,12 @@ class ContactChange extends StatefulWidget {
   final String email;
   final bool createChat;
 
-  ContactChange({@required this.contactAction, this.id, this.name, this.email, this.createChat = false});
+  ContactChange(
+      {@required this.contactAction,
+      this.id,
+      this.name,
+      this.email,
+      this.createChat = false});
 
   @override
   _ContactChangeState createState() => _ContactChangeState();
@@ -111,7 +116,8 @@ class _ContactChangeState extends State<ContactChange> {
     } else {
       _nameField.controller.text = widget.name != null ? widget.name : "";
     }
-    final contactAddedObservable = new Observable<ContactChangeState>(_contactChangeBloc.state);
+    final contactAddedObservable =
+        new Observable<ContactChangeState>(_contactChangeBloc.state);
     contactAddedObservable.listen((state) => handleContactChanged(state));
     chatRepository = RepositoryManager.get(RepositoryType.chat);
   }
@@ -140,7 +146,8 @@ class _ContactChangeState extends State<ContactChange> {
   @override
   Widget build(BuildContext context) {
     if (widget.contactAction == ContactAction.add) {
-      title = widget.createChat ? L10n.get(L.chatCreate) : L10n.get(L.contactAdd);
+      title =
+          widget.createChat ? L10n.get(L.chatCreate) : L10n.get(L.contactAdd);
       changeToast = L10n.get(L.contactAddedSuccess);
     } else {
       title = L10n.get(L.contactEdit);
@@ -190,12 +197,15 @@ class _ContactChangeState extends State<ContactChange> {
                   children: <Widget>[
                     widget.contactAction != ContactAction.add
                         ? Padding(
-                            padding: const EdgeInsets.only(top: formVerticalPadding, bottom: formVerticalPadding),
+                            padding: const EdgeInsets.only(
+                                top: formVerticalPadding,
+                                bottom: formVerticalPadding),
                             child: Row(
                               children: <Widget>[
                                 Icon(Icons.mail),
                                 Padding(
-                                  padding: EdgeInsets.only(right: iconFormPadding),
+                                  padding:
+                                      EdgeInsets.only(right: iconFormPadding),
                                 ),
                                 Text(
                                   widget.email,
@@ -227,7 +237,8 @@ class _ContactChangeState extends State<ContactChange> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(bottom: formVerticalPadding),
+                      padding:
+                          const EdgeInsets.only(bottom: formVerticalPadding),
                     ),
                     Visibility(
                       visible: widget.contactAction == ContactAction.add,
@@ -250,7 +261,9 @@ class _ContactChangeState extends State<ContactChange> {
 
   String _getName() => _nameField.controller.text;
 
-  String _getEmail() => widget.contactAction == ContactAction.add ? _emailField.controller.text : widget.email;
+  String _getEmail() => widget.contactAction == ContactAction.add
+      ? _emailField.controller.text
+      : widget.email;
 
   scanQr() {
     navigation.push(
