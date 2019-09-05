@@ -53,12 +53,10 @@ void main() {
 // Define the driver.
     FlutterDriver driver;
     final timeout = Duration(seconds: 120);
-
     final realEmail = 'enyakam3@ox.com';
     final realPassword = 'secret';
     final singIn = 'SIGN IN';
     final coiDebug = 'Coi debug';
-
     final meContact = "Me";
     final profile = "Profile";
     final chat = "Chats";
@@ -72,7 +70,6 @@ void main() {
     final finderProviderPassword =
     find.byValueKey(keyProviderSignInPasswordTextField);
     final finderSIGNIN = find.text(singIn);
-
     final cancelFinder = find.byValueKey(keyDialogBuilderCancelFlatButton);
     final personAddFinder =
     find.byValueKey(keyContactListPersonAddFloatingActionButton);
@@ -185,7 +182,6 @@ void main() {
     });
   });
 }
-
 
 Future checkProfile(FlutterDriver driver,
     SerializableFinder profileFinder,
