@@ -78,6 +78,7 @@ import 'package:ox_coi/src/widgets/state_info.dart';
 import 'package:path/path.dart' as Path;
 import 'package:rxdart/rxdart.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:ox_coi/src/utils/keyMapping.dart';
 
 import 'chat_create_mixin.dart';
 
@@ -227,6 +228,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.phone),
+              key: Key(keyChatIconButtonIconPhone),
               onPressed: onPhonePressed,
               color: onPrimary,
             ),
@@ -387,6 +389,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
                       softWrap: true,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.title.apply(color: onPrimary),
+                      key: Key(keyChatNameText),
                     ),
                     Row(
                       children: <Widget>[

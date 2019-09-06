@@ -51,6 +51,7 @@ import 'package:ox_coi/src/data/contact_repository.dart';
 import 'package:ox_coi/src/navigation/navigatable.dart';
 import 'package:ox_coi/src/navigation/navigation.dart';
 
+
 import 'chat_change_bloc.dart';
 import 'chat_change_event_state.dart';
 import 'chat_create_mixin.dart';
@@ -122,6 +123,7 @@ class _ChatProfileGroupContactItemState extends State<ChatProfileGroupContactIte
 
   getMoreButton() {
     return PopupMenuButton<GroupPopupMenu>(
+      key: Key("keyMoreButton_${widget.contactId}"),
       elevation: 3.2,
       onSelected: _select,
       itemBuilder: (BuildContext context) {
@@ -129,6 +131,7 @@ class _ChatProfileGroupContactItemState extends State<ChatProfileGroupContactIte
           return PopupMenuItem<GroupPopupMenu>(
             value: choice,
             child: Text(choice.title),
+            //key: Key(keyChatProfileGroupContactItemTitelPopupMenuItem),
           );
         }).toList();
       },
