@@ -59,6 +59,9 @@ class L10n {
   static List<String> get loadedLocales => _loadedLocales;
 
   static void loadTranslation(Locale locale) {
+    if (locale == null) {
+      return;
+    }
     String localeString = _getLocaleString(locale);
     if (loadedLocales.contains(localeString)) {
       return;
@@ -70,6 +73,9 @@ class L10n {
   }
 
   static String _getLocaleString(Locale locale) {
+    if (locale == null) {
+      return "en_US";
+    }
     return "${locale.languageCode}_${locale.countryCode}";
   }
 
