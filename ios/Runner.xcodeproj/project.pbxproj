@@ -21,7 +21,6 @@
 		FD2E2E22231FFEBB00ADF5C5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2E2E21231FFEBB00ADF5C5 /* AppDelegate.swift */; };
 		FD51737323266F05007458CC /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = FD51737223266F04007458CC /* .swiftlint.yml */; };
 		FD51737623267295007458CC /* UIApplication+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD51737523267295007458CC /* UIApplication+Extensions.swift */; };
-		FD51737A23267313007458CC /* Bundle+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD51737923267313007458CC /* Bundle+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -62,7 +61,6 @@
 		FD2E2E23231FFF3C00ADF5C5 /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Runner-Bridging-Header.h"; sourceTree = "<group>"; };
 		FD51737223266F04007458CC /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
 		FD51737523267295007458CC /* UIApplication+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extensions.swift"; sourceTree = "<group>"; };
-		FD51737923267313007458CC /* Bundle+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -175,7 +173,6 @@
 		FD3A797E2320058900C46411 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				FD517378232672E3007458CC /* Foundation */,
 				FD517377232672C9007458CC /* UIKit */,
 			);
 			path = Extensions;
@@ -187,14 +184,6 @@
 				FD51737523267295007458CC /* UIApplication+Extensions.swift */,
 			);
 			path = UIKit;
-			sourceTree = "<group>";
-		};
-		FD517378232672E3007458CC /* Foundation */ = {
-			isa = PBXGroup;
-			children = (
-				FD51737923267313007458CC /* Bundle+Extensions.swift */,
-			);
-			path = Foundation;
 			sourceTree = "<group>";
 		};
 		FD51B1B423200F4D006F665B /* Helper */ = {
@@ -379,7 +368,6 @@
 				FD2E2E22231FFEBB00ADF5C5 /* AppDelegate.swift in Sources */,
 				1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
 				FD51737623267295007458CC /* UIApplication+Extensions.swift in Sources */,
-				FD51737A23267313007458CC /* Bundle+Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

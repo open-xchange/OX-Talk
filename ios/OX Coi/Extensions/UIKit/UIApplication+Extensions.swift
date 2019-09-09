@@ -47,16 +47,6 @@ let log = SwiftyBeaver.self
 
 extension UIApplication {
 
-    // MARK: - UIApplication
-
-    public static var name: String {
-        return Bundle.displayName
-    }
-
-    public static var version: String {
-        return Bundle.versionBuildString
-    }
-
     // MARK: - Logging
 
     class func setupLogging() {
