@@ -55,6 +55,7 @@ opt_in_rules:
   - strict_fileprivate
   - switch_case_on_newline
   - trailing_closure
+  - trailing_comma
   - unneeded_parentheses_in_closure_argument
   - vertical_parameter_alignment_on_call
 private_outlet:
