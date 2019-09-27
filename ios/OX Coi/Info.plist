@@ -33,6 +33,8 @@
 	<string>This app uses the microphone to record your speech to TODO.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Access to the Photo Gallery is required in order to add attachments.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Access to your Camera is required in order to take photos.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
