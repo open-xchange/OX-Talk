@@ -81,6 +81,8 @@ import 'package:url_launcher/url_launcher.dart';
 
 import 'chat_create_mixin.dart';
 
+import 'package:ox_coi/src/adaptiveWidgets/adaptiveAppBar.dart';
+
 class Chat extends StatefulWidget {
   final int chatId;
   final int messageId;
@@ -222,7 +224,12 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-        appBar: new AppBar(
+        appBar: AdaptiveAppBar(
+            func: onPhonePressed,
+            color: onPrimary,
+            title: buildTitle()
+        ),
+        /*new AppBar(
           title: buildTitle(),
           actions: <Widget>[
             IconButton(
@@ -231,7 +238,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
               color: onPrimary,
             ),
           ],
-        ),
+        ),*/
         body: new Column(children: <Widget>[
           new Flexible(child: buildListView()),
           if (isInviteChat(widget.chatId)) buildInviteChoice(),

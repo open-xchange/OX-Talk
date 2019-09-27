@@ -56,6 +56,8 @@ import 'package:rxdart/rxdart.dart';
 
 import 'login_provider_list.dart';
 
+import 'package:ox_coi/src/adaptiveWidgets/adaptiveRaisedButton.dart';
+
 class Login extends StatefulWidget {
   final Function success;
 
@@ -129,19 +131,13 @@ class _LoginState extends State<Login> {
               textAlign: TextAlign.center,
             ),
           ),
-          RaisedButton(
+          AdaptiveRaisedButton(
+              text: L10n.get(L.loginSignIn),
+              func: _goToProviderListForLoginType,
+              buttonWidth: loginButtonWidth,
               color: accent,
-              textColor: onAccent,
-              child: SizedBox(
-                width: loginButtonWidth,
-                child: Text(
-                  L10n.get(L.loginSignIn).toUpperCase(),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              onPressed: () {
-                _goToProviderList(ProviderListType.login);
-              }),
+              textColor: onAccent
+          ),
           Padding(
             padding: EdgeInsets.all(loginVerticalPadding8dp),
             child: FlatButton(
@@ -164,6 +160,10 @@ class _LoginState extends State<Login> {
         ],
       ),
     );
+  }
+
+  void _goToProviderListForLoginType() {
+    _goToProviderList(ProviderListType.login);
   }
 
   void _goToProviderList(ProviderListType type) {

@@ -57,6 +57,7 @@ import 'package:ox_coi/src/user/user_settings.dart';
 import 'package:ox_coi/src/utils/keyMapping.dart';
 import 'package:ox_coi/src/widgets/placeholder_text.dart';
 import 'package:ox_coi/src/widgets/profile_header.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptiveRaisedButton.dart';
 
 class UserProfile extends RootChild {
   UserProfile({State<StatefulWidget> state}) : super(state: state);
@@ -161,21 +162,37 @@ class _ProfileState extends State<UserProfile> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                RaisedButton(
+                AdaptiveRaisedButton(
+                    text: L10n.get(L.profileEdit),
+                    func: editUserSettings,
+                    //buttonWidth: loginButtonWidth,
+                    color: accent,
+                    textColor: onAccent,
+                    key: Key(keyUserProfileEditProfileRaisedButton),
+                ),
+                /*RaisedButton(
                   color: accent,
                   textColor: onAccent,
                   child: Text(L10n.get(L.profileEdit)),
                   onPressed: editUserSettings,
                   key: Key(keyUserProfileEditProfileRaisedButton),
-                ),
+                ),*/
                 Padding(padding: EdgeInsets.all(chatProfileButtonPadding)),
-                RaisedButton(
+                AdaptiveRaisedButton(
+                  text: L10n.get(L.qrProfile),
+                  func: showQr,
+                  //buttonWidth: 50.0,
+                  color: accent,
+                  textColor: onAccent,
+                  key: Key(keyUserProfileShowQrRaisedButton),
+                ),
+                /*RaisedButton(
                   color: accent,
                   textColor: onAccent,
                   child: Text(L10n.get(L.qrProfile)),
                   onPressed: showQr,
                   key: Key(keyUserProfileShowQrRaisedButton),
-                ),
+                ),*/
               ],
             )
           ],

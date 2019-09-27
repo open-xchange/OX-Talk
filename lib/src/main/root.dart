@@ -47,6 +47,8 @@ import 'package:ox_coi/src/main/root_child.dart';
 import 'package:ox_coi/src/user/user_profile.dart';
 import 'package:ox_coi/src/widgets/view_switcher.dart';
 
+import 'package:ox_coi/src/adaptiveWidgets/adaptiveAppBar.dart';
+
 class Root extends StatefulWidget {
   @override
   _RootState createState() => _RootState();
@@ -65,12 +67,17 @@ class _RootState extends State<Root> {
     RootChild child = childList[_selectedIndex];
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: AdaptiveAppBar(
+          color: child.getColor(),
+          title: Text(child.getTitle(context)),
+          icons: child.getActions(context),
+      ),
+    /*AppBar(
         backgroundColor: child.getColor(),
         title: Text(child.getTitle(context)),
         actions: child.getActions(context),
         elevation: child.getElevation(),
-      ),
+      ),*/
       body: WillPopScope(
         child: ViewSwitcher(child),
         onWillPop: _onWillPop,
