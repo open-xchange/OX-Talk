@@ -46,7 +46,6 @@ import 'package:bloc/bloc.dart';
 import 'package:ox_coi/src/platform/preferences.dart';
 import 'package:ox_coi/src/push/push_manager.dart';
 import 'package:ox_coi/src/settings/settings_debug_event_state.dart';
-import 'package:ox_coi/src/utils/text.dart';
 
 class SettingsDebugBloc extends Bloc<SettingsDebugEvent, SettingsDebugState> {
   @override
@@ -64,10 +63,9 @@ class SettingsDebugBloc extends Bloc<SettingsDebugEvent, SettingsDebugState> {
       yield SettingsDebugStateSuccess(
         token: event.token,
         pushResource: event.pushResource,
-        publicKey: event.publicKey,
-        publicKeyBase64: event.publicKeyBase64,
-        privateKey: event.privateKey,
-        auth: event.auth,
+        endpoint: event.endpoint,
+        pushServiceUrl: event.pushServiceUrl,
+        pushState: event.pushState,
       );
     }
   }
@@ -76,17 +74,15 @@ class SettingsDebugBloc extends Bloc<SettingsDebugEvent, SettingsDebugState> {
     var pushManager = PushManager();
     String token = await pushManager.getPushToken();
     String pushResource = await pushManager.getPushResource();
-    String publicKey = await getPreference(preferenceNotificationsP256dhPublic);
-    String publicKeyBase64 = encodeBase64(publicKey);
-    String privateKey = await getPreference(preferenceNotificationsP256dhPrivate);
-    String auth = await getPreference(preferenceNotificationsAuth);
+    String endpoint = await getPreference(preferenceNotificationsEndpoint);
+    String pushServiceUrl = await getPreference(preferenceNotificationsPushServiceUrl);
+    String pushState = await getPreference(preferenceNotificationsPushStatus);
     dispatch(DebugLoaded(
       token: token,
       pushResource: pushResource ?? "Not set",
-      publicKey: publicKey,
-      publicKeyBase64: publicKeyBase64,
-      privateKey: privateKey,
-      auth: auth,
+      endpoint: endpoint,
+      pushServiceUrl: pushServiceUrl,
+      pushState: pushState,
     ));
   }
 }

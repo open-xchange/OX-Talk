@@ -91,12 +91,54 @@
       "id": "coi",
       "name": "Coi debug",
       "preset": {
-        "incoming_security": "",
+        "incoming_security": "starttls",
         "incoming_server": "mobile-coi.open-xchange.com",
+        "incoming_protocol": "",
+        "incoming_port": 143,
+        "outgoing_security": "starttls",
+        "outgoing_server": "mobile-coi.open-xchange.com",
+        "outgoing_port": 25
+      }
+    },
+    {
+      "id": "coi-integration",
+      "name": "Integration Tests",
+      "push_service_url": "https://devcoi-cps1.dev.coi.me/push/resource/",
+      "preset": {
+        "incoming_security": "starttls",
+        "incoming_server": "devcoi-proxy1.dev.coi.me",
+        "incoming_protocol": "",
+        "incoming_port": 143,
+        "outgoing_security": "starttls",
+        "outgoing_server": "devcoi-mta1.dev.coi.me",
+        "outgoing_port": 587
+      }
+    },
+    {
+      "id": "coi-beta",
+      "name": "Beta",
+      "push_service_url": "https://betacoi-cps1.beta.coi.me/push/resource/",
+      "preset": {
+        "incoming_security": "starttls",
+        "incoming_server": "imap.beta.coi.me",
+        "incoming_protocol": "",
+        "incoming_port": 143,
+        "outgoing_security": "starttls",
+        "outgoing_server": "smtp.beta.coi.me",
+        "outgoing_port": 587
+      }
+    },
+    {
+      "id": "coi-dovecot",
+      "name": "Dovecot Testing",
+      "push_service_url": "https://10.50.0.26:443/push/resource/",
+      "preset": {
+        "incoming_security": "",
+        "incoming_server": "",
         "incoming_protocol": "",
         "incoming_port": 0,
         "outgoing_security": "",
-        "outgoing_server": "mobile-coi.open-xchange.com",
+        "outgoing_server": "",
         "outgoing_port": 0
       }
     }

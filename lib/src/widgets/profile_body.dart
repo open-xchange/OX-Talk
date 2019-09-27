@@ -45,6 +45,7 @@ import 'package:ox_coi/src/l10n/l.dart';
 import 'package:ox_coi/src/l10n/l10n.dart';
 import 'package:ox_coi/src/navigation/navigatable.dart';
 import 'package:ox_coi/src/utils/dialog_builder.dart';
+import 'package:ox_coi/src/utils/text.dart';
 
 class ProfileActionList extends StatelessWidget {
   final List<Widget> tiles;
@@ -102,9 +103,9 @@ showActionDialog(BuildContext context, ProfileActionType action, Function onPerf
       type = Type.contactBlockDialog;
       break;
     case ProfileActionType.deleteChat:
-      title = L10n.get(L.delete);
-      content = L10n.get(L.chatDeleteP);
-      positiveButton = L10n.get(L.chatDeleteText);
+      title = L10n.get(L.chatDeleteP);
+      content = L10n.get(L.chatDeleteText);
+      positiveButton = L10n.get(L.delete);
       type = Type.chatDeleteDialog;
       break;
     case ProfileActionType.leave:
@@ -115,7 +116,12 @@ showActionDialog(BuildContext context, ProfileActionType action, Function onPerf
       break;
     case ProfileActionType.deleteContact:
       title = L10n.get(L.contactDelete);
-      content = L10n.getFormatted(L.contactDeleteTextXY, [params[ProfileActionParams.email], params[ProfileActionParams.name]]);
+      var name = params[ProfileActionParams.name];
+      if (isNullOrEmpty(name)) {
+        content = L10n.getFormatted(L.contactDeleteTextX, [params[ProfileActionParams.email]]);
+      } else {
+        content = L10n.getFormatted(L.contactDeleteTextXY, [params[ProfileActionParams.email], name]);
+      }
       positiveButton = L10n.get(L.delete);
       type = Type.contactDeleteDialog;
       break;
