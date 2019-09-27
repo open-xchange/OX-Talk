@@ -165,34 +165,18 @@ class _ProfileState extends State<UserProfile> {
                 AdaptiveRaisedButton(
                     text: L10n.get(L.profileEdit),
                     func: editUserSettings,
-                    //buttonWidth: loginButtonWidth,
                     color: accent,
                     textColor: onAccent,
                     key: Key(keyUserProfileEditProfileRaisedButton),
                 ),
-                /*RaisedButton(
-                  color: accent,
-                  textColor: onAccent,
-                  child: Text(L10n.get(L.profileEdit)),
-                  onPressed: editUserSettings,
-                  key: Key(keyUserProfileEditProfileRaisedButton),
-                ),*/
                 Padding(padding: EdgeInsets.all(chatProfileButtonPadding)),
                 AdaptiveRaisedButton(
                   text: L10n.get(L.qrProfile),
                   func: showQr,
-                  //buttonWidth: 50.0,
                   color: accent,
                   textColor: onAccent,
                   key: Key(keyUserProfileShowQrRaisedButton),
                 ),
-                /*RaisedButton(
-                  color: accent,
-                  textColor: onAccent,
-                  child: Text(L10n.get(L.qrProfile)),
-                  onPressed: showQr,
-                  key: Key(keyUserProfileShowQrRaisedButton),
-                ),*/
               ],
             )
           ],

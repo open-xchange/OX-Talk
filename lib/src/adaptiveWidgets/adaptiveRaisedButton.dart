@@ -43,6 +43,7 @@ class AdaptiveRaisedButton extends AdaptiveWidget<CupertinoButton, RaisedButton>
   @override
   CupertinoButton buildCupertinoWidget(BuildContext context) {
     return CupertinoButton(
+        padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 24.0),
         color: color,
         child: Text(
             text,
