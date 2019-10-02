@@ -67,6 +67,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
   var _notificationManager = NotificationManager();
   var _pushManager = PushManager();
   var _localPushManager = LocalPushManager();
+  var _config = Config();
 
   @override
   MainState get initialState => MainStateInitial();
@@ -78,8 +79,8 @@ class MainBloc extends Bloc<MainEvent, MainState> {
       try {
         await _initCore();
         await _openExtensionDatabase();
-        String appVersion = await getPreference(preferenceAppVersion);
-        if (appVersion == null || appVersion.isEmpty) {
+        String appState = await getPreference(preferenceAppState);
+        if (appState == null || appState.isEmpty) {
           await _setupDatabaseExtensions();
           await _setupDefaultValues();
         }
@@ -120,11 +121,11 @@ class MainBloc extends Bloc<MainEvent, MainState> {
   }
 
   Future<void> _setupDefaultValues() async {
-    Config config = Config();
-    config.setValue(Context.configSelfStatus, defaultStatus);
-    config.setValue(Context.configShowEmails, Context.showEmailsOff);
+    await _config.setValue(Context.configSelfStatus, defaultStatus);
+    await _config.setValue(Context.configShowEmails, Context.showEmailsOff);
     String version = await getAppVersion();
     await setPreference(preferenceAppVersion, version);
+    await setPreference(preferenceAppState, AppState.initialStartDone.toString());
   }
 
   Future<void> _checkLogin() async {
@@ -135,11 +136,17 @@ class MainBloc extends Bloc<MainEvent, MainState> {
   Future<void> _setupLoggedInAppState() async {
     var context = Context();
     bool coiSupported = await isCoiSupported(context);
-    if (coiSupported) {
-      await context.setCoiEnabled(1, 1);
-      _logger.info("Setting coi enable to 1");
-      await context.setCoiMessageFilter(1, 1);
-      _logger.info("Setting coi message filter to 1");
+    String appState = await getPreference(preferenceAppState);
+    if (appState == AppState.initialStartDone.toString()) {
+      if (coiSupported) {
+        await context.setCoiEnabled(1, 1);
+        _logger.info("Setting coi enable to 1");
+        await context.setCoiMessageFilter(1, 1);
+        _logger.info("Setting coi message filter to 1");
+      }
+      await _config.setValue(Context.configRfc724MsgIdPrefix, Context.enableChatPrefix);
+      _logger.info("Setting coi message prefix to 1");
+      await setPreference(preferenceAppState, AppState.initialLoginDone.toString());
     }
     await setupBackgroundManager(coiSupported);
     ContactListBloc contactListBloc = ContactListBloc();
