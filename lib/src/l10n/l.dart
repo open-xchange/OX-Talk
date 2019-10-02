@@ -65,7 +65,6 @@ class L {
   static final delete = _translationKey("Delete");
   static final draft = _translationKey("Draft");
   static final emailAddress = _translationKey("Email address");
-  static final feedback = _translationKey("Feedback");
   static final file = _translationKey("File");
   static final error = _translationKey("Error");
   static final forward = _translationKey("Forward");
@@ -137,7 +136,7 @@ class L {
   static final chatNewPlaceholder = _translationKey("This is a new chat. Send a message to connect.");
   // Start a chat with a new user (e.g. Start a chat with alice?)
   static final chatStartWithTextX = _translationKey("Start a chat with %s?");
-  static final chatListPlaceholder = _translationKey("Welcome to the OX Coi Messenger!\nPlease start a new chat by tapping the chat bubble icon.");
+  static final chatListPlaceholder = _translationKey("Welcome to the OX COI Messenger!\nPlease start a new chat by tapping the chat bubble icon.");
   static final chatAudioRecordingFailed = _translationKey("Audio recording failed, please grant the permissions to record audio in the app settings on your device.");
   static final chatVideoRecordingFailed = _translationKey("Video recording failed, please grant the permissions to record video in the app settings on your device.");
   static final chatFavoriteMessages = _translationKey("Your favorite messages");
@@ -319,7 +318,12 @@ class L {
   static final settingNotificationP = _translationKey("Notification", "Notifications");
   static final settingNotificationPull = _translationKey("Enable background updates");
   static final settingNotificationPullText = _translationKey("If enabled, this setting allows the app to perform periodic background tasks to get new messages");
-
+  static final settingAboutBugReports = _translationKey("Bug reports");
+  // "GitHub" is an own name. Please don't translate it
+  static final settingAboutBugReportsText = _translationKey("Please report bugs on GitHub.");
+  static final settingAboutFeatureRequests = _translationKey("Feature requests");
+  // "user echo" is an own name. Please don't translate it
+  static final settingAboutFeatureRequestsText = _translationKey("Please suggest your ideas on user echo.");
 
   static List<String> _translationKey(String key, [String pluralKey]) {
     String logging = "Registered localization key: '$key'";
