@@ -6,7 +6,7 @@ class AdaptiveAppBar extends AdaptiveWidget<CupertinoNavigationBar, AppBar> with
 
   final Function func;
   final Color color;
-  final Text title;
+  final Widget title;
   final List<Widget> icons;
   final double elevation;
 

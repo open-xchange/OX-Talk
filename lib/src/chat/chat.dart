@@ -224,11 +224,16 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return Scaffold(
         appBar: AdaptiveAppBar(
             func: onPhonePressed,
-            color: onPrimary,
-            title: buildTitle()
+            color: accent,
+            title: buildTitle(),
+            icons: <Widget> [IconButton(
+              icon: Icon(Icons.phone),
+              onPressed: onPhonePressed,
+              color: onPrimary,
+            )]
         ),
         /*new AppBar(
           title: buildTitle(),
