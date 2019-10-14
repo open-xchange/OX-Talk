@@ -1,268 +1,261 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: Open-Xchange 7\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-10-02 16:15+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"POT-Creation-Date: 2019-08-19 14:14+0200\n"
+"PO-Revision-Date: 2019-09-01 20:55+0200\n"
+"Last-Translator: Nicky Thomassen <nicky@workshop-chapina.com>\n"
+"Language-Team: Danish <da@workshop-chapina.com>\n"
+"Language: da_DK\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.8.4\n"
 
 #. Action X performed by user Y (e.g. Login by alice)
 #, c-format
 msgid "%s by %s"
-msgstr ""
+msgstr "%s af %s"
 
 #. Action X performed by the current user (e.g. Login by me)
 #, c-format
 msgid "%s by me"
-msgstr ""
+msgstr "%s af mig"
 
 #. Content X copied to clipboard (e.g. Text copied to clipboard)
 #, c-format
 msgid "%s copied to clipboard"
-msgstr ""
+msgstr "%s kopieret til udklipsholderen"
 
 #, c-format
 msgid "1 contact"
 msgid_plural "%d contacts"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "1 kontakt"
+msgstr[1] "%d kontakter"
 
 #, c-format
 msgid "1 member"
 msgid_plural "%i members"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "1 medlem"
+msgstr[1] "%i medlemmer"
 
 #, c-format
 msgid "1 participant"
 msgid_plural "%i participants"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "1 deltager"
+msgstr[1] "%i deltagere"
+
+#, c-format
+msgid "1 system contact imported"
+msgid_plural "%i system contacts imported"
+msgstr[0] "1 kontakt fra systemet importeret"
+msgstr[1] "%i kontakter fra systemet importeret"
 
 msgid "About"
-msgstr ""
+msgstr "Om"
 
-msgid "Account"
-msgstr ""
+msgid "Account settings"
+msgstr "Kontoindstillinger"
 
 msgid "Account settings successfully changed"
-msgstr ""
+msgstr "Kontoen blev ændret med succes"
 
 msgid "Add contact"
-msgstr ""
+msgstr "Tilføj kontakt"
 
 msgid "Add participants"
-msgstr ""
+msgstr "Tilføj deltagere"
 
 msgid "Advanced"
-msgstr ""
+msgstr "Avanceret"
 
 msgid "Advanced IMAP Settings"
-msgstr ""
+msgstr "Avancerede IMAP-indstillinger"
 
 msgid "Advanced SMTP Settings"
-msgstr ""
+msgstr "Avancerede SMTP-indstillinger"
 
 msgid "All your contacts are in this chat."
-msgstr ""
+msgstr "Alle dine kontakter er i denne chat."
 
 msgid ""
 "An Autocrypt setup message securely shares your encryption setup with other "
 "Autocrypt-compliant apps. The setup will be secured by a setup code which is "
 "displayed here and must be entered on the other device."
 msgstr ""
+"En Autocrypt-besked deler din krypteringsopsætning sikkert med andre apps, "
+"som understøtter Autocrypt. Opsætningen vil blive sikret med en kode som "
+"vises her, og som så skal indtastes på den anden enhed."
 
 msgid "App name"
-msgstr ""
+msgstr "Appnavn"
 
 msgid "App version"
-msgstr ""
+msgstr "App-version"
 
 msgid "Applying new settings, this may take a moment"
-msgstr ""
+msgstr "Sætter nye indstillinger op. Dette kan tage et øjeblik"
 
 msgid "Archived chats"
-msgstr ""
+msgstr "Arkiverede beskeder"
 
 msgid "Audio"
-msgstr ""
+msgstr "Lyd"
 
 msgid ""
 "Audio recording failed, please grant the permissions to record audio in the "
 "app settings on your device."
 msgstr ""
+"Optagelse af lyd fejlede. Giv venligst appen tilladelse til at optage lyd i "
+"enhedens indstillinger."
 
 msgid "Autocrypt Setup Message"
-msgstr ""
+msgstr "Autocrypt opsætningsbesked"
 
 msgid "Autocrypt setup code"
-msgstr ""
+msgstr "Autocrypt opsætningskode"
 
 msgid "Autocrypt setup failed. Please check your setup code."
-msgstr ""
+msgstr "Opsætning af Autocrypt fejlede. Tjek venligst din opsætningskode."
 
 msgid "Autocrypt setup successfully changed"
-msgstr ""
+msgstr "Opsætning af Autocrypt blev ændret med succes"
 
 msgid "Automatic"
-msgstr ""
+msgstr "Automatisk"
 
 msgid "Base Settings"
-msgstr ""
+msgstr "Grundlæggende indstillinger"
 
 msgid "Block"
-msgstr ""
+msgstr "Blokér"
 
 msgid "Block contact"
-msgstr ""
+msgstr "Blokér kontakt"
 
 msgid "Blocked contacts"
-msgstr ""
+msgstr "Blokerede kontakter"
 
-msgid "Bug reports"
-msgstr ""
-
-#. Will resolve to "By using OX COI Messenger you agree to our terms & conditions and privacy declaration"
-#, c-format
-msgid "By using OX COI Messenger you agree to our %s and %s"
-msgstr ""
+msgid "By using OX COI Messenger you agree to our"
+msgstr "Ved at bruge OX COI Messenger accepterer du vores"
 
 msgid "Camera"
-msgstr ""
-
-msgid "Camera not ready"
-msgstr ""
+msgstr "Kamera"
 
 msgid "Cancel"
-msgstr ""
+msgstr "Annullér"
 
 msgid ""
 "Cannot login. Please check if the email-address and the password are correct."
 msgstr ""
+"Kan ikke logge ind. Tjek venligst om e-mail-adressen og adgangskoden er "
+"korrekte."
 
 msgid "Cannot verify contact"
-msgstr ""
+msgstr "Kontakt kan ikke verificeres"
 
 msgid "Changed encryption setup for this contact"
-msgstr ""
+msgstr "Ændrede krypteringsopsætning for denne kontakt"
 
 msgid "Chat"
 msgid_plural "Chats"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Chat"
+msgstr[1] "Chats"
 
 msgid "Choose a provider from the list below to create a new account"
-msgstr ""
+msgstr "Vælg en udbyder fra listen nedenunder for at lave en ny konto"
 
 msgid "Configuration change aborted"
-msgstr ""
+msgstr "Konfigurationensændring annulleret"
 
 msgid "Contact"
 msgid_plural "Contacts"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Kontakt"
+msgstr[1] "Kontakter"
 
 msgid "Contact import running, please wait"
-msgstr ""
+msgstr "Import af kontakter er i gang. Vent venligst"
 
 msgid "Contact request"
-msgstr ""
+msgstr "Kontaktforespørgsel"
 
 msgid "Contact successfully added"
-msgstr ""
+msgstr "Kontakten blev tilføjet med succes"
 
 msgid "Contact successfully blocked"
-msgstr ""
+msgstr "Kontakten blev blokeret med succes"
 
 msgid "Contact successfully deleted"
-msgstr ""
+msgstr "Kontakten blev slettet med succes"
 
 msgid "Contact successfully edited"
-msgstr ""
-
-msgid "Contact validation failed"
-msgstr ""
+msgstr "Kontakten blev ændret med succes"
 
 msgid "Contact verified"
-msgstr ""
+msgstr "Kontakt verificeret"
 
 msgid "Copied to clipboard"
-msgstr ""
+msgstr "Kopieret til udklipsholderen"
 
 msgid "Copy code"
-msgstr ""
+msgstr "Kopiér kode"
 
 msgid "Could not delete contact."
-msgstr ""
+msgstr "Kunne ikke slette kontakt."
 
 msgid ""
 "Could not delete contact. Active chats with contact found, please remove "
 "those chats first."
 msgstr ""
+"Kontakten kunne ikke slettes. Der blev fundet aktive chats fra den kontakt, "
+"som skal fjernes først."
 
 msgid "Create chat"
-msgstr ""
+msgstr "Opret kontakt"
 
 msgid "Create group"
-msgstr ""
+msgstr "Opret gruppe"
 
 msgid ""
 "Creates an Autocrypt setup message, which you can load on other devices to "
 "use your current encryption setup."
 msgstr ""
+"Laver en Autocrypt-besked så du kan indlæse din krypteringsopsætning sikkert "
+"på andre enheder."
 
 msgid "Debug"
-msgstr ""
+msgstr "Fejlsøg"
 
 msgid "Delete"
-msgstr ""
+msgstr "Slet"
 
 msgid "Delete chat"
 msgid_plural "Delete chats"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Slet chat"
+msgstr[1] "Slet chats"
 
 msgid "Delete contact"
-msgstr ""
-
-msgid "Delete push resource"
-msgstr ""
+msgstr "Slet kontakt"
 
 #. Do you really want to block user X with email Y (e.g. Do you really want to block alice (alice@provider.com)?)
 #, c-format
 msgid "Do you really want to block %s (%s)?"
-msgstr ""
+msgstr "Vil du blokere %s (%s)?"
 
 #. Do you really want to delete user X with email Y (e.g. Do you really want to delete alice (alice@provider.com)?)
 #, c-format
 msgid "Do you really want to delete %s (%s)?"
-msgstr ""
-
-#. Do you really want to delete user with email X (e.g. Do you really want to delete alice@provider.com?)
-#, c-format
-msgid "Do you really want to delete %s?"
-msgstr ""
+msgstr "Vil du slette %s (%s)?"
 
 msgid "Do you really want to leave the group?"
-msgstr ""
+msgstr "Vil du forlade gruppen?"
 
 msgid "Do you want to chat with this new contact?"
-msgstr ""
+msgstr "Vil du chatte med denne nye kontakt?"
 
 msgid "Do you want to delete this chat?"
-msgstr ""
+msgstr "Vil du slette denne chat?"
 
 #. Do you want to import your keys from folder X (e.g. Do you want to import your keys from "/home/alice/keys"?)
 #, c-format
@@ -270,240 +263,231 @@ msgid ""
 "Do you want to import your keys from \"%s\"? If no keys are in that folder, "
 "the operation will fail."
 msgstr ""
+"Vil du importere dine nøgler fra \"%s\"? Hvis der ikke er nogen nøgler i den "
+"mappe, fejler operationen."
 
 #. Do you want to export your keys to folder X (e.g. "Do you want to save your keys in "/home/alice/keys"?")
 #, c-format
 msgid "Do you want to save your keys in \"%s\"?"
-msgstr ""
+msgstr "Vil du gemme dine nøgler i \"%s\"?"
 
 #. Do you really want to unblock user X (e.g. Do you really want to unblock alice?)
 #, c-format
 msgid "Do you want to unblock %s?"
-msgstr ""
+msgstr "Vil du fjerne blokeringen af %s?"
 
 msgid "Draft"
-msgstr ""
+msgstr "Klade"
 
 msgid "Edit contact"
-msgstr ""
+msgstr "Redigér kontakt"
 
 msgid "Edit profile"
-msgstr ""
+msgstr "Redigér profil"
 
 msgid "Email"
-msgstr ""
+msgstr "E-mail"
 
 msgid "Email address"
-msgstr ""
-
-msgid "Enable background updates"
-msgstr ""
+msgstr "E-mail-adresse"
 
 msgid "Enable sending and requesting of read receipts."
-msgstr ""
+msgstr "Aktivér afsendelse af læsekvitteringer."
 
 msgid "Enter the contact name"
-msgstr ""
+msgstr "Indtast kontaktens navn"
 
 msgid "Error"
-msgstr ""
+msgstr "Fejl"
 
 msgid "Expert: Export keys"
-msgstr ""
+msgstr "Ekspert: Eksportér nøgler"
 
 msgid "Expert: Import keys"
-msgstr ""
+msgstr "Ekspert: Importér nøgler"
 
 #. Security token of the FCM service. FCM is a abbreviation and mustn't be translated
 msgid "FCM token"
-msgstr ""
+msgstr "FCM symbol"
 
-msgid "Feature requests"
-msgstr ""
+msgid "Feedback"
+msgstr "Respons"
 
 msgid "File"
-msgstr ""
+msgstr "Fil"
 
 msgid "Flagged"
-msgstr ""
+msgstr "Markeret"
 
 msgid ""
 "For known email providers additional settings are set up automatically.\n"
 "Sometimes IMAP needs to be enabled in the web frontend. Consult your email "
 "provider or friends for help."
 msgstr ""
+"For kendte udbydere af e-mail, bliver resten af indstillingerne automatisk "
+"sat op.\n"
+"IMAP skal være aktiveret i web-frontend'en. Rådfør dig med din udbyder eller "
+"venner for hjælp."
 
 msgid "Forward"
-msgstr ""
+msgstr "Videresend"
 
 msgid "Gallery"
-msgstr ""
+msgstr "Galleri"
 
 msgid "Group image changed"
-msgstr ""
+msgstr "Gruppebillede ændret"
 
 msgid "Group image deleted"
-msgstr ""
+msgstr "Gruppebillede slettet"
 
 msgid "Group left"
-msgstr ""
+msgstr "Forlod gruppe"
 
 msgid "Group name"
-msgstr ""
+msgstr "Gruppenavn"
 
 msgid "Group name changed"
-msgstr ""
+msgstr "Gruppenavn ændret"
 
 msgid "Hello, I have just created this group for us"
-msgstr ""
+msgstr "Hej, jeg har lige lavet denne gruppe til os"
 
 msgid "IMAP Security"
-msgstr ""
+msgstr "IMAP sikkerhed"
 
 msgid "IMAP login name"
-msgstr ""
+msgstr "IMAP-brugernavn"
 
 msgid "IMAP password"
-msgstr ""
+msgstr "IMAP adgangskode"
 
 msgid "IMAP port"
-msgstr ""
+msgstr "IMAP-port"
 
 msgid "IMAP server (e.g. imap.coi.me)"
-msgstr ""
-
-msgid ""
-"If enabled, this setting allows the app to perform periodic background tasks "
-"to get new messages"
-msgstr ""
+msgstr "IMAP-server (fx imap.coi.me)"
 
 msgid "Image"
-msgstr ""
+msgstr "Billede"
 
 msgid "Import"
-msgstr ""
+msgstr "Import"
 
 msgid "Import Autocrypt setup message"
-msgstr ""
+msgstr "Importér Autocrypt-opsætningsbesked"
 
 msgid "Import device contacts"
-msgstr ""
+msgstr "Importér enhedens kontakter"
 
 msgid "Import failed, missing permissions"
-msgstr ""
+msgstr "Import fejlede, mangler rettigheder"
 
 msgid ""
 "Import keys from your local storage to change your current encryption setup"
 msgstr ""
+"Importér nøgler fra dit lokale lager, for at ændre din nuværende "
+"krypteringsopsætning"
 
 msgid "Inbox"
-msgstr ""
+msgstr "Indbakke"
 
 msgid "Initiate key transfer"
-msgstr ""
+msgstr "Start overførelse af nøgle"
 
 msgid "Invites"
-msgstr ""
+msgstr "Invitationer"
 
 msgid "Key action failed"
-msgstr ""
+msgstr "Handling på nøgle fejlede"
 
 msgid "Key action failed, missing permissions"
-msgstr ""
+msgstr "Handling på nøgle fejlede, mangler rettigheder"
 
 msgid "Key action successfully done"
-msgstr ""
+msgstr "Handlingen på nøglen blev gennemført med succes"
 
 msgid "Leave group"
-msgstr ""
+msgstr "Forlad gruppe"
 
 msgid "Location"
-msgstr ""
+msgstr "Placering"
 
 msgid "Log in to OX COI Messenger"
-msgstr ""
+msgstr "Log ind på OX COI Messenger"
 
 msgid "Logging in, this may take a moment"
-msgstr ""
+msgstr "Logger ind. Dette kan tage et øjeblik"
 
 msgid "Login failed"
-msgstr ""
+msgstr "Log ind fejlede"
 
 msgid "Manual Settings"
-msgstr ""
+msgstr "Manuelle indstillinger"
 
 msgid "Me"
-msgstr ""
+msgstr "Mig"
 
 msgid "Member added"
-msgstr ""
+msgstr "Medlem tilføjet"
 
 msgid "Member removed"
-msgstr ""
+msgstr "Medlem fjernet"
 
 msgid "Message syncing"
-msgstr ""
+msgstr "Beskeder synkroniserer"
 
 msgid "Messages I sent to myself"
-msgstr ""
+msgstr "Beskeder jeg har sendt til mig selv"
 
 msgid ""
 "Messages from unknown contacts do not appear in chats anymore. Instead, you "
 "can access such messages here:"
 msgstr ""
+"Beskeder fra ukendte kontakter vises ikke i chats mere. Du kan se dem her i "
+"stedet for:"
 
 msgid "Name"
-msgstr ""
+msgstr "Navn"
 
 msgid "New contact"
-msgstr ""
+msgstr "Ny kontakt"
 
 msgid "No"
-msgstr ""
+msgstr "Nej"
 
 msgid "No blocked contacts"
-msgstr ""
-
-msgid "No camera permission granted."
-msgstr ""
+msgstr "Ingen blokerede kontakter"
 
 msgid "No flagged messages"
-msgstr ""
+msgstr "Ingen markede beskeder"
 
 msgid "No messages"
-msgstr ""
+msgstr "Ingen beskeder"
 
 msgid "No participants selected. Please select at least one person."
-msgstr ""
-
-msgid "No phone number"
-msgstr ""
+msgstr "Ingen deltagere valgt. Vælg venligst mindst én anden person."
 
 msgid "No results found"
-msgstr ""
+msgstr "Ingen resultater fundet"
 
 msgid "No signature set"
-msgstr ""
+msgstr "Ingen signatur sat"
 
 msgid "No username set"
-msgstr ""
-
-msgid "No valid QR code"
-msgstr ""
-
-msgid "Notification"
-msgid_plural "Notifications"
-msgstr[0] ""
-msgstr[1] ""
+msgstr "Intet brugernavn sat"
 
 msgid ""
 "OX COI Messenger works with any email provider, but best with COI-compatible "
 "providers. If you have an existing email account, please sign in, otherwise "
 "register a new account first."
 msgstr ""
+"OX COI Messenger virker med alle udbydere af e-mail, men det bedste resultat "
+"fås med udbydere som understøtter COI. Log venligst ind hvis du allerede har "
+"en konto, og ellers skal du registrere en ny først."
 
 msgid "Off"
-msgstr ""
+msgstr "Fra"
 
 msgid ""
 "Often you only need to provide your email address, password and server "
@@ -511,116 +495,94 @@ msgid ""
 "needs to be enabled in your email website. Consult your email provider or "
 "friends for help."
 msgstr ""
+"Normalt skal du kun angive din e-mail-adresse, kodeord og server-adresse. "
+"Resten bliver automatisk bestemt. Det kan være nødvendigt at aktivere IMAP "
+"på din hjemmeside. Kontakt din udbyder eller nogle venner for hjælp."
 
 msgid "Ok"
-msgstr ""
+msgstr "OK"
 
 msgid "Only show messages of known contacts"
-msgstr ""
+msgstr "Vis kun beskeder fra kendte kontakter"
 
 msgid "Open chat"
-msgstr ""
+msgstr "Åbn chat"
 
 msgid "Other mail provider"
-msgstr ""
+msgstr "Anden udbyder af e-mail"
 
 msgid "Outbox"
-msgstr ""
+msgstr "Udbakke"
 
 msgid "Participant"
 msgid_plural "Participants"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Deltager"
+msgstr[1] "Deltagere"
 
 msgid "Password"
-msgstr ""
+msgstr "Adgangskode"
 
 msgid "Performing key export"
-msgstr ""
+msgstr "Laver eksport af nøgle"
 
 msgid "Performing key import"
-msgstr ""
+msgstr "Laver import af nøgle"
 
 msgid "Performing key transfer"
-msgstr ""
-
-msgid ""
-"Phone numbers can be added or edited via the local address book and imported "
-"afterwards."
-msgstr ""
+msgstr "Overfører nøgle"
 
 msgid "Please check your username and password"
-msgstr ""
-
-msgid "Please choose a number"
-msgstr ""
+msgstr "Tjek venligst dit brugernavn og din adgangskode"
 
 msgid "Please choose what kind of messages you would like to see."
-msgstr ""
+msgstr "Vælg venligst hvilken slags beskeder du gerne vil se."
 
 msgid "Please enter a valid email address"
-msgstr ""
+msgstr "Skriv venligst en gyldig e-mail-adresse"
 
 msgid "Please enter a valid port (1-65535)"
-msgstr ""
+msgstr "Skriv venligst en gyldig port (1-65535)"
 
 msgid "Please enter your password"
-msgstr ""
-
-#. "GitHub" is an own name. Please don't translate it
-msgid "Please report bugs on GitHub."
-msgstr ""
+msgstr "Indtast venligst din adgangskode"
 
 msgid "Please select your email provider to sign in"
-msgstr ""
+msgstr "Vælg venligst din udbyder af e-mail for at logge ind"
 
 msgid "Please specify your email server settings."
-msgstr ""
-
-#. "user echo" is an own name. Please don't translate it
-msgid "Please suggest your ideas on user echo."
-msgstr ""
+msgstr "Angiv venligst dine indstillinger til e-mail-serveren."
 
 msgid "Please wait a moment."
-msgstr ""
+msgstr "Vent venligst et øjeblik."
 
 msgid "Privacy and Mobbing Protection"
-msgstr ""
+msgstr "Beskyttelse af privatliv og mod mobning"
 
 msgid "Profile"
-msgstr ""
+msgstr "Profil"
 
 msgid "Profile QR"
-msgstr ""
-
-msgid "Push data"
-msgstr ""
-
-msgid "Push resource (via push service)"
-msgstr ""
+msgstr "QR af profil"
 
 msgid "Re-importing your contacts will not create duplicates."
-msgstr ""
+msgstr "Importerer du dine kontakter igen, bliver der ikke lavet dupletter."
 
 msgid "Read receipt"
 msgid_plural "Read receipts"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Læs-kvittering"
+msgstr[1] "Læs-kvitteringer"
 
 msgid "Register"
-msgstr ""
-
-msgid "Register new push resource"
-msgstr ""
+msgstr "Registrér"
 
 msgid "Remove current image"
-msgstr ""
+msgstr "Fjern nuværende billede"
 
 msgid "Remove participant"
-msgstr ""
+msgstr "Fjern deltager"
 
 msgid "Rename group"
-msgstr ""
+msgstr "Omdøb gruppe"
 
 #. Response from server address X with error code Y (e.g. Response from provide.com: Login failed)
 #, c-format
@@ -631,130 +593,128 @@ msgid ""
 "them eg. in the web frontend. Consult your provider or friends if you run "
 "into problems."
 msgstr ""
-
-msgid "Retry"
-msgstr ""
+"Svar fra %s: %s\n"
+"\n"
+"Nogen udbydere placerer flere oplysninger i din indbakke, som du fx kan "
+"tjekke i web-frontend'en. Rådfør dig med din udbyder eller venner, hvis du "
+"løber ind i problemer."
 
 msgid "SMTP Security"
-msgstr ""
+msgstr "SMTP sikkerhed"
 
 msgid "SMTP login name"
-msgstr ""
+msgstr "SMTP logind navn"
 
 msgid "SMTP password"
-msgstr ""
+msgstr "SMTP adgangskode"
 
 msgid "SMTP port"
-msgstr ""
+msgstr "SMTP-port"
 
 msgid "SMTP server (e.g. smtp.coi.me)"
-msgstr ""
+msgstr "SMTP-server (fx smtp.coi.me)"
 
 msgid "Save"
-msgstr ""
+msgstr "Gem"
 
 msgid "Scan QR"
-msgstr ""
+msgstr "Skan QR"
 
 #. Scan the QR code to add an verify user X (e.g. Scan this QR code to create a new contact or verify a contact with alice.)
 #, c-format
 msgid "Scan this QR code to create a new contact or verify a contact with %s."
 msgstr ""
+"Skan denne QR-kode for at lave en ny kontakt, eller for at bekræfte en "
+"kontakt med %s."
 
 msgid "Search contacts"
-msgstr ""
+msgstr "Søg i kontakter"
 
 msgid "Security"
-msgstr ""
+msgstr "Sikkerhed"
 
 msgid "Sent with OX COI Messenger"
-msgstr ""
+msgstr "Sent med OX COI Messenger"
 
 msgid "Server addresses"
-msgstr ""
+msgstr "Server-adresse"
 
 msgid "Set a group name"
-msgstr ""
+msgstr "Sæt et gruppenavn"
 
 msgid "Set a name"
-msgstr ""
+msgstr "Sæt et navn"
 
 msgid "Setting"
 msgid_plural "Settings"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Indstilling"
+msgstr[1] "Indstillinger"
 
 msgid "Setup message created"
-msgstr ""
+msgstr "Opsætningsbesked lavet"
 
 msgid "Share"
-msgstr ""
+msgstr "Del"
 
 msgid "Show QR"
-msgstr ""
+msgstr "Vis QR"
 
 msgid "Show both chat and email messages from all senders"
-msgstr ""
+msgstr "Vis både chat og e-mail-beskeder fra alle afsendere"
 
 msgid "Show both chat and email messages from my contacts"
-msgstr ""
+msgstr "Vis både chat og e-mail-beskeder fra mine kontakter"
 
 msgid "Show messages from unknown contacts"
-msgstr ""
+msgstr "Vis beskeder fra ukendte kontakter"
 
 msgid "Show only chat messages "
-msgstr ""
+msgstr "Vis kun chat beskeder "
 
 msgid "Sign in"
-msgstr ""
+msgstr "Log ind"
 
 #. Sign in with provide X (e.g. Sign in with provider.com)
 #, c-format
 msgid "Sign in with %s"
-msgstr ""
+msgstr "Log ind med %s"
 
 msgid "Signature"
-msgstr ""
+msgstr "Underskrift"
 
 msgid "Simply add one by tapping on a contact."
-msgstr ""
+msgstr "Tilføj en nemt ved at trykke på en kontakt."
 
 #. Start a chat with a new user (e.g. Start a chat with alice?)
 #, c-format
 msgid "Start a chat with %s?"
-msgstr ""
-
-msgid "System contacts imported successfully"
-msgstr ""
+msgstr "Start en chat med %s?"
 
 #, c-format
 msgid "The associated setup code starts with: %s"
-msgstr ""
+msgstr "Den tilknyttede kode starter med: %s"
 
 msgid "The code can be entered with or without minus signs"
-msgstr ""
+msgstr "Denne kode kan indtastes både med og uden minus-tegnet"
 
 msgid "There are currently no messages from unknown contacts"
-msgstr ""
+msgstr "Der er ingen beskeder fra ukendte kontakter i øjeblikket"
 
 msgid "There was an error or the progress was canceled."
-msgstr ""
+msgstr "Der opstod en fejl eller processen blev annulleret."
 
 msgid ""
 "This action can also be done later via the import button in the top action "
 "bar."
 msgstr ""
-
-msgid ""
-"This contact has no phone number. Please edit this contact in your device "
-"address book and add the phone number there."
-msgstr ""
+"Denne handling kan også udføres senere fra import-knappen i toppen af "
+"handlingsbarren."
 
 msgid "This field can not be empty"
-msgstr ""
+msgstr "Dette felt må ikke være tomt"
 
 msgid "This is a new chat. Send a message to connect."
-msgstr ""
+msgstr "Det her er en ny chat. Send en besked for at forbinde."
 
 msgid ""
 "This is a read receipt.\n"
@@ -762,6 +722,10 @@ msgid ""
 "It means the message was displayed on the recipient's device, not "
 "necessarily that the content was read."
 msgstr ""
+"Det her er en læst-kvittering.\n"
+"\n"
+"Den betyder at beskeden blev vist på modtagerens enhed, ikke at den "
+"nødvendigvis blev læst."
 
 msgid ""
 "This is the Autocrypt Setup Message used to transfer your end-to-end setup "
@@ -770,11 +734,18 @@ msgid ""
 "To decrypt and use your setup, open the message in an Autocrypt-compliant "
 "client and enter the setup code presented on the generating device."
 msgstr ""
+"Det her er en Autocrypt-besked, som bruges til at overføre din opsætning "
+"imellem klienter.\n"
+"\n"
+"For at afkode og bruge din opsætning, skal beskeden åbnes af en Autocrypt-"
+"klient, og opsætningskoden skal indtastes."
 
 msgid ""
 "This keys enable another device to use your current encryption setup. Keys "
 "are saved on your local storage."
 msgstr ""
+"Nøglerne bruges til at give en anden enhed mulighed for, at bruge din "
+"nuværende krypteringsopsætning. Nøgler gemmes i dit lokale lager."
 
 msgid ""
 "This message cannot be decrypted.\n"
@@ -786,69 +757,86 @@ msgid ""
 "this or another device you may want to send an Autocrypt setup message from "
 "there."
 msgstr ""
+"Denne besked kan ikke afkodes.\n"
+"\n"
+"Det kan hjælpe at skrive til afsenderen, og bede om at få sendt beskeden "
+"igen.\n"
+"\n"
+"Hvis du har geninstalleret OX COI Messenger eller et andet e-mail-program på "
+"denne enhed, skal du muligvis sende Autocrypt-opsætningsbeskeden derfra."
 
 msgid ""
 "This message is an Autocrypt Setup Message. Tap it to start the import "
 "process. You will be guided through the process."
 msgstr ""
+"Denne besked er en Autocrypt-opsætningsbesked. Tryk for at starte processen "
+"med at importere. Du vil blive guide igennem processen."
 
 msgid ""
 "To complete the import of the Autocrypt setup message please provide the "
 "security code shown on the originating device. After entering the code below "
 "the Autocrypt settings will be applied to your current encryption setup."
 msgstr ""
+"For at gøre importen af Autocrypt-opsætningsbeskeden færdig, bedes du "
+"indtaste koden fra den den oprindelige enhed. Når koden er blevet indtastet, "
+"vil de Autocrypt-indstillinger som vises nedenunder, også gælde for denne "
+"enheds krypteringsopsætning."
 
 msgid "Today"
-msgstr ""
+msgstr "I dag"
 
 msgid "Type something..."
-msgstr ""
+msgstr "Indtast noget..."
 
 msgid "Unblock"
-msgstr ""
+msgstr "Fjern blokering"
 
 msgid "Unblock contact"
-msgstr ""
+msgstr "Fjern blokering af kontakt"
 
 msgid "Username"
-msgstr ""
+msgstr "Brugernavn"
 
 msgid "Verification finished."
-msgstr ""
+msgstr "Verificering gennemført."
 
 msgid "Verifying. Please wait a moment."
-msgstr ""
+msgstr "Bekræfter. Vent venligst."
 
 msgid "Video"
-msgstr ""
+msgstr "Video"
 
 msgid ""
 "Video recording failed, please grant the permissions to record video in the "
 "app settings on your device."
 msgstr ""
+"Optagelse af video fejlede, giv venligst app'en tilladelse til at optage "
+"video i enhedens indstillinger."
 
 msgid "Voice message"
-msgstr ""
+msgstr "Talebesked"
 
 msgid "We could not determine all settings automatically."
-msgstr ""
+msgstr "Vi kunne ikke bestemme alle indstillingerne automatisk."
 
 msgid "Welcome to OX COI Messenger"
-msgstr ""
+msgstr "Velkommen til OX COI Messenger"
 
 msgid ""
 "Welcome to the OX COI Messenger!\n"
 "Please start a new chat by tapping the chat bubble icon."
 msgstr ""
+"Velkommen til OX COI Messenger!\n"
+"Du kan starte en ny chat ved at trykke på bobbel-ikonet."
 
 msgid "Would you like to import your contacts from this device?"
-msgstr ""
+msgstr "Vil du importere dine kontakter fra denne enhed?"
 
 msgid "Yes"
-msgstr ""
+msgstr "Ja"
 
 msgid "Yesterday"
-msgstr ""
+msgstr "I går"
 
 #, c-format
 msgid ""
@@ -858,21 +846,26 @@ msgid ""
 "%s\n"
 "Once you are done, your other device will be ready to use Autocrypt."
 msgstr ""
+"Din Autocrypt-opsætning er blevet sendt til dig. Skift til den anden enhed, "
+"og åben opsætningsbeskeden. Du skulle gerne blive spurgt om en "
+"opsætningskode. Indtast de følgende tal i feltet:\n"
+"%s\n"
+"Når du er færdig, er din anden enhed klar til at bruge Autocrypt."
 
 msgid "Your favorite messages"
-msgstr ""
+msgstr "Dine ynglings-beskeder"
 
-msgid "Your messages are encrypted from now on."
-msgstr ""
+msgid "and"
+msgstr "og"
 
 msgid "code"
-msgstr ""
+msgstr "kode"
 
 msgid "more messages"
-msgstr ""
+msgstr "flere beskeder"
 
 msgid "privacy declaration"
-msgstr ""
+msgstr "Erklæring om privatliv"
 
 msgid "terms & conditions"
-msgstr ""
+msgstr "Vilkår og betingelser"

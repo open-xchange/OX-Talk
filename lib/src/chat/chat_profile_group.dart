@@ -200,11 +200,14 @@ class _ChatProfileGroupState extends State<ChatProfileGroup> {
 
   _editPhotoCallback(String avatarPath) {
     _chatChangeBloc.dispatch(SetImagePath(chatId: widget.chatId, newPath: avatarPath));
-    chatBloc.dispatch(RequestChat(chatId: widget.chatId));
   }
 
   ListView _buildGroupMemberList(ContactListStateSuccess state) {
-    return ListView.builder(
+    return ListView.separated(
+        separatorBuilder: (context, index) => Divider(
+          height: dividerHeight,
+          color: onBackground.withOpacity(barely),
+        ),
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
         itemCount: state.contactIds.length,

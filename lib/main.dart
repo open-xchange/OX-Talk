@@ -89,6 +89,7 @@ class OxCoiApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     if (Platform.isIOS) {
       print("ist ios");
       return CupertinoApp(
@@ -132,7 +133,24 @@ class OxCoiApp extends StatelessWidget {
         routes: navigation.routesMapping,
       );
     }
-
+    /*return MaterialApp(
+      theme: ThemeData(
+        primaryColor: primary,
+        accentColor: accent,
+      ),
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: L10n.supportedLocales,
+      localeResolutionCallback: (deviceLocale, supportedLocales) {
+        L10n.loadTranslation(deviceLocale);
+        L10n.setLanguage(deviceLocale);
+        return deviceLocale;
+      },
+      initialRoute: Navigation.root,
+      routes: navigation.routesMapping,
+    );*/
   }
 }
 

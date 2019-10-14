@@ -108,6 +108,8 @@ class NotificationManager {
           ModalRoute.withName(Navigation.root),
           Navigatable(Type.chatList),
         );
+      } else {
+        navigation.popUntil(_buildContext, ModalRoute.withName(Navigation.root));
       }
     }
   }
@@ -125,18 +127,24 @@ class NotificationManager {
     await Future.forEach(_contactRepository.getAll(), (DeltaChatCore.Contact contact) async {
       String address = await contact.getAddress();
       if (address == fromEmail) {
-        name = await contact.getName();
+        var contactName = await contact.getName();
+        name = contactName.isNotEmpty ? contactName : fromEmail;
         var context = DeltaChatCore.Context();
         chatId = await context.getChatByContactId(contact.id);
       }
     });
-    await _flutterLocalNotificationsPlugin.show(chatId, name, body, platformChannelSpecifics, payload: chatId.toString());
+    await _flutterLocalNotificationsPlugin.show(chatId, name, body, platformChannelSpecifics, payload: chatId != 0 ? chatId.toString(): null);
   }
 
   Future<void> showNotificationFromLocal(int chatId, String title, String body, {String payload}) async {
     var backgroundBloc;
     if (_buildContext != null) {
       backgroundBloc = BlocProvider.of<BackgroundBloc>(_buildContext);
+      if (backgroundBloc.currentBackgroundState != AppLifecycleState.resumed.toString()) {
+        return;
+      }
+    } else {
+      return;
     }
     var navigation = Navigation();
     if (navigation.hasElements() && backgroundBloc?.currentBackgroundState == AppLifecycleState.resumed.toString()) {

@@ -716,8 +716,8 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
     });
   }
 
-  _chatTitleTapped() async {
-    await navigation.push(
+  _chatTitleTapped() {
+    navigation.push(
       context,
       MaterialPageRoute(builder: (context) {
         return BlocProvider.value(
@@ -726,8 +726,6 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
         );
       }),
     );
-
-    _chatBloc.dispatch(RequestChat(chatId: widget.chatId, messageId: widget.messageId));
   }
 
   void onPhonePressed() {
