@@ -65,11 +65,11 @@ const newContact = 'New contact';
 
 const name = 'Name';
 
-const enterContactName = "Enter the contact name";
+const enterContactName = 'Enter the contact name';
 
-const emptyChat = "This is a new chat. Send a message to connect.";
+const emptyChat = 'This is a new chat. Send a message to connect.';
 
-const profile = "Profile";
+const profile = 'Profile';
 
 const chat = 'Chats';
 
@@ -83,6 +83,10 @@ const newTestContact04 = 'enyakam4@ox.com';
 
 const newTestName01 = 'Douglas01';
 
+final blockContact = "Block contact";
+
+final unblock = 'Unblock';
+
 const newTestName02 = 'Douglas02';
 
 const newMe = 'newMe';
@@ -92,11 +96,10 @@ const mailCom = 'Mail.com';
 const profileUserStatus =
     'Sent with OX COI Messenger - https://github.com/open-xchange/ox-coi';
 
-const searchString = "Douglas0";
+const searchString = 'Douglas0';
+const typeSomethingComposePlaceholder = 'Type something...';
 
-const typeSomethingComposePlaceholder = "Type something...";
-
-const helloWord = "Hello word";
+const helloWord = 'Hello word';
 
 final typeSomethingComposePlaceholderFinder =
     find.byValueKey(typeSomethingComposePlaceholder);
@@ -144,4 +147,5 @@ final keyContactChangeEmailFinder =
 final keyContactChangeCheckFinder =
     find.byValueKey(keyContactChangeCheckIconButton);
 
-final keyDialogBuilderAlertDialogOkFlatButtonFinder =find.byValueKey(keyDialogBuilderAlertDialogOkFlatButton);
+final keyDialogBuilderAlertDialogOkFlatButtonFinder =
+    find.byValueKey(keyDialogBuilderAlertDialogOkFlatButton);
