@@ -41,134 +41,56 @@
  */
 
 // Imports the Flutter Driver API.
-import 'dart:io';
 import 'package:flutter_driver/flutter_driver.dart';
-import 'package:ox_coi/src/l10n/l.dart';
 import 'package:ox_coi/src/utils/keyMapping.dart';
+import 'setup/global_consts.dart';
+import 'setup/helper_methods.dart';
+import 'setup/main_test_setup.dart';
 import 'package:test/test.dart';
 import 'package:test_api/src/backend/invoker.dart';
 
 void main() {
   group(
       'Create contact list integration tests: After login, Me contact is checked first, '
-          'then two contacts are created. The contacts made can then be found in the contact list.'
-          'After that one of the contacts will be delete from the contact list',
+      'then two contacts are created. The contacts made can then be found in the contact list.'
+      'After that one of the contacts will be delete from the contact list',
       () {
     //  Define the driver.
     FlutterDriver driver;
-    final timeout = Duration(seconds: 120);
+    Setup setup = new Setup(driver);
+    setup.main(timeout);
 
-
-    final realEmail = 'enyakam3@ox.com';
-    final newTestContact01 = 'enyakam1@ox.com';
-    final newTestContact02 = 'enyakam2@ox.com';
-    final newTestName01 = 'Douglas01';
-    final newTestName02 = 'Douglas02';
-    final newMe = "newMe";
-    final meContact ="Me";
-    final realPassword = 'secret';
-    final contacts = "Contacts";
-
-    final singIn = L.getKey(L.loginSignIn).toUpperCase();
-    final coiDebug = 'Coi debug';
-    final mailCom = 'Mail.com';
-    final chatWelcomeMessage = L.getKey(L.chatListPlaceholder);
-
-    //  SerializableFinder for the Ox coi welcome and provider page.
-    final finderCoiDebugProvider = find.text(coiDebug);
-    final finderMailComProvider = find.text(mailCom);
-
-    //  SerializableFinder for Coi Debug dialog Windows.
-    final finderProviderEmail =
-        find.byValueKey(keyProviderSignInEmailTextField);
-    final finderProviderPassword =
-        find.byValueKey(keyProviderSignInPasswordTextField);
-    final finderSIGNIN = find.text(singIn);
-    final finderChatWelcome = find.text(chatWelcomeMessage);
-
-    //  SerializableFinder for Contacts and edit profile windows.
-    final contactsFinder = find.text(contacts);
-    final positiveFinder = find.byValueKey(keyDialogBuilderPositiveFlatButton);
-    final cancelFinder = find.byValueKey(keyDialogBuilderCancelFlatButton);
-    final personAddFinder =
-        find.byValueKey(keyContactListPersonAddFloatingActionButton);
-    final keyContactChangeNameFinder =
-        find.byValueKey(keyContactChangeNameValidatableTextFormField);
-    final keyContactChangeEmailFinder =
-        find.byValueKey(keyContactChangeEmailValidatableTextFormField);
-    final keyContactChangeCheckFinder =
-        find.byValueKey(keyContactChangeCheckIconButton);
-
-    // Connect to a running Flutter application instance.
-    setUpAll(() async {
-      final String adbPath = 'adb';
-      await Process.run(adbPath, [
-        'shell',
-        'pm',
-        'grant',
-        'com.openxchange.oxcoi.dev',
-        'android.permission.WRITE_CONTACTS'
-      ]);
-      await Process.run(adbPath, [
-        'shell',
-        'pm',
-        'grant',
-        'com.openxchange.oxcoi.dev ',
-        'android.permission.READ_CONTACTS'
-      ]);
-      driver = await FlutterDriver.connect();
-      driver.setSemantics(true, timeout: timeout);
-    });
-
-    //  Close the connection to the driver after the tests have completed.
-    tearDownAll(() async {
-      if (driver != null) {
-        driver.close();
-      }
-    });
-
-    test('Test create profile integration tests', () async {
-      //  Get and print driver status.
-      Health health = await driver.checkHealth();
-      print(health.status);
-
-      await driver.tap(finderSIGNIN);
-      await catchScreenshot(driver, 'screenshots/providerList1.png');
-      await driver.scroll(
-          finderMailComProvider, 0, -300, Duration(milliseconds: 300));
-      await catchScreenshot(driver, 'screenshots/providerList2.png');
-      Invoker.current.heartbeat();
-      await catchScreenshot(driver, 'screenshots/CoiDebug.png');
-
+    test('Test create profile integration tests.', () async {
       //  Check real authentication and get chat.
-      await driver.tap(finderCoiDebugProvider);
-      print('\nReal authentication.');
-      await getAuthentication(driver, finderProviderEmail, realEmail,
-          finderProviderPassword, realPassword, finderSIGNIN);
-      await catchScreenshot(driver, 'screenshots/entered.png');
-      Invoker.current.heartbeat();
-      print('\nSIGN IN ist done. Wait for chat.');
-      await driver.waitFor(finderChatWelcome);
-      Invoker.current.heartbeat();
-      await catchScreenshot(driver, 'screenshots/chat.png');
-      print('\nGet chat.');
+      await getAuthentication(
+          setup.driver,
+          signInFinder,
+          coiDebugProviderFinder,
+          providerEmailFinder,
+          realEmail,
+          providerPasswordFinder,
+          realPassword);
 
+      Invoker.current.heartbeat();
+      await setup.driver.waitFor(chatWelcomeFinder);
+      Invoker.current.heartbeat();
       //  Get contacts and add new contacts.
-      await driver.tap(contactsFinder);
-      await driver.tap(cancelFinder);
-      await driver.waitFor(find.text(meContact));
+      await setup.driver.tap(contactsFinder);
+      await setup.driver.tap(cancelFinder);
+      await setup.driver.waitFor(find.text(meContact));
 
       // Add two new contacts in the contact list.
       await addNewContact(
-          driver,
+          setup.driver,
           personAddFinder,
           keyContactChangeNameFinder,
           newTestName01,
           keyContactChangeEmailFinder,
           newTestContact01,
           keyContactChangeCheckFinder);
+
       await addNewContact(
-          driver,
+          setup.driver,
           personAddFinder,
           keyContactChangeNameFinder,
           newTestName02,
@@ -177,39 +99,21 @@ void main() {
           keyContactChangeCheckFinder);
 
       // Manage new contact
-      await manageContact(driver, newTestName01, keyContactChangeNameFinder,
-          newMe, keyContactChangeCheckFinder);
-      await catchScreenshot(driver, 'screenshots/persone_add02.png');
+      await manageContact(
+          setup.driver,
+          newTestName01,
+          keyContactChangeNameFinder,
+          newMe,
+          keyContactChangeCheckFinder,
+          keyContactDetailEditContactProfileActionIcon);
+      await catchScreenshot(setup.driver, 'screenshots/persone_add02.png');
       print('\nContacts');
-
       // Delete one contact
-      await deleteContact(driver, positiveFinder, newTestName02);
+      await deleteContact(setup.driver, positiveFinder, newTestName02);
       Invoker.current.heartbeat();
-      await catchScreenshot(driver, 'screenshots/contactList.png');
+      await catchScreenshot(setup.driver, 'screenshots/contactList.png');
     });
   });
-}
-
-Future addNewContact(
-    FlutterDriver driver,
-    SerializableFinder personAddFinder,
-    SerializableFinder keyContactChangeNameFinder,
-    String newTestName,
-    SerializableFinder keyContactChangeEmailFinder,
-    String newTestContact,
-    SerializableFinder keyContactChangeCheckFinder) async {
-  Invoker.current.heartbeat();
-  await driver.tap(personAddFinder);
-  await catchScreenshot(driver, 'screenshots/person_add01.png');
-  await driver.tap(keyContactChangeNameFinder);
-  await driver.enterText(newTestName);
-  await driver.tap(keyContactChangeEmailFinder);
-  await driver.enterText(newTestContact);
-  Invoker.current.heartbeat();
-  await driver.tap(keyContactChangeCheckFinder);
-  await driver.waitFor(find.text(newTestName));
-  await catchScreenshot(driver, 'screenshots/persone_add02.png');
-  print('\nNew contact is added');
 }
 
 Future manageContact(
@@ -217,7 +121,8 @@ Future manageContact(
     String newTestName,
     SerializableFinder keyContactChangeNameFinder,
     String newMe,
-    SerializableFinder keyContactChangeCheckFinder) async {
+    SerializableFinder keyContactChangeCheckFinder,
+    String keyContactDetailEditContactProfileActionIcon) async {
   await driver.tap(find.text(newTestName));
   Invoker.current.heartbeat();
   await driver.waitFor(find.text(newTestName));
@@ -227,41 +132,4 @@ Future manageContact(
   await driver.enterText(newMe);
   await driver.tap(keyContactChangeCheckFinder);
   await driver.tap(find.pageBack());
-}
-
-Future deleteContact(
-  FlutterDriver driver,
-  SerializableFinder positiveFinder,
-  String newTestName,
-) async {
-  await driver.tap(find.text(newTestName));
-  Invoker.current.heartbeat();
-  await driver
-      .tap(find.byValueKey(keyContactDetailDeleteContactProfileActionIcon));
-  await driver.tap(positiveFinder);
-}
-
-//  Take screenshot
-catchScreenshot(FlutterDriver driver, String path) async {
-  final List<int> pixels = await driver.screenshot();
-  final File file = new File(path);
-  await file.writeAsBytes(pixels);
-  print(path);
-}
-
-Future getAuthentication(
-    FlutterDriver driver,
-    SerializableFinder email,
-    String fakeEmail,
-    SerializableFinder password,
-    String realPassword,
-    SerializableFinder signIn) async {
-  await driver.tap(email);
-  await driver.enterText(fakeEmail);
-  await driver.waitFor(email);
-  await driver.tap(password);
-  await driver.enterText(realPassword);
-  Invoker.current.heartbeat();
-  await driver.tap(signIn);
-  Invoker.current.heartbeat();
 }

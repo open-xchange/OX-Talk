@@ -47,11 +47,10 @@ import 'package:ox_coi/src/l10n/l10n.dart';
 import 'package:ox_coi/src/navigation/navigatable.dart';
 import 'package:ox_coi/src/navigation/navigation.dart';
 import 'package:ox_coi/src/widgets/validatable_text_form_field.dart';
+import 'package:ox_coi/src/utils/keyMapping.dart';
 
-import 'chat_bloc.dart';
 import 'chat_change_bloc.dart';
 import 'chat_change_event_state.dart';
-import 'chat_event_state.dart';
 
 class EditName extends StatefulWidget {
   final int chatId;
@@ -66,11 +65,11 @@ class EditName extends StatefulWidget {
 
 class _EditNameState extends State<EditName> {
   ChatChangeBloc _chatChangeBloc = ChatChangeBloc();
-  ChatBloc _chatBloc;
   Navigation _navigation = Navigation();
 
   ValidatableTextFormField _nameField = ValidatableTextFormField(
     (context) => L10n.get(L.name),
+    key: Key(keyEditNameValidatableTextFormField),
     hintText: (context) => L10n.get(L.setName),
     needValidation: true,
     validationHint: (context) => L10n.get(L.textFieldEmptyHint),
@@ -81,7 +80,6 @@ class _EditNameState extends State<EditName> {
   void initState() {
     super.initState();
     _navigation.current = Navigatable(Type.editName);
-    _chatBloc = BlocProvider.of<ChatBloc>(context);
     _nameField.controller.text = widget.actualName;
   }
 
@@ -91,10 +89,11 @@ class _EditNameState extends State<EditName> {
         appBar: AppBar(
           leading: new IconButton(
             icon: new Icon(Icons.close),
+            key: Key(keyEditNameCloseIcon),
             onPressed: () => _navigation.pop(context),
           ),
           title: Text(widget.title),
-          actions: <Widget>[IconButton(icon: Icon(Icons.check), onPressed: saveNewName)],
+          actions: <Widget>[IconButton(icon: Icon(Icons.check),key: Key(keyEditNameCheckIcon), onPressed: saveNewName)],
         ),
         body: BlocListener(
           bloc: _chatChangeBloc,

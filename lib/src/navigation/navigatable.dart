@@ -95,6 +95,7 @@ enum Type {
   share,
   showQr,
   scanQr,
+  webAsset,
 }
 
 class Navigatable {

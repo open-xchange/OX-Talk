@@ -50,8 +50,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:ox_coi/src/chat/chat_composer_event_state.dart';
 import 'package:ox_coi/src/utils/date.dart';
 import 'package:ox_coi/src/utils/security.dart';
-import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class ChatComposerBloc extends Bloc<ChatComposerEvent, ChatComposerState> {
@@ -99,10 +97,8 @@ class ChatComposerBloc extends Bloc<ChatComposerEvent, ChatComposerState> {
   }
 
   Future<void> startAudioRecorder() async {
-    Directory tempDir = await getTemporaryDirectory();
-    String path = tempDir.path + separator;
-    String name = getNowTimestamp().toString() + ".m4a";
-    _audioPath = await _flutterSound.startRecorder("$path$name", bitRate: 64000, numChannels: 1);
+    String name = Platform.isIOS ? 'ios.m4a' : 'android.mp3';
+    _audioPath = await _flutterSound.startRecorder("$name", bitRate: 64000, numChannels: 1);
     _recorderSubscription = _flutterSound.onRecorderStateChanged.listen((e) {
       String timer = getTimerFromTimestamp(e.currentPosition.toInt());
       dispatch(UpdateAudioRecording(timer: timer));

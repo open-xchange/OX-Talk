@@ -51,6 +51,7 @@ import 'package:ox_coi/src/ui/color.dart';
 import 'package:ox_coi/src/ui/dimensions.dart';
 import 'package:ox_coi/src/utils/constants.dart';
 import 'package:ox_coi/src/utils/dialog_builder.dart';
+import 'package:ox_coi/src/web/web_asset.dart';
 import 'package:ox_coi/src/widgets/url_text_span.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -67,14 +68,14 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   final LoginBloc _loginBloc = LoginBloc();
+  Navigation _navigation = Navigation();
   bool _showedErrorDialog = false;
   OverlayEntry _progressOverlayEntry;
 
   @override
   void initState() {
     super.initState();
-    var navigation = Navigation();
-    navigation.current = Navigatable(Type.login);
+    _navigation.current = Navigatable(Type.login);
     _loginBloc.dispatch(RequestProviders(type: ProviderListType.login));
     final loginObservable = new Observable<LoginState>(_loginBloc.state);
     loginObservable.listen((state) => handleLoginStateChange(state));
@@ -108,66 +109,108 @@ class _LoginState extends State<Login> {
   }
 
   Widget createWelcomeScreen() {
-    return SingleChildScrollView(
-      padding: EdgeInsets.only(left: loginHorizontalPadding, right: loginHorizontalPadding, bottom: loginVerticalPadding, top: loginTopPadding),
-      child: Column(
-        children: <Widget>[
-          Text(
-            L10n.get(L.welcome),
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.headline,
-          ),
-          Image(
-            image: AssetImage(appLogoUrl),
-            height: loginLogoSize,
-            width: loginLogoSize,
-          ),
-          Padding(
-            padding: EdgeInsets.only(bottom: loginVerticalPadding),
-            child: Text(
-              L10n.get(L.loginWelcome),
-              textAlign: TextAlign.center,
+    return LayoutBuilder(builder: (BuildContext context, BoxConstraints viewportConstraints) {
+      return SingleChildScrollView(
+        child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: viewportConstraints.maxHeight,
             ),
-          ),
-          RaisedButton(
-              color: accent,
-              textColor: onAccent,
-              child: SizedBox(
-                width: loginButtonWidth,
-                child: Text(
-                  L10n.get(L.loginSignIn).toUpperCase(),
-                  textAlign: TextAlign.center,
-                ),
+            child: IntrinsicHeight(
+              child: Column(
+                children: <Widget>[
+                  Expanded(
+                    child: Container(
+                      color: primary,
+                      width: viewportConstraints.maxWidth,
+                      padding: EdgeInsets.symmetric(horizontal: loginHorizontalPadding),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          Image(
+                            image: AssetImage(appLogoUrl),
+                            height: loginLogoSize,
+                            width: loginLogoSize,
+                          ),
+                          Padding(padding: EdgeInsets.only(top: loginLogoTextPadding)),
+                          RichText(
+                            textAlign: TextAlign.center,
+                            text: TextSpan(
+                              style: Theme.of(context).textTheme.caption.apply(color: onAccent),
+                              children: getWelcome(),
+                            ),
+                          ),
+                          Padding(padding: EdgeInsets.only(top: loginWaveTopBottomPadding)),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Image.asset(
+                    "assets/images/login_wave.png",
+                    width: viewportConstraints.maxWidth,
+                  ),
+                  Expanded(
+                    child: Container(
+                      color: background,
+                      width: viewportConstraints.maxWidth,
+                      padding: EdgeInsets.symmetric(horizontal: loginHorizontalPadding),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Padding(padding: EdgeInsets.only(top: loginWaveTopBottomPadding)),
+                          RaisedButton(
+                              color: accent,
+                              textColor: onAccent,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(loginOtherProviderButtonRadius),
+                              ),
+                              child: SizedBox(
+                                  width: loginButtonWidth,
+                                  height: loginSignInButtonHeight,
+                                  child: Center(
+                                    child: Text(
+                                      L10n.get(L.loginSignIn).toUpperCase(),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  )),
+                              onPressed: () {
+                                _goToProviderList(ProviderListType.login);
+                              }),
+                          Padding(padding: EdgeInsets.only(top: loginButtonPadding)),
+                          Padding(
+                            padding: EdgeInsets.all(loginVerticalPadding8dp),
+                            child: FlatButton(
+                                child: Text(
+                                  L10n.get(L.register).toUpperCase(),
+                                  style: TextStyle(color: accent),
+                                ),
+                                onPressed: () {
+                                  _goToProviderList(ProviderListType.register);
+                                }),
+                          ),
+                          Padding(padding: EdgeInsets.only(top: loginRichTextButtonPadding)),
+                          Padding(
+                            padding: EdgeInsets.only(bottom: loginRichTextBottomPadding),
+                            child: RichText(
+                              textAlign: TextAlign.center,
+                              text: TextSpan(
+                                style: Theme.of(context).textTheme.caption.apply(color: onBackground),
+                                children: getAgreeTo(),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              onPressed: () {
-                _goToProviderList(ProviderListType.login);
-              }),
-          Padding(
-            padding: EdgeInsets.all(loginVerticalPadding8dp),
-            child: FlatButton(
-                child: Text(
-                  L10n.get(L.register).toUpperCase(),
-                  style: TextStyle(color: accent),
-                ),
-                onPressed: () {
-                  _goToProviderList(ProviderListType.register);
-                }),
-          ),
-          RichText(
-            textAlign: TextAlign.center,
-            text: TextSpan(
-              style: Theme.of(context).textTheme.caption.apply(color: onBackground),
-              children: getAgreeTo(),
-            ),
-          ),
-        ],
-      ),
-    );
+            )),
+      );
+    });
   }
 
   void _goToProviderList(ProviderListType type) {
-    var navigation = Navigation();
-    navigation.push(
+    _navigation.push(
       context,
       MaterialPageRoute(
         builder: (context) => ProviderList(
@@ -176,6 +219,25 @@ class _LoginState extends State<Login> {
         ),
       ),
     );
+  }
+
+  List<TextSpan> getWelcome() {
+    int spanBoundary = 0;
+    var oxCoiName = L10n.get(L.oxCoiName);
+    var formattedWelcomeString = L10n.getFormatted(L.welcome, [oxCoiName]);
+    var oxCoiNameStartIndex = formattedWelcomeString.indexOf(oxCoiName, spanBoundary);
+    var oxCoiNameEndIndex = oxCoiNameStartIndex + oxCoiName.length;
+
+    List<TextSpan> textParts = [];
+    textParts.add(TextSpan(text: formattedWelcomeString.substring(spanBoundary, oxCoiNameStartIndex), style: Theme.of(context).textTheme.headline.copyWith(color: onAccent)));
+    spanBoundary = oxCoiNameStartIndex;
+    if(spanBoundary > 0){
+      textParts.add(TextSpan(text: "\n"));
+    }
+    textParts.add(TextSpan(text: oxCoiName, style: Theme.of(context).textTheme.title.copyWith(color: onAccent, fontSize: 28.0)));
+    spanBoundary = oxCoiNameEndIndex;
+    textParts.add(TextSpan(text: formattedWelcomeString.substring(spanBoundary)));
+    return textParts;
   }
 
   List<TextSpan> getAgreeTo() {
@@ -191,13 +253,23 @@ class _LoginState extends State<Login> {
     List<TextSpan> textParts = [];
     textParts.add(TextSpan(text: formattedAgreeString.substring(spanBoundary, termsConditionsStartIndex)));
     spanBoundary = termsConditionsStartIndex;
-    textParts.add(UrlTextSpan(url: null, text: termsAndConditions));
+    textParts.add(UrlTextSpan(asset: "assets/html/terms.html", text: termsAndConditions, onAssetTapped: _onAssetTapped));
     spanBoundary = termsConditionsEndIndex;
     textParts.add(TextSpan(text: formattedAgreeString.substring(spanBoundary, privacyPolicyStartIndex)));
     spanBoundary = privacyPolicyStartIndex;
-    textParts.add(UrlTextSpan(url: null, text: privacyPolicy));
+    textParts.add(UrlTextSpan(asset: "assets/html/privacypolicy.html", text: privacyPolicy, onAssetTapped: _onAssetTapped));
     spanBoundary = privacyPolicyEndIndex;
     textParts.add(TextSpan(text: formattedAgreeString.substring(spanBoundary)));
     return textParts;
+  }
+
+  _onAssetTapped(String asset) {
+    _navigation.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => WebAsset(
+            asset: asset,
+          ),
+        ));
   }
 }

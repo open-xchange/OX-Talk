@@ -60,6 +60,9 @@ const listAvatarDiameter = listAvatarRadius * 2;
 const listAvatarTextPadding = 16.0;
 const listStateInfoHorizontalPadding = 24.0;
 const listStateInfoVerticalPadding = 16.0;
+const listEmptyVerticalPadding = 16.0;
+const listEmptyTopPadding = 24.0;
+const listEmptyHorizontalPadding = 40.0;
 
 const listInviteUnreadIndicatorFontSize = 12.0;
 const listInviteUnreadIndicatorBorderRadius = 16.0;
@@ -127,9 +130,9 @@ const editUserAvatarImageMaxSize = 512;
 const editUserAvatarRatio = 1.0;
 
 // Login
-const loginLogoSize = 200.0;
+const loginLogoSize = 136.0;
 const loginHorizontalPadding16dp = 16.0;
-const loginHorizontalPadding = 24.0;
+const loginHorizontalPadding = 40.0;
 const loginVerticalPadding = 28.0;
 const loginTopPadding = 80.0;
 const loginButtonWidth = 200.0;
@@ -147,3 +150,9 @@ const loginErrorOverlayHeight = 40.0;
 const loginListItemHeight = 64.0;
 const loginListItemDividerHeight = 0.0;
 const loginOtherProviderButtonRadius = 22.0;
+const loginLogoTextPadding = 16.0;
+const loginWaveTopBottomPadding = 32.0;
+const loginSignInButtonHeight = 40.0;
+const loginButtonPadding = 24.0;
+const loginRichTextButtonPadding = 64.0;
+const loginRichTextBottomPadding = 32.0;

@@ -52,6 +52,8 @@ import 'package:ox_coi/src/data/contact_extension.dart';
 import 'package:ox_coi/src/data/repository.dart';
 import 'package:ox_coi/src/data/repository_manager.dart';
 import 'package:ox_coi/src/data/repository_stream_handler.dart';
+import 'package:ox_coi/src/l10n/l.dart';
+import 'package:ox_coi/src/l10n/l10n.dart';
 import 'package:ox_coi/src/ui/color.dart';
 
 class ChatBloc extends Bloc<ChatEvent, ChatState> {
@@ -59,6 +61,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   var _contactRepository = RepositoryManager.get(RepositoryType.contact);
   RepositoryMultiEventStreamHandler _repositoryStreamHandler;
   bool _isGroup = false;
+  int _chatId;
 
   bool get isGroup => _isGroup;
 
@@ -70,12 +73,12 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     if (event is RequestChat) {
       yield ChatStateLoading();
       try {
+        _chatId = event.chatId;
         _setupChatListener();
-        int chatId = event.chatId;
-        if (chatId == Chat.typeInvite) {
+        if (_chatId == Chat.typeInvite) {
           _setupInviteChat(event.messageId);
         } else {
-          _setupChat(chatId, event.isHeadless);
+          _setupChat(event.isHeadless);
         }
       } catch (error) {
         yield ChatStateFailure(error: error.toString());
@@ -92,6 +95,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
           timestamp: event.timestamp,
           isVerified: event.isVerified,
           avatarPath: event.avatarPath,
+          isRemoved: event.isRemoved,
           phoneNumbers: event.phoneNumbers);
     }
   }
@@ -111,56 +115,76 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   }
 
   void _onChatChanged([Event event]) async {
-    _setupChat(event.data1, false);
+    int eventChatId = event.data1;
+    if (_chatId == eventChatId) {
+      _setupChat(false);
+    }
   }
 
   void _setupInviteChat(int messageId) async {
     Repository<ChatMsg> messageListRepository = RepositoryManager.get(RepositoryType.chatMessage, Chat.typeInvite);
     ChatMsg message = messageListRepository.get(messageId);
-    int contactId = await message.getFromId();
-    Contact contact = _contactRepository.get(contactId);
-    String name = await contact.getName();
-    String email = await contact.getAddress();
-    int colorValue = await contact.getColor();
-    Color color = rgbColorFromInt(colorValue);
-    dispatch(
-      ChatLoaded(
-        name: name,
-        subTitle: email,
-        color: color,
-        freshMessageCount: 0,
-        isSelfTalk: false,
-        isGroupChat: false,
-        preview: null,
-        timestamp: null,
-        isVerified: false,
-        avatarPath: null,
-      ),
-    );
+    if(message != null) {
+      int contactId = await message.getFromId();
+      Contact contact = _contactRepository.get(contactId);
+      String name = await contact.getName();
+      String email = await contact.getAddress();
+      int colorValue = await contact.getColor();
+      Color color = rgbColorFromInt(colorValue);
+      dispatch(
+        ChatLoaded(
+          name: name,
+          subTitle: email,
+          color: color,
+          freshMessageCount: 0,
+          isSelfTalk: false,
+          isGroupChat: false,
+          preview: null,
+          timestamp: null,
+          isVerified: false,
+          isRemoved: false,
+          avatarPath: null,
+        ),
+      );
+    }
   }
 
-  void _setupChat(int chatId, bool isHeadless) async {
+  void _setupChat(bool isHeadless) async {
     Context context = Context();
-    Chat chat = _chatRepository.get(chatId);
+    Chat chat = _chatRepository.get(_chatId);
     if (chat == null && isHeadless) {
-      _chatRepository.putIfAbsent(id: chatId);
-      chat = _chatRepository.get(chatId);
+      _chatRepository.putIfAbsent(id: _chatId);
+      chat = _chatRepository.get(_chatId);
     }
-    String name = await chat.getName();
-    String subTitle = await chat.getSubtitle();
-    int colorValue = await chat.getColor();
-    int freshMessageCount = await context.getFreshMessageCount(chatId);
-    bool isSelfTalk = await chat.isSelfTalk();
     _isGroup = await chat.isGroup();
+    String name = await chat.getName();
+    int colorValue = await chat.getColor();
+    int freshMessageCount = await context.getFreshMessageCount(_chatId);
+    bool isSelfTalk = await chat.isSelfTalk();
     bool isVerified = await chat.isVerified();
     Color color = rgbColorFromInt(colorValue);
     String avatarPath = await chat.getProfileImage();
     var chatSummary = chat.get(ChatExtension.chatSummary);
+    var chatSummaryState = chatSummary?.state;
     var phoneNumbers;
-    if (!_isGroup) {
-      var contactId = (await context.getChatContacts(chatId)).first;
-      Contact contact = _contactRepository.get(contactId);
+    var chatContacts = await context.getChatContacts(_chatId);
+    var isRemoved = false;
+    String subTitle;
+    if (_isGroup) {
+      var chatContactsCount = chatContacts.length;
+      subTitle = L10n.getFormatted(L.memberXP, [chatContactsCount], count: chatContactsCount);
+      isRemoved = !chatContacts.contains(Contact.idSelf);
+    } else {
+      var chatContactId = chatContacts.first;
+      Contact contact = _contactRepository.get(chatContactId);
       phoneNumbers = contact?.get(ContactExtension.contactPhoneNumber);
+      var isSelfTalk = await chat.isSelfTalk();
+      if (isSelfTalk) {
+        subTitle = L10n.get(L.chatMessagesSelf);
+      } else {
+        Contact contact = _contactRepository.get(chatContactId);
+        subTitle = await contact.getAddress();
+      }
     }
     dispatch(
       ChatLoaded(
@@ -170,10 +194,13 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         freshMessageCount: freshMessageCount,
         isSelfTalk: isSelfTalk,
         isGroupChat: _isGroup,
-        preview: chatSummary?.preview,
+        preview: chatSummaryState != ChatMsg.messageStateDraft && chatSummaryState != ChatMsg.messageNone
+            ? chatSummary?.preview
+            : L10n.get(L.chatNoMessages),
         timestamp: chatSummary?.timestamp,
         isVerified: isVerified,
         avatarPath: avatarPath,
+        isRemoved: isRemoved,
         phoneNumbers: phoneNumbers,
       ),
     );
