@@ -255,7 +255,7 @@ class ChatListBloc extends Bloc<ChatListEvent, ChatListState> {
       _chatRepository.putIfAbsent(ids: chatIds);
       chatSummaries.forEach((id, chatSummary) {
         var summary = _chatRepository.get(id).get(ChatExtension.chatSummary);
-        if(summary == null) {
+        if(summary != chatSummary) {
           _chatRepository.get(id).set(ChatExtension.chatSummary, chatSummary);
         }
       });
