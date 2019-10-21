@@ -55,24 +55,14 @@ void main() {
     Setup setup = new Setup(driver);
     setup.main(timeout);
 
-    SerializableFinder userSettingsUsernameLabelFinder =
-        find.byValueKey(keyUserSettingsUserSettingsUsernameLabel);
-    SerializableFinder userProfileUserNameTextFinder =
-        find.text(testUserNameUserProfile);
-    SerializableFinder userProfileEmailTextFinder =
-        find.byValueKey(keyUserProfileEmailText);
-    SerializableFinder userProfileStatusTextFinder =
-        find.text(profileUserStatus);
+    SerializableFinder userSettingsUsernameLabelFinder = find.byValueKey(keyUserSettingsUserSettingsUsernameLabel);
+    SerializableFinder userProfileUserNameTextFinder = find.text(testUserNameUserProfile);
+    SerializableFinder userProfileEmailTextFinder = find.byValueKey(keyUserProfileEmailText);
+    SerializableFinder userProfileStatusTextFinder = find.text(profileUserStatus);
 
     test('Test create profile integration tests.', () async {
       await getAuthentication(
-          setup.driver,
-          signInFinder,
-          coiDebugProviderFinder,
-          providerEmailFinder,
-          realEmail,
-          providerPasswordFinder,
-          realPassword);
+          setup.driver, signInFinder, coiDebugProviderFinder, providerEmailFinder, realEmail, providerPasswordFinder, realPassword);
 
       await catchScreenshot(setup.driver, 'screenshots/signInDone.png');
       await setup.driver.waitFor(chatWelcomeFinder);

@@ -55,50 +55,14 @@ class Setup {
 
   main(Duration timeout) {
     setUpAll(() async {
-      final String adbPath =
-          '/Users/openxchange/Library/Android/sdk/platform-tools/adb';
-      await Process.run(adbPath, [
-        'shell',
-        'pm',
-        'grant',
-        'com.openxchange.oxcoi.dev',
-        'android.permission.RECORD_AUDIO'
-      ]);
-      await Process.run(adbPath, [
-        'shell',
-        'pm',
-        'grant',
-        'com.openxchange.oxcoi.dev',
-        'android.permission.READ_EXTERNAL_STORAGE'
-      ]);
-      await Process.run(adbPath, [
-        'shell',
-        'pm',
-        'grant',
-        'com.openxchange.oxcoi.dev',
-        'android.permission.WRITE_EXTERNAL_STORAGE'
-      ]);
-      await Process.run(adbPath, [
-        'shell',
-        'pm',
-        'grant',
-        'com.openxchange.oxcoi.dev',
-        'android.permission.WRITE_CONTACTS'
-      ]);
-      await Process.run(adbPath, [
-        'shell',
-        'pm',
-        'grant',
-        'com.openxchange.oxcoi.dev',
-        'android.permission.READ_CONTACTS'
-      ]);
-      await Process.run(adbPath, [
-        'shell',
-        'pm',
-        'grant',
-        'com.openxchange.oxcoi.dev',
-        'android.permission.RECORD_AUDIO'
-      ]);
+
+      final String adbPath ='adb';
+      await Process.run(adbPath, ['shell', 'pm', 'grant', 'com.openxchange.oxcoi.dev', 'android.permission.RECORD_AUDIO']);
+      await Process.run(adbPath, ['shell', 'pm', 'grant', 'com.openxchange.oxcoi.dev', 'android.permission.READ_EXTERNAL_STORAGE']);
+      await Process.run(adbPath, ['shell', 'pm', 'grant', 'com.openxchange.oxcoi.dev', 'android.permission.WRITE_EXTERNAL_STORAGE']);
+      await Process.run(adbPath, ['shell', 'pm', 'grant', 'com.openxchange.oxcoi.dev', 'android.permission.WRITE_CONTACTS']);
+      await Process.run(adbPath, ['shell', 'pm', 'grant', 'com.openxchange.oxcoi.dev', 'android.permission.READ_CONTACTS']);
+      await Process.run(adbPath, ['shell', 'pm', 'grant', 'com.openxchange.oxcoi.dev', 'android.permission.RECORD_AUDIO']);
 
       this._drivers = await FlutterDriver.connect();
       this._drivers.setSemantics(true, timeout: timeout);
