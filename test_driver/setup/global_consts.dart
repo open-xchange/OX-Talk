@@ -99,7 +99,7 @@ const searchString = 'Douglas0';
 
 const typeSomethingComposePlaceholder = 'Type something...';
 
-const helloWord = 'Hello word';
+const helloWorld = 'Hello word';
 
 final typeSomethingComposePlaceholderFinder = find.byValueKey(typeSomethingComposePlaceholder);
 
@@ -110,6 +110,10 @@ final coiDebugProviderFinder = find.text(coiDebug);
 final chatWelcomeFinder = find.text(chatWelcomeMessage);
 
 final profileFinder = find.text(profile);
+
+final pageBack = find.pageBack();
+
+final helloWorldFinder = find.text(helloWorld);
 
 final contactsFinder = find.text(contacts);
 

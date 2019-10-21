@@ -57,18 +57,11 @@ Future catchScreenshot(FlutterDriver driver, String path) async {
   print(path);
 }
 
-Future getAuthentication(
-    FlutterDriver driver,
-    SerializableFinder signInFinder,
-    SerializableFinder coiDebugProviderFinder,
-    SerializableFinder email,
-    String fakeEmail,
-    SerializableFinder password,
-    String realPassword) async {
+Future getAuthentication(FlutterDriver driver, SerializableFinder signInFinder, SerializableFinder coiDebugProviderFinder, SerializableFinder email,
+    String fakeEmail, SerializableFinder password, String realPassword) async {
   print('\nReal authentication.');
   await driver.tap(signInFinder);
-  await driver
-      .scroll(find.text(mailCom), 0, -600, Duration(milliseconds: 500));
+  await driver.scroll(find.text(mailCom), 0, -600, Duration(milliseconds: 500));
   await driver.tap(coiDebugProviderFinder);
   await driver.tap(email);
   await driver.enterText(fakeEmail);
@@ -91,14 +84,8 @@ Future navigateTo(FlutterDriver driver, String pageToNavigate) async {
   }
 }
 
-Future addNewContact(
-    FlutterDriver driver,
-    SerializableFinder personAddFinder,
-    SerializableFinder keyContactChangeNameFinder,
-    String newTestName,
-    SerializableFinder keyContactChangeEmailFinder,
-    String newTestContact,
-    SerializableFinder keyContactChangeCheckFinder) async {
+Future addNewContact(FlutterDriver driver, SerializableFinder personAddFinder, SerializableFinder keyContactChangeNameFinder, String newTestName,
+    SerializableFinder keyContactChangeEmailFinder, String newTestContact, SerializableFinder keyContactChangeCheckFinder) async {
   Invoker.current.heartbeat();
   await driver.tap(personAddFinder);
   await catchScreenshot(driver, 'screenshots/person_add01.png');
@@ -120,16 +107,11 @@ Future deleteContact(
 ) async {
   await driver.tap(find.text(newTestName));
   Invoker.current.heartbeat();
-  await driver
-      .tap(find.byValueKey(keyContactDetailDeleteContactProfileActionIcon));
+  await driver.tap(find.byValueKey(keyContactDetailDeleteContactProfileActionIcon));
   await driver.tap(positiveFinder);
 }
 
-Future chatSearch(
-    FlutterDriver driver,
-    String chatName,
-    String searchString,
-    SerializableFinder keyChatListSearchIconButton,
+Future chatSearch(FlutterDriver driver, String chatName, String searchString, SerializableFinder keyChatListSearchIconButton,
     String keySearchReturnIconButton) async {
   Invoker.current.heartbeat();
   final searchReturnIconButton = find.byValueKey(keySearchReturnIconButton);
@@ -138,15 +120,11 @@ Future chatSearch(
   await driver.enterText(searchString);
   await catchScreenshot(driver, 'screenshots/searchList.png');
   await driver.tap(find.text(chatName));
-  await driver.tap(find.pageBack());
+  await driver.tap(pageBack);
   await driver.tap(searchReturnIconButton);
 }
 
-Future chatTest(
-    FlutterDriver driver,
-    String chatName,
-    SerializableFinder typeSomethingComposePlaceholder,
-    String helloWord) async {
+Future chatTest(FlutterDriver driver, String chatName, SerializableFinder typeSomethingComposePlaceholder, String helloWord) async {
   Invoker.current.heartbeat();
   await driver.tap(find.text(chatName));
   await writeChatFromChat(driver, helloWord);
@@ -154,22 +132,24 @@ Future chatTest(
 }
 
 Future writeChatFromChat(FlutterDriver driver, String helloWord) async {
+  await writeTextInChat(driver, helloWord);
+  // Enter audio now.
+  await driver.tap(find.byValueKey(KeyChatComposerMixinOnRecordAudioPressedIcon));
+  sleep(Duration(seconds: 1));
+  await driver.tap(find.byValueKey(KeyChatComposerMixinOnRecordAudioSendIcon));
+}
+
+Future writeTextInChat(FlutterDriver driver, String helloWord) async {
   await driver.tap(typeSomethingComposePlaceholderFinder);
   await driver.enterText(helloWord);
   await driver.tap(find.byValueKey(KeyChatComposerMixinOnSendTextIcon));
-  await driver.waitFor(find.text(helloWord));
-  // Enter audio now.
-  await driver
-      .tap(find.byValueKey(KeyChatComposerMixinOnRecordAudioPressedIcon));
-  sleep(Duration(seconds: 3));
-  await driver.tap(find.byValueKey(KeyChatComposerMixinOnRecordAudioSendIcon));
+  await driver.waitFor(helloWorldFinder);
 }
 
 Future callTest(FlutterDriver driver) async {
   await driver.tap(find.byValueKey(keyChatIconButtonIconPhone));
   await catchScreenshot(driver, 'screenshots/callTest.png');
   await driver.tap(keyDialogBuilderAlertDialogOkFlatButtonFinder);
-  await driver.tap(find.pageBack());
 }
 
 Future unblockOneContactFromBlockedContacts(FlutterDriver driver, String contactNameToUnblock) async {
@@ -185,4 +165,40 @@ Future blockOneContactFromContacts(FlutterDriver driver, String contactNameToBlo
   await driver.tap(find.byValueKey(keyContactDetailBlockContactProfileActionIcon));
   await driver.tap(find.text(blockContact));
   await catchScreenshot(driver, 'screenshots/contactListAfterBlock.png');
+}
+
+Future unFlaggedMessage(FlutterDriver driver, String flagUnFlag, SerializableFinder messageToUnFlaggedFinder) async {
+  await driver.tap(find.byValueKey(keyChatListGetFlaggedActionIconButton));
+  await driver.waitFor(messageToUnFlaggedFinder);
+  await driver.scroll(messageToUnFlaggedFinder, 0, 0, Duration(milliseconds: 5000));
+  await driver.tap(find.text(flagUnFlag));
+}
+
+Future flaggedMessage(FlutterDriver driver, String flagUnFlag, SerializableFinder messageToFlaggedFinder) async {
+  await driver.scroll(messageToFlaggedFinder, 0, 0, Duration(milliseconds: 5000));
+  await driver.tap(find.text(flagUnFlag));
+}
+
+Future deleteMessage(SerializableFinder textToDeleteFinder, FlutterDriver driver) async {
+  await driver.scroll(textToDeleteFinder, 0, 0, Duration(milliseconds: 5000));
+  await driver.tap(find.text('Delete locally'));
+  await catchScreenshot(driver, 'screenshots/chatAfterdDelete.png');
+}
+
+Future copyAndPasteMessage(FlutterDriver driver, String copy, String paste) async {
+  await driver.scroll(helloWorldFinder, 0, 0, Duration(milliseconds: 5000));
+  await driver.tap(find.text(copy));
+  await driver.scroll(typeSomethingComposePlaceholderFinder, 0, 0, Duration(milliseconds: 5000));
+  await driver.tap(find.text(paste));
+  await driver.tap(find.byValueKey(KeyChatComposerMixinOnSendTextIcon));
+  if (helloWorldFinder.serialize().length <= 2) {
+    print('Copy paste succeed');
+    await catchScreenshot(driver, 'screenshots/chatAfterPaste.png');
+  }
+}
+
+Future forwardMessageTo(FlutterDriver driver, String contactToForward, String forward) async {
+  await driver.scroll(helloWorldFinder, 0, 0, Duration(milliseconds: 5000));
+  await driver.tap(find.text(forward));
+  await driver.tap(find.text(contactToForward));
 }
