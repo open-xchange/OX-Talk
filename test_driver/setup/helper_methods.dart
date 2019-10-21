@@ -67,6 +67,8 @@ Future getAuthentication(
     String realPassword) async {
   print('\nReal authentication.');
   await driver.tap(signInFinder);
+  await driver
+      .scroll(find.text(mailCom), 0, -600, Duration(milliseconds: 500));
   await driver.tap(coiDebugProviderFinder);
   await driver.tap(email);
   await driver.enterText(fakeEmail);
@@ -170,20 +172,17 @@ Future callTest(FlutterDriver driver) async {
   await driver.tap(find.pageBack());
 }
 
-Future blockOneContact(FlutterDriver driver, String contactNameToBlock) async {
-  await driver.tap(find.text(contactNameToBlock));
-  await driver
-      .tap(find.byValueKey(keyContactDetailBlockContactProfileActionIcon));
-  await driver.tap(find.text(blockContact));
-  await catchScreenshot(driver, 'screenshots/contactListAfterBlock.png');
-  await driver.waitForAbsent(find.text(contactNameToBlock));
-  await driver.tap(find.byValueKey(keyContactListBlockIconButton));
-  await driver.waitFor(find.text(contactNameToBlock));
-  await catchScreenshot(driver, 'screenshots/blockedList.png');
-  await driver.tap(find.text(contactNameToBlock));
+Future unblockOneContactFromBlockedContacts(FlutterDriver driver, String contactNameToUnblock) async {
+  await driver.tap(find.text(contactNameToUnblock));
   await driver.tap(find.text(unblock));
   await catchScreenshot(driver, 'screenshots/blockedListNew.png');
   await driver.waitFor(find.text(L.getKey(L.contactNoBlocked)));
   await driver.tap(find.byValueKey(keyContactBlockedListCloseIconButton));
-  await driver.waitFor(find.text(contactNameToBlock));
+}
+
+Future blockOneContactFromContacts(FlutterDriver driver, String contactNameToBlock) async {
+  await driver.tap(find.text(contactNameToBlock));
+  await driver.tap(find.byValueKey(keyContactDetailBlockContactProfileActionIcon));
+  await driver.tap(find.text(blockContact));
+  await catchScreenshot(driver, 'screenshots/contactListAfterBlock.png');
 }

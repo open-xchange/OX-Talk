@@ -46,6 +46,7 @@ import 'setup/helper_methods.dart';
 import 'setup/main_test_setup.dart';
 import 'package:test/test.dart';
 import 'package:test_api/src/backend/invoker.dart';
+import 'package:ox_coi/src/utils/keyMapping.dart';
 
 void main() {
   group('Test block / unblock functionality', () {
@@ -57,34 +58,32 @@ void main() {
     test('Test block / unblock functionality.', () async {
       //  Check real authentication and get chat.
       await getAuthentication(
-          setup.driver,
-          signInFinder,
-          coiDebugProviderFinder,
-          providerEmailFinder,
-          realEmail,
-          providerPasswordFinder,
-          realPassword);
+          setup.driver, signInFinder, coiDebugProviderFinder, providerEmailFinder, realEmail, providerPasswordFinder, realPassword);
 
       Invoker.current.heartbeat();
       await setup.driver.waitFor(chatWelcomeFinder);
       Invoker.current.heartbeat();
+
       //  Get contacts and add new contacts.
       await setup.driver.tap(contactsFinder);
       await setup.driver.tap(cancelFinder);
       await setup.driver.waitFor(find.text(meContact));
 
       // Add two new contacts in the contact list.
-      await addNewContact(
-          setup.driver,
-          personAddFinder,
-          keyContactChangeNameFinder,
-          newTestName01,
-          keyContactChangeEmailFinder,
-          newTestContact01,
+      await addNewContact(setup.driver, personAddFinder, keyContactChangeNameFinder, newTestName01, keyContactChangeEmailFinder, newTestContact01,
           keyContactChangeCheckFinder);
 
-      //  Block one contact.
-      await blockOneContact(setup.driver, newTestName01);
+      //  Block one contact and check the blocking,
+      await blockOneContactFromContacts(setup.driver, newTestName01);
+      await setup.driver.waitForAbsent(find.text(newTestName01));
+      await setup.driver.tap(find.byValueKey(keyContactListBlockIconButton));
+      await setup.driver.waitFor(find.text(newTestName01));
+      await catchScreenshot(setup.driver, 'screenshots/blockedList.png');
+
+      //  Unblock one contact and check the unblocking.
+      await unblockOneContactFromBlockedContacts(setup.driver, newTestName01);
+      await setup.driver.waitFor(find.text(newTestName01));
     });
   });
 }
+

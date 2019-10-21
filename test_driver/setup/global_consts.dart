@@ -55,7 +55,7 @@ const testUserNameUserProfile = 'EDN tester';
 
 const realPassword = 'secret';
 
-const coiDebug = 'Coi debug';
+const coiDebug = 'Debug (mobile-qa)';
 
 const meContact = 'Me';
 
