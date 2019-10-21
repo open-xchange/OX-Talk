@@ -40,9 +40,7 @@
  * for more details.
  */
 
-// Imports the Flutter Driver API.
 import 'package:flutter_driver/flutter_driver.dart';
-import 'package:ox_coi/src/utils/keyMapping.dart';
 import 'setup/global_consts.dart';
 import 'setup/helper_methods.dart';
 import 'setup/main_test_setup.dart';
@@ -50,12 +48,14 @@ import 'package:test/test.dart';
 import 'package:test_api/src/backend/invoker.dart';
 
 void main() {
-  group('Create chat list integration tests.', () {
-    // Setup for the test.
+  group('Test block / unblock functionality', () {
+    //  Define the driver.
+    FlutterDriver driver;
     Setup setup = new Setup(driver);
     setup.main(timeout);
 
-    test('Test Create chat list integration tests.', () async {
+    test('Test block / unblock functionality.', () async {
+      //  Check real authentication and get chat.
       await getAuthentication(
           setup.driver,
           signInFinder,
@@ -65,63 +65,26 @@ void main() {
           providerPasswordFinder,
           realPassword);
 
-      //  Create first Me contact.
-      await createNewChat(setup.driver, createChatFinder, realEmail, meContact,
-          newContact, name, enterContactName, emptyChat);
-      //  Create second contact.
-      await createNewChat(setup.driver, createChatFinder, newTestContact02,
-          newTestName02, newContact, name, enterContactName, emptyChat);
-      //  create third contact
-      await createNewChat(setup.driver, createChatFinder, newTestContact01,
-          newTestName01, newContact, name, enterContactName, emptyChat);
-      //  Type something and get it.
-      await chatTest(setup.driver, newTestName01,
-          typeSomethingComposePlaceholderFinder, helloWord);
-      //  Search contact.
-      await chatSearch(
+      Invoker.current.heartbeat();
+      await setup.driver.waitFor(chatWelcomeFinder);
+      Invoker.current.heartbeat();
+      //  Get contacts and add new contacts.
+      await setup.driver.tap(contactsFinder);
+      await setup.driver.tap(cancelFinder);
+      await setup.driver.waitFor(find.text(meContact));
+
+      // Add two new contacts in the contact list.
+      await addNewContact(
           setup.driver,
+          personAddFinder,
+          keyContactChangeNameFinder,
           newTestName01,
-          searchString,
-          find.byValueKey(keyChatListSearchIconButton),
-          keySearchReturnIconButton);
+          keyContactChangeEmailFinder,
+          newTestContact01,
+          keyContactChangeCheckFinder);
+
+      //  Block one contact.
+      await blockOneContact(setup.driver, newTestName01);
     });
   });
 }
-
-Future createNewChat(
-    FlutterDriver driver,
-    SerializableFinder finderCreateChat,
-    String chatEmail,
-    String chatName,
-    String newContact,
-    String name,
-    String enterContactName,
-    String emptyChat) async {
-  final finderMe = find.text(meContact);
-  final finderNewContact = find.text(newContact);
-  Invoker.current.heartbeat();
-  await driver.tap(finderCreateChat);
-  if (chatName == meContact) {
-    await driver.tap(finderMe);
-    await driver.tap(find.pageBack());
-    await driver.waitFor(finderMe);
-  } else {
-    Invoker.current.heartbeat();
-    await driver.tap(finderNewContact);
-    await driver.waitFor(find.text(name));
-    await driver.waitFor(find.text(emailAddress));
-    await driver
-        .tap(find.byValueKey(keyContactChangeNameValidatableTextFormField));
-    await driver.waitFor(find.text(enterContactName));
-    await driver.enterText(chatName);
-    await driver
-        .tap(find.byValueKey(keyContactChangeEmailValidatableTextFormField));
-    await driver.waitFor(find.text(emailAddress));
-    await driver.enterText(chatEmail);
-    await driver.tap(find.byValueKey(keyContactChangeCheckIconButton));
-    await driver.waitFor(find.text(emptyChat));
-    await driver.tap(find.pageBack());
-    await catchScreenshot(driver, 'screenshots/chatListeAfterCreated.png');
-  }
-}
-
