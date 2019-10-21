@@ -162,6 +162,7 @@ class _FlaggedState extends State<Flagged> {
           isGroupChat: true,
           hasDateMarker: hasDateMarker,
           nextMessageId: nextMessageId,
+          flaggedView: true,
           key: key,
         );
       },

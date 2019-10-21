@@ -144,7 +144,7 @@ mixin ChatComposer {
               iosIcon: CupertinoIcons.mic
           ),
           func: onRecordAudioPressed,
-          key: Key(KeyChat_Composer_MixinOnRecordAudioPressedIcon),
+          key: Key(KeyChatComposerMixinOnRecordAudioPressedIcon),
         ));
         widgets.add(new AdaptiveIconButton(
           icon: new AdaptiveIcon(
@@ -167,7 +167,7 @@ mixin ChatComposer {
               androidIcon: Icons.send,
               iosIcon: CupertinoIcons.forward
           ),
-          func: onSendText,key: Key(KeyChat_Composer_MixinOnSendTextIcon),
+          func: onSendText,key: Key(KeyChatComposerMixinOnSendTextIcon),
         ));
         break;
       case ComposerModeType.isVoiceRecording:
@@ -176,7 +176,7 @@ mixin ChatComposer {
               androidIcon: Icons.send,
               iosIcon: CupertinoIcons.forward
           ),
-          func: onRecordAudioPressed,key: Key(KeyChat_Momposer_MixinOnRecordAudioSendIcon),
+          func: onRecordAudioPressed,key: Key(KeyChatComposerMixinOnRecordAudioSendIcon),
         ));
         break;
     }

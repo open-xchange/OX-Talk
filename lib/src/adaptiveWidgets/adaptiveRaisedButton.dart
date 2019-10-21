@@ -12,15 +12,19 @@ class AdaptiveRaisedButton extends AdaptiveWidget<CupertinoButton, RaisedButton>
   final Color color;
   final Color textColor;
   final Key key;
+  final Widget child;
+  final RoundedRectangleBorder shape;
 
 
   AdaptiveRaisedButton({
-    @required this.text,
+    this.text,
     @required this.func,
     this.buttonWidth,
     this.color,
     this.textColor,
-    this.key
+    this.key,
+    this.child,
+    this.shape
   });
 
   @override
@@ -28,12 +32,10 @@ class AdaptiveRaisedButton extends AdaptiveWidget<CupertinoButton, RaisedButton>
     return RaisedButton(
         color: color,
         textColor: textColor,
+        shape: shape,
         child: SizedBox(
           width: buttonWidth,
-          child: Text(
-            text,
-            textAlign: TextAlign.center,
-          ),
+          child: child,
         ),
         onPressed: func
 

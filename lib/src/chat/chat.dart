@@ -71,6 +71,7 @@ import 'package:ox_coi/src/ui/color.dart';
 import 'package:ox_coi/src/ui/dimensions.dart';
 import 'package:ox_coi/src/ui/strings.dart';
 import 'package:ox_coi/src/utils/dialog_builder.dart';
+import 'package:ox_coi/src/utils/keyMapping.dart';
 import 'package:ox_coi/src/utils/key_generator.dart';
 import 'package:ox_coi/src/utils/toast.dart';
 import 'package:ox_coi/src/widgets/avatar.dart';
@@ -227,30 +228,63 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AdaptiveAppBar(
-            func: onPhonePressed,
-            color: accent,
-            title: buildTitle(),
-            icons: <Widget> [AdaptiveIconButton(
-              icon: AdaptiveIcon(
-                  androidIcon: Icons.phone,
-                  iosIcon: CupertinoIcons.phone
-              ),
-              func: onPhonePressed,
-              color: onPrimary,
-            )]
-        ),
-        body: new Column(children: <Widget>[
-          new Flexible(child: buildListView()),
-          if (isInviteChat(widget.chatId)) buildInviteChoice(),
-          if (_filePath.isNotEmpty) buildPreview(),
-          Divider(height: dividerHeight),
-          new Container(
-            decoration: new BoxDecoration(color: Theme.of(context).cardColor),
-            child: _buildTextComposer(),
+    return BlocBuilder(
+      bloc: _chatBloc,
+      builder: (context, state) {
+        String name;
+        String subTitle;
+        Color color;
+        bool isVerified = false;
+        String imagePath = "";
+        bool isGroup = false;
+        if (state is ChatStateSuccess) {
+          name = state.name;
+          subTitle = state.subTitle;
+          color = state.color;
+          isVerified = state.isVerified;
+          imagePath = state.avatarPath;
+          isGroup = state.isGroupChat;
+        } else {
+          name = "";
+          subTitle = "";
+        }
+        return Scaffold(
+          appBar: AdaptiveAppBar(
+            title: isInviteChat(widget.chatId)
+                ? buildRow(imagePath, name, subTitle, color, context, isVerified)
+                : AdaptiveInkWell(
+                    func: () => _chatTitleTapped(),
+                    child: buildRow(imagePath, name, subTitle, color, context, isVerified),
+                  ),
+            icons: <Widget>[
+              if (!isGroup)
+                AdaptiveIconButton(
+                  icon: AdaptiveIcon(
+                      androidIcon: Icons.phone,
+                      iosIcon: CupertinoIcons.phone
+                  ),
+                  key: Key(keyChatIconButtonIconPhone),
+                  func: onPhonePressed,
+                  color: onPrimary,
+                ),
+            ],
           ),
-        ]));
+          body: new Column(
+            children: <Widget>[
+              new Flexible(child: buildListView()),
+              if (isInviteChat(widget.chatId)) buildInviteChoice(),
+              if (_filePath.isNotEmpty) buildPreview(),
+              Divider(height: dividerHeight),
+              if (state is ChatStateSuccess && !state.isRemoved)
+                new Container(
+                  decoration: new BoxDecoration(color: Theme.of(context).cardColor),
+                  child: _buildTextComposer(),
+                ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   Widget buildInviteChoice() {
@@ -356,37 +390,6 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
     );
   }
 
-  Widget buildTitle() {
-    return BlocBuilder(
-      bloc: _chatBloc,
-      builder: (context, state) {
-        String name;
-        String subTitle;
-        Color color;
-        bool isVerified = false;
-        String imagePath = "";
-        if (state is ChatStateSuccess) {
-          name = state.name;
-          subTitle = state.subTitle;
-          color = state.color;
-          isVerified = state.isVerified;
-          imagePath = state.avatarPath;
-        } else {
-          name = "";
-          subTitle = "";
-        }
-        if (isInviteChat(widget.chatId)) {
-          return buildRow(imagePath, name, subTitle, color, context, isVerified);
-        } else {
-          return AdaptiveInkWell(
-            func: () => _chatTitleTapped(),
-            child: buildRow(imagePath, name, subTitle, color, context, isVerified),
-          );
-        }
-      },
-    );
-  }
-
   Row buildRow(String imagePath, String name, String subTitle, Color color, BuildContext context, bool isVerified) {
     return Row(
       children: <Widget>[
@@ -407,6 +410,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
                 softWrap: true,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.title.apply(color: onPrimary),
+                key: Key(keyChatNameText),
               ),
               Row(
                 children: <Widget>[
@@ -592,6 +596,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
 
     _closePreview();
     setState(() {
+      _knownType = null;
       _isComposingText = false;
     });
   }

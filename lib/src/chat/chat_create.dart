@@ -107,7 +107,7 @@ class _ChatCreateState extends State<ChatCreate> {
           androidIcon: Icons.search,
           iosIcon: CupertinoIcons.search
       ),
-      func: () => search.show(context), key: Key(keyChat_createSearchIcon),
+      func: () => search.show(context), key: Key(keyChatCreateSearchIcon),
     );
   }
 
@@ -163,7 +163,7 @@ class _ChatCreateState extends State<ChatCreate> {
         ListTile(
           leading: Icon(
             Icons.person_add,
-            color: accent,key: Key(keyChat_createPerson_addIcon),
+            color: accent,key: Key(keyChatCreatePersonAddIcon),
           ),
           title: Text(
             L10n.get(L.contactNew),
@@ -180,7 +180,7 @@ class _ChatCreateState extends State<ChatCreate> {
           child: ListTile(
             leading: Icon(
               Icons.group_add,
-              color: accent,key: Key(keyChat_createGroup_addIcon),
+              color: accent,key: Key(keyChatCreateGroupAddIcon),
             ),
             title: Text(
               L10n.get(L.groupCreate),
