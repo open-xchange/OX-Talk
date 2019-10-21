@@ -24,6 +24,12 @@ if (flutterVersionName == null) {
 apply plugin: 'com.android.application'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
 android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -45,19 +51,18 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
-    buildTypes {
-        debug {
-            ndk {
-                abiFilters 'armeabi-v7a' ,'x86', 'arm64-v8a'
-            }
-        }
+    signingConfigs {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.debug
-            ndk{
-                abiFilters 'armeabi-v7a' ,'x86', 'arm64-v8a'
-            }
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
         }
     }
 
@@ -74,7 +79,7 @@ android {
             resValue "string", "app_name", "OX COI Messenger Dev"
         }
     }
-    
+
     packagingOptions {
         exclude 'build-data.properties'
     }
@@ -84,6 +89,17 @@ android {
             exclude group: 'org.json', module: 'json'
         }
     }
+
+    splits {
+        abi {
+            enable gradle.startParameter.taskNames.any { it.contains("Release")}
+            reset()
+            include "armeabi-v7a", "arm64-v8a", "x86"
+            universalApk false
+        }
+    }
+
+
 }
 
 flutter {

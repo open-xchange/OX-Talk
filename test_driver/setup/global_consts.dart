@@ -147,5 +147,4 @@ final keyContactChangeEmailFinder =
 final keyContactChangeCheckFinder =
     find.byValueKey(keyContactChangeCheckIconButton);
 
-final keyDialogBuilderAlertDialogOkFlatButtonFinder =
-    find.byValueKey(keyDialogBuilderAlertDialogOkFlatButton);
+final keyDialogBuilderAlertDialogOkFlatButtonFinder =find.byValueKey(keyDialogBuilderAlertDialogOkFlatButton);
