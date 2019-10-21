@@ -181,7 +181,7 @@ class _ProviderSignInState extends State<ProviderSignIn> {
               color: accent,
               textColor: onAccent
             ),
-            RaisedButton(
+            /*RaisedButton(
                 color: accent,
                 textColor: onAccent,
                 child: SizedBox(
@@ -191,7 +191,7 @@ class _ProviderSignInState extends State<ProviderSignIn> {
                     textAlign: TextAlign.center,
                   ),
                 ),
-                onPressed: _signIn),
+                onPressed: _signIn),*/
             Visibility(
               visible: widget.provider.id == other,
               child: FlatButton(

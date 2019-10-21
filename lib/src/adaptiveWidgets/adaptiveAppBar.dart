@@ -9,27 +9,35 @@ class AdaptiveAppBar extends AdaptiveWidget<CupertinoNavigationBar, AppBar> with
   final Widget title;
   final List<Widget> icons;
   final double elevation;
+  final Widget leadingIcon;
+  final Key key;
 
   AdaptiveAppBar({
     this.func,
     this.color,
     this.title,
     this.icons,
-    this.elevation
+    this.elevation,
+    this.leadingIcon,
+    this.key
   });
 
   @override
   AppBar buildMaterialWidget(BuildContext context) {
     return AppBar(
+      leading: leadingIcon,
       title: title,
       actions: icons,
-      elevation: elevation
+      elevation: elevation,
+      key: key
     );
   }
 
   @override
   CupertinoNavigationBar buildCupertinoWidget(BuildContext context) {
     return CupertinoNavigationBar(
+      key: key,
+      leading: leadingIcon,
       actionsForegroundColor: Colors.white,
       middle: title,
       backgroundColor: color,
@@ -43,4 +51,5 @@ class AdaptiveAppBar extends AdaptiveWidget<CupertinoNavigationBar, AppBar> with
 
   @override
   Size get preferredSize => Size.fromHeight(kToolbarHeight);
+
 }

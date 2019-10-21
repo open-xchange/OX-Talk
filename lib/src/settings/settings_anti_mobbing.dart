@@ -41,6 +41,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ox_coi/src/l10n/l.dart';
 import 'package:ox_coi/src/l10n/l10n.dart';
@@ -51,6 +52,10 @@ import 'package:ox_coi/src/settings/settings_anti_mobbing_event_state.dart';
 import 'package:ox_coi/src/ui/dimensions.dart';
 import 'package:ox_coi/src/widgets/state_info.dart';
 
+import 'package:ox_coi/src/adaptiveWidgets/adaptiveAppBar.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptiveIconButton.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptiveIcon.dart';
+
 class SettingsAntiMobbing extends StatefulWidget {
   @override
   _SettingsAntiMobbingState createState() => _SettingsAntiMobbingState();
@@ -58,20 +63,28 @@ class SettingsAntiMobbing extends StatefulWidget {
 
 class _SettingsAntiMobbingState extends State<SettingsAntiMobbing> {
   SettingsAntiMobbingBloc _settingsAntiMobbingBloc = SettingsAntiMobbingBloc();
-  Navigation _navigation = Navigation();
+  Navigation navigation = Navigation();
 
   @override
   void initState() {
     super.initState();
-    _navigation.current = Navigatable(Type.settingsAntiMobbing);
+    navigation.current = Navigatable(Type.settingsAntiMobbing);
     _settingsAntiMobbingBloc.dispatch(RequestSettings());
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(L10n.get(L.settingAntiMobbing)),
+        appBar: AdaptiveAppBar(
+          leadingIcon: new AdaptiveIconButton(
+            icon: new AdaptiveIcon(
+                androidIcon: Icons.close,
+                iosIcon: CupertinoIcons.back
+            ),
+            func: () => navigation.pop(context),
+          ),
+          title: Text(L10n.get(L.settingAntiMobbing), style: TextStyle(color: Colors.white)),
+          icons: <Widget> [],
         ),
         body: _buildPreferenceList(context));
   }
@@ -89,7 +102,7 @@ class _SettingsAntiMobbingState extends State<SettingsAntiMobbing> {
                 contentPadding: EdgeInsets.symmetric(vertical: listItemPadding, horizontal: listItemPaddingBig),
                 title: Text(L10n.get(L.settingAntiMobbing)),
                 subtitle: Text(L10n.get(L.settingAntiMobbingText)),
-                trailing: Switch(value: state.antiMobbingActive, onChanged: (value) => _changeAntiMobbingSetting()),
+                trailing: Switch.adaptive(value: state.antiMobbingActive, onChanged: (value) => _changeAntiMobbingSetting()),
               ),
               Visibility(
                   visible: state.antiMobbingActive,
@@ -116,6 +129,6 @@ class _SettingsAntiMobbingState extends State<SettingsAntiMobbing> {
   }
 
   void _showAntiMobbingList() {
-    _navigation.pushNamed(context, Navigation.settingsAntiMobbingList);
+    navigation.pushNamed(context, Navigation.settingsAntiMobbingList);
   }
 }

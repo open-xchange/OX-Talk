@@ -42,6 +42,7 @@
 
 import 'package:delta_chat_core/delta_chat_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ox_coi/src/l10n/l.dart';
 import 'package:ox_coi/src/l10n/l10n.dart';
@@ -55,6 +56,10 @@ import 'package:ox_coi/src/widgets/state_info.dart';
 
 import 'flagged_bloc.dart';
 import 'flagged_events_state.dart';
+
+import 'package:ox_coi/src/adaptiveWidgets/adaptiveAppBar.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptiveIconButton.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptiveIcon.dart';
 
 class Flagged extends StatefulWidget {
   @override
@@ -75,8 +80,16 @@ class _FlaggedState extends State<Flagged> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-        appBar: new AppBar(
+        appBar: new AdaptiveAppBar(
+          leadingIcon: new AdaptiveIconButton(
+            icon: new AdaptiveIcon(
+                androidIcon: Icons.close,
+                iosIcon: CupertinoIcons.back
+            ),
+            func: () => _navigation.pop(context),
+          ),
           title: buildTitle(),
+          icons: <Widget> [],
         ),
         body: buildListView());
   }

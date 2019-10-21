@@ -41,6 +41,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ox_coi/src/data/config.dart';
 import 'package:ox_coi/src/l10n/l.dart';
@@ -57,7 +58,10 @@ import 'package:ox_coi/src/user/user_settings.dart';
 import 'package:ox_coi/src/utils/keyMapping.dart';
 import 'package:ox_coi/src/widgets/placeholder_text.dart';
 import 'package:ox_coi/src/widgets/profile_header.dart';
+
 import 'package:ox_coi/src/adaptiveWidgets/adaptiveRaisedButton.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptiveIconButton.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptiveIcon.dart';
 
 class UserProfile extends RootChild {
   UserProfile({State<StatefulWidget> state}) : super(state: state);
@@ -194,9 +198,12 @@ class _ProfileState extends State<UserProfile> {
   }
 
   Widget getSettings() {
-    return IconButton(
-      icon: Icon(Icons.settings),
-      onPressed: () => _settings(context),
+    return AdaptiveIconButton(
+      icon: AdaptiveIcon(
+          androidIcon: Icons.settings,
+          iosIcon: CupertinoIcons.gear
+      ),
+      func: () => _settings(context),
     );
   }
 

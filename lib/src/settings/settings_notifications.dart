@@ -41,6 +41,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ox_coi/src/l10n/l.dart';
 import 'package:ox_coi/src/l10n/l10n.dart';
@@ -51,6 +52,10 @@ import 'package:ox_coi/src/ui/dimensions.dart';
 import 'package:ox_coi/src/widgets/state_info.dart';
 
 import 'settings_notifications_bloc.dart';
+
+import 'package:ox_coi/src/adaptiveWidgets/adaptiveAppBar.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptiveIconButton.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptiveIcon.dart';
 
 class SettingsNotifications extends StatefulWidget {
   @override
@@ -71,8 +76,16 @@ class _SettingsNotificationsState extends State<SettingsNotifications> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(L10n.get(L.settingNotificationP, count: L10n.plural)),
+        appBar: AdaptiveAppBar(
+          leadingIcon: AdaptiveIconButton(
+            icon: AdaptiveIcon(
+                androidIcon: Icons.close,
+                iosIcon: CupertinoIcons.back
+            ),
+            func: () => _navigation.pop(context),
+          ),
+          title: Text(L10n.get(L.settingNotificationP, count: L10n.plural), style: TextStyle(color: Colors.white)),
+          icons: <Widget> [],
         ),
         body: _buildPreferenceList(context));
   }
@@ -90,7 +103,7 @@ class _SettingsNotificationsState extends State<SettingsNotifications> {
                 contentPadding: EdgeInsets.symmetric(vertical: listItemPadding, horizontal: listItemPaddingBig),
                 title: Text(L10n.get(L.settingNotificationPull)),
                 subtitle: Text(L10n.get(L.settingNotificationPullText)),
-                trailing: Switch(value: state.pullActive, onChanged: (value) => _changeNotificationsSetting()),
+                trailing: Switch.adaptive(value: state.pullActive, onChanged: (value) => _changeNotificationsSetting()),
               ),
             ]).toList(),
           );

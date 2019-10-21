@@ -42,6 +42,7 @@
 
 import 'package:delta_chat_core/delta_chat_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ox_coi/src/background/background_bloc.dart';
 import 'package:ox_coi/src/background/background_event_state.dart';
@@ -66,6 +67,9 @@ import 'package:ox_coi/src/utils/key_generator.dart';
 import 'package:ox_coi/src/widgets/search.dart';
 import 'package:ox_coi/src/widgets/state_info.dart';
 import 'package:rxdart/rxdart.dart';
+
+import 'package:ox_coi/src/adaptiveWidgets/adaptiveIconButton.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptiveIcon.dart';
 
 enum ChatListItemType {
   chat,
@@ -237,18 +241,24 @@ class _ChatListState extends State<ChatList> {
       onBuildResults: onBuildResultOrSuggestion,
       onBuildSuggestion: onBuildResultOrSuggestion,
     );
-    return IconButton(
-      icon: Icon(Icons.search),
-      onPressed: () => search.show(context),
+    return AdaptiveIconButton(
+      icon: AdaptiveIcon(
+          androidIcon: Icons.search,
+          iosIcon: CupertinoIcons.search
+      ),
+      func: () => search.show(context),
       key: Key(keyChatListSearchIconButton),
     );
   }
 
   Widget getFlaggedAction() {
-    return IconButton(
-        icon: Icon(Icons.star),
+    return AdaptiveIconButton(
+        icon: AdaptiveIcon(
+            androidIcon: Icons.star,
+            iosIcon: CupertinoIcons.flag
+        ),
         key: Key(keyChatListGetFlaggedActionIconButton),
-        onPressed: () => _navigation.push(
+        func: () => _navigation.push(
             context,
             MaterialPageRoute(
               builder: (context) => Flagged(),

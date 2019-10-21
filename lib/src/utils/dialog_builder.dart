@@ -41,11 +41,14 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptiveDialogAction.dart';
 import 'package:ox_coi/src/l10n/l.dart';
 import 'package:ox_coi/src/l10n/l10n.dart';
 import 'package:ox_coi/src/navigation/navigatable.dart';
 import 'package:ox_coi/src/navigation/navigation.dart';
 import 'keyMapping.dart';
+
+import 'package:ox_coi/src/adaptiveWidgets/adaptiveDialog.dart';
 
 showNavigatableDialog(
     {@required BuildContext context,
@@ -81,7 +84,35 @@ showConfirmationDialog(
     context: context,
     navigatable: navigatable,
     previousNavigatable: previousNavigatable,
-    dialog: AlertDialog(
+    dialog: AdaptiveDialog(
+      title: Text(title),
+      content: new Text(content),
+      actions: <Widget>[
+        new AdaptiveDialogAction(
+          child: new Text(negativeButton != null && negativeButton.isNotEmpty
+              ? negativeButton
+              : L10n.get(L.cancel)),
+          key: Key(keyDialogBuilderCancelFlatButton),
+          func: () {
+            if (negativeAction != null) {
+              negativeAction();
+            }
+            navigation.pop(context);
+          },
+        ),
+        new AdaptiveDialogAction(
+          child: new Text(positiveButton),
+          key: Key(keyDialogBuilderPositiveFlatButton),
+          func: () {
+            positiveAction();
+            if (selfClose) {
+              navigation.pop(context);
+            }
+          },
+        ),
+      ],
+    ),
+    /*AlertDialog(
       title: Text(title),
       content: new Text(content),
       actions: <Widget>[
@@ -108,7 +139,7 @@ showConfirmationDialog(
           },
         ),
       ],
-    ),
+    ),*/
   );
 }
 
@@ -123,7 +154,19 @@ showInformationDialog(
     context: context,
     navigatable: navigatable,
     previousNavigatable: previousNavigatable,
-    dialog: AlertDialog(
+    dialog: AdaptiveDialog(
+        title: Text(title),
+        content: new Text(content),
+        actions: <Widget>[
+          new AdaptiveDialogAction(
+            child: new Text(L10n.get(L.ok)),
+            func: () {
+              navigation.pop(context);
+            },
+          ),
+        ],
+    )
+    /*AlertDialog(
       title: Text(title),
       content: new Text(content),
       actions: <Widget>[
@@ -134,6 +177,6 @@ showInformationDialog(
           },
         ),
       ],
-    ),
+    ),*/
   );
 }

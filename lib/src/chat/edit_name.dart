@@ -41,6 +41,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ox_coi/src/l10n/l.dart';
 import 'package:ox_coi/src/l10n/l10n.dart';
@@ -52,6 +53,10 @@ import 'chat_bloc.dart';
 import 'chat_change_bloc.dart';
 import 'chat_change_event_state.dart';
 import 'chat_event_state.dart';
+
+import 'package:ox_coi/src/adaptiveWidgets/adaptiveAppBar.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptiveIconButton.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptiveIcon.dart';
 
 class EditName extends StatefulWidget {
   final int chatId;
@@ -88,13 +93,24 @@ class _EditNameState extends State<EditName> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          leading: new IconButton(
-            icon: new Icon(Icons.close),
-            onPressed: () => _navigation.pop(context),
+        appBar: AdaptiveAppBar(
+          leadingIcon: new AdaptiveIconButton(
+            icon: new AdaptiveIcon(
+                androidIcon: Icons.close,
+                iosIcon: CupertinoIcons.back
+            ),
+            func: () => _navigation.pop(context),
           ),
-          title: Text(widget.title),
-          actions: <Widget>[IconButton(icon: Icon(Icons.check), onPressed: saveNewName)],
+          title: Text(widget.title, style: TextStyle(color: Colors.white)),
+          icons: <Widget>[
+            AdaptiveIconButton(
+                icon: AdaptiveIcon(
+                    androidIcon: Icons.check,
+                    iosIcon: CupertinoIcons.check_mark
+                ),
+                func: saveNewName
+            )
+          ],
         ),
         body: BlocListener(
           bloc: _chatChangeBloc,

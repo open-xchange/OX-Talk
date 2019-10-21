@@ -41,6 +41,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ox_coi/src/l10n/l.dart';
 import 'package:ox_coi/src/l10n/l10n.dart';
@@ -55,6 +56,10 @@ import 'package:ox_coi/src/widgets/state_info.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 
+import 'package:ox_coi/src/adaptiveWidgets/adaptiveAppBar.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptiveIconButton.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptiveIcon.dart';
+
 class SettingsAbout extends StatefulWidget {
   @override
   _SettingsAboutState createState() => _SettingsAboutState();
@@ -62,11 +67,11 @@ class SettingsAbout extends StatefulWidget {
 
 class _SettingsAboutState extends State<SettingsAbout> {
   SettingsAboutBloc _settingsAboutBloc = SettingsAboutBloc();
+  Navigation navigation = Navigation();
 
   @override
   void initState() {
     super.initState();
-    Navigation navigation = Navigation();
     navigation.current = Navigatable(Type.settingsAbout);
     _settingsAboutBloc.dispatch(RequestAbout());
   }
@@ -80,8 +85,16 @@ class _SettingsAboutState extends State<SettingsAbout> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(L10n.get(L.about)),
+        appBar: AdaptiveAppBar(
+          leadingIcon: new AdaptiveIconButton(
+            icon: new AdaptiveIcon(
+                androidIcon: Icons.close,
+                iosIcon: CupertinoIcons.back
+            ),
+            func: () => navigation.pop(context),
+          ),
+          title: Text(L10n.get(L.about), style: TextStyle(color: Colors.white)),
+          icons: <Widget> [],
         ),
         body: _buildPreferenceList(context));
   }

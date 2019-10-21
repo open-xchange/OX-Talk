@@ -82,6 +82,9 @@ import 'package:url_launcher/url_launcher.dart';
 import 'chat_create_mixin.dart';
 
 import 'package:ox_coi/src/adaptiveWidgets/adaptiveAppBar.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptiveIconButton.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptiveIcon.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptiveInkwell.dart';
 
 class Chat extends StatefulWidget {
   final int chatId;
@@ -229,22 +232,15 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
             func: onPhonePressed,
             color: accent,
             title: buildTitle(),
-            icons: <Widget> [IconButton(
-              icon: Icon(Icons.phone),
-              onPressed: onPhonePressed,
+            icons: <Widget> [AdaptiveIconButton(
+              icon: AdaptiveIcon(
+                  androidIcon: Icons.phone,
+                  iosIcon: CupertinoIcons.phone
+              ),
+              func: onPhonePressed,
               color: onPrimary,
             )]
         ),
-        /*new AppBar(
-          title: buildTitle(),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.phone),
-              onPressed: onPhonePressed,
-              color: onPrimary,
-            ),
-          ],
-        ),*/
         body: new Column(children: <Widget>[
           new Flexible(child: buildListView()),
           if (isInviteChat(widget.chatId)) buildInviteChoice(),
@@ -382,8 +378,8 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
         if (isInviteChat(widget.chatId)) {
           return buildRow(imagePath, name, subTitle, color, context, isVerified);
         } else {
-          return InkWell(
-            onTap: () => _chatTitleTapped(),
+          return AdaptiveInkWell(
+            func: () => _chatTitleTapped(),
             child: buildRow(imagePath, name, subTitle, color, context, isVerified),
           );
         }

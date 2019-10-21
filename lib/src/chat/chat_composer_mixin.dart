@@ -41,12 +41,16 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:ox_coi/src/l10n/l.dart';
 import 'package:ox_coi/src/l10n/l10n.dart';
 import 'package:ox_coi/src/ui/color.dart';
 import 'package:ox_coi/src/ui/dimensions.dart';
 import 'package:ox_coi/src/utils/keyMapping.dart';
+
+import 'package:ox_coi/src/adaptiveWidgets/adaptiveIconButton.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptiveIcon.dart';
 
 enum ComposerModeType {
   compose,
@@ -57,25 +61,34 @@ enum ComposerModeType {
 mixin ChatComposer {
   Widget buildLeftComposerPart(
       {@required ComposerModeType type, @required Function onShowAttachmentChooser, @required Function onAudioRecordingAbort}) {
-    IconData icon;
+    AdaptiveIcon icon;
     Function onPressed;
     switch (type) {
       case ComposerModeType.compose:
-        icon = Icons.add;
+        icon = AdaptiveIcon(
+            androidIcon: Icons.add,
+            iosIcon: CupertinoIcons.add
+        );
         onPressed = onShowAttachmentChooser;
         break;
       case ComposerModeType.isComposing:
-        icon = Icons.add;
+        icon = AdaptiveIcon(
+            androidIcon: Icons.add,
+            iosIcon: CupertinoIcons.add
+        );
         onPressed = null;
         break;
       case ComposerModeType.isVoiceRecording:
-        icon = Icons.delete;
+        icon = AdaptiveIcon(
+            androidIcon: Icons.delete,
+            iosIcon: CupertinoIcons.delete
+        );
         onPressed = onAudioRecordingAbort;
         break;
     }
-    return IconButton(
-      icon: Icon(icon),
-      onPressed: onPressed,
+    return AdaptiveIconButton(
+      icon: icon,
+      func: onPressed,
     );
   }
 
@@ -125,30 +138,45 @@ mixin ChatComposer {
     List<Widget> widgets = List();
     switch (type) {
       case ComposerModeType.compose:
-        widgets.add(new IconButton(
-          icon: new Icon(Icons.mic),
-          onPressed: onRecordAudioPressed,
+        widgets.add(new AdaptiveIconButton(
+          icon: new AdaptiveIcon(
+              androidIcon: Icons.mic,
+              iosIcon: CupertinoIcons.mic
+          ),
+          func: onRecordAudioPressed,
           key: Key(KeyChat_Composer_MixinOnRecordAudioPressedIcon),
         ));
-        widgets.add(new IconButton(
-          icon: new Icon(Icons.camera_alt),
-          onPressed: onCaptureImagePressed,
+        widgets.add(new AdaptiveIconButton(
+          icon: new AdaptiveIcon(
+              androidIcon: Icons.camera_alt,
+              iosIcon: CupertinoIcons.photo_camera
+          ),
+          func: onCaptureImagePressed,
         ));
-        widgets.add(new IconButton(
-          icon: new Icon(Icons.videocam),
-          onPressed: onRecordVideoPressed,
+        widgets.add(new AdaptiveIconButton(
+          icon: new AdaptiveIcon(
+              androidIcon: Icons.videocam,
+              iosIcon: CupertinoIcons.video_camera
+          ),
+          func: onRecordVideoPressed,
         ));
         break;
       case ComposerModeType.isComposing:
-        widgets.add(new IconButton(
-          icon: new Icon(Icons.send),
-          onPressed: onSendText,key: Key(KeyChat_Composer_MixinOnSendTextIcon),
+        widgets.add(new AdaptiveIconButton(
+          icon: new AdaptiveIcon(
+              androidIcon: Icons.send,
+              iosIcon: CupertinoIcons.forward
+          ),
+          func: onSendText,key: Key(KeyChat_Composer_MixinOnSendTextIcon),
         ));
         break;
       case ComposerModeType.isVoiceRecording:
-        widgets.add(new IconButton(
-          icon: new Icon(Icons.send),
-          onPressed: onRecordAudioPressed,key: Key(KeyChat_Momposer_MixinOnRecordAudioSendIcon),
+        widgets.add(new AdaptiveIconButton(
+          icon: new AdaptiveIcon(
+              androidIcon: Icons.send,
+              iosIcon: CupertinoIcons.forward
+          ),
+          func: onRecordAudioPressed,key: Key(KeyChat_Momposer_MixinOnRecordAudioSendIcon),
         ));
         break;
     }
