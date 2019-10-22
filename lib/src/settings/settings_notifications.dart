@@ -40,6 +40,7 @@
  * for more details.
  */
 
+import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -99,12 +100,25 @@ class _SettingsNotificationsState extends State<SettingsNotifications> {
         } else if (state is SettingsNotificationsStateSuccess) {
           return ListView(
             children: ListTile.divideTiles(context: context, tiles: [
-              ListTile(
-                contentPadding: EdgeInsets.symmetric(vertical: listItemPadding, horizontal: listItemPaddingBig),
-                title: Text(L10n.get(L.settingNotificationPull)),
-                subtitle: Text(L10n.get(L.settingNotificationPullText)),
-                trailing: Switch.adaptive(value: state.pullActive, onChanged: (value) => _changeNotificationsSetting()),
+              Visibility(
+                visible: !state.coiSupported,
+                child: ListTile(
+                  contentPadding: EdgeInsets.symmetric(vertical: listItemPadding, horizontal: listItemPaddingBig),
+                  title: Text(L10n.get(L.settingNotificationPull)),
+                  subtitle: Text(L10n.get(L.settingNotificationPullText)),
+                  trailing: Switch.adaptive(value: state.pullActive, onChanged: (value) => _changeNotificationsSetting()),
+                ),
               ),
+              Visibility(
+                visible: state.coiSupported,
+                child: ListTile(
+                  contentPadding: EdgeInsets.symmetric(vertical: listItemPadding, horizontal: listItemPaddingBig),
+                  title: Text(L10n.get(L.settingNotificationPush)),
+                  subtitle: Text(L10n.get(L.settingNotificationPushText)),
+                  trailing: Icon(Icons.arrow_forward),
+                  onTap: ()=> {AppSettings.openAppSettings()},
+                ),
+              )
             ]).toList(),
           );
         } else {
@@ -119,5 +133,4 @@ class _SettingsNotificationsState extends State<SettingsNotifications> {
   _changeNotificationsSetting() {
     _settingsNotificationsBloc.dispatch(ChangeSetting());
   }
-
 }
