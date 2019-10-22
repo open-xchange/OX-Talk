@@ -115,7 +115,7 @@ class _SettingsAutocryptImportState extends State<SettingsAutocryptImport> {
           ),
           onPressed: () => navigation.pop(context),
         ),
-        title: Text(L10n.get(L.autocryptImport), style: TextStyle(color: Colors.white)),
+        title: Text(L10n.get(L.autocryptImport)),
         actions: <Widget>[
           AdaptiveIconButton(
             icon: AdaptiveIcon(

@@ -181,17 +181,6 @@ class _ProviderSignInState extends State<ProviderSignIn> {
               color: accent,
               textColor: onAccent
             ),
-            /*RaisedButton(
-                color: accent,
-                textColor: onAccent,
-                child: SizedBox(
-                  width: loginButtonWidth,
-                  child: Text(
-                    L10n.get(L.loginSignIn).toUpperCase(),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                onPressed: _signIn),*/
             Visibility(
               visible: widget.provider.id == other,
               child: FlatButton(

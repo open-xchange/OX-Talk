@@ -68,8 +68,7 @@ class _RootState extends State<Root> {
 
     return Scaffold(
       appBar: AdaptiveAppBar(
-          color: child.getColor(),
-          title: Text(child.getTitle(context), style: TextStyle(color: Colors.white)),
+          title: Text(child.getTitle(context)),
           actions: child.getActions(context),
       ),
       body: WillPopScope(

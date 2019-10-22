@@ -90,7 +90,7 @@ class _ShareState extends State<Share> {
       appBar: AdaptiveAppBar(
         title: widget.messageActionTag == MessageActionTag.forward
             ? Text(L10n.get(L.forward), style: TextStyle(color: Colors.white))
-            : Text(L10n.get(L.share), style: TextStyle(color: Colors.white)),
+            : Text(L10n.get(L.share)),
 
       ),
       body: _buildShareList(),

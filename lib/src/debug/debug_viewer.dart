@@ -98,7 +98,7 @@ class _DebugViewerState extends State<DebugViewer> {
             ),
             onPressed: () => navigation.pop(context),
           ),
-          title: Text(L10n.get(L.debug), style: TextStyle(color: Colors.white)),
+          title: Text(L10n.get(L.debug)),
           actions: <Widget>[
             AdaptiveIconButton(
               icon: AdaptiveIcon(

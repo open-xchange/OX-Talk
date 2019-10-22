@@ -99,7 +99,7 @@ class _ChatProfileState extends State<ChatProfile> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AdaptiveAppBar(
-          title: Text(L10n.get(L.profile), style: TextStyle(color: Colors.white)),
+          title: Text(L10n.get(L.profile)),
 
         ),
         body: SingleChildScrollView(

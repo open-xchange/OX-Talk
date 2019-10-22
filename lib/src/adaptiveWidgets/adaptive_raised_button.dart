@@ -40,7 +40,6 @@ class AdaptiveRaisedButton extends AdaptiveWidget<CupertinoButton, ButtonTheme> 
   CupertinoButton buildCupertinoWidget(BuildContext context) {
     return CupertinoButton(
       padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 24.0),
-      minSize: buttonWidth,
       color: color,
       child: child,
       onPressed: onPressed,

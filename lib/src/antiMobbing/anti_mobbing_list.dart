@@ -91,7 +91,7 @@ class _AntiMobbingListState extends State<AntiMobbingList> {
           ),
           onPressed: () => navigation.pop(context),
         ),
-        title: Text(L10n.get(L.invites), style: TextStyle(color: Colors.white)),
+        title: Text(L10n.get(L.invites)),
       ),
       body: BlocBuilder(
         bloc: _antiMobbingListBloc,

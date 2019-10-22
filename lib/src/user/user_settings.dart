@@ -109,7 +109,7 @@ class _UserSettingsState extends State<UserSettings> {
               ),
               onPressed: () => navigation.pop(context),
             ),
-            title: Text(L10n.get(L.profileEdit), style: TextStyle(color: Colors.white)),
+            title: Text(L10n.get(L.profileEdit)),
             actions: <Widget>[
               AdaptiveIconButton(
                   icon: AdaptiveIcon(

@@ -85,7 +85,7 @@ class _SettingsNotificationsState extends State<SettingsNotifications> {
             ),
             onPressed: () => _navigation.pop(context),
           ),
-          title: Text(L10n.get(L.settingNotificationP, count: L10n.plural), style: TextStyle(color: Colors.white)),
+          title: Text(L10n.get(L.settingNotificationP, count: L10n.plural)),
 
         ),
         body: _buildPreferenceList(context));

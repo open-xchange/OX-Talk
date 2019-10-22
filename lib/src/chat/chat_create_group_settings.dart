@@ -101,7 +101,7 @@ class _ChatCreateGroupSettingsState extends State<ChatCreateGroupSettings> with 
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AdaptiveAppBar(
-        title: Text(L10n.get(L.groupCreate), style: TextStyle(color: Colors.white)),
+        title: Text(L10n.get(L.groupCreate)),
         actions: <Widget>[
           AdaptiveIconButton(
             key: Key(keyChatCreateGroupSettingCheckIconButton),

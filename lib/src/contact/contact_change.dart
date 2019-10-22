@@ -163,7 +163,7 @@ class _ContactChangeState extends State<ContactChange> {
             key: Key(keyContactChangeCloseIconButton),
             onPressed: () => navigation.pop(context),
           ),
-          title: Text(title, style: TextStyle(color: Colors.white)),
+          title: Text(title),
           actions: <Widget>[
             AdaptiveIconButton(
               key: Key(keyContactChangeCheckIconButton),

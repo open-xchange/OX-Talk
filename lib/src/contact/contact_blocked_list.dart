@@ -88,7 +88,7 @@ class _ContactBlockedListState extends State<ContactBlockedList> {
             key: Key(keyContactBlockedListCloseIconButton),
             onPressed: () => navigation.pop(context),
           ),
-          title: Text(L10n.get(L.contactBlocked), style: TextStyle(color: Colors.white)),
+          title: Text(L10n.get(L.contactBlocked)),
 
         ),
         body: buildForm());

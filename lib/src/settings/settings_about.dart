@@ -90,7 +90,7 @@ class _SettingsAboutState extends State<SettingsAbout> {
             ),
             onPressed: () => navigation.pop(context),
           ),
-          title: Text(L10n.get(L.about), style: TextStyle(color: Colors.white)),
+          title: Text(L10n.get(L.about)),
 
         ),
         body: _buildPreferenceList(context));

@@ -100,7 +100,7 @@ class _ChatAddGroupParticipantsState extends State<ChatAddGroupParticipants> {
           ),
           onPressed: () => navigation.pop(context),
         ),
-        title: Text(L10n.get(L.participantAdd), style: TextStyle(color: Colors.white)),
+        title: Text(L10n.get(L.participantAdd)),
         actions: <Widget>[
           getSearchAction(),
           AdaptiveIconButton(

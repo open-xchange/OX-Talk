@@ -83,7 +83,7 @@ class _SettingsAntiMobbingState extends State<SettingsAntiMobbing> {
             ),
             onPressed: () => navigation.pop(context),
           ),
-          title: Text(L10n.get(L.settingAntiMobbing), style: TextStyle(color: Colors.white)),
+          title: Text(L10n.get(L.settingAntiMobbing)),
 
         ),
         body: _buildPreferenceList(context));

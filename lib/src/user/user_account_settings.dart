@@ -169,7 +169,7 @@ class _UserAccountSettingsState extends State<UserAccountSettings> {
               ),
               onPressed: () => navigation.pop(context),
             ),
-            title: Text(L10n.get(L.settingAccount), style: TextStyle(color: Colors.white)),
+            title: Text(L10n.get(L.settingAccount)),
             actions: <Widget>[
               SaveDataButton(),
             ],

@@ -90,7 +90,7 @@ class _ChatCreateState extends State<ChatCreate> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AdaptiveAppBar(
-          title: Text(L10n.get(L.chatCreate), style: TextStyle(color: Colors.white)),
+          title: Text(L10n.get(L.chatCreate)),
           actions: <Widget>[getSearchAction()],
         ),
         body: buildList(true));

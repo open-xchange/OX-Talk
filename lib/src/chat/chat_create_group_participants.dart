@@ -98,7 +98,7 @@ class _ChatCreateGroupParticipantsState extends State<ChatCreateGroupParticipant
           ),
           onPressed: () => navigation.pop(context),
         ),
-        title: Text(L10n.get(L.groupCreate), style: TextStyle(color: Colors.white)),
+        title: Text(L10n.get(L.groupCreate)),
         actions: <Widget>[
           getSearchAction(),
           AdaptiveIconButton(

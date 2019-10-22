@@ -107,7 +107,7 @@ class _SettingsDebugState extends State<SettingsDebug> {
           ),
           onPressed: () => navigation.pop(context),
         ),
-        title: Text(L10n.get(L.debug), style: TextStyle(color: Colors.white)),
+        title: Text(L10n.get(L.debug)),
 
       ),
       body: BlocBuilder(

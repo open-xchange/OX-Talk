@@ -78,16 +78,8 @@ class _QrCodeState extends State<QrCode> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AdaptiveAppBar(
-        leadingIcon: AdaptiveIconButton(
-          icon: AdaptiveIcon(
-              androidIcon: Icons.arrow_back,
-              iosIcon: CupertinoIcons.back
-          ),
-          onPressed: () => navigation.pop(context),
-        ),
         elevation: zero,
-        title: Text(L10n.get(L.qrProfile), style: TextStyle(color: Colors.white)),
-
+        title: Text(L10n.get(L.qrProfile)),
       ),
       body: buildBody(),
     );

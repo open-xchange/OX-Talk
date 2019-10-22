@@ -111,10 +111,8 @@ class _ContactDetailsState extends State<ContactDetails> with ChatCreateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AdaptiveAppBar(key: Key("back"),
-
-        title: Text(L10n.get(L.profile), style: TextStyle(color: Colors.white)),
-
+      appBar: AdaptiveAppBar(
+        title: Text(L10n.get(L.profile)),
       ),
       body: SingleChildScrollView(
         child: BlocBuilder(

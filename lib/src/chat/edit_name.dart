@@ -99,7 +99,7 @@ class _EditNameState extends State<EditName> {
             ),
             onPressed: () => _navigation.pop(context),
           ),
-          title: Text(widget.title, style: TextStyle(color: Colors.white)),
+          title: Text(widget.title),
           actions: <Widget>[
             AdaptiveIconButton(
                 key: Key(keyEditNameCheckIcon),

@@ -95,10 +95,7 @@ class OxCoiApp extends StatelessWidget {
         theme: CupertinoThemeData(
           primaryColor: primary,
           primaryContrastingColor: Colors.white,
-          barBackgroundColor: primary,
-          textTheme: CupertinoTextThemeData(
-            primaryColor: Colors.white,
-          )
+          barBackgroundColor: Colors.white,
         ),
         localizationsDelegates: getLocalizationsDelegates(),
         localeResolutionCallback: (deviceLocale, supportedLocales) {

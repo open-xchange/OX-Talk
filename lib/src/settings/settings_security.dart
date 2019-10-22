@@ -169,7 +169,7 @@ class _SettingsSecurityState extends State<SettingsSecurity> {
               ),
               onPressed: () => navigation.pop(context),
             ),
-            title: Text(L10n.get(L.security), style: TextStyle(color: Colors.white)),
+            title: Text(L10n.get(L.security)),
 
           ),
           body: _buildPreferenceList(context)),

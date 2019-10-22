@@ -85,7 +85,7 @@ class _SettingsChatState extends State<SettingsChat> {
             ),
             onPressed: () => _navigation.pop(context),
           ),
-          title: Text(L10n.get(L.chatP), style: TextStyle(color: Colors.white)),
+          title: Text(L10n.get(L.chatP)),
 
         ),
         body: _buildPreferenceList(context));

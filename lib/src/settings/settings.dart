@@ -82,7 +82,7 @@ class Settings extends StatelessWidget {
             ),
             onPressed: () => _navigation.pop(context),
           ),
-          title: Text(L10n.get(L.settingP, count: L10n.plural), style: TextStyle(color: Colors.white)),
+          title: Text(L10n.get(L.settingP, count: L10n.plural)),
 
         ),
         body: buildPreferenceList(context));
