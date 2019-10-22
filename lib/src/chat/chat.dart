@@ -82,10 +82,10 @@ import 'package:url_launcher/url_launcher.dart';
 
 import 'chat_create_mixin.dart';
 
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveAppBar.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveIconButton.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveIcon.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveInkwell.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_app_bar.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon_button.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_ink_well.dart';
 
 class Chat extends StatefulWidget {
   final int chatId;
@@ -253,10 +253,10 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
             title: isInviteChat(widget.chatId)
                 ? buildRow(imagePath, name, subTitle, color, context, isVerified)
                 : AdaptiveInkWell(
-                    func: () => _chatTitleTapped(),
+                    onTap: () => _chatTitleTapped(),
                     child: buildRow(imagePath, name, subTitle, color, context, isVerified),
                   ),
-            icons: <Widget>[
+            actions: <Widget>[
               if (!isGroup)
                 AdaptiveIconButton(
                   icon: AdaptiveIcon(
@@ -264,7 +264,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
                       iosIcon: CupertinoIcons.phone
                   ),
                   key: Key(keyChatIconButtonIconPhone),
-                  func: onPhonePressed,
+                  onPressed: onPhonePressed,
                   color: onPrimary,
                 ),
             ],

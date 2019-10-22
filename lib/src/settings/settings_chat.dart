@@ -53,9 +53,9 @@ import 'package:ox_coi/src/settings/settings_chat_event_state.dart';
 import 'package:ox_coi/src/ui/dimensions.dart';
 import 'package:ox_coi/src/widgets/state_info.dart';
 
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveAppBar.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveIconButton.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveIcon.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_app_bar.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon_button.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon.dart';
 
 class SettingsChat extends StatefulWidget {
   @override
@@ -80,13 +80,13 @@ class _SettingsChatState extends State<SettingsChat> {
         appBar: AdaptiveAppBar(
           leadingIcon: AdaptiveIconButton(
             icon: AdaptiveIcon(
-                androidIcon: Icons.close,
+                androidIcon: Icons.arrow_back,
                 iosIcon: CupertinoIcons.back
             ),
-            func: () => _navigation.pop(context),
+            onPressed: () => _navigation.pop(context),
           ),
           title: Text(L10n.get(L.chatP), style: TextStyle(color: Colors.white)),
-          icons: <Widget> [],
+
         ),
         body: _buildPreferenceList(context));
   }

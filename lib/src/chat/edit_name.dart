@@ -40,22 +40,21 @@
  * for more details.
  */
 
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_app_bar.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon_button.dart';
 import 'package:ox_coi/src/l10n/l.dart';
 import 'package:ox_coi/src/l10n/l10n.dart';
 import 'package:ox_coi/src/navigation/navigatable.dart';
 import 'package:ox_coi/src/navigation/navigation.dart';
-import 'package:ox_coi/src/widgets/validatable_text_form_field.dart';
 import 'package:ox_coi/src/utils/keyMapping.dart';
+import 'package:ox_coi/src/widgets/validatable_text_form_field.dart';
 
 import 'chat_change_bloc.dart';
 import 'chat_change_event_state.dart';
-
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveAppBar.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveIconButton.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveIcon.dart';
 
 class EditName extends StatefulWidget {
   final int chatId;
@@ -94,22 +93,21 @@ class _EditNameState extends State<EditName> {
         appBar: AdaptiveAppBar(
           leadingIcon: new AdaptiveIconButton(
             icon: new AdaptiveIcon(
-                key: Key(keyEditNameCloseIcon),
-                androidIcon: Icons.close,
-                iosIcon: CupertinoIcons.back
+              key: Key(keyEditNameCloseIcon),
+              androidIcon: Icons.close,
+              iosIcon: CupertinoIcons.clear_thick,
             ),
-            func: () => _navigation.pop(context),
+            onPressed: () => _navigation.pop(context),
           ),
           title: Text(widget.title, style: TextStyle(color: Colors.white)),
-          icons: <Widget>[
+          actions: <Widget>[
             AdaptiveIconButton(
+                key: Key(keyEditNameCheckIcon),
                 icon: AdaptiveIcon(
-                    key: Key(keyEditNameCheckIcon)
-                    androidIcon: Icons.check,
-                    iosIcon: CupertinoIcons.check_mark
+                  androidIcon: Icons.check,
+                  iosIcon: CupertinoIcons.check_mark,
                 ),
-                func: saveNewName
-            )
+                onPressed: saveNewName)
           ],
         ),
         body: BlocListener(

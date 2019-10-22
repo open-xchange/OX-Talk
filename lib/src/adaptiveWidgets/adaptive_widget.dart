@@ -1,12 +1,16 @@
 import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 abstract class AdaptiveWidget<C extends Widget, M extends Widget> extends StatelessWidget {
-  AdaptiveWidget({Key key}) : super(key: key);
+  final Key key;
+
+  AdaptiveWidget({this.key});
 
   C buildCupertinoWidget(BuildContext context);
+
   M buildMaterialWidget(BuildContext context);
 
   @override
@@ -14,7 +18,6 @@ abstract class AdaptiveWidget<C extends Widget, M extends Widget> extends Statel
     if (Platform.isIOS) {
       return buildCupertinoWidget(context);
     }
-
     return buildMaterialWidget(context);
   }
 }

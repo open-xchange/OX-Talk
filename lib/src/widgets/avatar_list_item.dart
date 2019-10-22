@@ -46,7 +46,7 @@ import 'package:ox_coi/src/ui/dimensions.dart';
 import 'package:ox_coi/src/utils/date.dart';
 import 'package:ox_coi/src/widgets/avatar.dart';
 
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveInkwell.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_ink_well.dart';
 
 class AvatarListItem extends StatelessWidget {
   final String title;
@@ -81,7 +81,7 @@ class AvatarListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AdaptiveInkWell(
-      func: () => onTap(title, subTitle),
+      onTap: () => onTap(title, subTitle),
       child: Container(
         color: background,
         height: listItemHeight,

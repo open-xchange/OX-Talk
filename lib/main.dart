@@ -41,6 +41,7 @@
  */
 
 import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -90,48 +91,50 @@ class OxCoiApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (Platform.isIOS) {
-      print("ist ios");
       return CupertinoApp(
         theme: CupertinoThemeData(
           primaryColor: primary,
           primaryContrastingColor: Colors.white,
           barBackgroundColor: primary,
           textTheme: CupertinoTextThemeData(
-            primaryColor: Colors.white
+            primaryColor: Colors.white,
           )
         ),
-        localizationsDelegates: [
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-        ],
+        localizationsDelegates: getLocalizationsDelegates(),
         localeResolutionCallback: (deviceLocale, supportedLocales) {
-          L10n.loadTranslation(deviceLocale);
-          L10n.setLanguage(deviceLocale);
+          getLocaleResolutionCallback(deviceLocale);
           return deviceLocale;
         },
         initialRoute: Navigation.root,
         routes: navigation.routesMapping,
       );
     } else {
-      print("is Android");
       return MaterialApp(
         theme: ThemeData(
           primaryColor: primary,
           accentColor: accent,
         ),
-        localizationsDelegates: [
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-        ],
+        localizationsDelegates: getLocalizationsDelegates(),
         supportedLocales: L10n.supportedLocales,localeResolutionCallback: (deviceLocale, supportedLocales) {
-          L10n.loadTranslation(deviceLocale);
-          L10n.setLanguage(deviceLocale);
+          getLocaleResolutionCallback(deviceLocale);
           return deviceLocale;
         },
         initialRoute: Navigation.root,
         routes: navigation.routesMapping,
       );
     }
+  }
+
+  List<LocalizationsDelegate> getLocalizationsDelegates() {
+    return [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ];
+  }
+
+  void getLocaleResolutionCallback(Locale deviceLocale) {
+    L10n.loadTranslation(deviceLocale);
+    L10n.setLanguage(deviceLocale);
   }
 }
 

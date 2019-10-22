@@ -68,8 +68,8 @@ import 'package:ox_coi/src/widgets/search.dart';
 import 'package:ox_coi/src/widgets/state_info.dart';
 import 'package:rxdart/rxdart.dart';
 
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveIconButton.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveIcon.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon_button.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon.dart';
 
 enum ChatListItemType {
   chat,
@@ -241,7 +241,7 @@ class _ChatListState extends State<ChatList> {
           androidIcon: Icons.search,
           iosIcon: CupertinoIcons.search
       ),
-      func: () => search.show(context),
+      onPressed: () => search.show(context),
       key: Key(keyChatListSearchIconButton),
     );
   }
@@ -253,7 +253,7 @@ class _ChatListState extends State<ChatList> {
             iosIcon: CupertinoIcons.flag
         ),
         key: Key(keyChatListGetFlaggedActionIconButton),
-        func: () => _navigation.push(
+        onPressed: () => _navigation.push(
             context,
             MaterialPageRoute(
               builder: (context) => Flagged(),

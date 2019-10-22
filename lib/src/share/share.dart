@@ -56,7 +56,7 @@ import 'package:ox_coi/src/share/shared_data.dart';
 import 'package:ox_coi/src/ui/dimensions.dart';
 import 'package:ox_coi/src/widgets/state_info.dart';
 
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveAppBar.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_app_bar.dart';
 
 class Share extends StatefulWidget {
   final List<int> msgIds;
@@ -91,7 +91,7 @@ class _ShareState extends State<Share> {
         title: widget.messageActionTag == MessageActionTag.forward
             ? Text(L10n.get(L.forward), style: TextStyle(color: Colors.white))
             : Text(L10n.get(L.share), style: TextStyle(color: Colors.white)),
-        icons: <Widget> [],
+
       ),
       body: _buildShareList(),
     );

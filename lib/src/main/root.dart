@@ -47,7 +47,7 @@ import 'package:ox_coi/src/main/root_child.dart';
 import 'package:ox_coi/src/user/user_profile.dart';
 import 'package:ox_coi/src/widgets/view_switcher.dart';
 
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveAppBar.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_app_bar.dart';
 
 class Root extends StatefulWidget {
   @override
@@ -70,7 +70,7 @@ class _RootState extends State<Root> {
       appBar: AdaptiveAppBar(
           color: child.getColor(),
           title: Text(child.getTitle(context), style: TextStyle(color: Colors.white)),
-          icons: child.getActions(context),
+          actions: child.getActions(context),
       ),
       body: WillPopScope(
         child: ViewSwitcher(child),

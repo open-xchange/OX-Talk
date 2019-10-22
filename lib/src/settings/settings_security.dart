@@ -57,9 +57,9 @@ import 'package:ox_coi/src/utils/toast.dart';
 import 'package:ox_coi/src/widgets/fullscreen_progress.dart';
 import 'package:rxdart/rxdart.dart';
 
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveAppBar.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveIconButton.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveIcon.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_app_bar.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon_button.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon.dart';
 
 class SettingsSecurity extends StatefulWidget {
   @override
@@ -164,13 +164,13 @@ class _SettingsSecurityState extends State<SettingsSecurity> {
           appBar: AdaptiveAppBar(
             leadingIcon: AdaptiveIconButton(
               icon: AdaptiveIcon(
-                  androidIcon: Icons.close,
+                  androidIcon: Icons.arrow_back,
                   iosIcon: CupertinoIcons.back
               ),
-              func: () => navigation.pop(context),
+              onPressed: () => navigation.pop(context),
             ),
             title: Text(L10n.get(L.security), style: TextStyle(color: Colors.white)),
-            icons: <Widget> [],
+
           ),
           body: _buildPreferenceList(context)),
     );

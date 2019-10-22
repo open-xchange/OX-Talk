@@ -1,31 +1,33 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'adaptiveWidget.dart';
+
+import 'adaptive_widget.dart';
 
 class AdaptiveInkWell extends AdaptiveWidget<GestureDetector, InkWell> {
-
-  final Function func;
+  final Function onTap;
   final Widget child;
 
   AdaptiveInkWell({
-    this.func,
-    this.child
-  });
+    Key key,
+    this.onTap,
+    this.child,
+  }) : super(key: key);
 
   @override
   InkWell buildMaterialWidget(BuildContext context) {
     return InkWell(
-      onTap: func,
-      child: child
+      key: key,
+      onTap: onTap,
+      child: child,
     );
   }
 
   @override
   GestureDetector buildCupertinoWidget(BuildContext context) {
     return GestureDetector(
-        onTap: func,
-        child: child
+      key: key,
+      onTap: onTap,
+      child: child,
     );
   }
-
 }

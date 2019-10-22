@@ -59,9 +59,9 @@ import 'package:ox_coi/src/utils/keyMapping.dart';
 import 'package:ox_coi/src/widgets/placeholder_text.dart';
 import 'package:ox_coi/src/widgets/profile_header.dart';
 
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveRaisedButton.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveIconButton.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveIcon.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_raised_button.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon_button.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon.dart';
 
 class UserProfile extends RootChild {
   UserProfile({State<StatefulWidget> state}) : super(state: state);
@@ -167,16 +167,16 @@ class _ProfileState extends State<UserProfile> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 AdaptiveRaisedButton(
-                    text: L10n.get(L.profileEdit),
-                    func: editUserSettings,
+                    child: Text(L10n.get(L.profileEdit)),
+                    onPressed: editUserSettings,
                     color: accent,
                     textColor: onAccent,
                     key: Key(keyUserProfileEditProfileRaisedButton),
                 ),
                 Padding(padding: EdgeInsets.all(chatProfileButtonPadding)),
                 AdaptiveRaisedButton(
-                  text: L10n.get(L.qrProfile),
-                  func: showQr,
+                  child: Text(L10n.get(L.qrProfile)),
+                  onPressed: showQr,
                   color: accent,
                   textColor: onAccent,
                   key: Key(keyUserProfileShowQrRaisedButton),
@@ -203,7 +203,7 @@ class _ProfileState extends State<UserProfile> {
           androidIcon: Icons.settings,
           iosIcon: CupertinoIcons.gear
       ),
-      func: () => _settings(context),
+      onPressed: () => _settings(context),
     );
   }
 

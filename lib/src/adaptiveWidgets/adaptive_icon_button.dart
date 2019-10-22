@@ -1,42 +1,37 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'adaptiveWidget.dart';
-import 'adaptiveIcon.dart';
+
+import 'adaptive_icon.dart';
+import 'adaptive_widget.dart';
 
 class AdaptiveIconButton extends AdaptiveWidget<CupertinoButton, IconButton> {
-
   final AdaptiveIcon icon;
-  final Function func;
+  final Function onPressed;
   final Color color;
-  final Key key;
 
   AdaptiveIconButton({
+    Key key,
     this.icon,
-    this.func,
+    this.onPressed,
     this.color,
-    this.key
-  });
+  }) : super(key: key);
 
   @override
   IconButton buildMaterialWidget(BuildContext context) {
-
     return IconButton(
-
+      key: key,
       icon: icon,
-      onPressed: func,
-      key: key
+      onPressed: onPressed,
     );
   }
 
   @override
   CupertinoButton buildCupertinoWidget(BuildContext context) {
-
-
     return CupertinoButton(
+      key: key,
       padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
       child: icon,
-      onPressed: func,
+      onPressed: onPressed,
     );
   }
-
 }

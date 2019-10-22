@@ -49,8 +49,8 @@ import 'package:ox_coi/src/ui/color.dart';
 import 'package:ox_coi/src/ui/dimensions.dart';
 import 'package:ox_coi/src/utils/keyMapping.dart';
 
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveIconButton.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveIcon.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon_button.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon.dart';
 
 enum ComposerModeType {
   compose,
@@ -88,7 +88,7 @@ mixin ChatComposer {
     }
     return AdaptiveIconButton(
       icon: icon,
-      func: onPressed,
+      onPressed: onPressed,
     );
   }
 
@@ -143,7 +143,7 @@ mixin ChatComposer {
               androidIcon: Icons.mic,
               iosIcon: CupertinoIcons.mic
           ),
-          func: onRecordAudioPressed,
+          onPressed: onRecordAudioPressed,
           key: Key(KeyChatComposerMixinOnRecordAudioPressedIcon),
         ));
         widgets.add(new AdaptiveIconButton(
@@ -151,14 +151,14 @@ mixin ChatComposer {
               androidIcon: Icons.camera_alt,
               iosIcon: CupertinoIcons.photo_camera
           ),
-          func: onCaptureImagePressed,
+          onPressed: onCaptureImagePressed,
         ));
         widgets.add(new AdaptiveIconButton(
           icon: new AdaptiveIcon(
               androidIcon: Icons.videocam,
               iosIcon: CupertinoIcons.video_camera
           ),
-          func: onRecordVideoPressed,
+          onPressed: onRecordVideoPressed,
         ));
         break;
       case ComposerModeType.isComposing:
@@ -167,7 +167,7 @@ mixin ChatComposer {
               androidIcon: Icons.send,
               iosIcon: CupertinoIcons.forward
           ),
-          func: onSendText,key: Key(KeyChatComposerMixinOnSendTextIcon),
+          onPressed: onSendText,key: Key(KeyChatComposerMixinOnSendTextIcon),
         ));
         break;
       case ComposerModeType.isVoiceRecording:
@@ -176,7 +176,7 @@ mixin ChatComposer {
               androidIcon: Icons.send,
               iosIcon: CupertinoIcons.forward
           ),
-          func: onRecordAudioPressed,key: Key(KeyChatComposerMixinOnRecordAudioSendIcon),
+          onPressed: onRecordAudioPressed,key: Key(KeyChatComposerMixinOnRecordAudioSendIcon),
         ));
         break;
     }

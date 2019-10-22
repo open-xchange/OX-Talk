@@ -48,12 +48,11 @@ import 'package:ox_coi/src/qr/scan_qr.dart';
 import 'package:ox_coi/src/qr/show_qr.dart';
 import 'package:ox_coi/src/ui/color.dart';
 import 'package:ox_coi/src/ui/dimensions.dart';
-import 'package:ox_coi/src/navigation/navigatable.dart';
 import 'package:ox_coi/src/navigation/navigation.dart';
 
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveAppBar.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveIconButton.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveIcon.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_app_bar.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon_button.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon.dart';
 
 class QrCode extends StatefulWidget {
   final int chatId;
@@ -81,14 +80,14 @@ class _QrCodeState extends State<QrCode> with SingleTickerProviderStateMixin {
       appBar: AdaptiveAppBar(
         leadingIcon: AdaptiveIconButton(
           icon: AdaptiveIcon(
-              androidIcon: Icons.close,
+              androidIcon: Icons.arrow_back,
               iosIcon: CupertinoIcons.back
           ),
-          func: () => navigation.pop(context),
+          onPressed: () => navigation.pop(context),
         ),
         elevation: zero,
         title: Text(L10n.get(L.qrProfile), style: TextStyle(color: Colors.white)),
-        icons: <Widget> [],
+
       ),
       body: buildBody(),
     );

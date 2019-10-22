@@ -53,9 +53,9 @@ import 'package:ox_coi/src/ui/strings.dart';
 import 'package:ox_coi/src/widgets/state_info.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveAppBar.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveIconButton.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveIcon.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_app_bar.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon_button.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon.dart';
 
 class SettingsAbout extends StatefulWidget {
   @override
@@ -85,13 +85,13 @@ class _SettingsAboutState extends State<SettingsAbout> {
         appBar: AdaptiveAppBar(
           leadingIcon: new AdaptiveIconButton(
             icon: new AdaptiveIcon(
-                androidIcon: Icons.close,
+                androidIcon: Icons.arrow_back,
                 iosIcon: CupertinoIcons.back
             ),
-            func: () => navigation.pop(context),
+            onPressed: () => navigation.pop(context),
           ),
           title: Text(L10n.get(L.about), style: TextStyle(color: Colors.white)),
-          icons: <Widget> [],
+
         ),
         body: _buildPreferenceList(context));
   }

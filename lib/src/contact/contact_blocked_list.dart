@@ -56,9 +56,9 @@ import 'package:ox_coi/src/ui/dimensions.dart';
 import 'package:ox_coi/src/widgets/state_info.dart';
 import 'package:ox_coi/src/utils/keyMapping.dart';
 
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveAppBar.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveIconButton.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveIcon.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_app_bar.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon_button.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon.dart';
 
 class ContactBlockedList extends StatefulWidget {
   @override
@@ -82,14 +82,14 @@ class _ContactBlockedListState extends State<ContactBlockedList> {
         appBar: AdaptiveAppBar(
           leadingIcon: new AdaptiveIconButton(
             icon: new AdaptiveIcon(
-                androidIcon: Icons.close,
+                androidIcon: Icons.arrow_back,
                 iosIcon: CupertinoIcons.back
             ),
             key: Key(keyContactBlockedListCloseIconButton),
-            func: () => navigation.pop(context),
+            onPressed: () => navigation.pop(context),
           ),
           title: Text(L10n.get(L.contactBlocked), style: TextStyle(color: Colors.white)),
-          icons: <Widget> [],
+
         ),
         body: buildForm());
   }

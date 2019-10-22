@@ -62,9 +62,9 @@ import 'package:ox_coi/src/utils/keyMapping.dart';
 import 'chat_change_bloc.dart';
 import 'chat_change_event_state.dart';
 
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveAppBar.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveIconButton.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveIcon.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_app_bar.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon_button.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon.dart';
 
 class ChatAddGroupParticipants extends StatefulWidget {
   final int chatId;
@@ -96,12 +96,12 @@ class _ChatAddGroupParticipantsState extends State<ChatAddGroupParticipants> {
           key: Key(keyChatAddGroupParticipantsCloseIcon),
           icon: AdaptiveIcon(
               androidIcon: Icons.close,
-              iosIcon: CupertinoIcons.back
+              iosIcon: CupertinoIcons.clear_thick,
           ),
-          func: () => navigation.pop(context),
+          onPressed: () => navigation.pop(context),
         ),
         title: Text(L10n.get(L.participantAdd), style: TextStyle(color: Colors.white)),
-        icons: <Widget>[
+        actions: <Widget>[
           getSearchAction(),
           AdaptiveIconButton(
             key: Key(keyChatAddGroupParticipantsCheckIcon),
@@ -109,7 +109,7 @@ class _ChatAddGroupParticipantsState extends State<ChatAddGroupParticipants> {
                 androidIcon: Icons.check,
                 iosIcon: CupertinoIcons.check_mark
             ),
-            func: () => _onSubmit(),
+            onPressed: () => _onSubmit(),
           )
         ],
       ),

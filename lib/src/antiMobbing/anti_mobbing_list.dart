@@ -41,9 +41,12 @@
  */
 
 import 'package:delta_chat_core/delta_chat_core.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_app_bar.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon_button.dart';
 import 'package:ox_coi/src/chatlist/invite_item.dart';
 import 'package:ox_coi/src/l10n/l.dart';
 import 'package:ox_coi/src/l10n/l10n.dart';
@@ -54,10 +57,6 @@ import 'package:ox_coi/src/widgets/state_info.dart';
 
 import 'anti_mobbing_list_bloc.dart';
 import 'anti_mobbing_list_event_state.dart';
-
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveAppBar.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveIconButton.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveIcon.dart';
 
 class AntiMobbingList extends StatefulWidget {
   @override
@@ -85,15 +84,14 @@ class _AntiMobbingListState extends State<AntiMobbingList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AdaptiveAppBar(
-          leadingIcon: new AdaptiveIconButton(
-            icon: new AdaptiveIcon(
-                androidIcon: Icons.close,
-                iosIcon: CupertinoIcons.back
-            ),
-            func: () => navigation.pop(context),
+        leadingIcon: new AdaptiveIconButton(
+          icon: new AdaptiveIcon(
+            androidIcon: Icons.arrow_back,
+            iosIcon: CupertinoIcons.back,
           ),
-          title: Text(L10n.get(L.invites), style: TextStyle(color: Colors.white)),
-          icons: <Widget>[],
+          onPressed: () => navigation.pop(context),
+        ),
+        title: Text(L10n.get(L.invites), style: TextStyle(color: Colors.white)),
       ),
       body: BlocBuilder(
         bloc: _antiMobbingListBloc,

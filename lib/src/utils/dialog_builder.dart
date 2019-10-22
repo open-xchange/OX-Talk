@@ -41,14 +41,14 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveDialogAction.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_dialog_action.dart';
 import 'package:ox_coi/src/l10n/l.dart';
 import 'package:ox_coi/src/l10n/l10n.dart';
 import 'package:ox_coi/src/navigation/navigatable.dart';
 import 'package:ox_coi/src/navigation/navigation.dart';
 import 'keyMapping.dart';
 
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveDialog.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_dialog.dart';
 
 showNavigatableDialog(
     {@required BuildContext context,
@@ -93,7 +93,7 @@ showConfirmationDialog(
               ? negativeButton
               : L10n.get(L.cancel)),
           key: Key(keyDialogBuilderCancelFlatButton),
-          func: () {
+          onPressed: () {
             if (negativeAction != null) {
               negativeAction();
             }
@@ -103,7 +103,7 @@ showConfirmationDialog(
         new AdaptiveDialogAction(
           child: new Text(positiveButton),
           key: Key(keyDialogBuilderPositiveFlatButton),
-          func: () {
+          onPressed: () {
             positiveAction();
             if (selfClose) {
               navigation.pop(context);
@@ -112,34 +112,6 @@ showConfirmationDialog(
         ),
       ],
     ),
-    /*AlertDialog(
-      title: Text(title),
-      content: new Text(content),
-      actions: <Widget>[
-        new FlatButton(
-          child: new Text(negativeButton != null && negativeButton.isNotEmpty
-              ? negativeButton
-              : L10n.get(L.cancel)),
-          key: Key(keyDialogBuilderCancelFlatButton),
-          onPressed: () {
-            if (negativeAction != null) {
-              negativeAction();
-            }
-            navigation.pop(context);
-          },
-        ),
-        new FlatButton(
-          child: new Text(positiveButton),
-          key: Key(keyDialogBuilderPositiveFlatButton),
-          onPressed: () {
-            positiveAction();
-            if (selfClose) {
-              navigation.pop(context);
-            }
-          },
-        ),
-      ],
-    ),*/
   );
 }
 
@@ -160,24 +132,11 @@ showInformationDialog(
         actions: <Widget>[
           new AdaptiveDialogAction(
             child: new Text(L10n.get(L.ok)),
-            func: () {
+            onPressed: () {
               navigation.pop(context);
             },
           ),
         ],
     )
-    /*AlertDialog(
-      title: Text(title),
-      content: new Text(content),
-      actions: <Widget>[
-        new FlatButton(
-          child: new Text(L10n.get(L.ok)),
-          key: Key(keyDialogBuilderAlertDialogOkFlatButton),
-          onPressed: () {
-            navigation.pop(context);
-          },
-        ),
-      ],
-    ),*/
   );
 }

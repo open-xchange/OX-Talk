@@ -54,7 +54,7 @@ import 'package:ox_coi/src/utils/clipboard.dart';
 import 'package:ox_coi/src/utils/text.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveInkwell.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_ink_well.dart';
 
 class ProfileData extends InheritedWidget {
   final Color color;
@@ -196,7 +196,7 @@ class ProfileAvatar extends StatelessWidget {
                     Icons.add_a_photo,
                     color: onPrimary,
                   ),
-                  func: _editPhoto,
+                  onTap: _editPhoto,
                 )))
       ],
     );
@@ -251,7 +251,7 @@ class ProfileCopyableHeaderText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AdaptiveInkWell(
-      func: () {
+      onTap: () {
         copyToClipboardWithToast(text: ProfileData.of(context).text, toastText: toastMessage);
       },
       child: Row(

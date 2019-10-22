@@ -57,7 +57,7 @@ import 'package:ox_coi/src/navigation/navigatable.dart';
 import 'package:ox_coi/src/navigation/navigation.dart';
 import 'package:ox_coi/src/utils/key_generator.dart';
 
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveAppBar.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_app_bar.dart';
 
 class ChatProfile extends StatefulWidget {
   final int chatId;
@@ -100,7 +100,7 @@ class _ChatProfileState extends State<ChatProfile> {
     return Scaffold(
         appBar: AdaptiveAppBar(
           title: Text(L10n.get(L.profile), style: TextStyle(color: Colors.white)),
-          icons: <Widget> [],
+
         ),
         body: SingleChildScrollView(
           child: BlocBuilder(

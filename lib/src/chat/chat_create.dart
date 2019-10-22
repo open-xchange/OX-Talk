@@ -60,9 +60,9 @@ import 'package:ox_coi/src/widgets/search.dart';
 import 'package:ox_coi/src/widgets/state_info.dart';
 import 'package:ox_coi/src/utils/keyMapping.dart';
 
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveAppBar.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveIconButton.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveIcon.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_app_bar.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon_button.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon.dart';
 
 class ChatCreate extends StatefulWidget {
   @override
@@ -91,7 +91,7 @@ class _ChatCreateState extends State<ChatCreate> {
     return Scaffold(
         appBar: AdaptiveAppBar(
           title: Text(L10n.get(L.chatCreate), style: TextStyle(color: Colors.white)),
-          icons: <Widget>[getSearchAction()],
+          actions: <Widget>[getSearchAction()],
         ),
         body: buildList(true));
   }
@@ -107,7 +107,7 @@ class _ChatCreateState extends State<ChatCreate> {
           androidIcon: Icons.search,
           iosIcon: CupertinoIcons.search
       ),
-      func: () => search.show(context), key: Key(keyChatCreateSearchIcon),
+      onPressed: () => search.show(context), key: Key(keyChatCreateSearchIcon),
     );
   }
 

@@ -64,8 +64,8 @@ import 'package:ox_coi/src/widgets/search.dart';
 import 'package:ox_coi/src/widgets/state_info.dart';
 import 'package:rxdart/rxdart.dart';
 
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveIconButton.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveIcon.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon_button.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon.dart';
 
 class ContactList extends RootChild {
   final Navigation navigation = Navigation();
@@ -189,7 +189,7 @@ class _ContactListState extends State<ContactList> {
           iosIcon: CupertinoIcons.person_add
       ),
       key: Key(keyContactListImportContactIconButton),
-      func: () => _showImportDialog(false, context),
+      onPressed: () => _showImportDialog(false, context),
     );
   }
 
@@ -200,7 +200,7 @@ class _ContactListState extends State<ContactList> {
           iosIcon: CupertinoIcons.padlock
       ),
       key: Key(keyContactListBlockIconButton),
-      func: () => _showBlockedUserList(context),
+      onPressed: () => _showBlockedUserList(context),
     );
   }
 
@@ -216,7 +216,7 @@ class _ContactListState extends State<ContactList> {
           iosIcon: CupertinoIcons.search
       ),
       key: Key(keyContactListSearchIconButton),
-      func: () => search.show(context),
+      onPressed: () => search.show(context),
     );
   }
 

@@ -54,9 +54,9 @@ import 'package:ox_coi/src/widgets/state_info.dart';
 
 import 'settings_notifications_bloc.dart';
 
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveAppBar.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveIconButton.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveIcon.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_app_bar.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon_button.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon.dart';
 
 class SettingsNotifications extends StatefulWidget {
   @override
@@ -80,13 +80,13 @@ class _SettingsNotificationsState extends State<SettingsNotifications> {
         appBar: AdaptiveAppBar(
           leadingIcon: AdaptiveIconButton(
             icon: AdaptiveIcon(
-                androidIcon: Icons.close,
+                androidIcon: Icons.arrow_back,
                 iosIcon: CupertinoIcons.back
             ),
-            func: () => _navigation.pop(context),
+            onPressed: () => _navigation.pop(context),
           ),
           title: Text(L10n.get(L.settingNotificationP, count: L10n.plural), style: TextStyle(color: Colors.white)),
-          icons: <Widget> [],
+
         ),
         body: _buildPreferenceList(context));
   }

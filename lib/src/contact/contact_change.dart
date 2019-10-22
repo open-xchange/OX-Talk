@@ -61,9 +61,9 @@ import 'package:ox_coi/src/utils/toast.dart';
 import 'package:ox_coi/src/widgets/validatable_text_form_field.dart';
 import 'package:rxdart/rxdart.dart';
 
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveAppBar.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveIconButton.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveIcon.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_app_bar.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon_button.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon.dart';
 
 enum ContactAction {
   add,
@@ -157,21 +157,21 @@ class _ContactChangeState extends State<ContactChange> {
         appBar: AdaptiveAppBar(
           leadingIcon: new AdaptiveIconButton(
             icon: new AdaptiveIcon(
-                androidIcon: Icons.close,
+                androidIcon: Icons.arrow_back,
                 iosIcon: CupertinoIcons.back
             ),
             key: Key(keyContactChangeCloseIconButton),
-            func: () => navigation.pop(context),
+            onPressed: () => navigation.pop(context),
           ),
           title: Text(title, style: TextStyle(color: Colors.white)),
-          icons: <Widget>[
+          actions: <Widget>[
             AdaptiveIconButton(
               key: Key(keyContactChangeCheckIconButton),
               icon: AdaptiveIcon(
                   androidIcon: Icons.check,
                   iosIcon: CupertinoIcons.check_mark
               ),
-              func: () => _onSubmit(),
+              onPressed: () => _onSubmit(),
             )
           ],
         ),

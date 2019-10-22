@@ -1,35 +1,34 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'adaptiveWidget.dart';
+
+import 'adaptive_widget.dart';
 
 class AdaptiveAppBar extends AdaptiveWidget<CupertinoNavigationBar, AppBar> with PreferredSizeWidget {
-
-  final Function func;
+  final Function onPressed;
   final Color color;
   final Widget title;
-  final List<Widget> icons;
+  final List<Widget> actions;
   final double elevation;
   final Widget leadingIcon;
-  final Key key;
 
   AdaptiveAppBar({
-    this.func,
+    Key key,
+    this.onPressed,
     this.color,
     this.title,
-    this.icons,
+    this.actions,
     this.elevation,
     this.leadingIcon,
-    this.key
-  });
+  }) : super(key: key);
 
   @override
   AppBar buildMaterialWidget(BuildContext context) {
     return AppBar(
+      key: key,
       leading: leadingIcon,
       title: title,
-      actions: icons,
+      actions: actions,
       elevation: elevation,
-      key: key
     );
   }
 
@@ -38,18 +37,17 @@ class AdaptiveAppBar extends AdaptiveWidget<CupertinoNavigationBar, AppBar> with
     return CupertinoNavigationBar(
       key: key,
       leading: leadingIcon,
-      actionsForegroundColor: Colors.white,
       middle: title,
       backgroundColor: color,
-      trailing: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: icons
-      )
+      trailing: actions != null
+          ? Row(
+              mainAxisSize: MainAxisSize.min,
+              children: actions,
+            )
+          : null,
     );
   }
 
-
   @override
   Size get preferredSize => Size.fromHeight(kToolbarHeight);
-
 }

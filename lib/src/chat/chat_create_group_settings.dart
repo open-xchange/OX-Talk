@@ -62,9 +62,9 @@ import 'package:ox_coi/src/widgets/state_info.dart';
 import 'package:ox_coi/src/widgets/validatable_text_form_field.dart';
 import 'package:ox_coi/src/utils/keyMapping.dart';
 
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveAppBar.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveIconButton.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveIcon.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_app_bar.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon_button.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon.dart';
 
 class ChatCreateGroupSettings extends StatefulWidget {
   final List<int> selectedContacts;
@@ -102,14 +102,14 @@ class _ChatCreateGroupSettingsState extends State<ChatCreateGroupSettings> with 
     return Scaffold(
       appBar: AdaptiveAppBar(
         title: Text(L10n.get(L.groupCreate), style: TextStyle(color: Colors.white)),
-        icons: <Widget>[
+        actions: <Widget>[
           AdaptiveIconButton(
             key: Key(keyChatCreateGroupSettingCheckIconButton),
             icon: AdaptiveIcon(
                 androidIcon: Icons.check,
                 iosIcon: CupertinoIcons.check_mark
             ),
-            func: () => _onSubmit(),
+            onPressed: () => _onSubmit(),
           )
         ],
       ),

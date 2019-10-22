@@ -64,9 +64,9 @@ import 'package:ox_coi/src/widgets/search.dart';
 import 'package:ox_coi/src/widgets/state_info.dart';
 import 'package:ox_coi/src/utils/keyMapping.dart';
 
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveAppBar.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveIconButton.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptiveIcon.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_app_bar.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon_button.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon.dart';
 
 class ChatCreateGroupParticipants extends StatefulWidget {
   @override
@@ -94,19 +94,20 @@ class _ChatCreateGroupParticipantsState extends State<ChatCreateGroupParticipant
           key: Key(keyChatCreateGroupParticipantsCloseIconButton),
           icon: AdaptiveIcon(
               androidIcon: Icons.close,
-              iosIcon: CupertinoIcons.back
+              iosIcon: CupertinoIcons.clear_thick,
           ),
-          func: () => navigation.pop(context),
+          onPressed: () => navigation.pop(context),
         ),
         title: Text(L10n.get(L.groupCreate), style: TextStyle(color: Colors.white)),
-        icons: <Widget>[
+        actions: <Widget>[
           getSearchAction(),
           AdaptiveIconButton(
+            key: Key(keyChatCreateGroupParticipantsSummitIconButton),
             icon: AdaptiveIcon(
                 androidIcon: Icons.arrow_forward,
                 iosIcon: CupertinoIcons.forward
             ),
-            func: () => _onSubmit(),
+            onPressed: () => _onSubmit(),
           )
         ],
       ),
@@ -125,7 +126,7 @@ class _ChatCreateGroupParticipantsState extends State<ChatCreateGroupParticipant
           androidIcon: Icons.search,
           iosIcon: CupertinoIcons.search
       ),
-      func: () => search.show(context),
+      onPressed: () => search.show(context),
     );
   }
 
