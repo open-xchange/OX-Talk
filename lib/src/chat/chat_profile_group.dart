@@ -53,9 +53,9 @@ import 'package:ox_coi/src/navigation/navigatable.dart';
 import 'package:ox_coi/src/navigation/navigation.dart';
 import 'package:ox_coi/src/ui/color.dart';
 import 'package:ox_coi/src/ui/dimensions.dart';
+import 'package:ox_coi/src/utils/keyMapping.dart';
 import 'package:ox_coi/src/widgets/profile_body.dart';
 import 'package:ox_coi/src/widgets/profile_header.dart';
-import 'package:ox_coi/src/utils/keyMapping.dart';
 
 import 'chat_add_group_participants.dart';
 import 'chat_bloc.dart';
@@ -98,105 +98,77 @@ class _ChatProfileGroupState extends State<ChatProfileGroup> {
   @override
   Widget build(BuildContext context) {
     chatBloc = BlocProvider.of<ChatBloc>(context);
+
     return BlocBuilder(
-      bloc: _contactListBloc,
-      builder: (context, state) {
-        if (state is ContactListStateSuccess) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              BlocBuilder(
-                bloc: chatBloc,
-                builder: (context, state) {
-                  if (state is ChatStateSuccess) {
-                    chatName = state.name;
-                    return ProfileData(
-                        color: widget.chatColor,
-                        text: state.name,
-                        textStyle: Theme.of(context).textTheme.title,
-                        iconData: state.isVerified ? Icons.verified_user : null,
-                        imageActionCallback: _editPhotoCallback,
-                        child: Column(
-                          children: <Widget>[
-                            Align(
-                              alignment: Alignment.center,
-                              child: ProfileAvatar(
-                                imagePath: state.avatarPath,
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.all(20.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  ProfileHeaderText(),
-                                  IconButton(
-                                      icon: Icon(
-                                        Icons.edit,
-                                        key: Key(keyChatProfileGroupEditIcon),
-                                        color: accent,
-                                      ),
-                                      onPressed: _goToEditName)
-                                ],
-                              ),
-                            ),
-                          ],
-                        ));
-                  } else {
-                    return Container();
-                  }
-                },
-              ),
-              Padding(
-                  padding: EdgeInsets.only(left: 20.0),
-                  child: ProfileData(
-                    text: L10n.getFormatted(L.participantXP, [state.contactIds.length], count: state.contactIds.length),
-                    child: ProfileMemberHeaderText(),
-                  )),
-              Divider(),
-              AdaptiveInkWell(
-                onTap: () => _navigation.push(
-                    context, MaterialPageRoute(builder: (context) => ChatAddGroupParticipants(chatId: widget.chatId, contactIds: state.contactIds))),
-                child: Container(
-                  padding: const EdgeInsets.only(left: 16.0, bottom: 12.0),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+      bloc: chatBloc,
+      builder: (context, chatState) {
+        if (chatState is ChatStateSuccess) {
+          chatName = chatState.name;
+          return BlocBuilder(
+              bloc: _contactListBloc,
+              builder: (context, state) {
+                if (state is ContactListStateSuccess) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      CircleAvatar(
-                        radius: listAvatarRadius,
-                        backgroundColor: accent,
-                        foregroundColor: onAccent,
-                        child: Icon(Icons.group_add),
-                        key: Key(keyChatProfileGroupAddParticipant),
+                      buildProfileImageAndTitle(chatState),
+                      Padding(
+                          padding: EdgeInsets.only(left: 20.0),
+                          child: ProfileData(
+                            text: L10n.getFormatted(L.participantXP, [state.contactIds.length], count: state.contactIds.length),
+                            child: ProfileMemberHeaderText(),
+                          )),
+                      Divider(),
+                      Visibility(
+                        visible: !chatState.isRemoved,
+                        child: AdaptiveInkWell(
+                          onTap: () => _navigation.push(context,
+                              MaterialPageRoute(builder: (context) => ChatAddGroupParticipants(chatId: widget.chatId, contactIds: state.contactIds))),
+                          child: Container(
+                            padding: const EdgeInsets.only(left: 16.0, bottom: 12.0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                CircleAvatar(
+                                  radius: listAvatarRadius,
+                                  backgroundColor: accent,
+                                  foregroundColor: onAccent,
+                                  child: Icon(Icons.group_add),
+                                  key: Key(keyChatProfileGroupAddParticipant),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 4.0),
+                                  child: Text(
+                                    L10n.get(L.participantAdd),
+                                    textAlign: TextAlign.center,
+                                    style: Theme.of(context).textTheme.subhead.apply(color: accent),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: 4.0),
-                        child: Text(
-                          L10n.get(L.participantAdd),
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.subhead.apply(color: accent),
-                        ),
-                      )
+                        padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                        child: _buildGroupMemberList(state, chatState.isRemoved),
+                      ),
+                      Divider(
+                        height: dividerHeight,
+                      ),
+                      ProfileAction(
+                        iconData: Icons.delete,
+                        key: Key(keyChatProfileGroupDelete),
+                        text: L10n.get(L.groupLeave),
+                        onTap: () => showActionDialog(context, ProfileActionType.leave, _leaveGroup),
+                        color: error,
+                      ),
                     ],
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: 8.0, right: 8.0),
-                child: _buildGroupMemberList(state),
-              ),
-              Divider(
-                height: dividerHeight,
-              ),
-              ProfileAction(
-                iconData: Icons.delete,
-                key: Key(keyChatProfileGroupDelete),
-                text: L10n.get(L.groupLeave),
-                onTap: () => showActionDialog(context, ProfileActionType.leave, _leaveGroup),
-                color: Colors.red,
-              ),
-            ],
-          );
+                  );
+                } else {
+                  return Container();
+                }
+              });
         } else {
           return Container();
         }
@@ -204,23 +176,61 @@ class _ChatProfileGroupState extends State<ChatProfileGroup> {
     );
   }
 
+  ProfileData buildProfileImageAndTitle(ChatStateSuccess state) {
+    return ProfileData(
+        color: widget.chatColor,
+        text: state.name,
+        textStyle: Theme.of(context).textTheme.title,
+        iconData: state.isVerified ? Icons.verified_user : null,
+        imageActionCallback: state.isRemoved ? null : _editPhotoCallback,
+        child: Column(
+          children: <Widget>[
+            Align(
+              alignment: Alignment.center,
+              child: ProfileAvatar(
+                imagePath: state.avatarPath,
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  ProfileHeaderText(),
+                  Visibility(
+                      visible: !state.isRemoved,
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.edit,
+                          key: Key(keyChatProfileGroupEditIcon),
+                          color: accent,
+                        ),
+                        onPressed: _goToEditName,
+                      )),
+                ],
+              ),
+            ),
+          ],
+        ));
+  }
+
   _editPhotoCallback(String avatarPath) {
     _chatChangeBloc.dispatch(SetImagePath(chatId: widget.chatId, newPath: avatarPath));
   }
 
-  ListView _buildGroupMemberList(ContactListStateSuccess state) {
+  ListView _buildGroupMemberList(ContactListStateSuccess state, bool isRemoved) {
     return ListView.separated(
         separatorBuilder: (context, index) => Divider(
-          height: dividerHeight,
-          color: onBackground.withOpacity(barely),
-        ),
+              height: dividerHeight,
+              color: onBackground.withOpacity(barely),
+            ),
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
         itemCount: state.contactIds.length,
         itemBuilder: (BuildContext context, int index) {
           var contactId = state.contactIds[index];
           var key = "$contactId-${state.contactLastUpdateValues[index]}";
-          return ChatProfileGroupContactItem(chatId: widget.chatId, contactId: contactId, showMoreButton: true, key: key);
+          return ChatProfileGroupContactItem(chatId: widget.chatId, contactId: contactId, showMoreButton: !isRemoved, key: key);
         });
   }
 
