@@ -50,8 +50,6 @@ import 'package:ox_coi/src/platform/app_information.dart';
 import 'package:ox_coi/src/ui/color.dart';
 
 import 'package:ox_coi/src/adaptiveWidgets/adaptive_app_bar.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon_button.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon.dart';
 
 enum SettingsType {
   account,
@@ -75,15 +73,7 @@ class Settings extends StatelessWidget {
     return Scaffold(
 
         appBar: new AdaptiveAppBar(
-          leadingIcon: AdaptiveIconButton(
-            icon: AdaptiveIcon(
-                androidIcon: Icons.arrow_back,
-                iosIcon: CupertinoIcons.back
-            ),
-            onPressed: () => _navigation.pop(context),
-          ),
           title: Text(L10n.get(L.settingP, count: L10n.plural)),
-
         ),
         body: buildPreferenceList(context));
   }

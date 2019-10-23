@@ -51,8 +51,6 @@ import 'package:ox_coi/src/ui/dimensions.dart';
 import 'package:ox_coi/src/navigation/navigation.dart';
 
 import 'package:ox_coi/src/adaptiveWidgets/adaptive_app_bar.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon_button.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon.dart';
 
 class QrCode extends StatefulWidget {
   final int chatId;

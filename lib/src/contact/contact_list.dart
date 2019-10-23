@@ -186,7 +186,7 @@ class _ContactListState extends State<ContactList> {
     return AdaptiveIconButton(
       icon: AdaptiveIcon(
           androidIcon: Icons.import_contacts,
-          iosIcon: CupertinoIcons.person_add
+          iosIcon: CupertinoIcons.person_add_solid
       ),
       key: Key(keyContactListImportContactIconButton),
       onPressed: () => _showImportDialog(false, context),
@@ -197,7 +197,7 @@ class _ContactListState extends State<ContactList> {
     return AdaptiveIconButton(
       icon: AdaptiveIcon(
           androidIcon: Icons.block,
-          iosIcon: CupertinoIcons.padlock
+          iosIcon: CupertinoIcons.padlock_solid
       ),
       key: Key(keyContactListBlockIconButton),
       onPressed: () => _showBlockedUserList(context),
@@ -250,8 +250,8 @@ class _ContactListState extends State<ContactList> {
           builder: (context) => FullscreenProgress(
             bloc: _contactListBloc,
             text: L10n.get(L.contactImportRunning),
-            showProgressValues: false,
-            showCancelButton: false,
+            showProgressValues: true,
+            showCancelButton: true,
           ),
         );
         Overlay.of(context).insert(_progressOverlayEntry);

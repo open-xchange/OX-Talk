@@ -54,8 +54,6 @@ import 'package:ox_coi/src/ui/dimensions.dart';
 import 'package:ox_coi/src/widgets/state_info.dart';
 
 import 'package:ox_coi/src/adaptiveWidgets/adaptive_app_bar.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon_button.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon.dart';
 
 class SettingsChat extends StatefulWidget {
   @override
@@ -78,15 +76,7 @@ class _SettingsChatState extends State<SettingsChat> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AdaptiveAppBar(
-          leadingIcon: AdaptiveIconButton(
-            icon: AdaptiveIcon(
-                androidIcon: Icons.arrow_back,
-                iosIcon: CupertinoIcons.back
-            ),
-            onPressed: () => _navigation.pop(context),
-          ),
           title: Text(L10n.get(L.chatP)),
-
         ),
         body: _buildPreferenceList(context));
   }

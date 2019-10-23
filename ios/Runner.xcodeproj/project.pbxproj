@@ -71,7 +71,6 @@
 				9705A1C61CF904A100538489 /* Flutter.framework in Frameworks */,
 				3B80C3941E831B6300D905FE /* App.framework in Frameworks */,
 				374E43D3FB49E295AE9799DD /* Pods_Runner.framework in Frameworks */,
-				13BE2ABCA01BB43706F0F5C9 /* Pods_Runner.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -105,7 +104,6 @@
 			children = (
 				FD51737223266F04007458CC /* .swiftlint.yml */,
 				24DD530523214B20005ED412 /* Runner.entitlements */,
-				9740EEB11CF90186004384FC /* Flutter */,
 				97C146F01CF9000F007C117D /* OX Coi */,
 				9740EEB11CF90186004384FC /* Flutter */,
 				97C146EF1CF9000F007C117D /* Products */,
@@ -139,7 +137,6 @@
 				97C146FD1CF9000F007C117D /* Assets.xcassets */,
 				97C147021CF9000F007C117D /* Info.plist */,
 				FD00B38A23225BF900B85B35 /* GoogleService-Info.plist */,
-				24DD530523214B20005ED412 /* Runner.entitlements */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -148,7 +145,6 @@
 			isa = PBXGroup;
 			children = (
 				899B7188477F2A02FA10829E /* Pods_Runner.framework */,
-				B8CE455BE754D9824611AAEF /* Pods_Runner.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -513,6 +509,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "OX Coi/Runner.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = 528HQ38877;
 				ENABLE_BITCODE = NO;
@@ -532,6 +530,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.openxchange.oxCoi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "OX Coi/Application/Runner-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -548,6 +547,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "OX Coi/Runner.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = 528HQ38877;
 				ENABLE_BITCODE = NO;
@@ -567,6 +568,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.openxchange.oxCoi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "OX Coi/Application/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

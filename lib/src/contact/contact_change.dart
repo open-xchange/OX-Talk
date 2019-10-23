@@ -157,8 +157,8 @@ class _ContactChangeState extends State<ContactChange> {
         appBar: AdaptiveAppBar(
           leadingIcon: new AdaptiveIconButton(
             icon: new AdaptiveIcon(
-                androidIcon: Icons.arrow_back,
-                iosIcon: CupertinoIcons.back
+                androidIcon: Icons.close,
+                iosIcon: CupertinoIcons.clear_thick,
             ),
             key: Key(keyContactChangeCloseIconButton),
             onPressed: () => navigation.pop(context),

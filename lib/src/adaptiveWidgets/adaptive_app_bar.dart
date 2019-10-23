@@ -2,8 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'adaptive_widget.dart';
+import 'package:ox_coi/src/ui/color.dart';
 
-class AdaptiveAppBar extends AdaptiveWidget<CupertinoNavigationBar, AppBar> with PreferredSizeWidget {
+class AdaptiveAppBar extends AdaptiveWidget<CupertinoTheme, AppBar> with PreferredSizeWidget {
   final Function onPressed;
   final Color color;
   final Widget title;
@@ -33,19 +34,31 @@ class AdaptiveAppBar extends AdaptiveWidget<CupertinoNavigationBar, AppBar> with
   }
 
   @override
-  CupertinoNavigationBar buildCupertinoWidget(BuildContext context) {
-    return CupertinoNavigationBar(
-      key: key,
-      leading: leadingIcon,
-      middle: title,
-      backgroundColor: color,
-      trailing: actions != null
-          ? Row(
-              mainAxisSize: MainAxisSize.min,
-              children: actions,
-            )
-          : null,
-    );
+  CupertinoTheme buildCupertinoWidget(BuildContext context) {
+    return CupertinoTheme(
+      data: CupertinoThemeData(
+        primaryColor: onPrimary,
+        barBackgroundColor: primary,
+        ),
+        child: CupertinoNavigationBar(
+        key: key,
+        leading: leadingIcon,
+        padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+        middle: Padding(
+          padding: EdgeInsets.fromLTRB(0.0, 3.0, 0.0, 0.0),
+          child: title,
+        ),
+        backgroundColor: color,
+        actionsForegroundColor: Colors.white,
+        trailing: actions != null
+            ? Row(
+          mainAxisSize: MainAxisSize.min,
+          children: actions,
+        )
+            : null,
+      )
+      );
+
   }
 
   @override

@@ -261,7 +261,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
                 AdaptiveIconButton(
                   icon: AdaptiveIcon(
                       androidIcon: Icons.phone,
-                      iosIcon: CupertinoIcons.phone
+                      iosIcon: CupertinoIcons.phone_solid
                   ),
                   key: Key(keyChatIconButtonIconPhone),
                   onPressed: onPhonePressed,

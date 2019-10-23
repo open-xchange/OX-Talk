@@ -250,7 +250,7 @@ class _ChatListState extends State<ChatList> {
     return AdaptiveIconButton(
         icon: AdaptiveIcon(
             androidIcon: Icons.star,
-            iosIcon: CupertinoIcons.flag
+            iosIcon: Icons.star,
         ),
         key: Key(keyChatListGetFlaggedActionIconButton),
         onPressed: () => _navigation.push(

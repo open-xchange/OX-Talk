@@ -58,8 +58,6 @@ import 'flagged_bloc.dart';
 import 'flagged_events_state.dart';
 
 import 'package:ox_coi/src/adaptiveWidgets/adaptive_app_bar.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon_button.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon.dart';
 
 class Flagged extends StatefulWidget {
   @override
@@ -81,15 +79,7 @@ class _FlaggedState extends State<Flagged> {
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: new AdaptiveAppBar(
-          leadingIcon: new AdaptiveIconButton(
-            icon: new AdaptiveIcon(
-                androidIcon: Icons.arrow_back,
-                iosIcon: CupertinoIcons.back
-            ),
-            onPressed: () => _navigation.pop(context),
-          ),
           title: buildTitle(),
-
         ),
         body: buildListView());
   }

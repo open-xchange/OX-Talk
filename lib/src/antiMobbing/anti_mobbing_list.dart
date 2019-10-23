@@ -45,8 +45,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ox_coi/src/adaptiveWidgets/adaptive_app_bar.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon_button.dart';
 import 'package:ox_coi/src/chatlist/invite_item.dart';
 import 'package:ox_coi/src/l10n/l.dart';
 import 'package:ox_coi/src/l10n/l10n.dart';
@@ -84,13 +82,6 @@ class _AntiMobbingListState extends State<AntiMobbingList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AdaptiveAppBar(
-        leadingIcon: new AdaptiveIconButton(
-          icon: new AdaptiveIcon(
-            androidIcon: Icons.arrow_back,
-            iosIcon: CupertinoIcons.back,
-          ),
-          onPressed: () => navigation.pop(context),
-        ),
         title: Text(L10n.get(L.invites)),
       ),
       body: BlocBuilder(

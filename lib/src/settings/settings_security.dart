@@ -58,8 +58,6 @@ import 'package:ox_coi/src/widgets/fullscreen_progress.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'package:ox_coi/src/adaptiveWidgets/adaptive_app_bar.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon_button.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon.dart';
 
 class SettingsSecurity extends StatefulWidget {
   @override
@@ -162,15 +160,7 @@ class _SettingsSecurityState extends State<SettingsSecurity> {
       onWillPop: () async => _enableBack,
       child: Scaffold(
           appBar: AdaptiveAppBar(
-            leadingIcon: AdaptiveIconButton(
-              icon: AdaptiveIcon(
-                  androidIcon: Icons.arrow_back,
-                  iosIcon: CupertinoIcons.back
-              ),
-              onPressed: () => navigation.pop(context),
-            ),
             title: Text(L10n.get(L.security)),
-
           ),
           body: _buildPreferenceList(context)),
     );
