@@ -43,7 +43,7 @@ screenshots/
 /android/key.properties
 
 
-# iOS/XCode related
+# iOS/Xcode related
 **/ios/**/*.mode1v3
 **/ios/**/*.mode2v3
 **/ios/**/*.moved-aside
@@ -69,6 +69,9 @@ screenshots/
 **/ios/Flutter/flutter_export_environment.sh
 **/ios/ServiceDefinitions.json
 **/ios/Runner/GeneratedPluginRegistrant.*
+
+# Cocoapods related
+ios/Podfile.lock
 
 # Exceptions to above rules.
 !**/ios/**/default.mode1v3
