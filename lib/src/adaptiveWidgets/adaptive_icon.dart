@@ -13,7 +13,7 @@ class AdaptiveIcon extends AdaptiveWidget<Icon, Icon> {
     Key key,
     this.androidIcon,
     this.iosIcon,
-  }) : super(key: key);
+  }) : super(childKey: key);
 
   IconData iconData() {
     if (Platform.isIOS) {
@@ -26,7 +26,7 @@ class AdaptiveIcon extends AdaptiveWidget<Icon, Icon> {
   Icon buildMaterialWidget(BuildContext context) {
     return Icon(
       androidIcon,
-      key: key,
+      key: childKey,
     );
   }
 
@@ -34,7 +34,7 @@ class AdaptiveIcon extends AdaptiveWidget<Icon, Icon> {
   Icon buildCupertinoWidget(BuildContext context) {
     return Icon(
       iosIcon,
-      key: key,
+      key: childKey,
     );
   }
 }
