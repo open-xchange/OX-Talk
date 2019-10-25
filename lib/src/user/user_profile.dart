@@ -201,7 +201,7 @@ class _ProfileState extends State<UserProfile> {
     return AdaptiveIconButton(
       icon: AdaptiveIcon(
           androidIcon: Icons.settings,
-          iosIcon: CupertinoIcons.gear_solid
+          iosIcon: IconData(0xf4C3, fontFamily: CupertinoIcons.iconFont, fontPackage: CupertinoIcons.iconFontPackage) // Settings (not yet implemented in CupertinoIcons)
       ),
       onPressed: () => _settings(context),
     );

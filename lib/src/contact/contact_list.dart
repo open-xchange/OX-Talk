@@ -111,7 +111,10 @@ class ContactList extends RootChild {
 
   @override
   IconData getNavigationIcon() {
-    return Icons.contacts;
+    return AdaptiveIcon(
+      androidIcon: Icons.contacts,
+      iosIcon: IconData(0xf2D9, fontFamily: CupertinoIcons.iconFont, fontPackage: CupertinoIcons.iconFontPackage)
+    ).iconData();
   }
 }
 
@@ -196,8 +199,8 @@ class _ContactListState extends State<ContactList> {
   Widget getBlockedUsersAction() {
     return AdaptiveIconButton(
       icon: AdaptiveIcon(
-          androidIcon: Icons.block,
-          iosIcon: CupertinoIcons.padlock_solid
+        androidIcon: Icons.block,
+        iosIcon: IconData(0xf2E3, fontFamily: CupertinoIcons.iconFont, fontPackage: CupertinoIcons.iconFontPackage)   // Blocking Hand (not yet implemented in CupertinoIcons)
       ),
       key: Key(keyContactListBlockIconButton),
       onPressed: () => _showBlockedUserList(context),
@@ -213,7 +216,7 @@ class _ContactListState extends State<ContactList> {
     return AdaptiveIconButton(
       icon: AdaptiveIcon(
           androidIcon: Icons.search,
-          iosIcon: CupertinoIcons.search
+          iosIcon: IconData(0xf4A4, fontFamily: CupertinoIcons.iconFont, fontPackage: CupertinoIcons.iconFontPackage)
       ),
       key: Key(keyContactListSearchIconButton),
       onPressed: () => search.show(context),

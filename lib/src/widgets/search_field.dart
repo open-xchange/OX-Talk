@@ -40,7 +40,9 @@
  * for more details.
  */
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon.dart';
 import 'package:ox_coi/src/l10n/l.dart';
 import 'package:ox_coi/src/l10n/l10n.dart';
 import 'package:ox_coi/src/utils/keyMapping.dart';
@@ -57,7 +59,12 @@ class Search extends StatelessWidget {
         textInputAction: TextInputAction.search,
         decoration: InputDecoration(
           labelText: L10n.get(L.contactSearch),
-          prefixIcon: Icon(Icons.search),
+          prefixIcon: Icon(
+            AdaptiveIcon(
+              androidIcon: Icons.search,
+              iosIcon: IconData(0xf4A4, fontFamily: CupertinoIcons.iconFont, fontPackage: CupertinoIcons.iconFontPackage)
+              ).iconData()
+          ),
           suffixIcon: GestureDetector(
             child: Icon(Icons.close),key: Key(keySearchFieldCloseIcon),
             onTap: () => _exitSearch(context),

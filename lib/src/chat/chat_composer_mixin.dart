@@ -67,14 +67,14 @@ mixin ChatComposer {
       case ComposerModeType.compose:
         icon = AdaptiveIcon(
             androidIcon: Icons.add,
-            iosIcon: CupertinoIcons.add
+            iosIcon: IconData(0xf2C7, fontFamily: CupertinoIcons.iconFont, fontPackage: CupertinoIcons.iconFontPackage)
         );
         onPressed = onShowAttachmentChooser;
         break;
       case ComposerModeType.isComposing:
         icon = AdaptiveIcon(
             androidIcon: Icons.add,
-            iosIcon: CupertinoIcons.add
+            iosIcon: IconData(0xf2C7, fontFamily: CupertinoIcons.iconFont, fontPackage: CupertinoIcons.iconFontPackage)
         );
         onPressed = null;
         break;
@@ -141,7 +141,7 @@ mixin ChatComposer {
         widgets.add(new AdaptiveIconButton(
           icon: new AdaptiveIcon(
               androidIcon: Icons.mic,
-              iosIcon: CupertinoIcons.mic
+              iosIcon: IconData(0xf2EC, fontFamily: CupertinoIcons.iconFont, fontPackage: CupertinoIcons.iconFontPackage) // Microphone
           ),
           onPressed: onRecordAudioPressed,
           key: Key(KeyChatComposerMixinOnRecordAudioPressedIcon),
@@ -149,14 +149,14 @@ mixin ChatComposer {
         widgets.add(new AdaptiveIconButton(
           icon: new AdaptiveIcon(
               androidIcon: Icons.camera_alt,
-              iosIcon: CupertinoIcons.photo_camera
+              iosIcon: IconData(0xf2D3, fontFamily: CupertinoIcons.iconFont, fontPackage: CupertinoIcons.iconFontPackage)
           ),
           onPressed: onCaptureImagePressed,
         ));
         widgets.add(new AdaptiveIconButton(
           icon: new AdaptiveIcon(
               androidIcon: Icons.videocam,
-              iosIcon: CupertinoIcons.video_camera
+              iosIcon: CupertinoIcons.video_camera_solid
           ),
           onPressed: onRecordVideoPressed,
         ));

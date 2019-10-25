@@ -107,7 +107,7 @@ class _ChatAddGroupParticipantsState extends State<ChatAddGroupParticipants> {
             key: Key(keyChatAddGroupParticipantsCheckIcon),
             icon: AdaptiveIcon(
                 androidIcon: Icons.check,
-                iosIcon: CupertinoIcons.check_mark
+                iosIcon: IconData(0xf383, fontFamily: CupertinoIcons.iconFont, fontPackage: CupertinoIcons.iconFontPackage)   // Thicker Checkmark Icon (not yet implemented in CupertinoIcons)
             ),
             onPressed: () => _onSubmit(),
           )
@@ -124,7 +124,12 @@ class _ChatAddGroupParticipantsState extends State<ChatAddGroupParticipants> {
       onClose: onSearchClose,
     );
     return IconButton(
-      icon: Icon(Icons.search),
+      icon: Icon(
+        AdaptiveIcon(
+          androidIcon: Icons.search,
+          iosIcon: IconData(0xf4A4, fontFamily: CupertinoIcons.iconFont, fontPackage: CupertinoIcons.iconFontPackage)
+        ).iconData()
+      ),
       key: Key(keyChatAddGroupParticipantsSearchIcon),
       onPressed: () => search.show(context),
     );

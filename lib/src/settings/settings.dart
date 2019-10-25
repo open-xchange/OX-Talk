@@ -42,6 +42,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon.dart';
 import 'package:ox_coi/src/l10n/l.dart';
 import 'package:ox_coi/src/l10n/l10n.dart';
 import 'package:ox_coi/src/navigation/navigatable.dart';
@@ -91,7 +92,10 @@ class Settings extends StatelessWidget {
         ),
         ListTile(
           leading: Icon(
-            Icons.chat,
+            AdaptiveIcon(
+              androidIcon: Icons.chat,
+              iosIcon: IconData(0xf3FC, fontFamily: CupertinoIcons.iconFont, fontPackage: CupertinoIcons.iconFontPackage)   // Chat Icon (not yet implemented in CupertinoIcons)
+              ).iconData(),
             color: accent,
           ),
           title: Text(L10n.get(L.chatP)),

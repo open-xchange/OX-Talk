@@ -107,7 +107,7 @@ class _ChatCreateGroupSettingsState extends State<ChatCreateGroupSettings> with 
             key: Key(keyChatCreateGroupSettingCheckIconButton),
             icon: AdaptiveIcon(
                 androidIcon: Icons.check,
-                iosIcon: CupertinoIcons.check_mark
+                iosIcon: IconData(0xf383, fontFamily: CupertinoIcons.iconFont, fontPackage: CupertinoIcons.iconFontPackage)   // Thicker Checkmark Icon (not yet implemented in CupertinoIcons)
             ),
             onPressed: () => _onSubmit(),
           )

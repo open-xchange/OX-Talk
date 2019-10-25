@@ -96,7 +96,12 @@ class ChatList extends RootChild {
   @override
   FloatingActionButton getFloatingActionButton(BuildContext context) {
     return FloatingActionButton(
-      child: new Icon(Icons.chat),
+      child: new Icon(
+        AdaptiveIcon(
+          androidIcon: Icons.chat, 
+          iosIcon: IconData(0xf3FC, fontFamily: CupertinoIcons.iconFont, fontPackage: CupertinoIcons.iconFontPackage),
+        ).iconData()
+      ),
       key: Key(keyChatListChatFloatingActionButton),
       onPressed: () {
         _showCreateChatView(context);
@@ -120,7 +125,10 @@ class ChatList extends RootChild {
 
   @override
   IconData getNavigationIcon() {
-    return Icons.chat;
+    return AdaptiveIcon(
+      androidIcon: Icons.chat,
+      iosIcon: IconData(0xf3FC, fontFamily: CupertinoIcons.iconFont, fontPackage: CupertinoIcons.iconFontPackage)   // Chat Icon (not yet implemented in CupertinoIcons)
+    ).iconData();
   }
 }
 
@@ -239,7 +247,7 @@ class _ChatListState extends State<ChatList> {
     return AdaptiveIconButton(
       icon: AdaptiveIcon(
           androidIcon: Icons.search,
-          iosIcon: CupertinoIcons.search
+          iosIcon: IconData(0xf4A4, fontFamily: CupertinoIcons.iconFont, fontPackage: CupertinoIcons.iconFontPackage)
       ),
       onPressed: () => search.show(context),
       key: Key(keyChatListSearchIconButton),

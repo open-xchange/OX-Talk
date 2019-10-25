@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -12,6 +14,13 @@ class AdaptiveIcon extends AdaptiveWidget<Icon, Icon> {
     this.androidIcon,
     this.iosIcon,
   }) : super(key: key);
+
+  IconData iconData() {
+    if (Platform.isIOS) {
+      return iosIcon;
+    }
+    return androidIcon;
+  }
 
   @override
   Icon buildMaterialWidget(BuildContext context) {

@@ -114,7 +114,7 @@ class _UserSettingsState extends State<UserSettings> {
               AdaptiveIconButton(
                   icon: AdaptiveIcon(
                       androidIcon: Icons.check,
-                      iosIcon: CupertinoIcons.check_mark
+                      iosIcon: IconData(0xf383, fontFamily: CupertinoIcons.iconFont, fontPackage: CupertinoIcons.iconFontPackage)
                   ),
                   key: Key(keyUserSettingsCheckIconButton),
                   onPressed: _saveChanges

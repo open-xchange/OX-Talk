@@ -105,7 +105,7 @@ class _ChatCreateState extends State<ChatCreate> {
     return AdaptiveIconButton(
       icon: AdaptiveIcon(
           androidIcon: Icons.search,
-          iosIcon: CupertinoIcons.search
+          iosIcon: IconData(0xf4A4, fontFamily: CupertinoIcons.iconFont, fontPackage: CupertinoIcons.iconFontPackage)// Thicker Search Icon (not yet implemented in CupertinoIcons)
       ),
       onPressed: () => search.show(context), key: Key(keyChatCreateSearchIcon),
     );

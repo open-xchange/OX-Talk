@@ -124,7 +124,7 @@ class _ChatCreateGroupParticipantsState extends State<ChatCreateGroupParticipant
     return AdaptiveIconButton(
       icon: AdaptiveIcon(
           androidIcon: Icons.search,
-          iosIcon: CupertinoIcons.search
+          iosIcon: IconData(0xf4A4, fontFamily: CupertinoIcons.iconFont, fontPackage: CupertinoIcons.iconFontPackage)
       ),
       onPressed: () => search.show(context),
     );

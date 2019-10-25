@@ -41,8 +41,10 @@
  */
 
 import 'package:delta_chat_core/delta_chat_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon.dart';
 import 'package:ox_coi/src/chat/chat_change_bloc.dart';
 import 'package:ox_coi/src/chat/chat_change_event_state.dart';
 import 'package:ox_coi/src/contact/contact_change_bloc.dart';
@@ -137,7 +139,10 @@ class _ChatProfileOneToOneState extends State<ChatProfileOneToOne> {
           ProfileActionList(tiles: [
             if (!widget.isSelfTalk)
               ProfileAction(
-                iconData: Icons.block,
+                iconData: AdaptiveIcon(
+                  androidIcon: Icons.block,
+                  iosIcon: IconData(0xf2E3, fontFamily: CupertinoIcons.iconFont, fontPackage: CupertinoIcons.iconFontPackage)   // Blocking Hand Icon
+                ).iconData(),
                 text: L10n.get(L.contactBlock),
                 color: accent,
                 onTap: () => showActionDialog(

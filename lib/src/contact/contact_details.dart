@@ -43,6 +43,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon.dart';
 import 'package:ox_coi/src/chat/chat_create_mixin.dart';
 import 'package:ox_coi/src/contact/contact_change_bloc.dart';
 import 'package:ox_coi/src/contact/contact_item_bloc.dart';
@@ -141,26 +142,38 @@ class _ContactDetailsState extends State<ContactDetails> with ChatCreateMixin {
                       textStyle: Theme.of(context).textTheme.subtitle,
                       iconData: state.isVerified ? Icons.verified_user : null,
                       child: ProfileCopyableHeaderText(
-                        toastMessage: L10n.getFormatted(L.clipboardCopiedX, [L10n.get(L.emailAddress).toLowerCase()]),
+                        toastMessage: L10n.getFormatted(L.clipboardCopiedX,
+                            [L10n.get(L.emailAddress).toLowerCase()]),
                       )),
                   ProfileActionList(tiles: [
                     ProfileAction(
                       key: Key(keyContactDetailOpenChatProfileActionIcon),
-                      iconData: Icons.chat,
+                      iconData: AdaptiveIcon(
+                        androidIcon: Icons.chat,
+                        iosIcon: IconData(0xf3FC, fontFamily: CupertinoIcons.iconFont, fontPackage: CupertinoIcons.iconFontPackage)   // Chat Icon (not yet implemented in CupertinoIcons)
+                      ).iconData(),
                       text: L10n.get(L.chatOpen),
                       color: accent,
-                      onTap: () => createChatFromContact(context, widget.contactId),
+                      onTap: () =>
+                          createChatFromContact(context, widget.contactId),
                     ),
                     ProfileAction(
                       key: Key(keyContactDetailEditContactProfileActionIcon),
-                      iconData: Icons.edit,
+                      iconData: AdaptiveIcon(
+                        androidIcon: Icons.edit,
+                        iosIcon: CupertinoIcons.pen
+                      ).iconData(),
                       text: L10n.get(L.contactEdit),
                       color: accent,
-                      onTap: () => _editContact(context, state.name, state.email, state.phoneNumbers),
+                      onTap: () => _editContact(
+                          context, state.name, state.email, state.phoneNumbers),
                     ),
                     ProfileAction(
                       key: Key(keyContactDetailBlockContactProfileActionIcon),
-                      iconData: Icons.block,
+                      iconData: AdaptiveIcon(
+                          androidIcon: Icons.block,
+                          iosIcon: IconData(0xf2E3, fontFamily: CupertinoIcons.iconFont, fontPackage: CupertinoIcons.iconFontPackage)   // Blocking Hand (not yet implemented in CupertinoIcons)
+                        ).iconData(),
                       text: L10n.get(L.contactBlock),
                       color: accent,
                       onTap: () => showActionDialog(
@@ -175,7 +188,10 @@ class _ContactDetailsState extends State<ContactDetails> with ChatCreateMixin {
                     ),
                     ProfileAction(
                       key: Key(keyContactDetailDeleteContactProfileActionIcon),
-                      iconData: Icons.delete,
+                      iconData: AdaptiveIcon(
+                        androidIcon: Icons.delete,
+                        iosIcon: CupertinoIcons.delete_solid
+                      ).iconData(),
                       text: L10n.get(L.contactDelete),
                       color: error,
                       onTap: () => showActionDialog(
@@ -200,8 +216,10 @@ class _ContactDetailsState extends State<ContactDetails> with ChatCreateMixin {
     );
   }
 
-  void _editContact(BuildContext context, String name, String email, String phoneNumbers) async {
-    return await _navigation.push(
+  void _editContact(BuildContext context, String name, String email,
+      String phoneNumbers) async {
+    return await _navigation
+        .push(
       context,
       MaterialPageRoute(
         builder: (context) => ContactChange(
@@ -212,8 +230,10 @@ class _ContactDetailsState extends State<ContactDetails> with ChatCreateMixin {
           phoneNumbers: phoneNumbers,
         ),
       ),
-    ).then((value) {
-      _contactItemBloc.add(RequestContact(contactId: widget.contactId, typeOrChatId: validContacts));
+    )
+        .then((value) {
+      _contactItemBloc.add(RequestContact(
+          contactId: widget.contactId, typeOrChatId: validContacts));
     });
   }
 

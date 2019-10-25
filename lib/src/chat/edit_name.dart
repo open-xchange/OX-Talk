@@ -105,7 +105,7 @@ class _EditNameState extends State<EditName> {
                 key: Key(keyEditNameCheckIcon),
                 icon: AdaptiveIcon(
                   androidIcon: Icons.check,
-                  iosIcon: CupertinoIcons.check_mark,
+                  iosIcon: IconData(0xf383, fontFamily: CupertinoIcons.iconFont, fontPackage: CupertinoIcons.iconFontPackage)   // Thicker Checkmark icon (not yet implemented in CupertinoIcons)
                 ),
                 onPressed: saveNewName)
           ],
