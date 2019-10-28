@@ -126,7 +126,7 @@ packages:
       name: date_format
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.6"
+    version: "1.0.8"
   delta_chat_core:
     dependency: "direct main"
     description:
@@ -140,7 +140,7 @@ packages:
       name: device_info
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.1"
+    version: "0.4.1+1"
   file:
     dependency: transitive
     description:
@@ -211,7 +211,7 @@ packages:
       name: flutter_sound
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.5.0"
+    version: "1.5.1"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -424,7 +424,7 @@ packages:
       name: package_info
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.0+9"
+    version: "0.4.0+10"
   package_resolver:
     dependency: transitive
     description:
@@ -543,7 +543,7 @@ packages:
       name: shared_preferences
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.4"
+    version: "0.5.4+1"
   shelf:
     dependency: transitive
     description:
@@ -695,7 +695,7 @@ packages:
       name: url_launcher
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.2.4"
+    version: "5.2.5"
   url_launcher_platform_interface:
     dependency: transitive
     description:
