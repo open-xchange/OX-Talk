@@ -103,7 +103,6 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   @override
   void close() {
     _chatRepository.removeListener(_repositoryStreamHandler);
-    _repositoryStreamHandler?.tearDown();
     super.close();
   }
 
