@@ -155,6 +155,9 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       _chatRepository.putIfAbsent(id: _chatId);
       chat = _chatRepository.get(_chatId);
     }
+    if (chat == null) {
+      return;
+    }
     _isGroup = await chat.isGroup();
     String name = await chat.getName();
     int colorValue = await chat.getColor();
