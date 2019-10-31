@@ -63,10 +63,10 @@
 		FD51737223266F04007458CC /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
 		FD51737523267295007458CC /* UIApplication+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extensions.swift"; sourceTree = "<group>"; };
 		FD5F8B07236AEA7500E05845 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		FD5F8B0C236AED7D00E05845 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		FD5F8B0D236AED8000E05845 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		FD5F8B0E236AED8300E05845 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		FD5F8B0F236AEDAB00E05845 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		FD5F8B10236AF0EF00E05845 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		FD5F8B11236AF0F200E05845 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		FD5F8B12236AF0F400E05845 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		FD5F8B13236AF0F600E05845 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -406,10 +406,10 @@
 			isa = PBXVariantGroup;
 			children = (
 				FD5F8B07236AEA7500E05845 /* en */,
-				FD5F8B0C236AED7D00E05845 /* es */,
-				FD5F8B0D236AED8000E05845 /* de */,
-				FD5F8B0E236AED8300E05845 /* fr */,
-				FD5F8B0F236AEDAB00E05845 /* it */,
+				FD5F8B10236AF0EF00E05845 /* fr */,
+				FD5F8B11236AF0F200E05845 /* de */,
+				FD5F8B12236AF0F400E05845 /* it */,
+				FD5F8B13236AF0F600E05845 /* es */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";

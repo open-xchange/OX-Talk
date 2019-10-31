@@ -40,20 +40,29 @@
 * for more details.
 */
 
-/* Permission options for the `camera` group */
+/* A message that tells the user why the app is requesting access to the device’s camera. */
 "NSCameraUsageDescription" = "Access to your Camera is required in order to take photos.";
 
-/* Permission options for the `contacts` group */
+/* A message that tells the user why the app is requesting access to the user’s contacts. */
 "NSContactsUsageDescription" = "Access to your system addressbook is required in order to import contacts to the app addressbook.";
 
-/* Permission options for the `microphone` group */
+/* A message that tells the user why the app is requesting access to the device’s microphone. */
 "NSMicrophoneUsageDescription" = "Access to your Microphone is required in order to take audio messages.";
 
-/* Permission options for the `photos` group */
+/* A message that tells the user why the app is requesting access to the user’s photo library. */
 "NSPhotoLibraryUsageDescription" = "Access to the Photo Gallery is required in order to add attachments.";
 
-/* Permission options for the `calendar` group */
+/* A message that tells the user why the app is requesting write-only access to the user’s photo library. */
+"NSPhotoLibraryAddUsageDescription" = "Access to the Photo Gallery is required in order to store photos to your photo library";
+
+/* A message that tells the user why the app is requesting access to the user’s calendar data. */
 "NSCalendarsUsageDescription" = "Access to your Calenders are required in order to share events with your friends.";
 
-/* Permission options for the `mediaLibrary` group */
+/* A message that tells the user why the app is requesting access to the user’s media library. */
 "NSAppleMusicUsageDescription" = "Access to your Media Library is required in order to share music files with your friends.";
+
+/* A message that tells the user why the app is requesting the ability to authenticate with Face ID. */
+"NSFaceIDUsageDescription" = "Access to Face ID is required to unlock the app.";
+
+/* A message that tells the user why the app is requesting to send user data to Siri. */
+"NSSiriUsageDescription" = "Access to Siri is required.";
