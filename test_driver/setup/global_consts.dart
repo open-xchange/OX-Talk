@@ -45,7 +45,7 @@ import 'package:ox_coi/src/utils/keyMapping.dart';
 
 const timeout = Duration(seconds: 120);
 
-const realEmail = 'enyakam4@ox.com';
+const realEmail = 'enyakam@ox.com';
 
 const fakeEmail = 'enyakam3@ox.com3';
 
@@ -58,6 +58,8 @@ const realPassword = 'secret';
 const coiDebug = 'Debug (mobile-qa)';
 
 const meContact = 'Me';
+
+final ok = 'Ok';
 
 const emailAddress = 'Email address';
 
@@ -79,7 +81,7 @@ const blockContact = 'Block contact';
 
 const unblock = 'Unblock';
 
-const newTestContact01 = 'enyakam1@ox.com';
+const newTestContact01 = 'enyakam4@ox.com';
 
 const newTestContact02 = 'enyakam2@ox.com';
 
@@ -148,3 +150,15 @@ final keyDialogBuilderAlertDialogOkFlatButtonFinder = find.byValueKey(keyInforma
 final userProfileEmailTextFinder = find.byValueKey(keyUserProfileEmailText);
 
 final userProfileStatusTextFinder = find.text(profileUserStatus);
+
+final userProfileSettingsAdaptiveIconFinder = find.byValueKey(keyUserProfileSettingsAdaptiveIcon);
+
+final userAccountAdaptiveIconButtonIconCheckFinder = find.byValueKey(keyUserAccountAdaptiveIconButtonIconCheck);
+
+final settingsManuelFormValidatableTextFormFieldPasswordFieldFinder = find.byValueKey(keySettingsManuelFormValidatableTextFormFieldPasswordField);
+
+final settingsManuelFormValidatableTextFormFieldImapServerFieldFinder =find.byValueKey(keySettingsManuelFormValidatableTextFormFieldImapServerField);
+
+final settingsManuelFormValidatableTextFormFieldSMTPServerField = find.byValueKey(keySettingsManuelFormValidatableTextFormFieldSMTPServerField);
+
+
