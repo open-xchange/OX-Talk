@@ -95,10 +95,10 @@ void main() {
       Invoker.current.heartbeat();
       await setup.driver.tap(find.text(security));
 
-      await setup.driver.tap(find.text(expertImportKeys));
+      await setup.driver.tap(find.text(expertExportKeys));
       await setup.driver.tap(find.text(ok));
 
-      await setup.driver.tap(find.text(expertExportKeys));
+      await setup.driver.tap(find.text(expertImportKeys));
       await setup.driver.tap(find.text(ok));
 
       await setup.driver.tap(find.text(expertImportKeys));

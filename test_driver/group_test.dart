@@ -106,7 +106,7 @@ void main() {
         keyContactChangeNameFinder,
         newMe,
         keyContactChangeEmailFinder,
-        newTestContact04,
+        newTestContact03,
         keyContactChangeCheckFinder,
       );
       await catchScreenshot(setup.driver, 'screenshots/group1.png');
