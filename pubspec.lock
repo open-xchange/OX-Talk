@@ -505,9 +505,9 @@ packages:
   permission_handler:
     dependency: "direct main"
     description:
-      name: permission_handler
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../flutter-permission-handler"
+      relative: true
+    source: path
     version: "3.3.0"
   platform:
     dependency: transitive
