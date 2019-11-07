@@ -94,8 +94,8 @@ class UserProfile extends RootChild {
   }
 
   @override
-  IconData getNavigationIcon() {
-    return Icons.account_circle;
+  IconDataSet getNavigationIcon() {
+    return IconDataSet.accountCircle;
   }
 }
 
@@ -200,8 +200,7 @@ class _ProfileState extends State<UserProfile> {
   Widget getSettings() {
     return AdaptiveIconButton(
       icon: AdaptiveIcon(
-        androidIcon: Icons.settings,
-        iosIcon: CupertinoIcons.gear_solid,
+        icon: IconDataSet.settings,
       ),
       onPressed: () => _settings(context),
       key: Key(keyUserProfileSettingsAdaptiveIcon),

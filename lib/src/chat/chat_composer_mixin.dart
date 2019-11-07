@@ -66,22 +66,19 @@ mixin ChatComposer {
     switch (type) {
       case ComposerModeType.compose:
         icon = AdaptiveIcon(
-            androidIcon: Icons.add,
-            iosIcon: CupertinoIcons.add
+            icon: IconDataSet.add,
         );
         onPressed = onShowAttachmentChooser;
         break;
       case ComposerModeType.isComposing:
         icon = AdaptiveIcon(
-            androidIcon: Icons.add,
-            iosIcon: CupertinoIcons.add
+            icon: IconDataSet.add,
         );
         onPressed = null;
         break;
       case ComposerModeType.isVoiceRecording:
         icon = AdaptiveIcon(
-            androidIcon: Icons.delete,
-            iosIcon: CupertinoIcons.delete
+            icon: IconDataSet.delete,
         );
         onPressed = onAudioRecordingAbort;
         break;
@@ -140,23 +137,20 @@ mixin ChatComposer {
       case ComposerModeType.compose:
         widgets.add(new AdaptiveIconButton(
           icon: new AdaptiveIcon(
-              androidIcon: Icons.mic,
-              iosIcon: CupertinoIcons.mic
+              icon: IconDataSet.mic,
           ),
           onPressed: onRecordAudioPressed,
           key: Key(KeyChatComposerMixinOnRecordAudioPressedIcon),
         ));
         widgets.add(new AdaptiveIconButton(
           icon: new AdaptiveIcon(
-              androidIcon: Icons.camera_alt,
-              iosIcon: CupertinoIcons.photo_camera
+            icon: IconDataSet.camera,
           ),
           onPressed: onCaptureImagePressed,
         ));
         widgets.add(new AdaptiveIconButton(
           icon: new AdaptiveIcon(
-              androidIcon: Icons.videocam,
-              iosIcon: CupertinoIcons.video_camera
+            icon: IconDataSet.videocam,
           ),
           onPressed: onRecordVideoPressed,
         ));
@@ -164,8 +158,7 @@ mixin ChatComposer {
       case ComposerModeType.isComposing:
         widgets.add(new AdaptiveIconButton(
           icon: new AdaptiveIcon(
-              androidIcon: Icons.send,
-              iosIcon: CupertinoIcons.forward
+            icon: IconDataSet.send,
           ),
           onPressed: onSendText,key: Key(KeyChatComposerMixinOnSendTextIcon),
         ));
@@ -173,8 +166,7 @@ mixin ChatComposer {
       case ComposerModeType.isVoiceRecording:
         widgets.add(new AdaptiveIconButton(
           icon: new AdaptiveIcon(
-              androidIcon: Icons.send,
-              iosIcon: CupertinoIcons.forward
+            icon: IconDataSet.send,
           ),
           onPressed: onRecordAudioPressed,key: Key(KeyChatComposerMixinOnRecordAudioSendIcon),
         ));
