@@ -99,7 +99,9 @@ class ChatList extends RootChild {
   @override
   FloatingActionButton getFloatingActionButton(BuildContext context) {
     return FloatingActionButton(
-      child: new Icon(Icons.chat),
+      child: new AdaptiveIcon(
+          icon: IconSource.chat
+      ),
       key: Key(keyChatListChatFloatingActionButton),
       onPressed: () {
         _showCreateChatView(context);
@@ -122,8 +124,8 @@ class ChatList extends RootChild {
   }
 
   @override
-  IconData getNavigationIcon() {
-    return Icons.chat;
+  IconSource getNavigationIcon() {
+    return IconSource.chat;
   }
 }
 
@@ -192,7 +194,9 @@ class _ChatListState extends State<ChatList> {
           } else if (state is! ChatListStateFailure) {
             return StateInfo(showLoading: true);
           } else {
-            return Icon(Icons.error);
+            return AdaptiveIcon(
+                icon: IconSource.error
+            );
           }
         },
       ),
@@ -266,7 +270,8 @@ class _ChatListState extends State<ChatList> {
     );
     return AdaptiveIconButton(
       icon: AdaptiveIcon(
-          androidIcon: Icons.search, iosIcon: CupertinoIcons.search),
+        icon: IconSource.search,
+      ),
       onPressed: () => search.show(context),
       key: Key(keyChatListSearchIconButton),
     );
@@ -275,8 +280,7 @@ class _ChatListState extends State<ChatList> {
   Widget getFlaggedAction() {
     return AdaptiveIconButton(
         icon: AdaptiveIcon(
-          androidIcon: Icons.star,
-          iosIcon: Icons.star,
+            icon: IconSource.flag,
         ),
         key: Key(keyChatListGetFlaggedActionIconButton),
         onPressed: () => _navigation.push(
@@ -309,7 +313,9 @@ class _ChatListState extends State<ChatList> {
             child: CircularProgressIndicator(),
           );
         } else {
-          return Icon(Icons.error);
+          return AdaptiveIcon(
+              icon: IconSource.error
+          );
         }
       },
     );
