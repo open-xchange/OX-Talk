@@ -34,6 +34,7 @@ superellipse_shape,MIT,https://pub.dev/packages/superellipse_shape
 transparent_image,MIT,https://pub.dev/packages/transparent_image
 url_launcher,BSD,https://pub.dev/packages/url_launcher
 video_player,BSD,https://pub.dev/packages/video_player
+video_thumbnail,MIT,https://pub.dev/packages/video_thumbnail
 qr_flutter,BSD,https://pub.dev/packages/qr_flutter
 qr_mobile_vision,MIT,https://pub.dev/packages/qr_mobile_vision
 uuid,MIT,https://pub.dev/packages/uuid

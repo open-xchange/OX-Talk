@@ -40,74 +40,16 @@
  * for more details.
  */
 
-import 'package:flutter/material.dart';
+import 'dart:io';
 
-// Belongs to no theme
+import 'package:video_player/video_player.dart';
 
-const white = Colors.white;
-const black = Colors.black;
-
-// Light theme
-
-const background = Colors.white;
-const surface = Colors.white;
-const primary = const Color(0xFF0E7BCC);
-const secondary = const Color(0xFFE3F5FF);
-const accent = const Color(0xFF0076FF);
-const onBackground = const Color(0xFF1F1F1F);
-const onSurface = const Color(0xFF1F1F1F);
-const onPrimary = Colors.white;
-const onSecondary = const Color(0xFF1F1F1F);
-const onAccent = Colors.white;
-const info = const Color(0xFFFFF1DB);
-const onInfo = const Color(0xFF1F1F1F);
-const warning = Colors.yellow;
-const onWarning = Colors.white;
-const error = Colors.red;
-const onError = Colors.white;
-
-// Dark theme
-
-const darkBackground = Colors.black;
-const darkSurface = const Color(0xFF1F1F1F);
-const darkPrimary = const Color(0xFF052D4B);
-const darkSecondary = const Color(0xFF052D4B);
-const darkAccent = const Color(0xFF052D4B);
-const darkOnBackground = const Color(0xFFF3F3F3);
-const darkOnSurface = const Color(0xFFF3F3F3);
-const darkOnPrimary = const Color(0xFFF3F3F3);
-const darkOnSecondary = const Color(0xFFF3F3F3);
-const darkOnAccent = const Color(0xFFF3F3F3);
-
-// Calculated values
-
-final semiTransparent = Colors.black.withOpacity(half);
-
-// Constants for reusable access
-
-const fade = 0.7;
-const half = 0.5;
-const disabled = 0.3;
-const slightly = 0.3;
-const barely = 0.1;
-
-// Helper methods to generate colors
-
-Color rgbColorFromInt(int color, [int alpha]) {
-  if (alpha == null) {
-    alpha = 255;
+Future<int> getDurationInMilliseconds(String path) async {
+  int duration = 0;
+  VideoPlayerController fileVideoController = VideoPlayerController.file(File(path));
+  await fileVideoController.initialize();
+  if (fileVideoController.value.duration != null) {
+    duration = fileVideoController.value.duration.inMilliseconds;
   }
-  return Color.fromARGB(alpha, _red(color), _green(color), _blue(color));
-}
-
-int _red(int color) {
-  return (color >> 16) & 0xFF;
-}
-
-int _green(int color) {
-  return (color >> 8) & 0xFF;
-}
-
-int _blue(int color) {
-  return color & 0xFF;
+  return duration;
 }
