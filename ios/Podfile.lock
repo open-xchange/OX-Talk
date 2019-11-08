@@ -132,7 +132,7 @@ PODS:
     - Flutter
   - path_provider (0.0.1):
     - Flutter
-  - permission_handler (3.3.0):
+  - permission_handler (4.0.0):
     - Flutter
   - Protobuf (3.10.0)
   - qr_mobile_vision (0.0.1):
@@ -285,7 +285,7 @@ SPEC CHECKSUMS:
   open_file: 02eb5cb6b21264bd3a696876f5afbfb7ca4f4b7d
   package_info: 48b108e75b8802c2d5e126f208ef540561c98aef
   path_provider: fb74bd0465e96b594bb3b5088ee4a4e7bb1f2a9d
-  permission_handler: 67637977b227d62d46bfbf524f335f8568de5a73
+  permission_handler: 0fb88b8a3c23e31e5de45b8f1bb8b7de28cf8941
   Protobuf: a4dc852ad69c027ca2166ed287b856697814375b
   qr_mobile_vision: be1c3c9f00796683610e8bab9bbab2920dd4ffca
   shared_preferences: 430726339841afefe5142b9c1f50cb6bd7793e01

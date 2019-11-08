@@ -505,10 +505,10 @@ packages:
   permission_handler:
     dependency: "direct main"
     description:
-      path: "../flutter-permission-handler"
-      relative: true
-    source: path
-    version: "3.3.0"
+      name: permission_handler
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.0.0"
   platform:
     dependency: transitive
     description:
