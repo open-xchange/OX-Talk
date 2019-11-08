@@ -1,17 +1,13 @@
 digraph G {
-	node [	
-		shape = polygon,
-		sides = 4,
-		style = filled,
-		fontname = "Helvetica-Outline" 
-		];
-	"UI / Widget" -> "BloC"
-	"BloC" -> "UI / Widget"
-
-	"BloC" -> "Plugin"
-	"BloC" -> "Repository / Data Object"
-	"Repository / Data Object" -> "BloC"
-
-	"Repository / Data Object" -> "Plugin"
-	"Plugin" -> "Repository / Data Object"
+	node [
+            shape = box,
+            style = filled,
+            fontname=Arial,
+            fontsize=14
+    ];
+	"UI / Widget" -> "BloC"  [dir=both];
+	"BloC" -> "Repository / Data Object"  [dir=both];
+	"BloC" -> "Event listener"  [dir=both];
+	"Event listener" -> "Plugin"  [dir=both];
+	"Repository / Data Object" -> "Plugin"  [dir=both];
 }
