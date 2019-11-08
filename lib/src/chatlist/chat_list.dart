@@ -44,8 +44,11 @@ import 'package:delta_chat_core/delta_chat_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:ox_coi/src/background/background_bloc.dart';
 import 'package:ox_coi/src/background/background_event_state.dart';
+import 'package:ox_coi/src/chat/chat_change_bloc.dart';
+import 'package:ox_coi/src/chat/chat_change_event_state.dart';
 import 'package:ox_coi/src/chatlist/chat_list_bloc.dart';
 import 'package:ox_coi/src/chatlist/chat_list_event_state.dart';
 import 'package:ox_coi/src/chatlist/chat_list_item.dart';
@@ -96,7 +99,9 @@ class ChatList extends RootChild {
   @override
   FloatingActionButton getFloatingActionButton(BuildContext context) {
     return FloatingActionButton(
-      child: new Icon(Icons.chat),
+      child: new AdaptiveIcon(
+          icon: IconSource.chat
+      ),
       key: Key(keyChatListChatFloatingActionButton),
       onPressed: () {
         _showCreateChatView(context);
@@ -119,8 +124,8 @@ class ChatList extends RootChild {
   }
 
   @override
-  IconData getNavigationIcon() {
-    return Icons.chat;
+  IconSource getNavigationIcon() {
+    return IconSource.chat;
   }
 }
 
@@ -189,7 +194,9 @@ class _ChatListState extends State<ChatList> {
           } else if (state is! ChatListStateFailure) {
             return StateInfo(showLoading: true);
           } else {
-            return Icon(Icons.error);
+            return AdaptiveIcon(
+                icon: IconSource.error
+            );
           }
         },
       ),
@@ -206,16 +213,41 @@ class _ChatListState extends State<ChatList> {
       itemCount: chatListItemWrapper.ids.length,
       itemBuilder: (BuildContext context, int index) {
         var id = chatListItemWrapper.ids[index];
-        var key = createKeyString(id, chatListItemWrapper.lastUpdateValues[index]);
+        var key =
+            createKeyString(id, chatListItemWrapper.lastUpdateValues[index]);
         if (chatListItemWrapper.types[index] == ChatListItemType.chat) {
-          return ChatListItem(
-            chatId: id,
-            onTap: multiSelectItemTapped,
-            switchMultiSelect: switchMultiSelect,
-            isMultiSelect: false,
-            isShareItem: false,
-            key: key,
-          );
+          return Slidable.builder(
+              key: Key(key),
+              actionPane: SlidableBehindActionPane(),
+              actionExtentRatio: 0.25,
+              secondaryActionDelegate: SlideActionBuilderDelegate(
+                  actionCount: 1,
+                  builder: (context, index, animation, renderingMode) {
+                    // for more than one slide action we need take care of `index`
+                    return IconSlideAction(
+                      caption: 'Delete',
+                      color: error,
+                      icon: Icons.delete,
+                      onTap: () {
+                        var state = Slidable.of(context);
+                        state.dismiss();
+                      },
+                    );
+                  }),
+              dismissal: SlidableDismissal(
+                child: SlidableDrawerDismissal(),
+                onDismissed: (actionType) {
+                  _deleteSlideAction(chatId: id);
+                },
+              ),
+              child: ChatListItem(
+                chatId: id,
+                onTap: multiSelectItemTapped,
+                switchMultiSelect: switchMultiSelect,
+                isMultiSelect: false,
+                isShareItem: false,
+                key: key,
+              ));
         } else {
           return InviteItem(
             chatId: Chat.typeInvite,
@@ -238,8 +270,7 @@ class _ChatListState extends State<ChatList> {
     );
     return AdaptiveIconButton(
       icon: AdaptiveIcon(
-          androidIcon: Icons.search,
-          iosIcon: CupertinoIcons.search
+        icon: IconSource.search,
       ),
       onPressed: () => search.show(context),
       key: Key(keyChatListSearchIconButton),
@@ -249,8 +280,7 @@ class _ChatListState extends State<ChatList> {
   Widget getFlaggedAction() {
     return AdaptiveIconButton(
         icon: AdaptiveIcon(
-            androidIcon: Icons.star,
-            iosIcon: Icons.star,
+            icon: IconSource.flag,
         ),
         key: Key(keyChatListGetFlaggedActionIconButton),
         onPressed: () => _navigation.push(
@@ -283,9 +313,19 @@ class _ChatListState extends State<ChatList> {
             child: CircularProgressIndicator(),
           );
         } else {
-          return Icon(Icons.error);
+          return AdaptiveIcon(
+              icon: IconSource.error
+          );
         }
       },
     );
+  }
+
+  // Slide Actions
+
+  _deleteSlideAction({@required int chatId}) {
+    ChatChangeBloc chatChangeBloc = ChatChangeBloc();
+    chatChangeBloc.add(DeleteChat(chatId: chatId));
+    chatChangeBloc.close();
   }
 }
