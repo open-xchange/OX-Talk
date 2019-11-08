@@ -112,7 +112,7 @@ class _ShareState extends State<Share> {
           return StateInfo(showLoading: true);
         } else {
           return AdaptiveIcon(
-              icon: IconDataSet.error
+              icon: IconSource.error
           );
         }
       },

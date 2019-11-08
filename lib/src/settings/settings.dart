@@ -84,7 +84,7 @@ class Settings extends StatelessWidget {
       children: ListTile.divideTiles(context: context, tiles: [
         ListTile(
           leading: AdaptiveIcon(
-            icon: IconDataSet.accountCircle,
+            icon: IconSource.accountCircle,
             color: accent,
           ),
           title: Text(L10n.get(L.settingAccount)),
@@ -92,7 +92,7 @@ class Settings extends StatelessWidget {
         ),
         ListTile(
           leading: AdaptiveIcon(
-            icon: IconDataSet.chat,
+            icon: IconSource.chat,
             color: accent,
           ),
           title: Text(L10n.get(L.chatP)),
@@ -100,7 +100,7 @@ class Settings extends StatelessWidget {
         ),
         ListTile(
           leading: AdaptiveIcon(
-            icon: IconDataSet.notifications,
+            icon: IconSource.notifications,
             color: accent,
           ),
           title: Text(L10n.get(L.settingNotificationP, count: L10n.plural)),
@@ -108,7 +108,7 @@ class Settings extends StatelessWidget {
         ),
         ListTile(
           leading: AdaptiveIcon(
-            icon: IconDataSet.https,
+            icon: IconSource.https,
             color: accent,
           ),
           title: Text(L10n.get(L.settingAntiMobbing)),
@@ -116,7 +116,7 @@ class Settings extends StatelessWidget {
         ),
         ListTile(
           leading: AdaptiveIcon(
-            icon: IconDataSet.security,
+            icon: IconSource.security,
             color: accent,
           ),
           title: Text(L10n.get(L.security)),
@@ -124,7 +124,7 @@ class Settings extends StatelessWidget {
         ),
         ListTile(
           leading: AdaptiveIcon(
-            icon: IconDataSet.info,
+            icon: IconSource.info,
             color: accent,
           ),
           title: Text(L10n.get(L.about)),
@@ -133,7 +133,7 @@ class Settings extends StatelessWidget {
         if (!isRelease())
           ListTile(
             leading: AdaptiveIcon(
-              icon: IconDataSet.bugReport,
+              icon: IconSource.bugReport,
               color: accent,
             ),
             title: Text(L10n.get(L.debug)),

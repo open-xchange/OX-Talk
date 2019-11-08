@@ -61,7 +61,7 @@ class Search extends SearchDelegate {
     return [
       IconButton(
         icon: AdaptiveIcon(
-            icon: IconDataSet.clear
+            icon: IconSource.clear
         ),
         key: Key(keySearchClearIconButton),
         onPressed: () {
@@ -75,7 +75,7 @@ class Search extends SearchDelegate {
   Widget buildLeading(BuildContext context) {
     return IconButton(
       icon: AdaptiveIcon(
-          icon: IconDataSet.arrowBack
+          icon: IconSource.arrowBack
       ),
       key: Key(keySearchReturnIconButton),
       onPressed: () {

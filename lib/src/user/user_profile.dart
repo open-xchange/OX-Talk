@@ -94,8 +94,8 @@ class UserProfile extends RootChild {
   }
 
   @override
-  IconDataSet getNavigationIcon() {
-    return IconDataSet.accountCircle;
+  IconSource getNavigationIcon() {
+    return IconSource.accountCircle;
   }
 }
 
@@ -200,7 +200,7 @@ class _ProfileState extends State<UserProfile> {
   Widget getSettings() {
     return AdaptiveIconButton(
       icon: AdaptiveIcon(
-        icon: IconDataSet.settings,
+        icon: IconSource.settings,
       ),
       onPressed: () => _settings(context),
       key: Key(keyUserProfileSettingsAdaptiveIcon),

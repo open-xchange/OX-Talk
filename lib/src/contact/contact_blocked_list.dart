@@ -82,7 +82,7 @@ class _ContactBlockedListState extends State<ContactBlockedList> {
         appBar: AdaptiveAppBar(
           leadingIcon: new AdaptiveIconButton(
             icon: new AdaptiveIcon(
-              icon: IconDataSet.close,
+              icon: IconSource.close,
             ),
             key: Key(keyContactBlockedListCloseIconButton),
             onPressed: () => navigation.pop(context),
@@ -110,7 +110,7 @@ class _ContactBlockedListState extends State<ContactBlockedList> {
           return StateInfo(showLoading: true);
         } else {
           return AdaptiveIcon(
-              icon: IconDataSet.error
+              icon: IconSource.error
           );
         }
       },

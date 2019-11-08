@@ -66,19 +66,19 @@ mixin ChatComposer {
     switch (type) {
       case ComposerModeType.compose:
         icon = AdaptiveIcon(
-            icon: IconDataSet.add,
+            icon: IconSource.add,
         );
         onPressed = onShowAttachmentChooser;
         break;
       case ComposerModeType.isComposing:
         icon = AdaptiveIcon(
-            icon: IconDataSet.add,
+            icon: IconSource.add,
         );
         onPressed = null;
         break;
       case ComposerModeType.isVoiceRecording:
         icon = AdaptiveIcon(
-            icon: IconDataSet.delete,
+            icon: IconSource.delete,
         );
         onPressed = onAudioRecordingAbort;
         break;
@@ -137,20 +137,20 @@ mixin ChatComposer {
       case ComposerModeType.compose:
         widgets.add(new AdaptiveIconButton(
           icon: new AdaptiveIcon(
-              icon: IconDataSet.mic,
+              icon: IconSource.mic,
           ),
           onPressed: onRecordAudioPressed,
           key: Key(KeyChatComposerMixinOnRecordAudioPressedIcon),
         ));
         widgets.add(new AdaptiveIconButton(
           icon: new AdaptiveIcon(
-            icon: IconDataSet.camera,
+            icon: IconSource.camera,
           ),
           onPressed: onCaptureImagePressed,
         ));
         widgets.add(new AdaptiveIconButton(
           icon: new AdaptiveIcon(
-            icon: IconDataSet.videocam,
+            icon: IconSource.videocam,
           ),
           onPressed: onRecordVideoPressed,
         ));
@@ -158,7 +158,7 @@ mixin ChatComposer {
       case ComposerModeType.isComposing:
         widgets.add(new AdaptiveIconButton(
           icon: new AdaptiveIcon(
-            icon: IconDataSet.send,
+            icon: IconSource.send,
           ),
           onPressed: onSendText,key: Key(KeyChatComposerMixinOnSendTextIcon),
         ));
@@ -166,7 +166,7 @@ mixin ChatComposer {
       case ComposerModeType.isVoiceRecording:
         widgets.add(new AdaptiveIconButton(
           icon: new AdaptiveIcon(
-            icon: IconDataSet.send,
+            icon: IconSource.send,
           ),
           onPressed: onRecordAudioPressed,key: Key(KeyChatComposerMixinOnRecordAudioSendIcon),
         ));

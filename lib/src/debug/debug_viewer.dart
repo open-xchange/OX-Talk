@@ -93,7 +93,7 @@ class _DebugViewerState extends State<DebugViewer> {
         appBar: AdaptiveAppBar(
           leadingIcon: new AdaptiveIconButton(
             icon: new AdaptiveIcon(
-              icon: IconDataSet.back,
+              icon: IconSource.back,
             ),
             onPressed: () => navigation.pop(context),
           ),
@@ -101,7 +101,7 @@ class _DebugViewerState extends State<DebugViewer> {
           actions: <Widget>[
             AdaptiveIconButton(
               icon: AdaptiveIcon(
-                icon: IconDataSet.contentCopy,
+                icon: IconSource.contentCopy,
               ),
               onPressed: () => _onCopy(),
             )
@@ -127,7 +127,7 @@ class _DebugViewerState extends State<DebugViewer> {
         } else {
           return Center(
             child: AdaptiveIcon(
-                icon: IconDataSet.error
+                icon: IconSource.error
             ),
           );
         }

@@ -46,7 +46,7 @@ enum MessageActionTag { forward, copy, delete, flag, share }
 
 class MessageAction {
   final String title;
-  final IconDataSet icon;
+  final IconSource icon;
   final MessageActionTag messageActionTag;
 
   const MessageAction({this.title, this.icon, this.messageActionTag});

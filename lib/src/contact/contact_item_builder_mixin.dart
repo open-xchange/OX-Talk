@@ -83,7 +83,7 @@ mixin ContactItemBuilder {
               title: state.name,
               subTitle: state.email,
               color: state.color,
-              avatarIcon: isSelected ? IconDataSet.check : null,
+              avatarIcon: isSelected ? IconSource.check : null,
               onTap: onContactTapped,
               isVerified: state.isVerified != null ? state.isVerified : false,
               imagePath: state.imagePath,

@@ -60,11 +60,11 @@ class Search extends StatelessWidget {
         decoration: InputDecoration(
           labelText: L10n.get(L.contactSearch),
           prefixIcon: AdaptiveIcon(
-              icon: IconDataSet.search
+              icon: IconSource.search
           ),
           suffixIcon: GestureDetector(
             child: AdaptiveIcon(
-                icon: IconDataSet.close
+                icon: IconSource.close
             ),
             key: Key(keySearchFieldCloseIcon),
             onTap: () => _exitSearch(context),

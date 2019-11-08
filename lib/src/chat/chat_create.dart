@@ -104,7 +104,7 @@ class _ChatCreateState extends State<ChatCreate> {
     );
     return AdaptiveIconButton(
       icon: AdaptiveIcon(
-          icon: IconDataSet.search,
+          icon: IconSource.search,
       ),
       onPressed: () => search.show(context), key: Key(keyChatCreateSearchIcon),
     );
@@ -130,7 +130,7 @@ class _ChatCreateState extends State<ChatCreate> {
           return StateInfo(showLoading: true);
         } else {
           return AdaptiveIcon(
-              icon: IconDataSet.error
+              icon: IconSource.error
           );
         }
       },
@@ -163,7 +163,7 @@ class _ChatCreateState extends State<ChatCreate> {
       children: <Widget>[
         ListTile(
           leading: AdaptiveIcon(
-            icon: IconDataSet.personAdd,
+            icon: IconSource.personAdd,
             color: accent,
             key: Key(keyChatCreatePersonAddIcon),
           ),
@@ -181,7 +181,7 @@ class _ChatCreateState extends State<ChatCreate> {
           ),
           child: ListTile(
             leading: AdaptiveIcon(
-              icon: IconDataSet.groupAdd,
+              icon: IconSource.groupAdd,
               color: accent,
               key: Key(keyChatCreateGroupAddIcon),
             ),

@@ -97,7 +97,7 @@ class ChatList extends RootChild {
   FloatingActionButton getFloatingActionButton(BuildContext context) {
     return FloatingActionButton(
       child: new AdaptiveIcon(
-          icon: IconDataSet.chat
+          icon: IconSource.chat
       ),
       key: Key(keyChatListChatFloatingActionButton),
       onPressed: () {
@@ -121,8 +121,8 @@ class ChatList extends RootChild {
   }
 
   @override
-  IconDataSet getNavigationIcon() {
-    return IconDataSet.chat;
+  IconSource getNavigationIcon() {
+    return IconSource.chat;
   }
 }
 
@@ -192,7 +192,7 @@ class _ChatListState extends State<ChatList> {
             return StateInfo(showLoading: true);
           } else {
             return AdaptiveIcon(
-                icon: IconDataSet.error
+                icon: IconSource.error
             );
           }
         },
@@ -242,7 +242,7 @@ class _ChatListState extends State<ChatList> {
     );
     return AdaptiveIconButton(
       icon: AdaptiveIcon(
-        icon: IconDataSet.search,
+        icon: IconSource.search,
       ),
       onPressed: () => search.show(context),
       key: Key(keyChatListSearchIconButton),
@@ -252,7 +252,7 @@ class _ChatListState extends State<ChatList> {
   Widget getFlaggedAction() {
     return AdaptiveIconButton(
         icon: AdaptiveIcon(
-            icon: IconDataSet.flag,
+            icon: IconSource.flag,
         ),
         key: Key(keyChatListGetFlaggedActionIconButton),
         onPressed: () => _navigation.push(
@@ -286,7 +286,7 @@ class _ChatListState extends State<ChatList> {
           );
         } else {
           return AdaptiveIcon(
-              icon: IconDataSet.error
+              icon: IconSource.error
           );
         }
       },

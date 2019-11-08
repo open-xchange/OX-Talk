@@ -212,7 +212,7 @@ class _ProviderSignInState extends State<ProviderSignIn> {
                       padding: EdgeInsets.only(left: loginErrorOverlayLeftPadding),
                     ),
                     AdaptiveIcon(
-                      icon: IconDataSet.reportProblem,
+                      icon: IconSource.reportProblem,
                       size: iconSize,
                       color: onError,
                     ),
@@ -229,7 +229,7 @@ class _ProviderSignInState extends State<ProviderSignIn> {
                     ),
                     AdaptiveIconButton(
                         icon: AdaptiveIcon(
-                          icon: IconDataSet.clear,
+                          icon: IconSource.clear,
                           size: loginErrorOverlayIconSize,
                           color: onError,
                         ),

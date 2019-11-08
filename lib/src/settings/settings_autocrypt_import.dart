@@ -110,7 +110,7 @@ class _SettingsAutocryptImportState extends State<SettingsAutocryptImport> {
       appBar: AdaptiveAppBar(
         leadingIcon: new AdaptiveIconButton(
           icon: new AdaptiveIcon(
-            icon: IconDataSet.back,
+            icon: IconSource.back,
           ),
           onPressed: () => navigation.pop(context),
         ),
@@ -118,7 +118,7 @@ class _SettingsAutocryptImportState extends State<SettingsAutocryptImport> {
         actions: <Widget>[
           AdaptiveIconButton(
             icon: AdaptiveIcon(
-              icon: IconDataSet.check,
+              icon: IconSource.check,
             ),
             onPressed: () => onSubmit(),
           )

@@ -100,14 +100,14 @@ class _ValidatableTextFormFieldState extends State<ValidatableTextFormField> {
       return InputDecoration(
         labelText: widget.labelText(context),
         hintText: widget.hintText != null ? widget.hintText(context) : "",
-        prefixIcon: widget.showIcon ? AdaptiveIcon(icon: IconDataSet.lock) : null,
-        suffixIcon: IconButton(icon: AdaptiveIcon(icon: _showReadablePassword ?  IconDataSet.visibility : IconDataSet.visibilityOff), onPressed: _togglePasswordVisibility),
+        prefixIcon: widget.showIcon ? AdaptiveIcon(icon: IconSource.lock) : null,
+        suffixIcon: IconButton(icon: AdaptiveIcon(icon: _showReadablePassword ?  IconSource.visibility : IconSource.visibilityOff), onPressed: _togglePasswordVisibility),
       );
     } else {
       return InputDecoration(
         labelText: widget.labelText(context),
         hintText: widget.hintText != null ? widget.hintText(context) : "",
-        prefixIcon: widget.textFormType == TextFormType.email && widget.showIcon ? AdaptiveIcon(icon: IconDataSet.person) : null,
+        prefixIcon: widget.textFormType == TextFormType.email && widget.showIcon ? AdaptiveIcon(icon: IconSource.person) : null,
       );
     }
   }

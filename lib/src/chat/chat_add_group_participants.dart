@@ -95,7 +95,7 @@ class _ChatAddGroupParticipantsState extends State<ChatAddGroupParticipants> {
         leadingIcon: AdaptiveIconButton(
           key: Key(keyChatAddGroupParticipantsCloseIcon),
           icon: AdaptiveIcon(
-            icon: IconDataSet.close,
+            icon: IconSource.close,
           ),
           onPressed: () => navigation.pop(context),
         ),
@@ -105,7 +105,7 @@ class _ChatAddGroupParticipantsState extends State<ChatAddGroupParticipants> {
           AdaptiveIconButton(
             key: Key(keyChatAddGroupParticipantsCheckIcon),
             icon: AdaptiveIcon(
-                icon: IconDataSet.check,
+                icon: IconSource.check,
             ),
             onPressed: () => _onSubmit(),
           )
@@ -123,7 +123,7 @@ class _ChatAddGroupParticipantsState extends State<ChatAddGroupParticipants> {
     );
     return IconButton(
       icon: AdaptiveIcon(
-          icon: IconDataSet.search
+          icon: IconSource.search
       ),
       key: Key(keyChatAddGroupParticipantsSearchIcon),
       onPressed: () => search.show(context),
@@ -158,7 +158,7 @@ class _ChatAddGroupParticipantsState extends State<ChatAddGroupParticipants> {
           return StateInfo(showLoading: true);
         } else {
           return AdaptiveIcon(
-              icon: IconDataSet.error
+              icon: IconSource.error
           );
         }
       },

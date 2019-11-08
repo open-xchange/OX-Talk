@@ -106,7 +106,7 @@ class _ChatCreateGroupSettingsState extends State<ChatCreateGroupSettings> with 
           AdaptiveIconButton(
             key: Key(keyChatCreateGroupSettingCheckIconButton),
             icon: AdaptiveIcon(
-              icon: IconDataSet.check,
+              icon: IconSource.check,
             ),
             onPressed: () => _onSubmit(),
           )
@@ -126,7 +126,7 @@ class _ChatCreateGroupSettingsState extends State<ChatCreateGroupSettings> with 
           return StateInfo(showLoading: true);
         } else {
           return AdaptiveIcon(
-              icon: IconDataSet.error
+              icon: IconSource.error
           );
         }
       },

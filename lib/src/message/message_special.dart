@@ -68,7 +68,7 @@ class MessageSpecial extends StatelessWidget {
       return MessageInfo(
         messageText: L10n.get(L.chatEncryptionStatusChanged),
         icon: AdaptiveIcon(
-            icon: IconDataSet.lock
+            icon: IconSource.lock
         ),
       );
     } else if (type == MessageSpecialType.info) {

@@ -277,7 +277,7 @@ class MessagePartGenericAttachment extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(right: iconTextPadding),
                 child: AdaptiveIcon(
-                  icon: IconDataSet.attachFile,
+                  icon: IconSource.attachFile,
                   size: messagesFileIconSize,
                   color: MessageData.of(context).textColor,
                 ),
@@ -357,7 +357,7 @@ class MessagePartState extends StatelessWidget {
         return Padding(
           padding: EdgeInsets.only(top: 10.0, left: iconTextPadding),
           child: AdaptiveIcon(
-            icon: IconDataSet.done,
+            icon: IconSource.done,
             size: 16.0,
             color: MessageData.of(context).secondaryTextColor,
           ),
@@ -367,7 +367,7 @@ class MessagePartState extends StatelessWidget {
         return Padding(
           padding: EdgeInsets.only(top: 10.0, left: iconTextPadding),
           child: AdaptiveIcon(
-            icon: IconDataSet.doneAll,
+            icon: IconSource.doneAll,
             size: 16.0,
             color: MessageData.of(context).secondaryTextColor,
           ),
@@ -389,7 +389,7 @@ class MessagePartFlag extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.only(top: 8.0, right: 4.0, left: 4.0),
         child: AdaptiveIcon(
-          icon: IconDataSet.flag,
+          icon: IconSource.flag,
           color: Colors.yellow,
         ),
       ),

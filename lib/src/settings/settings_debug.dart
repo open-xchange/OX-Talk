@@ -172,7 +172,7 @@ class _SettingsDebugState extends State<SettingsDebug> {
           } else {
             return Center(
               child: AdaptiveIcon(
-                  icon: IconDataSet.error
+                  icon: IconSource.error
               ),
             );
           }

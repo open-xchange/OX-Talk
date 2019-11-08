@@ -164,7 +164,7 @@ class _UserAccountSettingsState extends State<UserAccountSettings> {
           appBar: AdaptiveAppBar(
             leadingIcon: new AdaptiveIconButton(
               icon: new AdaptiveIcon(
-                icon: IconDataSet.close,
+                icon: IconSource.close,
               ),
               onPressed: () => navigation.pop(context),
             ),
@@ -190,7 +190,7 @@ class SaveDataButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return AdaptiveIconButton(
       icon: AdaptiveIcon(
-        icon: IconDataSet.check,
+        icon: IconSource.check,
       ),
       onPressed: () {
         _saveData(context);

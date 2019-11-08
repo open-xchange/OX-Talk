@@ -123,7 +123,7 @@ class _SettingsAboutState extends State<SettingsAbout> {
         } else {
           return Center(
             child: AdaptiveIcon(
-                icon: IconDataSet.error
+                icon: IconSource.error
             ),
           );
         }

@@ -137,7 +137,7 @@ class _ChatProfileGroupState extends State<ChatProfileGroup> {
                                   backgroundColor: accent,
                                   foregroundColor: onAccent,
                                   child: AdaptiveIcon(
-                                      icon: IconDataSet.groupAdd
+                                      icon: IconSource.groupAdd
                                   ),
                                   key: Key(keyChatProfileGroupAddParticipant),
                                 ),
@@ -162,7 +162,7 @@ class _ChatProfileGroupState extends State<ChatProfileGroup> {
                         height: dividerHeight,
                       ),
                       ProfileAction(
-                        iconData: IconDataSet.delete,
+                        iconData: IconSource.delete,
                         key: Key(keyChatProfileGroupDelete),
                         text: L10n.get(L.groupLeave),
                         onTap: () => showActionDialog(context, ProfileActionType.leave, _leaveGroup),
@@ -186,7 +186,7 @@ class _ChatProfileGroupState extends State<ChatProfileGroup> {
         color: widget.chatColor,
         text: state.name,
         textStyle: Theme.of(context).textTheme.title,
-        iconData: state.isVerified ? IconDataSet.verifiedUser : null,
+        iconData: state.isVerified ? IconSource.verifiedUser : null,
         imageActionCallback: state.isRemoved ? null : _editPhotoCallback,
         child: Column(
           children: <Widget>[
@@ -206,7 +206,7 @@ class _ChatProfileGroupState extends State<ChatProfileGroup> {
                       visible: !state.isRemoved,
                       child: IconButton(
                         icon: AdaptiveIcon(
-                          icon: IconDataSet.edit,
+                          icon: IconSource.edit,
                           key: Key(keyChatProfileGroupEditIcon),
                           color: accent,
                         ),

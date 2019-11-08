@@ -64,7 +64,7 @@ class ProfileActionList extends StatelessWidget {
 }
 
 class ProfileAction extends StatelessWidget {
-  final IconDataSet iconData;
+  final IconSource iconData;
   final String text;
   final Function onTap;
   final Color color;

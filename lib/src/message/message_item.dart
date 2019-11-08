@@ -86,18 +86,18 @@ class ChatMessageItem extends StatefulWidget {
 
 class _ChatMessageItemState extends State<ChatMessageItem> with AutomaticKeepAliveClientMixin<ChatMessageItem> {
   final List<MessageAction> _messageActions = const <MessageAction>[
-    const MessageAction(title: 'Forward', icon: IconDataSet.forward, messageActionTag: MessageActionTag.forward),
-    const MessageAction(title: 'Copy', icon: IconDataSet.contentCopy, messageActionTag: MessageActionTag.copy),
-    const MessageAction(title: 'Delete locally', icon: IconDataSet.delete, messageActionTag: MessageActionTag.delete),
-    const MessageAction(title: 'Flag/Unflag', icon: IconDataSet.flag, messageActionTag: MessageActionTag.flag),
-    const MessageAction(title: 'Share', icon: IconDataSet.share, messageActionTag: MessageActionTag.share),
+    const MessageAction(title: 'Forward', icon: IconSource.forward, messageActionTag: MessageActionTag.forward),
+    const MessageAction(title: 'Copy', icon: IconSource.contentCopy, messageActionTag: MessageActionTag.copy),
+    const MessageAction(title: 'Delete locally', icon: IconSource.delete, messageActionTag: MessageActionTag.delete),
+    const MessageAction(title: 'Flag/Unflag', icon: IconSource.flag, messageActionTag: MessageActionTag.flag),
+    const MessageAction(title: 'Share', icon: IconSource.share, messageActionTag: MessageActionTag.share),
   ];
 
   final List<MessageAction> _messageAttachmentActions = const <MessageAction>[
-    const MessageAction(title: 'Forward', icon: IconDataSet.forward, messageActionTag: MessageActionTag.forward),
-    const MessageAction(title: 'Delete locally', icon: IconDataSet.delete, messageActionTag: MessageActionTag.delete),
-    const MessageAction(title: 'Flag/Unflag', icon: IconDataSet.flag, messageActionTag: MessageActionTag.flag),
-    const MessageAction(title: 'Share', icon: IconDataSet.share, messageActionTag: MessageActionTag.share),
+    const MessageAction(title: 'Forward', icon: IconSource.forward, messageActionTag: MessageActionTag.forward),
+    const MessageAction(title: 'Delete locally', icon: IconSource.delete, messageActionTag: MessageActionTag.delete),
+    const MessageAction(title: 'Flag/Unflag', icon: IconSource.flag, messageActionTag: MessageActionTag.flag),
+    const MessageAction(title: 'Share', icon: IconSource.share, messageActionTag: MessageActionTag.share),
   ];
 
   MessageItemBloc _messageBloc = MessageItemBloc();

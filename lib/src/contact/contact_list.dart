@@ -89,7 +89,7 @@ class ContactList extends RootChild {
     return FloatingActionButton(
       key: Key(keyContactListPersonAddFloatingActionButton),
       child: new AdaptiveIcon(
-          icon: IconDataSet.personAdd
+          icon: IconSource.personAdd
       ),
       onPressed: () {
         _showAddContactView(context);
@@ -112,8 +112,8 @@ class ContactList extends RootChild {
   }
 
   @override
-  IconDataSet getNavigationIcon() {
-    return IconDataSet.contacts;
+  IconSource getNavigationIcon() {
+    return IconSource.contacts;
   }
 }
 
@@ -179,7 +179,7 @@ class _ContactListState extends State<ContactList> {
           return StateInfo(showLoading: true);
         } else {
           return AdaptiveIcon(
-              icon: IconDataSet.error
+              icon: IconSource.error
           );
         }
       },
@@ -189,7 +189,7 @@ class _ContactListState extends State<ContactList> {
   Widget getImportAction() {
     return AdaptiveIconButton(
       icon: AdaptiveIcon(
-        icon: IconDataSet.importContacts,
+        icon: IconSource.importContacts,
       ),
       key: Key(keyContactListImportContactIconButton),
       onPressed: () => _showImportDialog(false, context),
@@ -199,7 +199,7 @@ class _ContactListState extends State<ContactList> {
   Widget getBlockedUsersAction() {
     return AdaptiveIconButton(
       icon: AdaptiveIcon(
-        icon: IconDataSet.block,
+        icon: IconSource.block,
       ),
       key: Key(keyContactListBlockIconButton),
       onPressed: () => _showBlockedUserList(context),
@@ -214,7 +214,7 @@ class _ContactListState extends State<ContactList> {
     );
     return AdaptiveIconButton(
       icon: AdaptiveIcon(
-        icon: IconDataSet.search,
+        icon: IconSource.search,
       ),
       key: Key(keyContactListSearchIconButton),
       onPressed: () => search.show(context),

@@ -58,7 +58,7 @@ class AvatarListItem extends StatelessWidget {
   final Function onTap;
   final Widget titleIcon;
   final Widget subTitleIcon;
-  final IconDataSet avatarIcon;
+  final IconSource avatarIcon;
   final int timestamp;
   final bool isVerified;
   final bool isInvite;
@@ -143,7 +143,7 @@ class AvatarListItem extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.only(right: iconTextPadding),
                             child: AdaptiveIcon(
-                              icon: IconDataSet.verifiedUser,
+                              icon: IconSource.verifiedUser,
                               size: iconSize,
                             ),
                           ),

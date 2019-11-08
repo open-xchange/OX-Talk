@@ -94,7 +94,7 @@ class _EditNameState extends State<EditName> {
           leadingIcon: new AdaptiveIconButton(
             icon: new AdaptiveIcon(
               key: Key(keyEditNameCloseIcon),
-              icon: IconDataSet.close,
+              icon: IconSource.close,
             ),
             onPressed: () => _navigation.pop(context),
           ),
@@ -103,7 +103,7 @@ class _EditNameState extends State<EditName> {
             AdaptiveIconButton(
                 key: Key(keyEditNameCheckIcon),
                 icon: AdaptiveIcon(
-                  icon: IconDataSet.check,
+                  icon: IconSource.check,
                 ),
                 onPressed: saveNewName)
           ],

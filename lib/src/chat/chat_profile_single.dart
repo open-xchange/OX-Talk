@@ -131,7 +131,7 @@ class _ChatProfileOneToOneState extends State<ChatProfileOneToOne> {
               child: ProfileData(
                 text: email,
                 textStyle: Theme.of(context).textTheme.subtitle,
-                iconData: isVerified ? IconDataSet.verifiedUser : null,
+                iconData: isVerified ? IconSource.verifiedUser : null,
                 child: ProfileCopyableHeaderText(
                   toastMessage: L10n.getFormatted(L.clipboardCopiedX, [L10n.get(L.emailAddress).toLowerCase()]),
                 ),
@@ -139,7 +139,7 @@ class _ChatProfileOneToOneState extends State<ChatProfileOneToOne> {
           ProfileActionList(tiles: [
             if (!widget.isSelfTalk)
               ProfileAction(
-                iconData: IconDataSet.block,
+                iconData: IconSource.block,
                 text: L10n.get(L.contactBlock),
                 color: accent,
                 onTap: () => showActionDialog(
@@ -154,7 +154,7 @@ class _ChatProfileOneToOneState extends State<ChatProfileOneToOne> {
               ),
             if (!isInvite())
               ProfileAction(
-                iconData: IconDataSet.delete,
+                iconData: IconSource.delete,
                 color: error,
                 text: L10n.get(L.chatDeleteP),
                 onTap: () => showActionDialog(context, ProfileActionType.deleteChat, _deleteChat),

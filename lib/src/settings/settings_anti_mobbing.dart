@@ -109,7 +109,7 @@ class _SettingsAntiMobbingState extends State<SettingsAntiMobbing> {
         } else {
           return Center(
             child: AdaptiveIcon(
-                icon: IconDataSet.error
+                icon: IconSource.error
             ),
           );
         }

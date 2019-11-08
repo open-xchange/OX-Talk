@@ -61,7 +61,7 @@ import 'package:transparent_image/transparent_image.dart';
 class ProfileData extends InheritedWidget {
   final Color color;
   final String text;
-  final IconDataSet iconData;
+  final IconSource iconData;
   final TextStyle textStyle;
   final Function imageActionCallback;
 
@@ -133,21 +133,21 @@ class ProfileAvatar extends StatelessWidget {
               children: <Widget>[
                 ListTile(
                   leading: AdaptiveIcon(
-                      icon: IconDataSet.photo
+                      icon: IconSource.photo
                   ),
                   title: Text(L10n.get(L.gallery)),
                   onTap: () => _getNewAvatarPath(ImageSource.gallery),
                 ),
                 ListTile(
                   leading: AdaptiveIcon(
-                      icon: IconDataSet.cameraAlt
+                      icon: IconSource.cameraAlt
                   ),
                   title: Text(L10n.get(L.camera)),
                   onTap: () => _getNewAvatarPath(ImageSource.camera),
                 ),
                 ListTile(
                   leading: AdaptiveIcon(
-                      icon: IconDataSet.delete
+                      icon: IconSource.delete
                   ),
                   title: Text(L10n.get(L.groupRemoveImage)),
                   onTap: () => _removeAvatar(),
@@ -195,7 +195,7 @@ class ProfileAvatar extends StatelessWidget {
                 right: profileEditPhotoButtonRightPosition,
                 child: AdaptiveInkWell(
                   child: AdaptiveIcon(
-                    icon: IconDataSet.addAPhoto,
+                    icon: IconSource.addAPhoto,
                     color: onPrimary,
                   ),
                   onTap: _editPhoto,
@@ -263,7 +263,7 @@ class ProfileCopyableHeaderText extends StatelessWidget {
           ProfileHeaderText(),
           Padding(padding: EdgeInsets.all(iconTextPadding)),
           AdaptiveIcon(
-              icon: IconDataSet.contentCopy
+              icon: IconSource.contentCopy
           ),
         ],
       ),

@@ -266,7 +266,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
               if (!isGroup)
                 AdaptiveIconButton(
                   icon: AdaptiveIcon(
-                      icon: IconDataSet.phone,
+                      icon: IconSource.phone,
                   ),
                   key: Key(keyChatIconButtonIconPhone),
                   onPressed: onPhonePressed,
@@ -367,7 +367,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
                     )
                   : Center(
                       child: AdaptiveIcon(
-                        icon: IconDataSet.insertDriveFile,
+                        icon: IconSource.insertDriveFile,
                         size: previewDefaultIconSize,
                         color: Colors.grey,
                       ),
@@ -379,7 +379,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
                   child: Container(
                     decoration: BoxDecoration(color: Colors.black38, borderRadius: BorderRadiusDirectional.circular(previewCloseIconBorderRadius)),
                     child: AdaptiveIcon(
-                      icon: IconDataSet.close,
+                      icon: IconSource.close,
                       size: previewCloseIconSize,
                       color: Colors.white,
                     ),
@@ -426,7 +426,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
                     child: Padding(
                         padding: const EdgeInsets.only(right: iconTextPadding),
                         child: AdaptiveIcon(
-                          icon: IconDataSet.group,
+                          icon: IconSource.group,
                           size: iconSize,
                         )),
                   ),
@@ -435,7 +435,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
                     child: Padding(
                         padding: const EdgeInsets.only(right: iconTextPadding),
                         child: AdaptiveIcon(
-                          icon: IconDataSet.verifiedUser,
+                          icon: IconSource.verifiedUser,
                           size: iconSize,
                         )),
                   ),
@@ -667,35 +667,35 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
             children: <Widget>[
               ListTile(
                 leading: AdaptiveIcon(
-                    icon: IconDataSet.image
+                    icon: IconSource.image
                 ),
                 title: Text(L10n.get(L.image)),
                 onTap: () => _getFilePath(FileType.IMAGE),
               ),
               ListTile(
                 leading: AdaptiveIcon(
-                    icon: IconDataSet.videoLibrary
+                    icon: IconSource.videoLibrary
                 ),
                 title: Text(L10n.get(L.video)),
                 onTap: () => _getFilePath(FileType.VIDEO),
               ),
               ListTile(
                 leading: AdaptiveIcon(
-                    icon: IconDataSet.pictureAsPdf
+                    icon: IconSource.pictureAsPdf
                 ),
                 title: Text(pdf),
                 onTap: () => _getFilePath(FileType.CUSTOM, "pdf"),
               ),
               ListTile(
                 leading: AdaptiveIcon(
-                    icon: IconDataSet.gif
+                    icon: IconSource.gif
                 ),
                 title: Text(gif),
                 onTap: () => _getFilePath(FileType.CUSTOM, "gif"),
               ),
               ListTile(
                 leading: AdaptiveIcon(
-                    icon: IconDataSet.insertDriveFile
+                    icon: IconSource.insertDriveFile
                 ),
                 title: Text(L10n.get(L.file)),
                 onTap: () => _getFilePath(FileType.ANY),

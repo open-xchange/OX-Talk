@@ -130,7 +130,7 @@ class _ProviderListState extends State<ProviderList> {
                     return StateInfo(showLoading: true);
                   } else {
                     return AdaptiveIcon(
-                        icon: IconDataSet.error
+                        icon: IconSource.error
                     );
                   }
                 },

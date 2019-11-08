@@ -140,28 +140,28 @@ class _ContactDetailsState extends State<ContactDetails> with ChatCreateMixin {
                   ProfileData(
                       text: state.email,
                       textStyle: Theme.of(context).textTheme.subtitle,
-                      iconData: state.isVerified ? IconDataSet.verifiedUser : null,
+                      iconData: state.isVerified ? IconSource.verifiedUser : null,
                       child: ProfileCopyableHeaderText(
                         toastMessage: L10n.getFormatted(L.clipboardCopiedX, [L10n.get(L.emailAddress).toLowerCase()]),
                       )),
                   ProfileActionList(tiles: [
                     ProfileAction(
                       key: Key(keyContactDetailOpenChatProfileActionIcon),
-                      iconData: IconDataSet.chat,
+                      iconData: IconSource.chat,
                       text: L10n.get(L.chatOpen),
                       color: accent,
                       onTap: () => createChatFromContact(context, widget.contactId),
                     ),
                     ProfileAction(
                       key: Key(keyContactDetailEditContactProfileActionIcon),
-                      iconData: IconDataSet.edit,
+                      iconData: IconSource.edit,
                       text: L10n.get(L.contactEdit),
                       color: accent,
                       onTap: () => _editContact(context, state.name, state.email, state.phoneNumbers),
                     ),
                     ProfileAction(
                       key: Key(keyContactDetailBlockContactProfileActionIcon),
-                      iconData: IconDataSet.block,
+                      iconData: IconSource.block,
                       text: L10n.get(L.contactBlock),
                       color: accent,
                       onTap: () => showActionDialog(
@@ -176,7 +176,7 @@ class _ContactDetailsState extends State<ContactDetails> with ChatCreateMixin {
                     ),
                     ProfileAction(
                       key: Key(keyContactDetailDeleteContactProfileActionIcon),
-                      iconData: IconDataSet.delete,
+                      iconData: IconSource.delete,
                       text: L10n.get(L.contactDelete),
                       color: error,
                       onTap: () => showActionDialog(

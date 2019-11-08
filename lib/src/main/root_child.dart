@@ -69,7 +69,7 @@ abstract class RootChild extends StatefulWidget {
 
   String getNavigationText(BuildContext context);
 
-  IconDataSet getNavigationIcon();
+  IconSource getNavigationIcon();
 
   Color getColor();
 

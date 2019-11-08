@@ -107,7 +107,7 @@ class _AntiMobbingListState extends State<AntiMobbingList> {
             return StateInfo(showLoading: true);
           } else {
             return AdaptiveIcon(
-                icon: IconDataSet.error,
+                icon: IconSource.error,
             );
           }
         },

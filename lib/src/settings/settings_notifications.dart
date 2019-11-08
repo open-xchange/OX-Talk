@@ -107,7 +107,7 @@ class _SettingsNotificationsState extends State<SettingsNotifications> {
                   title: Text(L10n.get(L.settingNotificationPush)),
                   subtitle: Text(L10n.get(L.settingNotificationPushText)),
                   trailing: AdaptiveIcon(
-                      icon: IconDataSet.arrowForward
+                      icon: IconSource.arrowForward
                   ),
                   onTap: ()=> {AppSettings.openAppSettings()},
                 ),
@@ -117,7 +117,7 @@ class _SettingsNotificationsState extends State<SettingsNotifications> {
         } else {
           return Center(
             child: AdaptiveIcon(
-                icon: IconDataSet.error
+                icon: IconSource.error
             ),
           );
         }
