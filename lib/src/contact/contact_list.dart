@@ -344,9 +344,9 @@ class _ContactListState extends State<ContactList> {
   }
 
   _deleteContactSlideAction({@required int contactId}) {
-    ContactChangeBloc contactChangeBloc = ContactChangeBloc();
-    contactChangeBloc.add(DeleteContact(id: contactId));
-    contactChangeBloc.close();
+    ContactChangeBloc bloc = ContactChangeBloc();
+    bloc.add(DeleteContact(id: contactId));
+    bloc.close();
   }
 
 }
