@@ -43,6 +43,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:ox_coi/src/contact/contact_change_bloc.dart';
 import 'package:ox_coi/src/contact/contact_import_bloc.dart';
 import 'package:ox_coi/src/contact/contact_import_event_state.dart';
 import 'package:ox_coi/src/contact/contact_item.dart';
@@ -67,6 +69,8 @@ import 'package:rxdart/rxdart.dart';
 import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon_button.dart';
 import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon.dart';
 
+import 'contact_change_event_state.dart';
+
 class ContactList extends RootChild {
   final Navigation navigation = Navigation();
 
@@ -75,7 +79,11 @@ class ContactList extends RootChild {
   @override
   _ContactListState createState() {
     final state = _ContactListState();
-    setActions([state.getImportAction(), state.getBlockedUsersAction(), state.getSearchAction()]);
+    setActions([
+      state.getImportAction(),
+      state.getBlockedUsersAction(),
+      state.getSearchAction()
+    ]);
     return state;
   }
 
@@ -88,9 +96,7 @@ class ContactList extends RootChild {
   FloatingActionButton getFloatingActionButton(BuildContext context) {
     return FloatingActionButton(
       key: Key(keyContactListPersonAddFloatingActionButton),
-      child: new AdaptiveIcon(
-          icon: IconSource.personAdd
-      ),
+      child: new AdaptiveIcon(icon: IconSource.personAdd),
       onPressed: () {
         _showAddContactView(context);
       },
@@ -131,14 +137,16 @@ class _ContactListState extends State<ContactList> {
     setupContactImport();
   }
 
-  void requestValidContacts() => _contactListBloc.add(RequestContacts(typeOrChatId: validContacts));
+  void requestValidContacts() =>
+      _contactListBloc.add(RequestContacts(typeOrChatId: validContacts));
 
   setupContactImport() async {
     if (await _contactImportBloc.isInitialContactsOpening()) {
       _contactImportBloc.add(MarkContactsAsInitiallyLoaded());
       _showImportDialog(true, context);
     }
-    final contactImportObservable = new Observable<ContactImportState>(_contactImportBloc);
+    final contactImportObservable =
+        new Observable<ContactImportState>(_contactImportBloc);
     contactImportObservable.listen((state) => handleContactImport(state));
   }
 
@@ -174,13 +182,12 @@ class _ContactListState extends State<ContactList> {
       bloc: _contactListBloc,
       builder: (context, state) {
         if (state is ContactListStateSuccess) {
-          return buildListViewItems(state.contactIds, state.contactLastUpdateValues);
+          return buildListViewItems(
+              state.contactIds, state.contactLastUpdateValues);
         } else if (state is! ContactListStateFailure) {
           return StateInfo(showLoading: true);
         } else {
-          return AdaptiveIcon(
-              icon: IconSource.error
-          );
+          return AdaptiveIcon(icon: IconSource.error);
         }
       },
     );
@@ -239,7 +246,8 @@ class _ContactListState extends State<ContactList> {
     var importText = L10n.get(L.contactSystemImportText);
     var importTextInitial = L10n.get(L.contactInitialImportText);
     var importTextRepeat = L10n.get(L.contactReImportText);
-    var content = "$importText ${initialImport ? importTextInitial : importTextRepeat}";
+    var content =
+        "$importText ${initialImport ? importTextInitial : importTextRepeat}";
     var importPositive = L10n.get(L.import);
     showConfirmationDialog(
       context: context,
@@ -260,17 +268,85 @@ class _ContactListState extends State<ContactList> {
     );
   }
 
-  Widget buildListViewItems(List<int> contactIds, List<int> contactLastUpdateValues) {
+  Widget buildListViewItems(
+      List<int> contactIds, List<int> contactLastUpdateValues) {
     return ListView.separated(
         separatorBuilder: (context, index) => Divider(
-          height: dividerHeight,
-          color: onBackground.withOpacity(barely),
-        ),
+              height: dividerHeight,
+              color: onBackground.withOpacity(barely),
+            ),
         itemCount: contactIds.length,
         itemBuilder: (BuildContext context, int index) {
           var contactId = contactIds[index];
           var key = "$contactId-${contactLastUpdateValues[index]}";
-          return ContactItem(contactId: contactId, contactItemType: ContactItemType.edit, key: key);
+          return Slidable.builder(
+              key: Key(key),
+              actionPane: SlidableBehindActionPane(),
+              actionExtentRatio: 0.2,
+              actionDelegate: SlideActionBuilderDelegate(
+                  actionCount: 1,
+                  builder: (context, index, animation, renderingMode) {
+                    return IconSlideAction(
+                      caption: L10n.get(L.block),
+                      color: warning,
+                      foregroundColor: onWarning,
+                      iconWidget: AdaptiveIcon(
+                        icon: IconSource.block,
+                        color: onWarning,
+                      ),
+                      onTap: () {
+                        var state = Slidable.of(context);
+                        state.dismiss();
+                      },
+                    );
+                  }),
+              secondaryActionDelegate: SlideActionBuilderDelegate(
+                  actionCount: 1,
+                  builder: (context, index, animation, renderingMode) {
+                    // for more than one slide action we need take care of `index`
+                    return IconSlideAction(
+                      caption: L10n.get(L.delete),
+                      color: error,
+                      foregroundColor: onError,
+                      iconWidget: AdaptiveIcon(
+                        icon: IconSource.delete,
+                        color: onError,
+                      ),
+                      onTap: () {
+                        var state = Slidable.of(context);
+                        state.dismiss();
+                      },
+                    );
+                  }),
+              dismissal: SlidableDismissal(
+                child: SlidableDrawerDismissal(),
+                onDismissed: (actionType) {
+                  if (actionType == SlideActionType.primary) {
+                    _blockContactSlideAction(contactId: contactId);
+                  } else {
+                    _deleteContactSlideAction(contactId: contactId);
+                  }
+                },
+              ),
+              child: ContactItem(
+                  contactId: contactId,
+                  contactItemType: ContactItemType.edit,
+                  key: key));
         });
   }
+
+  // Slide Actions
+
+  _blockContactSlideAction({@required int contactId}) {
+    ContactChangeBloc bloc = ContactChangeBloc();
+    bloc.add(BlockContact(contactId: contactId));
+    bloc.close();
+  }
+
+  _deleteContactSlideAction({@required int contactId}) {
+    ContactChangeBloc contactChangeBloc = ContactChangeBloc();
+    contactChangeBloc.add(DeleteContact(id: contactId));
+    contactChangeBloc.close();
+  }
+
 }
