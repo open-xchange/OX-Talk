@@ -137,16 +137,14 @@ class _ContactListState extends State<ContactList> {
     setupContactImport();
   }
 
-  void requestValidContacts() =>
-      _contactListBloc.add(RequestContacts(typeOrChatId: validContacts));
+  void requestValidContacts() => _contactListBloc.add(RequestContacts(typeOrChatId: validContacts));
 
   setupContactImport() async {
     if (await _contactImportBloc.isInitialContactsOpening()) {
       _contactImportBloc.add(MarkContactsAsInitiallyLoaded());
       _showImportDialog(true, context);
     }
-    final contactImportObservable =
-        new Observable<ContactImportState>(_contactImportBloc);
+    final contactImportObservable = new Observable<ContactImportState>(_contactImportBloc);
     contactImportObservable.listen((state) => handleContactImport(state));
   }
 
@@ -182,8 +180,7 @@ class _ContactListState extends State<ContactList> {
       bloc: _contactListBloc,
       builder: (context, state) {
         if (state is ContactListStateSuccess) {
-          return buildListViewItems(
-              state.contactIds, state.contactLastUpdateValues);
+          return buildListViewItems(state.contactIds, state.contactLastUpdateValues);
         } else if (state is! ContactListStateFailure) {
           return StateInfo(showLoading: true);
         } else {
