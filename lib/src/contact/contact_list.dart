@@ -243,8 +243,7 @@ class _ContactListState extends State<ContactList> {
     var importText = L10n.get(L.contactSystemImportText);
     var importTextInitial = L10n.get(L.contactInitialImportText);
     var importTextRepeat = L10n.get(L.contactReImportText);
-    var content =
-        "$importText ${initialImport ? importTextInitial : importTextRepeat}";
+    var content = "$importText ${initialImport ? importTextInitial : importTextRepeat}";
     var importPositive = L10n.get(L.import);
     showConfirmationDialog(
       context: context,
