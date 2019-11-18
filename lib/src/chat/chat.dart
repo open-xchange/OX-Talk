@@ -264,7 +264,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
             actions: <Widget>[
               if (!isGroup)
                 AdaptiveIconButton(
-                  icon: AdaptiveIcon(icon: IconSource.phone, ),
+                  icon: AdaptiveIcon(icon: IconSource.phone),
                   key: Key(keyChatIconButtonIconPhone),
                   onPressed: onPhonePressed,
                   color: onPrimary,
@@ -617,37 +617,27 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               ListTile(
-                leading: AdaptiveIcon(
-                    icon: IconSource.image
-                ),
+                leading: AdaptiveIcon(icon: IconSource.image),
                 title: Text(L10n.get(L.image)),
                 onTap: () => _getFilePath(FileType.IMAGE),
               ),
               ListTile(
-                leading: AdaptiveIcon(
-                    icon: IconSource.videoLibrary
-                ),
+                leading: AdaptiveIcon(icon: IconSource.videoLibrary),
                 title: Text(L10n.get(L.video)),
                 onTap: () => _getFilePath(FileType.VIDEO),
               ),
               ListTile(
-                leading: AdaptiveIcon(
-                    icon: IconSource.pictureAsPdf
-                ),
+                leading: AdaptiveIcon(icon: IconSource.pictureAsPdf),
                 title: Text(pdf),
                 onTap: () => _getFilePath(FileType.CUSTOM, "pdf"),
               ),
               ListTile(
-                leading: AdaptiveIcon(
-                    icon: IconSource.gif
-                ),
+                leading: AdaptiveIcon(icon: IconSource.gif),
                 title: Text(gif),
                 onTap: () => _getFilePath(FileType.CUSTOM, "gif"),
               ),
               ListTile(
-                leading: AdaptiveIcon(
-                    icon: IconSource.insertDriveFile
-                ),
+                leading: AdaptiveIcon(icon: IconSource.insertDriveFile),
                 title: Text(L10n.get(L.file)),
                 onTap: () => _getFilePath(FileType.ANY),
               ),

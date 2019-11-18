@@ -45,6 +45,7 @@ import 'dart:ui';
 
 import 'package:bloc/bloc.dart';
 import 'package:delta_chat_core/delta_chat_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:ox_coi/src/data/repository.dart';
 import 'package:ox_coi/src/data/repository_manager.dart';
 import 'package:ox_coi/src/data/repository_stream_handler.dart';
@@ -99,7 +100,7 @@ class MessageItemBloc extends Bloc<MessageItemEvent, MessageItemState> {
         await _setupNextMessage(nextMessageId);
       }
       await _setupMessage();
-      ChatMsg message = _getMessage();
+      ChatMsg message = _getMessage(messageId: _messageId);
       var isOutgoing = await message.isOutgoing();
       var state = await message.getState();
       if (isOutgoing && state != ChatMsg.messageStateReceived) {
@@ -230,7 +231,7 @@ class MessageItemBloc extends Bloc<MessageItemEvent, MessageItemState> {
   }
 
   Future<void> _setupMessage() async {
-    await _getMessage().loadValues(keys: [
+    await _getMessage(messageId: _messageId).loadValues(keys: [
       ChatMsg.methodMessageGetText,
       ChatMsg.methodMessageGetTimestamp,
       ChatMsg.methodMessageIsOutgoing,
@@ -246,11 +247,11 @@ class MessageItemBloc extends Bloc<MessageItemEvent, MessageItemState> {
   }
 
   Future<void> _setupNextMessage(int nextMessageId) async {
-    await _getNextMessage(nextMessageId).loadValue(ChatMsg.methodMessageGetTimestamp);
+    await _getMessage(messageId: nextMessageId).loadValue(ChatMsg.methodMessageGetTimestamp);
   }
 
   Future<void> _setupContact() async {
-    ChatMsg message = _getMessage();
+    ChatMsg message = _getMessage(messageId: _messageId);
     _contactId = await message.getFromId();
     _contactRepository.putIfAbsent(id: _contactId);
     await _getContact().loadValues(keys: [
@@ -260,12 +261,8 @@ class MessageItemBloc extends Bloc<MessageItemEvent, MessageItemState> {
     ]);
   }
 
-  ChatMsg _getMessage() {
-    return _messageListRepository.get(_messageId);
-  }
-
-  ChatMsg _getNextMessage(int nextMessageId) {
-    return _messageListRepository.get(nextMessageId);
+  ChatMsg _getMessage({@required int messageId}) {
+    return _messageListRepository.get(messageId);
   }
 
   Contact _getContact() {
@@ -276,19 +273,19 @@ class MessageItemBloc extends Bloc<MessageItemEvent, MessageItemState> {
     if (nextMessageId == null) {
       return true;
     }
-    ChatMsg _nextChatMsg = _getNextMessage(nextMessageId);
+    ChatMsg _nextChatMsg = _getMessage(messageId: nextMessageId);
     int nextTimestamp = await _nextChatMsg.getTimestamp();
-    ChatMsg _chatMsg = _getMessage();
+    ChatMsg _chatMsg = _getMessage(messageId: _messageId);
     int timestamp = await _chatMsg.getTimestamp();
     return getDateAndTimeFromTimestamp(nextTimestamp) != getDateAndTimeFromTimestamp(timestamp);
   }
 
   Future<bool> _hasEncryptionStatusChanged(int nextMessageId) async {
-    ChatMsg _chatMsg = _getMessage();
+    ChatMsg _chatMsg = _getMessage(messageId: _messageId);
     if (nextMessageId == null) {
       return await _chatMsg.showPadlock() == 1;
     }
-    ChatMsg _nextChatMsg = _getNextMessage(nextMessageId);
+    ChatMsg _nextChatMsg = _getMessage(messageId: nextMessageId);
     int nextPadlock = await _nextChatMsg.showPadlock();
     int padlock = await _chatMsg.showPadlock();
     return nextPadlock != padlock;
