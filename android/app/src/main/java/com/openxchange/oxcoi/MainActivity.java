@@ -92,9 +92,12 @@ public class MainActivity extends FlutterActivity {
                         if (startString != null || !startString.isEmpty()) {
                             result.success(startString);
                             startString = "";
+                        }else{
+                            result.success(null);
                         }
                     }else if (call.method.contentEquals("sendSharedData")) {
                         shareFile(call.arguments);
+                        result.success(null);
                     }
                 });
     }
