@@ -7,6 +7,17 @@
 		<string>me.coi.bgtask.fetch</string>
 		<string>me.coi.bgtask.remote-notification</string>
 	</array>
+    <key>CFBundleURLTypes</key>
+        <array>
+            <dict>
+                <key>CFBundleTypeRole</key>
+                <string>Editor</string>
+                <key>CFBundleURLSchemes</key>
+                <array>
+                    <string>coime</string>
+                </array>
+            </dict>
+    </array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
