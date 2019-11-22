@@ -260,8 +260,8 @@ class _MessagePartImageVideoAttachmentState extends State<MessagePartImageVideoA
                 child: Align(
                     alignment: Alignment.center,
                     child: Container(
-                      height: videoPreviewIconHeight,
-                      width: videoPreviewIconWidth,
+                      height: videoPreviewIconBackgroundHeight,
+                      width: videoPreviewIconBackgroundWidth,
                       decoration: ShapeDecoration(
                         shape: CircleBorder(),
                         color: black.withOpacity(fade),
