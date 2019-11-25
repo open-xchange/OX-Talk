@@ -53,6 +53,8 @@ enum Type {
   chatDeleteDialog,
   chatGroupProfile,
   chatList,
+  chatListInviteDialog,
+  chatListInviteErrorDialog,
   chatLeaveGroupDialog,
   chatProfile,
   contactAdd,

@@ -40,23 +40,45 @@
  * for more details.
  */
 
-// App state
-enum AppState {
-  initialStartDone,
-  initialLoginDone,
+import 'package:ox_coi/src/data/invite_service_resource.dart';
+
+abstract class InviteEvent {}
+
+class CreateInviteUrl extends InviteEvent {
+  String message;
+
+  CreateInviteUrl({this.message});
 }
 
-// Data base name
-String get dbName => "messenger.db";
+class HandleSharedInviteLink extends InviteEvent {}
 
-// Push service fallback
-String get defaultCoiPushServiceUrl => "https://push.coi.me";
+class AcceptInvite extends InviteEvent {
+  InviteServiceResponse inviteServiceResponse;
+  String base64Image;
 
-// Invite service fallback
-String get defaultCoiInviteServiceUrl => "https://invite.coi.me/invite/";
+  AcceptInvite({this.inviteServiceResponse, this.base64Image});
+}
 
-// Image paths
-String get appLogoPath => 'assets/images/app_logo.png';
+abstract class InviteState {}
 
-// Other provider identifier
-String get other => 'other';
+class InviteStateInitial extends InviteState {}
+
+class InviteStateSuccess extends InviteState {
+  String createdInviteUrl;
+  InviteServiceResponse inviteServiceResponse;
+  String base64Image;
+
+  InviteStateSuccess({this.createdInviteUrl, this.inviteServiceResponse, this.base64Image});
+}
+
+class CreateInviteChatSuccess extends InviteState {
+  int chatId;
+
+  CreateInviteChatSuccess({this.chatId});
+}
+
+class InviteStateFailure extends InviteState {
+  String errorMessage;
+
+  InviteStateFailure({this.errorMessage});
+}

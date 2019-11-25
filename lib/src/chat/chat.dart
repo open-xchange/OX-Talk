@@ -47,6 +47,12 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_app_bar.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon_button.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_ink_well.dart';
+import 'package:ox_coi/src/background/background_bloc.dart';
+import 'package:ox_coi/src/background/background_event_state.dart';
 import 'package:ox_coi/src/chat/chat_bloc.dart';
 import 'package:ox_coi/src/chat/chat_change_bloc.dart';
 import 'package:ox_coi/src/chat/chat_change_event_state.dart';
@@ -82,11 +88,6 @@ import 'package:url_launcher/url_launcher.dart';
 
 import 'chat_create_mixin.dart';
 
-import 'package:ox_coi/src/adaptiveWidgets/adaptive_app_bar.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon_button.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptive_ink_well.dart';
-
 class Chat extends StatefulWidget {
   final int chatId;
   final int messageId;
@@ -108,6 +109,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
   MessageListBloc _messageListBloc = MessageListBloc();
   ChatComposerBloc _chatComposerBloc = ChatComposerBloc();
   ChatChangeBloc _chatChangeBloc = ChatChangeBloc();
+  BackgroundBloc _backgroundBloc;
 
   final TextEditingController _textController = new TextEditingController();
   bool _isComposingText = false;
@@ -144,6 +146,9 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
     final messagesObservable = new Observable<MessageListState>(_messageListBloc);
     messagesObservable.listen((state) {
       if (state is MessagesStateSuccess) {
+        if (_backgroundBloc.currentBackgroundState == AppLifecycleState.paused.toString()) {
+          return;
+        }
         _chatChangeBloc.add(ChatMarkMessagesSeen(messageIds: state.messageIds));
       }
     });
@@ -156,7 +161,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
         });
       } else {
         setFileData();
-        if(widget.sharedData.text.isNotEmpty){
+        if (widget.sharedData.text.isNotEmpty) {
           _textController.text = widget.sharedData.text;
           setState(() {
             _isComposingText = true;
@@ -234,61 +239,82 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder(
-      bloc: _chatBloc,
-      builder: (context, state) {
-        String name;
-        String subTitle;
-        Color color;
-        bool isVerified = false;
-        String imagePath = "";
-        bool isGroup = false;
-        if (state is ChatStateSuccess) {
-          name = state.name;
-          subTitle = state.subTitle;
-          color = state.color;
-          isVerified = state.isVerified;
-          imagePath = state.avatarPath;
-          isGroup = state.isGroupChat;
-        } else {
-          name = "";
-          subTitle = "";
+    _backgroundBloc = BlocProvider.of<BackgroundBloc>(context);
+    return BlocListener(
+      bloc: _backgroundBloc,
+      listener: (context, state){
+        if(state is BackgroundStateSuccess){
+          if(state.state == AppLifecycleState.resumed.toString()){
+            _messageListBloc.add(RequestMessages(chatId: widget.chatId, messageId: widget.messageId));
+          }
         }
-        return Scaffold(
-          appBar: AdaptiveAppBar(
-            title: isInviteChat(widget.chatId)
-                ? buildRow(imagePath, name, subTitle, color, context, isVerified)
-                : AdaptiveInkWell(
-                    onTap: () => _chatTitleTapped(),
-                    child: buildRow(imagePath, name, subTitle, color, context, isVerified),
-                  ),
-            actions: <Widget>[
-              if (!isGroup)
-                AdaptiveIconButton(
-                  icon: AdaptiveIcon(
-                      icon: IconSource.phone,
-                  ),
-                  key: Key(keyChatIconButtonIconPhone),
-                  onPressed: onPhonePressed,
-                  color: onPrimary,
-                ),
-            ],
-          ),
-          body: new Column(
-            children: <Widget>[
-              new Flexible(child: buildListView()),
-              if (isInviteChat(widget.chatId)) buildInviteChoice(),
-              if (_filePath.isNotEmpty) buildPreview(),
-              Divider(height: dividerHeight),
-              if (state is ChatStateSuccess && !state.isRemoved)
-                new Container(
-                  decoration: new BoxDecoration(color: Theme.of(context).cardColor),
-                  child: SafeArea(child: _buildTextComposer()),
-                ),
-            ],
-          ),
-        );
       },
+      child: BlocBuilder(
+        bloc: _chatBloc,
+        builder: (context, state) {
+          String name;
+          String subTitle;
+          Color color;
+          bool isVerified = false;
+          String imagePath = "";
+          bool isGroup = false;
+          if (state is ChatStateSuccess) {
+            name = state.name;
+            subTitle = state.subTitle;
+            color = state.color;
+            isVerified = state.isVerified;
+            imagePath = state.avatarPath;
+            isGroup = state.isGroupChat;
+          } else {
+            name = "";
+            subTitle = "";
+          }
+          return Scaffold(
+            appBar: AdaptiveAppBar(
+              title: isInviteChat(widget.chatId)
+                  ? buildRow(imagePath, name, subTitle, color, context, isVerified)
+                  : AdaptiveInkWell(
+                      onTap: () => _chatTitleTapped(),
+                      child: buildRow(imagePath, name, subTitle, color, context, isVerified),
+                    ),
+              actions: <Widget>[
+                if (!isGroup)
+                  AdaptiveIconButton(
+                    icon: AdaptiveIcon(icon: IconSource.phone),
+                    key: Key(keyChatIconButtonIconPhone),
+                    onPressed: onPhonePressed,
+                    color: onPrimary,
+                  ),
+              ],
+            ),
+            body: new Column(
+              children: <Widget>[
+                new Flexible(
+                  child: MultiBlocProvider(
+                    providers: [
+                      BlocProvider<MessageListBloc>.value(
+                        value: _messageListBloc,
+                      ),
+                      BlocProvider<ChatBloc>.value(
+                        value: _chatBloc,
+                      ),
+                    ],
+                    child: MessageList(scrollController: _scrollController, chatId: widget.chatId),
+                  ),
+                ),
+                if (isInviteChat(widget.chatId)) buildInviteChoice(),
+                if (_filePath.isNotEmpty) buildPreview(),
+                Divider(height: dividerHeight),
+                if (state is ChatStateSuccess && !state.isRemoved)
+                  new Container(
+                    decoration: new BoxDecoration(color: Theme.of(context).cardColor),
+                    child: SafeArea(child: _buildTextComposer()),
+                  ),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 
@@ -456,64 +482,6 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
     );
   }
 
-  Widget buildListView() {
-    return BlocBuilder(
-      bloc: _messageListBloc,
-      builder: (context, state) {
-        if (state is MessagesStateSuccess) {
-          if (state.messageIds.length > 0) {
-            return buildListItems(state);
-          } else {
-            return Padding(
-              padding: const EdgeInsets.all(listItemPaddingBig),
-              child: Center(
-                child: Text(
-                  L10n.get(L.chatNewPlaceholder),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            );
-          }
-        } else {
-          return StateInfo(showLoading: true);
-        }
-      },
-    );
-  }
-
-  ListView buildListItems(MessagesStateSuccess state) {
-    return ListView.custom(
-      controller: _scrollController,
-      padding: new EdgeInsets.all(8.0),
-      reverse: true,
-      childrenDelegate: SliverChildBuilderDelegate(
-          (BuildContext context, int index) {
-            int messageId = state.messageIds[index];
-            int nextMessageId;
-            if (index < (state.messageIds.length - 1)) {
-              nextMessageId = state.messageIds[index + 1];
-            }
-            bool hasDateMarker = state.dateMarkerIds.contains(messageId);
-            var key = createKeyFromId(messageId, [state.messageLastUpdateValues[index]]);
-            return ChatMessageItem(
-              chatId: widget.chatId,
-              messageId: messageId,
-              isGroupChat: _chatBloc.isGroup,
-              hasDateMarker: hasDateMarker,
-              nextMessageId: nextMessageId,
-              key: key,
-            );
-          },
-          childCount: state.messageIds.length,
-          findChildIndexCallback: (Key key) {
-            final ValueKey valueKey = key;
-            var id = extractId(valueKey);
-            var indexOf = state.messageIds.indexOf(id);
-            return indexOf;
-          }),
-    );
-  }
-
   Widget _buildTextComposer() {
     List<Widget> widgets = List();
     widgets.add(buildLeftComposerPart(
@@ -666,37 +634,27 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               ListTile(
-                leading: AdaptiveIcon(
-                    icon: IconSource.image
-                ),
+                leading: AdaptiveIcon(icon: IconSource.image),
                 title: Text(L10n.get(L.image)),
                 onTap: () => _getFilePath(FileType.IMAGE),
               ),
               ListTile(
-                leading: AdaptiveIcon(
-                    icon: IconSource.videoLibrary
-                ),
+                leading: AdaptiveIcon(icon: IconSource.videoLibrary),
                 title: Text(L10n.get(L.video)),
                 onTap: () => _getFilePath(FileType.VIDEO),
               ),
               ListTile(
-                leading: AdaptiveIcon(
-                    icon: IconSource.pictureAsPdf
-                ),
+                leading: AdaptiveIcon(icon: IconSource.pictureAsPdf),
                 title: Text(pdf),
                 onTap: () => _getFilePath(FileType.CUSTOM, "pdf"),
               ),
               ListTile(
-                leading: AdaptiveIcon(
-                    icon: IconSource.gif
-                ),
+                leading: AdaptiveIcon(icon: IconSource.gif),
                 title: Text(gif),
                 onTap: () => _getFilePath(FileType.CUSTOM, "gif"),
               ),
               ListTile(
-                leading: AdaptiveIcon(
-                    icon: IconSource.insertDriveFile
-                ),
+                leading: AdaptiveIcon(icon: IconSource.insertDriveFile),
                 title: Text(L10n.get(L.file)),
                 onTap: () => _getFilePath(FileType.ANY),
               ),
@@ -782,4 +740,66 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
   }
 
   Future<bool> callNumber(String phoneNumber) => launch("tel://$phoneNumber");
+}
+
+class MessageList extends StatelessWidget {
+  final ScrollController scrollController;
+  final int chatId;
+
+  MessageList({@required this.scrollController, @required this.chatId});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder(
+      bloc: BlocProvider.of<MessageListBloc>(context),
+      builder: (context, state) {
+        if (state is MessagesStateSuccess) {
+          if (state.messageIds.length > 0) {
+            return ListView.custom(
+              controller: scrollController,
+              padding: new EdgeInsets.all(8.0),
+              reverse: true,
+              childrenDelegate: SliverChildBuilderDelegate(
+                  (BuildContext context, int index) {
+                    int messageId = state.messageIds[index];
+                    int nextMessageId;
+                    if (index < (state.messageIds.length - 1)) {
+                      nextMessageId = state.messageIds[index + 1];
+                    }
+                    bool hasDateMarker = state.dateMarkerIds.contains(messageId);
+                    var key = createKey(messageId);
+                    return ChatMessageItem(
+                      chatId: chatId,
+                      messageId: messageId,
+                      isGroupChat: BlocProvider.of<ChatBloc>(context).isGroup,
+                      hasDateMarker: hasDateMarker,
+                      nextMessageId: nextMessageId,
+                      key: key,
+                    );
+                  },
+                  childCount: state.messageIds.length,
+                  findChildIndexCallback: (Key key) {
+                    final ValueKey valueKey = key;
+                    var id = extractId(valueKey);
+                    var indexOf = state.messageIds.indexOf(id);
+                    return indexOf;
+                  }),
+            );
+          } else {
+            return Padding(
+              padding: const EdgeInsets.all(listItemPaddingBig),
+              child: Center(
+                child: Text(
+                  L10n.get(L.chatNewPlaceholder),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            );
+          }
+        } else {
+          return StateInfo(showLoading: true);
+        }
+      },
+    );
+  }
 }

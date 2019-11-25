@@ -40,23 +40,11 @@
  * for more details.
  */
 
-// App state
-enum AppState {
-  initialStartDone,
-  initialLoginDone,
+import 'dart:io';
+
+import 'package:flutter/material.dart';
+
+removeImageFromCache(File file) {
+  FileImage fileImage = FileImage(file);
+  fileImage.evict();
 }
-
-// Data base name
-String get dbName => "messenger.db";
-
-// Push service fallback
-String get defaultCoiPushServiceUrl => "https://push.coi.me";
-
-// Invite service fallback
-String get defaultCoiInviteServiceUrl => "https://invite.coi.me/invite/";
-
-// Image paths
-String get appLogoPath => 'assets/images/app_logo.png';
-
-// Other provider identifier
-String get other => 'other';

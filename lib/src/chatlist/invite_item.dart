@@ -67,7 +67,7 @@ class _InviteItemState extends State<InviteItem> with ChatCreateMixin {
   @override
   void initState() {
     super.initState();
-    _messageItemBloc.add(RequestMessage(chatId: widget.chatId, messageId: widget.messageId, isGroupChat: false));
+    _messageItemBloc.add(LoadMessage(chatId: widget.chatId, messageId: widget.messageId, isGroupChat: false));
   }
 
   @override
@@ -80,10 +80,10 @@ class _InviteItemState extends State<InviteItem> with ChatCreateMixin {
         Color color;
         int timestamp = 0;
         if (state is MessageItemStateSuccess) {
-          var contactWrapper = state.contactWrapper;
-          name = contactWrapper.contactAddress;
-          preview = state.preview;
-          timestamp = state.messageTimestamp;
+          MessageStateData messageStateData = state.messageStateData;
+          name = messageStateData.contactStateData.address;
+          preview = messageStateData.preview;
+          timestamp = messageStateData.timestamp;
           color = primary;
         } else {
           name = "";

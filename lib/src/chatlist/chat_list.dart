@@ -41,10 +41,12 @@
  */
 
 import 'package:delta_chat_core/delta_chat_core.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon_button.dart';
 import 'package:ox_coi/src/background/background_bloc.dart';
 import 'package:ox_coi/src/background/background_event_state.dart';
 import 'package:ox_coi/src/chat/chat_change_bloc.dart';
@@ -70,9 +72,6 @@ import 'package:ox_coi/src/utils/key_generator.dart';
 import 'package:ox_coi/src/widgets/search.dart';
 import 'package:ox_coi/src/widgets/state_info.dart';
 import 'package:rxdart/rxdart.dart';
-
-import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon_button.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon.dart';
 
 enum ChatListItemType {
   chat,
@@ -141,11 +140,11 @@ class _ChatListState extends State<ChatList> {
     _navigation.current = Navigatable(Type.chatList);
     _chatListBloc.add(RequestChatList(showInvites: true));
     final shareObservable = Observable<ShareState>(shareBloc);
-    shareObservable.listen((state) => handleStateChange(state));
+    shareObservable.listen((state) => handleShareStateChange(state));
     shareBloc.add(LoadSharedData());
   }
 
-  handleStateChange(ShareState state) {
+  handleShareStateChange(ShareState state) {
     if (state is ShareStateSuccess) {
       if (state.sharedData != null) {
         _navigation.pushAndRemoveUntil(
@@ -219,7 +218,7 @@ class _ChatListState extends State<ChatList> {
           return Slidable.builder(
               key: Key(key),
               actionPane: SlidableBehindActionPane(),
-              actionExtentRatio: 0.25,
+              actionExtentRatio: 0.2,
               secondaryActionDelegate: SlideActionBuilderDelegate(
                   actionCount: 1,
                   builder: (context, index, animation, renderingMode) {
@@ -240,7 +239,7 @@ class _ChatListState extends State<ChatList> {
               dismissal: SlidableDismissal(
                 child: SlidableDrawerDismissal(),
                 onDismissed: (actionType) {
-                  _deleteSlideAction(chatId: id);
+                  _deleteChat(chatId: id);
                 },
               ),
               child: ChatListItem(
@@ -326,9 +325,10 @@ class _ChatListState extends State<ChatList> {
 
   // Slide Actions
 
-  _deleteSlideAction({@required int chatId}) {
+  _deleteChat({@required int chatId}) {
     ChatChangeBloc chatChangeBloc = ChatChangeBloc();
     chatChangeBloc.add(DeleteChat(chatId: chatId));
     chatChangeBloc.close();
   }
+
 }

@@ -40,23 +40,64 @@
  * for more details.
  */
 
-// App state
-enum AppState {
-  initialStartDone,
-  initialLoginDone,
+import 'package:flutter/material.dart';
+
+class InviteServiceRequest {
+  String message;
+  InviteServiceSender sender;
+
+  InviteServiceRequest({@required this.message, @required this.sender});
+
+  InviteServiceRequest.fromJson(Map<String, dynamic> json)
+      : message = json['message'],
+        sender = InviteServiceSender.fromJson(json['sender']);
+
+  Map<String, dynamic> toJson() => {
+        'message': message,
+        'sender': this.sender.toJson(),
+      };
 }
 
-// Data base name
-String get dbName => "messenger.db";
+class InviteServiceResponse {
+  String message;
+  String endpoint;
+  String id;
+  InviteServiceSender sender;
 
-// Push service fallback
-String get defaultCoiPushServiceUrl => "https://push.coi.me";
+  InviteServiceResponse({@required this.message, @required this.endpoint, @required this.id, @required this.sender});
 
-// Invite service fallback
-String get defaultCoiInviteServiceUrl => "https://invite.coi.me/invite/";
+  InviteServiceResponse.fromJson(Map<String, dynamic> json)
+      : message = json['message'],
+        endpoint = json['endpoint'],
+        id = json['id'],
+        sender = InviteServiceSender.fromJson(json['sender']);
 
-// Image paths
-String get appLogoPath => 'assets/images/app_logo.png';
+  Map<String, dynamic> toJson() => {
+        'message': message,
+        'endpoint': endpoint,
+        'id': id,
+        'sender': this.sender.toJson(),
+      };
+}
 
-// Other provider identifier
-String get other => 'other';
+class InviteServiceSender {
+  String email;
+  String name;
+  String image;
+  String publicKey; //PGP PublicKey
+
+  InviteServiceSender({@required this.email, @required this.name, @required this.image, @required this.publicKey});
+
+  InviteServiceSender.fromJson(Map<String, dynamic> json)
+      : email = json['email'],
+        name = json['name'],
+        image = json['image'],
+        publicKey = json['publicKey'];
+
+  Map<String, dynamic> toJson() => {
+        'email': email,
+        'name': name,
+        'image': image,
+        'publicKey': publicKey,
+      };
+}

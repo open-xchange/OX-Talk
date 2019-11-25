@@ -40,39 +40,54 @@
  * for more details.
  */
 
-import 'package:meta/meta.dart';
+import 'dart:convert';
 
-abstract class MessageChangeEvent {}
+import 'package:http/http.dart';
+import 'package:http/io_client.dart';
+import 'package:logging/logging.dart';
+import 'package:ox_coi/src/data/invite_service_resource.dart';
+import 'package:ox_coi/src/platform/preferences.dart';
+import 'package:ox_coi/src/utils/constants.dart';
+import 'package:ox_coi/src/utils/http.dart';
+import 'package:ox_coi/src/utils/text.dart';
 
-class DeleteMessage extends MessageChangeEvent {
-  final int chatId;
-  final int messageId;
+class InviteService {
+  static InviteService _instance;
 
-  DeleteMessage({@required this.chatId, @required this.messageId});
-}
+  var _logger = Logger("invite_service");
+  var headers = {"Content-type": "application/json"};
 
-class MessageDeleted extends MessageChangeEvent {}
+  factory InviteService() => _instance ??= InviteService._internal();
 
-class FlagMessages extends MessageChangeEvent {
-  final int chatId;
-  final List<int> messageIds;
-  final bool star;
+  InviteService._internal();
 
-  FlagMessages({@required this.chatId, @required this.messageIds, @required this.star});
-}
+  Future<Response> createInviteUrl(InviteServiceRequest requestInviteService) async {
+    IOClient ioClient = createIOClient();
+    String encodedBody = json.encode(requestInviteService);
+    var url = await getUrl();
+    _logger.info("Create ($url): $encodedBody");
+    return await ioClient.put(url, headers: headers, body: encodedBody);
+  }
 
-class MessageFlagged extends MessageChangeEvent {}
+  Future<Response> getInvite(String id) async {
+    IOClient ioClient = createIOClient();
+    var url = await getUrl();
+    _logger.info("Get ($url): $id");
+    return await ioClient.get("$url$id", headers: headers);
+  }
 
-abstract class MessageChangeState {}
+  Future<Response> deleteInvite(String id) async {
+    IOClient ioClient = createIOClient();
+    var url = await getUrl();
+    _logger.info("Delete ($url): $id");
+    return await ioClient.delete("$url$id", headers: headers);
+  }
 
-class MessageChangeStateInitial extends MessageChangeState {}
-
-class MessageChangeStateLoading extends MessageChangeState {}
-
-class MessageChangeStateSuccess extends MessageChangeState {}
-
-class MessageChangeStateFailure extends MessageChangeState {
-  final String error;
-
-  MessageChangeStateFailure({@required this.error});
+  Future<String> getUrl() async {
+    var url = await getPreference(preferenceInviteServiceUrl);
+    if (isNullOrEmpty(url)) {
+      url = defaultCoiInviteServiceUrl;
+    }
+    return url;
+  }
 }
