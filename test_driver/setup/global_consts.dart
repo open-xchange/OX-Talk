@@ -103,6 +103,10 @@ final typeSomethingComposePlaceholder = L.getKey(L.typeSomething);
 
 const helloWorld = 'Hello world';
 
+final delete = "Delete";
+
+final scrollDuration = Duration(milliseconds: 1000);
+
 final typeSomethingComposePlaceholderFinder = find.byValueKey(typeSomethingComposePlaceholder);
 
 final chatWelcomeMessage = L.getKey(L.chatListPlaceholder);
