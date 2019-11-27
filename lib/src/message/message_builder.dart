@@ -48,12 +48,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon.dart';
+import 'package:ox_coi/src/message/message_attachment_bloc.dart';
+import 'package:ox_coi/src/message/message_attachment_event_state.dart';
 import 'package:ox_coi/src/message/message_item_bloc.dart';
 import 'package:ox_coi/src/ui/color.dart';
 import 'package:ox_coi/src/ui/dimensions.dart';
 import 'package:ox_coi/src/utils/conversion.dart';
 import 'package:ox_coi/src/utils/date.dart';
 import 'package:ox_coi/src/utils/video.dart';
+import 'package:path/path.dart' as path;
 import 'package:transparent_image/transparent_image.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
@@ -217,6 +220,9 @@ class _MessagePartImageVideoAttachmentState extends State<MessagePartImageVideoA
   String thumbnailPath = "";
   String durationString = "";
 
+  // ignore: close_sinks
+  MessageAttachmentBloc _messageAttachmentBloc = MessageAttachmentBloc();
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -224,8 +230,9 @@ class _MessagePartImageVideoAttachmentState extends State<MessagePartImageVideoA
       File file = File(_getMessageStateData(context).attachmentStateData.path);
       imageProvider = FileImage(file);
     } else {
-      getVideoTime();
-      loadThumbnail();
+      imageProvider = MemoryImage(kTransparentImage);
+      _messageAttachmentBloc.add(LoadThumbnailAndDuration(
+          path: _getMessageStateData(context).attachmentStateData.path, duration: _getMessageStateData(context).attachmentStateData.duration));
     }
     precacheImage(imageProvider, context, onError: (error, stacktrace) {
       setState(() {
@@ -238,105 +245,93 @@ class _MessagePartImageVideoAttachmentState extends State<MessagePartImageVideoA
   Widget build(BuildContext context) {
     var text = _getMessageStateData(context).text;
     BorderRadius imageBorderRadius = getImageBorderRadius(context, text);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        Stack(
-          children: <Widget>[
-            AspectRatio(
-              child: ClipRRect(
-                borderRadius: imageBorderRadius,
-                child: Image(
-                  image: imageProvider,
-                  fit: BoxFit.cover,
+    return BlocListener(
+      bloc: _messageAttachmentBloc,
+      listener: (context, state){
+        if(state is MessageAttachmentStateSuccess){
+          setState(() {
+            if(state.path.isNotEmpty) {
+              File file = File(state.path);
+              imageProvider = FileImage(file);
+              durationString = state.duration;
+            }
+          });
+        }
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Stack(
+            children: <Widget>[
+              AspectRatio(
+                child: ClipRRect(
+                  borderRadius: imageBorderRadius,
+                  child: Image(
+                    image: imageProvider,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                aspectRatio: 4 / 3,
+              ),
+              Visibility(
+                visible: widget.isVideo,
+                child: Positioned.fill(
+                  child: Align(
+                      alignment: Alignment.center,
+                      child: Container(
+                        height: videoPreviewIconBackgroundHeight,
+                        width: videoPreviewIconBackgroundWidth,
+                        decoration: ShapeDecoration(
+                          shape: CircleBorder(),
+                          color: black.withOpacity(fade),
+                        ),
+                        child: AdaptiveIcon(
+                          icon: IconSource.play,
+                          size: iconMessagePlaySize,
+                          color: white,
+                        ),
+                      )),
                 ),
               ),
-              aspectRatio: 4 / 3,
-            ),
-            Visibility(
-              visible: widget.isVideo,
-              child: Positioned.fill(
-                child: Align(
-                    alignment: Alignment.center,
-                    child: Container(
-                      height: videoPreviewIconBackgroundHeight,
-                      width: videoPreviewIconBackgroundWidth,
-                      decoration: ShapeDecoration(
-                        shape: CircleBorder(),
-                        color: black.withOpacity(fade),
+              Visibility(
+                visible: widget.isVideo && durationString.isNotEmpty,
+                child: Positioned(
+                  bottom: videoPreviewTimePositionBottom,
+                  left: videoPreviewTimePositionLeft,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(videoPreviewTimeBorderRadius),
+                      color: black.withOpacity(fade),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: videoPreviewTimePaddingVertical, horizontal: videoPreviewTimePaddingHorizontal),
+                      child: Text(
+                        durationString,
+                        style: Theme.of(context).textTheme.caption.apply(color: white),
                       ),
-                      child: AdaptiveIcon(
-                        icon: IconSource.play,
-                        size: iconMessagePlaySize,
-                        color: white,
-                      ),
-                    )),
-              ),
-            ),
-            Visibility(
-              visible: widget.isVideo && durationString.isNotEmpty,
-              child: Positioned(
-                bottom: videoPreviewTimePositionBottom,
-                left: videoPreviewTimePositionLeft,
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(videoPreviewTimeBorderRadius),
-                    color: black.withOpacity(fade),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: videoPreviewTimePaddingVertical, horizontal: videoPreviewTimePaddingHorizontal),
-                    child: Text(
-                      durationString,
-                      style: Theme.of(context).textTheme.caption.apply(color: white),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
-        ),
-        Visibility(
-          visible: text.isNotEmpty,
-          child: Flexible(
-            child: Padding(
-              padding: const EdgeInsets.only(
-                  top: messagesVerticalPadding,
-                  bottom: messagesVerticalInnerPadding,
-                  left: messagesHorizontalInnerPadding,
-                  right: messagesHorizontalInnerPadding),
-              child: Text(text),
+            ],
+          ),
+          Visibility(
+            visible: text.isNotEmpty,
+            child: Flexible(
+              child: Padding(
+                padding: const EdgeInsets.only(
+                    top: messagesVerticalPadding,
+                    bottom: messagesVerticalInnerPadding,
+                    left: messagesHorizontalInnerPadding,
+                    right: messagesHorizontalInnerPadding),
+                child: Text(text),
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
-  }
-
-  void loadThumbnail() async {
-    imageProvider = MemoryImage(kTransparentImage);
-    String videoPath = _getMessageStateData(context).attachmentStateData.path;
-    String thumbnailPath = "";
-    int dotIndex = videoPath.lastIndexOf('.');
-    String videoPathWithoutEnding = videoPath.substring(0, dotIndex);
-    thumbnailPath = "$videoPathWithoutEnding.jpg";
-    File file = File(thumbnailPath);
-    bool fileExists = await file.exists();
-    if (!fileExists) {
-      int index = videoPath.lastIndexOf('/');
-      String thumbnailDirectory = videoPath.substring(0, index);
-      thumbnailPath = await VideoThumbnail.thumbnailFile(
-        video: videoPath,
-        thumbnailPath: thumbnailDirectory,
-        imageFormat: ImageFormat.JPEG,
-        maxHeightOrWidth: 0,
-        quality: 25,
-      );
-    }
-    setState(() {
-      File file = File(thumbnailPath);
-      imageProvider = FileImage(file);
-    });
   }
 
   BorderRadius getImageBorderRadius(BuildContext context, String text) {
@@ -350,20 +345,6 @@ class _MessagePartImageVideoAttachmentState extends State<MessagePartImageVideoA
       messageBorderRadius = BorderRadius.only(topLeft: messageBorderRadius.topLeft, topRight: messageBorderRadius.topRight);
     }
     return messageBorderRadius;
-  }
-
-  void getVideoTime() async {
-    if (durationString.isNotEmpty) return;
-    int duration = _getMessageStateData(context).attachmentStateData.duration;
-    if (duration == 0) {
-      duration = await getDurationInMilliseconds(_getMessageStateData(context).attachmentStateData.path);
-    }
-
-    if (duration > 0) {
-      setState(() {
-        durationString = getVideoTimeFromTimestamp(duration);
-      });
-    }
   }
 }
 

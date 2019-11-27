@@ -23,6 +23,7 @@ logging,BSD,https://pub.dev/packages/logging
 mime,BSD,https://pub.dev/packages/mime
 open_file,BSD,https://pub.dev/packages/open_file
 package_info,BSD,https://pub.dev/packages/package_info
+path,BSD,https://pub.dev/packages/path
 path_provider,BSD,https://pub.dev/packages/path_provider
 permission_handler,MIT,https://pub.dev/packages/permission_handler
 pointycastle,MPL 3.0,https://pub.dev/packages/pointycastle

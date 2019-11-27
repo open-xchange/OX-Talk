@@ -36,6 +36,7 @@ dependencies:
   mime: ^0.9.6+3
   open_file: ^2.0.3
   package_info: ^0.4.0+9
+  path: ^1.6.4
   path_provider: ^1.4.0
   permission_handler: ^4.0.0
   pointycastle: ^1.0.1

@@ -60,13 +60,25 @@ class ShareAttachment extends MessageAttachmentEvent {
 
 class AttachmentLoaded extends MessageAttachmentEvent {}
 
+class LoadThumbnailAndDuration extends MessageAttachmentEvent {
+  final String path;
+  final int duration;
+
+  LoadThumbnailAndDuration({@required this.path, @required this.duration});
+}
+
 abstract class MessageAttachmentState {}
 
 class MessageAttachmentStateInitial extends MessageAttachmentState {}
 
 class MessageAttachmentStateLoading extends MessageAttachmentState {}
 
-class MessageAttachmentStateSuccess extends MessageAttachmentState {}
+class MessageAttachmentStateSuccess extends MessageAttachmentState {
+  final String path;
+  final String duration;
+
+  MessageAttachmentStateSuccess({this.path, this.duration});
+}
 
 class MessageAttachmentStateFailure extends MessageAttachmentState {
   final String error;
