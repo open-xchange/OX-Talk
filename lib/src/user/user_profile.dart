@@ -193,6 +193,7 @@ class _ProfileState extends State<UserProfile> {
                 ),
               ],
             ),
+            Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 0)),
             AdaptiveRaisedButton(
               child: Text(L10n.get(L.profileShareInviteUrl)),
               onPressed: createInviteUrl,
