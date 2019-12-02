@@ -65,7 +65,7 @@ void main() {
     //  Define the driver.
     FlutterDriver driver;
     Setup setup = new Setup(driver);
-    setup.main(timeout);
+    setup.main();
     final account = 'Account';
     final fakeIMAPCoiServer = 'mobile-coi.open-xchange.comm';
     final fakeSMTPCoiServer = 'mobile-coi.open-xchange.comm';

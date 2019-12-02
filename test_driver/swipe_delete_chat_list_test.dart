@@ -52,27 +52,22 @@
  * for more details.
  */
 
+import 'dart:io';
+
 import 'package:flutter_driver/flutter_driver.dart';
-import 'package:ox_coi/src/l10n/l.dart';
 import 'package:test/test.dart';
-import 'package:test_api/src/backend/invoker.dart';
 
 import 'setup/global_consts.dart';
 import 'setup/helper_methods.dart';
 import 'setup/main_test_setup.dart';
 
 void main() {
-  group('Security test.', () {
+  group('Add swipe to delete for chats test.', () {
     // Setup for the test.
     Setup setup = new Setup(driver);
     setup.main();
 
-    final security = 'Security';
-    final expertImportKeys = 'Expert: Import keys';
-    final expertExportKeys = 'Expert: Export keys';
-
-    test('Test Create chat list integration tests.', () async {
-      //  Check real authentication and get chat.
+    test('Create a chat, swipe and delete created chat.', () async {
       await getAuthentication(
         setup.driver,
         signInFinder,
@@ -83,29 +78,28 @@ void main() {
         realPassword,
       );
 
-      //To do
-      //Catch test Export success toast message with the driver.
-      //Catch test failed  toast message with the driver.
-      await catchScreenshot(setup.driver, 'screenshots/signInDone.png');
-      await setup.driver.waitFor(chatWelcomeFinder);
-      await setup.driver.tap(profileFinder);
-      await setup.driver.tap(userProfileSettingsAdaptiveIconFinder);
-      Invoker.current.heartbeat();
-      await setup.driver.tap(find.text(security));
+      //  Create contact which will be swiped and deleted.
+      await createNewChat(
+        setup.driver,
+        createChatFinder,
+        newTestContact04,
+        newTestName01,
+        newContact,
+        name,
+        enterContactName,
+        emptyChat,
+      );
 
-      await setup.driver.tap(find.text(expertImportKeys));
-      await setup.driver.tap(find.text(ok));
-
-      await setup.driver.waitForAbsent(find.text(L.getKey(L.settingKeyImportRunning)));
-      await setup.driver.tap(find.text(expertExportKeys));
-      await setup.driver.tap(find.text(ok));
-
-      await setup.driver.waitForAbsent(find.text(L.getKey(L.settingKeyExportRunning)));
-      await setup.driver.tap(find.text(expertImportKeys));
-      await setup.driver.tap(find.text(ok));
-
-      await setup.driver.tap(pageBack);
-      await setup.driver.tap(pageBack);
+      //  Swipe and delete one chat.
+      await catchScreenshot(setup.driver, 'screenshots/beforeSwipedChat.png');
+      await setup.driver.scroll(find.text(newTestName01), -100, 0, Duration(milliseconds: 100));
+      await setup.driver.tap(find.text(delete));
+      await catchScreenshot(setup.driver, 'screenshots/afterSwipedChat.png');
+      await setup.driver.waitForAbsent(find.text(newTestName01));
+      await navigateTo(setup.driver, contacts);
+      await setup.driver.tap(cancelFinder);
+      await navigateTo(setup.driver, chat);
+      await setup.driver.waitForAbsent(find.text(newTestName01));
     });
   });
 }
