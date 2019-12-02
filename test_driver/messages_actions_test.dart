@@ -115,13 +115,13 @@ void main() {
       await writeChatFromChat(setup.driver, helloWorld);
 
       //  First test action: Flagged messages from  meChat.
-      await flaggedMessage(setup.driver, flagUnFlag, helloWorldFinder,scrollDuration);
+      await flaggedMessage(setup.driver, flagUnFlag, helloWorldFinder);
 
       await setup.driver.tap(pageBack);
       await navigateTo(setup.driver, chat);
 
       //  Second test action: UnFlagged messages.
-      await unFlaggedMessage(setup.driver, flagUnFlag, helloWorldFinder,scrollDuration);
+      await unFlaggedMessage(setup.driver, flagUnFlag, helloWorldFinder);
       await setup.driver.waitForAbsent(helloWorldFinder);
 
       //  Return to chatList.
@@ -137,7 +137,7 @@ void main() {
       await setup.driver.tap(meContactFinder);
 
       //  Forth test action: Copy message from meContact and it paste in meContact.
-      await copyAndPasteMessage(setup.driver, copy, paste,scrollDuration);
+      await copyAndPasteMessage(setup.driver, copy, paste);
 
       //  Enter new text to delete.
       await writeTextInChat(setup.driver, textToDelete);
@@ -145,7 +145,7 @@ void main() {
       await catchScreenshot(setup.driver, 'screenshots/addTextToDelete.png');
 
       //  Fifth test action: Delete message.
-      await deleteMessage(textToDeleteFinder, setup.driver,scrollDuration);
+      await deleteMessage(textToDeleteFinder, setup.driver);
       await setup.driver.waitForAbsent(textToDeleteFinder);
     });
   });

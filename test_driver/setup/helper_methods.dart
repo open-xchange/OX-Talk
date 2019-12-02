@@ -199,7 +199,7 @@ Future blockOneContactFromContacts(FlutterDriver driver, String contactNameToBlo
 Future unFlaggedMessage(
   FlutterDriver driver,
   String flagUnFlag,
-  SerializableFinder messageToUnFlaggedFinder,Duration scrollDuration
+  SerializableFinder messageToUnFlaggedFinder
 ) async {
   await driver.tap(find.byValueKey(keyChatListGetFlaggedActionIconButton));
   await driver.waitFor(messageToUnFlaggedFinder);
@@ -210,20 +210,20 @@ Future unFlaggedMessage(
 Future flaggedMessage(
   FlutterDriver driver,
   String flagUnFlag,
-  SerializableFinder messageToFlaggedFinder,Duration scrollDuration
+  SerializableFinder messageToFlaggedFinder
 ) async {
   await driver.scroll(messageToFlaggedFinder, 0, 0,scrollDuration);
   await driver.tap(find.text(flagUnFlag));
 }
 
-Future deleteMessage(SerializableFinder textToDeleteFinder, FlutterDriver driver,Duration scrollDuration) async {
+Future deleteMessage(SerializableFinder textToDeleteFinder, FlutterDriver driver) async {
   const deleteLocally = 'Delete locally';
   await driver.scroll(textToDeleteFinder, 0, 0, scrollDuration);
   await driver.tap(find.text(deleteLocally));
   await catchScreenshot(driver, 'screenshots/chatAfterdDelete.png');
 }
 
-Future copyAndPasteMessage(FlutterDriver driver, String copy, String paste, Duration scrollDuration) async {
+Future copyAndPasteMessage(FlutterDriver driver, String copy, String paste) async {
   await driver.scroll(helloWorldFinder, 0, 0, scrollDuration);
   await driver.tap(find.text(copy));
   await driver.scroll(typeSomethingComposePlaceholderFinder, 0, 0, scrollDuration);
