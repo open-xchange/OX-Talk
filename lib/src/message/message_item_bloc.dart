@@ -211,7 +211,7 @@ class MessageItemBloc extends Bloc<MessageItemEvent, MessageItemState> {
     if (!_listenersRegistered) {
       _repositoryStreamHandler = RepositoryMultiEventStreamHandler(
         Type.publish,
-        [Event.msgDelivered, Event.msgRead, Event.msgFailed, Event.error],
+        [Event.msgDelivered, Event.msgRead, Event.msgFailed],
         _onMessageStateChanged,
       );
       _messageListRepository.addListener(_repositoryStreamHandler);
@@ -234,11 +234,12 @@ class MessageItemBloc extends Bloc<MessageItemEvent, MessageItemState> {
           unregisterListeners();
         }
       }
-    }else if (event.hasType(Event.msgFailed)){
+    }else if (event.hasType(Event.msgFailed) && _messageId == event.data2){
       int eventMessageState = ChatMsg.messageStateFailed;
       Context context = Context();
       String messageInfo = await context.getMessageInfo(_messageId);
       var messageStateData = (state as MessageItemStateSuccess).messageStateData.copyWith(state: eventMessageState, messageInfo: messageInfo);
+      unregisterListeners();
       add(MessageUpdated(messageStateData: messageStateData));
     }
   }
