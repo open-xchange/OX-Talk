@@ -13,6 +13,7 @@ buildNumber=$5
 # Constants
 PLUGIN_FOLDER="flutter-deltachat-core";
 CORE_BUILD_SCRIPT="./build-dcc.sh"
+IOS_BUILDFOLDER="build/app/outputs/ios/${flavor}"
 
 # Functions
 function isAndroid {
@@ -50,13 +51,17 @@ function androidReleaseBuild {
 }
 
 function iosDebugBuild {
-    echo "iOS debug build started"
-    echo "TODO: iOS debug build is missing"
+    echo "Buildmode have to be release to build ipa for export"
 }
 
 function iosReleaseBuild {
-    echo "iOS release build started"
-    echo "TODO: iOS release build is missing"
+    echo "iOS release build for ${flavor} started"
+    rm -rf ../ios/Flutter/Flutter.framework
+    flutter build ios --build-name=${buildName} --build-number=${buildNumber} --flavor ${flavor}
+    flutter clean
+
+    xcodebuild -workspace ios/Runner.xcworkspace -scheme ${flavor} -sdk iphoneos -configuration Release-${flavor} archive -archivePath "${IOS_BUILDFOLDER}/Runner.xcarchive" -allowProvisioningUpdates
+    xcodebuild -exportArchive -archivePath "${IOS_BUILDFOLDER}/Runner.xcarchive" -exportOptionsPlist ios/exportOptions${flavor}.plist -exportPath "${IOS_BUILDFOLDER}/Runner.ipa" -allowProvisioningUpdates
 }
 
 function getCore {
