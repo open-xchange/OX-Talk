@@ -47,6 +47,7 @@ import 'package:ox_coi/src/base/bloc_progress_state.dart';
 import 'package:ox_coi/src/l10n/l.dart';
 import 'package:ox_coi/src/l10n/l10n.dart';
 import 'package:ox_coi/src/ui/color.dart';
+import 'package:ox_coi/src/ui/custom_theme.dart';
 import 'package:ox_coi/src/ui/dimensions.dart';
 
 class FullscreenProgress<T extends Bloc> extends StatelessWidget {
@@ -82,7 +83,7 @@ class FullscreenProgress<T extends Bloc> extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(onPrimary),
+                valueColor: AlwaysStoppedAnimation<Color>(CustomTheme.of(context).onPrimary),
               ),
               Padding(
                 padding: EdgeInsets.only(top: verticalPadding),
@@ -90,7 +91,7 @@ class FullscreenProgress<T extends Bloc> extends StatelessWidget {
                   child: Text(
                     text,
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.subhead.apply(color: onPrimary),
+                    style: Theme.of(context).textTheme.subhead.apply(color: CustomTheme.of(context).onPrimary),
                   ),
                 ),
               ),
@@ -100,7 +101,7 @@ class FullscreenProgress<T extends Bloc> extends StatelessWidget {
                   child: Text(
                     buildDisplayableProgress(progress),
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.subhead.apply(color: onPrimary),
+                    style: Theme.of(context).textTheme.subhead.apply(color: CustomTheme.of(context).onPrimary),
                   ),
                 ),
               if (showCancelButton)

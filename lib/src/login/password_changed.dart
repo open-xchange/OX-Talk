@@ -53,7 +53,7 @@ import 'package:ox_coi/src/login/password_changed_bloc.dart';
 import 'package:ox_coi/src/login/password_changed_event_state.dart';
 import 'package:ox_coi/src/navigation/navigatable.dart';
 import 'package:ox_coi/src/navigation/navigation.dart';
-import 'package:ox_coi/src/ui/color.dart';
+import 'package:ox_coi/src/ui/custom_theme.dart';
 import 'package:ox_coi/src/ui/dimensions.dart';
 import 'package:ox_coi/src/utils/constants.dart';
 import 'package:ox_coi/src/utils/keyMapping.dart';
@@ -151,7 +151,7 @@ class _PasswordChangedState extends State<PasswordChanged> {
               child: Column(
                 children: <Widget>[
                   Container(
-                    color: primary,
+                    color: CustomTheme.of(context).primary,
                     width: viewportConstraints.maxWidth,
                     padding: EdgeInsets.only(top: loginVerticalPaddingBig, right: loginHorizontalPadding, left: loginHorizontalPadding),
                     child: Column(
@@ -172,7 +172,7 @@ class _PasswordChangedState extends State<PasswordChanged> {
                   ),
                   Expanded(
                     child: Container(
-                      color: background,
+                      color: CustomTheme.of(context).background,
                       width: viewportConstraints.maxWidth,
                       padding: EdgeInsets.symmetric(horizontal: loginHorizontalPadding),
                       child: Column(
@@ -182,9 +182,9 @@ class _PasswordChangedState extends State<PasswordChanged> {
                           Row(
                             children: <Widget>[
                               SuperellipseIcon(
-                                color: error,
+                                color: CustomTheme.of(context).error,
                                 size: 24.0,
-                                iconColor: white,
+                                iconColor: CustomTheme.of(context).white,
                                 icon: IconSource.error,
                               ),
                               Padding(
@@ -222,8 +222,8 @@ class _PasswordChangedState extends State<PasswordChanged> {
                           Padding(
                             padding: EdgeInsets.all(passwordChangedFormButtonPadding),
                             child: AdaptiveRaisedButton(
-                              color: accent,
-                              textColor: onAccent,
+                              color: CustomTheme.of(context).accent,
+                              textColor: CustomTheme.of(context).onAccent,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(loginOtherProviderButtonRadius),
                               ),

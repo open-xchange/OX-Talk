@@ -41,58 +41,45 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon_button.dart';
-import 'package:ox_coi/src/ui/custom_theme.dart';
-import 'package:ox_coi/src/ui/dimensions.dart';
 
-class ErrorBanner extends StatelessWidget {
-  final Function closePressed;
-  final String message;
+class BrandedTheme {
+  final Color white = Colors.white;
+  final Color black = Colors.black;
+  final Color accent;
+  final Color onAccent;
+  final Color info;
+  final Color onInfo;
+  final Color warning;
+  final Color onWarning;
+  final Brightness brightness;
+  final Color background;
+  final Color onBackground;
+  final Color surface;
+  final Color onSurface;
+  final Color secondary;
+  final Color onSecondary;
+  final Color error;
+  final Color onError;
+  final Color primary;
+  final Color onPrimary;
 
-  ErrorBanner({@required this.closePressed, @required this.message});
-
-  @override
-  Widget build(BuildContext context) {
-    return Positioned(
-      left: errorBannerPositionLeft,
-      right: errorBannerPositionRight,
-      top: errorBannerPositionTop,
-      height: loginErrorOverlayHeight,
-      child: Material(
-        elevation: errorBannerElevation,
-        color: CustomTheme.of(context).error,
-        child: Row(
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(left: loginErrorOverlayLeftPadding),
-            ),
-            AdaptiveIcon(
-              icon: IconSource.reportProblem,
-              size: iconSize,
-              color: CustomTheme.of(context).onError,
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: loginErrorOverlayLeftPadding),
-            ),
-            Container(
-              child: Expanded(
-                child: Text(
-                  message,
-                  style: Theme.of(context).textTheme.body1.apply(color: CustomTheme.of(context).onError),
-                ),
-              ),
-            ),
-            AdaptiveIconButton(
-                icon: AdaptiveIcon(
-                  icon: IconSource.clear,
-                  size: loginErrorOverlayIconSize,
-                  color: CustomTheme.of(context).onError,
-                ),
-                onPressed: closePressed),
-          ],
-        ),
-      ),
-    );
-  }
+  BrandedTheme({
+    this.accent,
+    this.onAccent,
+    this.info,
+    this.onInfo,
+    this.warning,
+    this.onWarning,
+    this.brightness,
+    this.background,
+    this.onBackground,
+    this.surface,
+    this.onSurface,
+    this.secondary,
+    this.onSecondary,
+    this.error,
+    this.onError,
+    this.primary,
+    this.onPrimary
+  });
 }

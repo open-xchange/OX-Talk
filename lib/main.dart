@@ -61,7 +61,7 @@ import 'package:ox_coi/src/main/splash.dart';
 import 'package:ox_coi/src/navigation/navigation.dart';
 import 'package:ox_coi/src/push/push_bloc.dart';
 import 'package:ox_coi/src/push/push_event_state.dart';
-import 'package:ox_coi/src/ui/color.dart';
+import 'package:ox_coi/src/ui/custom_theme.dart';
 import 'package:ox_coi/src/widgets/view_switcher.dart';
 
 void main() {
@@ -84,7 +84,10 @@ void main() {
           builder: (BuildContext context) => ErrorBloc(),
         )
       ],
-      child: OxCoiApp(),
+      child: CustomTheme(
+        initialThemeKey: ThemeKey.LIGHT,
+        child: OxCoiApp(),
+      ),
     ),
   );
 }
@@ -97,8 +100,10 @@ class OxCoiApp extends StatelessWidget {
     if (Platform.isIOS) {
       return CupertinoApp(
         theme: CupertinoThemeData(
-          primaryColor: primary,
-          barBackgroundColor: primary,
+          brightness: CustomTheme.of(context).brightness,
+          scaffoldBackgroundColor: CustomTheme.of(context).background,
+          primaryColor: CustomTheme.of(context).primary,
+          barBackgroundColor: CustomTheme.of(context).primary,
         ),
         localizationsDelegates: getLocalizationsDelegates(),
         localeResolutionCallback: (deviceLocale, supportedLocales) {
@@ -111,8 +116,14 @@ class OxCoiApp extends StatelessWidget {
     } else {
       return MaterialApp(
         theme: ThemeData(
-          primaryColor: primary,
-          accentColor: accent,
+          brightness: CustomTheme.of(context).brightness,
+          backgroundColor: CustomTheme.of(context).background,
+          scaffoldBackgroundColor: CustomTheme.of(context).background,
+          accentColor: CustomTheme.of(context).accent,
+          primaryIconTheme: Theme.of(context).primaryIconTheme.copyWith(
+              color: CustomTheme.of(context).onSurface
+          ),
+          primaryTextTheme: Theme.of(context).primaryTextTheme.apply(bodyColor: CustomTheme.of(context).onSurface),
         ),
         localizationsDelegates: getLocalizationsDelegates(),
         supportedLocales: L10n.supportedLocales,
