@@ -53,6 +53,7 @@ const half = 0.5;
 const disabled = 0.3;
 const slightly = 0.3;
 const barely = 0.1;
+const transparent = 0.0;
 
 // Helper methods to generate colors
 

@@ -73,6 +73,7 @@ import 'package:ox_coi/src/message/message_list_event_state.dart';
 import 'package:ox_coi/src/navigation/navigatable.dart';
 import 'package:ox_coi/src/navigation/navigation.dart';
 import 'package:ox_coi/src/share/shared_data.dart';
+import 'package:ox_coi/src/ui/color.dart';
 import 'package:ox_coi/src/ui/custom_theme.dart';
 import 'package:ox_coi/src/ui/dimensions.dart';
 import 'package:ox_coi/src/ui/strings.dart';
@@ -110,6 +111,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
   MessageListBloc _messageListBloc = MessageListBloc();
   ChatComposerBloc _chatComposerBloc = ChatComposerBloc();
   ChatChangeBloc _chatChangeBloc = ChatChangeBloc();
+
   // Ignoring false positive https://github.com/felangel/bloc/issues/587
   // ignore: close_sinks
   LifecycleBloc _lifecycleBloc;
@@ -245,9 +247,9 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
     _lifecycleBloc = BlocProvider.of<LifecycleBloc>(context);
     return BlocListener(
       bloc: _lifecycleBloc,
-      listener: (context, state){
-        if(state is LifecycleStateSuccess){
-          if(state.state == AppLifecycleState.resumed.toString()){
+      listener: (context, state) {
+        if (state is LifecycleStateSuccess) {
+          if (state.state == AppLifecycleState.resumed.toString()) {
             _messageListBloc.add(RequestMessages(chatId: widget.chatId, messageId: widget.messageId));
           }
         }
@@ -398,7 +400,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
                       child: AdaptiveIcon(
                         icon: IconSource.insertDriveFile,
                         size: previewDefaultIconSize,
-                        color: Colors.grey,
+                        color: CustomTheme.of(context).black.withOpacity(slightly),
                       ),
                     ),
               Padding(
@@ -406,11 +408,14 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
                 child: GestureDetector(
                   onTap: () => _closePreview(),
                   child: Container(
-                    decoration: BoxDecoration(color: Colors.black38, borderRadius: BorderRadiusDirectional.circular(previewCloseIconBorderRadius)),
+                    decoration: BoxDecoration(
+                      color: CustomTheme.of(context).black.withOpacity(half),
+                      borderRadius: BorderRadiusDirectional.circular(previewCloseIconBorderRadius),
+                    ),
                     child: AdaptiveIcon(
                       icon: IconSource.close,
                       size: previewCloseIconSize,
-                      color: Colors.white,
+                      color: CustomTheme.of(context).white,
                     ),
                   ),
                 ),

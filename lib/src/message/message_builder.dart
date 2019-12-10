@@ -494,7 +494,7 @@ class MessagePartFlag extends StatelessWidget {
             padding: EdgeInsets.only(top: 8.0, right: 4.0, left: 4.0),
             child: AdaptiveIcon(
               icon: IconSource.flag,
-              color: Colors.yellow,
+              color: Colors.yellow, // TODO remove Colors.xyz call as soon as possible
             ),
           ),
         );

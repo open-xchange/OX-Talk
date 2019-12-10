@@ -57,6 +57,7 @@ import 'package:ox_coi/src/ui/custom_theme.dart';
 import 'package:ox_coi/src/ui/dimensions.dart';
 import 'package:ox_coi/src/utils/constants.dart';
 import 'package:ox_coi/src/utils/keyMapping.dart';
+import 'package:ox_coi/src/widgets/custom_painters.dart';
 import 'package:ox_coi/src/widgets/error_banner.dart';
 import 'package:ox_coi/src/widgets/fullscreen_progress.dart';
 import 'package:ox_coi/src/widgets/superellipse_icon.dart';
@@ -166,9 +167,12 @@ class _PasswordChangedState extends State<PasswordChanged> {
                       ],
                     ),
                   ),
-                  Image.asset(
-                    "assets/images/login_wave.png",
+                  SizedBox(
                     width: viewportConstraints.maxWidth,
+                    height: 50,
+                    child: CustomPaint(
+                      painter: CurvePainter(color: CustomTheme.of(context).primary),
+                    ),
                   ),
                   Expanded(
                     child: Container(

@@ -153,10 +153,10 @@ class AvatarListItem extends StatelessWidget {
                               width: iconSize,
                               height: iconSize,
                               decoration: BoxDecoration(
-                                  color: Colors.orangeAccent, borderRadius: BorderRadius.circular(listInviteUnreadIndicatorBorderRadius)),
+                                  color: Colors.orangeAccent, borderRadius: BorderRadius.circular(listInviteUnreadIndicatorBorderRadius)), // TODO remove Colors.xyz call as soon as possible
                               child: Text(
                                 "!",
-                                style: TextStyle(color: Colors.white, fontSize: listInviteUnreadIndicatorFontSize, fontWeight: FontWeight.bold),
+                                style: TextStyle(color: CustomTheme.of(context).white, fontSize: listInviteUnreadIndicatorFontSize, fontWeight: FontWeight.bold),
                                 textAlign: TextAlign.center,
                               ),
                             ),

@@ -48,7 +48,7 @@ class AdaptiveAppBar extends AdaptiveWidget<CupertinoTheme, AppBar> with Preferr
           padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
           middle: title,
           backgroundColor: color,
-          actionsForegroundColor: Colors.white,
+          actionsForegroundColor: CustomTheme.of(context).white,
           trailing: actions != null
               ? Row(
                   mainAxisSize: MainAxisSize.min,
