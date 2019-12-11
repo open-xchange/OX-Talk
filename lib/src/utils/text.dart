@@ -42,7 +42,7 @@
 
 import 'dart:convert';
 
-final RegExp matchNumericAndPlus = RegExp(r'[^0-9+-_()]');
+final RegExp matchInvertedNumericAndPlus = RegExp(r'[^0-9+]');
 
 final RegExp matchEmail = RegExp(
     r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
@@ -78,5 +78,6 @@ int getIndexAfterLastOf(String text, Pattern pattern) {
 }
 
 String getPhoneNumberFromString(String text) {
-  return text.replaceAll(matchNumericAndPlus, '');
+  String phoneNumberWithoutOptionals = text.replaceFirst("(0)", '');
+  return phoneNumberWithoutOptionals.replaceAll(matchInvertedNumericAndPlus, '');
 }
