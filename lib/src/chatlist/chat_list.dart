@@ -93,7 +93,7 @@ class ChatList extends RootChild {
 
   @override
   Color getColor(BuildContext context) {
-    return CustomTheme.of(context).primary;
+    return CustomTheme.of(context).onSurface;
   }
 
   @override

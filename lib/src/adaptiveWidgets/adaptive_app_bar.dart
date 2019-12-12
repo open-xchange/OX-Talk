@@ -40,7 +40,6 @@ class AdaptiveAppBar extends AdaptiveWidget<CupertinoTheme, AppBar> with Preferr
     return CupertinoTheme(
         data: CupertinoThemeData(
           brightness: CustomTheme.of(context).brightness,
-          barBackgroundColor: CustomTheme.of(context).surface,
         ),
         child: CupertinoNavigationBar(
           key: childKey,
@@ -48,7 +47,7 @@ class AdaptiveAppBar extends AdaptiveWidget<CupertinoTheme, AppBar> with Preferr
           padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
           middle: title,
           backgroundColor: color,
-          actionsForegroundColor: CustomTheme.of(context).white,
+          actionsForegroundColor: CustomTheme.of(context).onSurface,
           trailing: actions != null
               ? Row(
                   mainAxisSize: MainAxisSize.min,

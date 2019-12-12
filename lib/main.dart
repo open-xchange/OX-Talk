@@ -103,7 +103,7 @@ class OxCoiApp extends StatelessWidget {
           brightness: CustomTheme.of(context).brightness,
           scaffoldBackgroundColor: CustomTheme.of(context).background,
           primaryColor: CustomTheme.of(context).primary,
-          barBackgroundColor: CustomTheme.of(context).primary,
+          barBackgroundColor: CustomTheme.of(context).surface,
         ),
         localizationsDelegates: getLocalizationsDelegates(),
         localeResolutionCallback: (deviceLocale, supportedLocales) {

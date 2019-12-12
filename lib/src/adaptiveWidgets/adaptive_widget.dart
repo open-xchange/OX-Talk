@@ -15,7 +15,7 @@ abstract class AdaptiveWidget<C extends Widget, M extends Widget> extends Statel
 
   @override
   Widget build(BuildContext context) {
-    if (Platform.isIOS) {
+    if (!Platform.isIOS) {
       return buildCupertinoWidget(context);
     }
     return buildMaterialWidget(context);
