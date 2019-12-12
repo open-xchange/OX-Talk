@@ -18,7 +18,7 @@ class AdaptiveAppBar extends AdaptiveWidget<CupertinoTheme, AppBar> with Preferr
     this.color,
     this.title,
     this.actions,
-    this.elevation,
+    this.elevation = 1.0,
     this.leadingIcon,
   }) : super(childKey: key);
 
