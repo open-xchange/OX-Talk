@@ -77,7 +77,7 @@ class FullscreenProgress<T extends Bloc> extends StatelessWidget {
           progress = state.progress;
         }
         return BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 8.0, sigmaY: 8.0),
+          filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 16.0),
             constraints: BoxConstraints.expand(),
