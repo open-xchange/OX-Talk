@@ -40,8 +40,6 @@
  * for more details.
  */
 
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -97,44 +95,29 @@ class OxCoiApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (Platform.isIOS) {
-      return CupertinoApp(
-        theme: CupertinoThemeData(
-          brightness: CustomTheme.of(context).brightness,
-          scaffoldBackgroundColor: CustomTheme.of(context).background,
-          primaryColor: CustomTheme.of(context).primary,
-          barBackgroundColor: CustomTheme.of(context).surface,
-        ),
-        localizationsDelegates: getLocalizationsDelegates(),
-        localeResolutionCallback: (deviceLocale, supportedLocales) {
-          getLocaleResolutionCallback(deviceLocale);
-          return deviceLocale;
-        },
-        initialRoute: Navigation.root,
-        routes: navigation.routesMapping,
-      );
-    } else {
-      return MaterialApp(
-        theme: ThemeData(
-          brightness: CustomTheme.of(context).brightness,
-          backgroundColor: CustomTheme.of(context).background,
-          scaffoldBackgroundColor: CustomTheme.of(context).background,
-          accentColor: CustomTheme.of(context).accent,
-          primaryIconTheme: Theme.of(context).primaryIconTheme.copyWith(
-              color: CustomTheme.of(context).onSurface
-          ),
-          primaryTextTheme: Theme.of(context).primaryTextTheme.apply(bodyColor: CustomTheme.of(context).onSurface),
-        ),
-        localizationsDelegates: getLocalizationsDelegates(),
-        supportedLocales: L10n.supportedLocales,
-        localeResolutionCallback: (deviceLocale, supportedLocales) {
-          getLocaleResolutionCallback(deviceLocale);
-          return deviceLocale;
-        },
-        initialRoute: Navigation.root,
-        routes: navigation.routesMapping,
-      );
-    }
+    var customTheme = CustomTheme.of(context);
+    return MaterialApp(
+      theme: ThemeData(
+        brightness: customTheme.brightness,
+        backgroundColor: customTheme.background,
+        scaffoldBackgroundColor: customTheme.background,
+        accentColor: customTheme.accent,
+        primaryIconTheme: Theme.of(context).primaryIconTheme.copyWith(
+              color: customTheme.onSurface,
+            ),
+        primaryTextTheme: Theme.of(context).primaryTextTheme.apply(
+              bodyColor: customTheme.onSurface,
+            ),
+      ),
+      localizationsDelegates: getLocalizationsDelegates(),
+      supportedLocales: L10n.supportedLocales,
+      localeResolutionCallback: (deviceLocale, supportedLocales) {
+        getLocaleResolutionCallback(deviceLocale);
+        return deviceLocale;
+      },
+      initialRoute: Navigation.root,
+      routes: navigation.routesMapping,
+    );
   }
 
   List<LocalizationsDelegate> getLocalizationsDelegates() {
