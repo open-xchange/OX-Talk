@@ -165,8 +165,8 @@ class _UserAccountSettingsState extends State<UserAccountSettings> {
         },
         child: Scaffold(
           appBar: AdaptiveAppBar(
-            leadingIcon: new AdaptiveIconButton(
-              icon: new AdaptiveIcon(
+            leadingIcon: AdaptiveIconButton(
+              icon: AdaptiveIcon(
                 icon: IconSource.close,
               ),
               onPressed: () => _navigation.pop(context),
