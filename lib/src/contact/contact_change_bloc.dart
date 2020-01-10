@@ -164,8 +164,8 @@ class ContactChangeBloc extends Bloc<ContactChangeEvent, ContactChangeState> wit
     Context context = Context();
     await context.unblockContact(id);
     var address = await contact.getAddress();
-    var isKnownContact = await context.isKnownContact(address);
-    if (!isKnownContact) {
+    var contactId = await context.getContactIdByAddress(address);
+    if (contactId == 0) {
       var name = await contact.getName();
       await context.createContact(name, address);
     }
