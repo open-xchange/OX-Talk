@@ -85,6 +85,7 @@ class SettingsManualFormBloc extends Bloc<SettingsManualFormEvent, SettingsManua
           imapPort: event.imapPort,
           imapSecurity: event.imapSecurity,
           smtpLogin: event.smtpLogin,
+          smtpPassword: event.smtpPassword,
           smtpServer: event.smtpServer,
           smtpPort: event.smtpPort,
           smtpSecurity: event.smtpSecurity,

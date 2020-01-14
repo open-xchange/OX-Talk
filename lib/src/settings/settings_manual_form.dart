@@ -92,7 +92,7 @@ class _SettingsManualFormState extends State<SettingsManualForm> {
   ValidatableTextFormField smtpPasswordField = ValidatableTextFormField(
     (context) => L10n.get(L.settingSMTPPassword),
     textFormType: TextFormType.password,
-    needValidation: true,
+    needValidation: false,
     validationHint: (context) => L10n.get(L.loginCheckPassword),
   );
   ValidatableTextFormField smtpServerField = ValidatableTextFormField(
@@ -154,6 +154,7 @@ class _SettingsManualFormState extends State<SettingsManualForm> {
               imapPort: imapPortField.controller.text,
               imapSecurity: convertProtocolStringToInt(context, selectedImapSecurity),
               smtpLogin: smtpLoginNameField.controller.text,
+              smtpPassword: smtpPasswordField.controller.text,
               smtpServer: smtpServerField.controller.text,
               smtpPort: smtpPortField.controller.text,
               smtpSecurity: convertProtocolStringToInt(context, selectedSmtpSecurity),
@@ -164,7 +165,7 @@ class _SettingsManualFormState extends State<SettingsManualForm> {
       child: BlocBuilder(
         bloc: BlocProvider.of<SettingsManualFormBloc>(context),
         builder: (context, state) {
-          if (state is SettingsManualFormStateReady) {
+          if (state is SettingsManualFormStateReady || state is SettingsManualFormStateValidation || state is SettingsManualFormStateValidationSuccess) {
             return Form(
               key: formKey,
               child: Column(
@@ -189,6 +190,7 @@ class _SettingsManualFormState extends State<SettingsManualForm> {
                   ),
                   imapLoginNameField,
                   smtpLoginNameField,
+                  smtpPasswordField,
                   Padding(padding: EdgeInsets.all(loginVerticalPadding12dp)),
                   Align(
                     alignment: Alignment.centerLeft,
@@ -242,9 +244,7 @@ class _SettingsManualFormState extends State<SettingsManualForm> {
               ),
             );
           } else {
-            return CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(CustomTheme.of(context).onSurface),
-            );
+            return Container();
           }
         },
       ),
