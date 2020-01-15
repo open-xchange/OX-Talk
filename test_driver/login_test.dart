@@ -46,154 +46,137 @@ import 'package:flutter_driver/flutter_driver.dart';
 import 'package:ox_coi/src/l10n/l.dart';
 import 'package:ox_coi/src/utils/keyMapping.dart';
 import 'package:test/test.dart';
-import 'package:test_api/src/backend/invoker.dart';
 
 import 'setup/global_consts.dart';
 import 'setup/helper_methods.dart';
 import 'setup/main_test_setup.dart';
 
 void main() {
-  group('Ox coi test:', () {
-    var setup = Setup();
-    setup.perform();
+  // Setup for the test.
+  var setup = Setup();
+  setup.perform(true);
 
-    //  SerializableFinder for the Ox coi welcome and provider page.
-    final welcomeMessage = find.text(L.getKey(L.welcome));
-    final welcomeDescription = find.text(L.getKey(L.loginWelcome));
-    final register = find.text(L.getKey(L.register).toUpperCase());
-    final signIn = find.text(L.getKey(L.loginSignIn));
-    final other = find.text(L.getKey(L.providerOtherMailProvider));
-    final outlook = find.text('Outlook');
-    final yahoo = find.text('Yahoo');
-    final mailbox = find.text('Mailbox.org');
-    final loginProviderSignInText = 'Sign in with Debug (mobile-qa)';
+  //  Const for the Ox coi welcome and provider page.
+  final outlook = 'Outlook';
+  final yahoo = 'Yahoo';
+  final mailbox = 'Mailbox.org';
 
-    //  SerializableFinder for Coi Debug dialog Windows.
-    final signInCoiDebug = find.text(loginProviderSignInText);
-    final email = find.byValueKey(keyProviderSignInEmailTextField);
-    final password = find.byValueKey(keyProviderSignInPasswordTextField);
-    final signInCaps = find.text(L.getKey(L.loginSignIn).toUpperCase());
-    final errorMessage = find.text(L.getKey(L.loginCheckMail));
-    final chatWelcome = find.text(L.getKey(L.chatListPlaceholder));
+  //  SerializableFinder for Coi Debug dialog Windows.
+  final errorMessage = find.text(L.getKey(L.loginCheckMail));
 
-    test('Test login.', () async {
-      //  Test Ox.coi welcome screen and tap on SIGN In to get the provider list, and test if all provider are contained in the list.
+  group('Performing welcome menu and provider list', () {
+    test(': Check Ox.coi welcome screen, tap on SIGN In to get the provider list, and check if all provider are contained in the list.', () async {
       await checkOxCoiWelcomeAndProviderList(
         setup.driver,
-        welcomeMessage,
-        welcomeDescription,
-        signInCaps,
-        register,
         outlook,
         yahoo,
-        signIn,
         find.text(coiDebug),
-        other,
         mailbox,
       );
+    });
+  });
+
+  group('Choose provider before starting the whole login check', () {
+    test(': Scroll and select the coiDebug provider.', () async {
       await setup.driver.scroll(find.text(mailCom), 0, -600, Duration(milliseconds: 500));
-      await selectAndTapProvider(setup.driver, find.text(coiDebug), signInCoiDebug, email, password);
-      await catchScreenshot(setup.driver, 'screenshots/CoiDebug.png');
+      await selectAndTapProvider(setup.driver);
+    });
+  });
 
-      //  Try to sign in without email an password.
-      /*  Try to sign in only whit email.
-          We temporary removed this case, which consist to check about credential
-          for syntax correct E-Mail Address (like carli3@google.com') and correct password.*/
+  group('Performing login without E-Mail or password', () {
+    test(': SIGN IN without E-Mail and password.', () async {
+      await logIn(setup.driver, '', '');
+      expect(await setup.driver.getText(errorMessage), L.getKey(L.loginCheckMail));
+    });
 
-      //  Try fake authentication.
-      print('SIGN IN without email and password.');
-      await getAuthentication(setup.driver, email, ' ', password, ' ', signInCaps);
-      await setup.driver.waitFor(errorMessage);
-      await catchScreenshot(setup.driver, 'screenshots/withoutEmailandPassword.png');
-      print('SIGN IN without email.');
+    test(': SIGN IN without E-Mail.', () async {
+      await logIn(setup.driver, '', fakePassword);
+      expect(await setup.driver.getText(errorMessage), L.getKey(L.loginCheckMail));
+    });
 
-      await getAuthentication(setup.driver, email, ' ', password, fakePassword, signInCaps);
-      await setup.driver.waitFor(errorMessage);
-      await catchScreenshot(setup.driver, 'screenshots/withoutEmail.png');
+    test(': SIGN IN without password.', () async {
+      await logIn(setup.driver, fakeInvalidEmail, '');
+      expect(await setup.driver.getText(errorMessage), L.getKey(L.loginCheckMail));
+    });
 
-      print('SIGN IN without password.');
-      await getAuthentication(setup.driver, email, fakeEmail, password, ' ', signInCaps);
-      await setup.driver.waitFor(errorMessage);
-      await catchScreenshot(setup.driver, 'screenshots/withoutPassword.png');
+    test(': SIGN IN without password but with fake valid E-Mail.', () async {
+      await logIn(setup.driver, fakeValidEmail, '');
+      expect(await setup.driver.getText(find.text(L.getKey(L.loginCheckPassword))), L.getKey(L.loginCheckPassword));
+    });
+  });
 
-      print('SIGN IN with fakeEmail and fakePassword.');
-      Invoker.current.heartbeat();
-      await getAuthentication(setup.driver, email, fakeEmail, password, fakePassword, signInCaps);
+  group('Performing login with fake login information', () {
+    test(': SIGN IN with fake invalid E-Mail and fake password.', () async {
+      await logIn(setup.driver, fakeInvalidEmail, fakePassword);
+      expect(await setup.driver.getText(errorMessage), L.getKey(L.loginCheckMail));
+    });
 
-      print('SIGN IN with realEmail and fakePassword.');
-      Invoker.current.heartbeat();
-      await getAuthentication(setup.driver, email, realEmail, password, fakePassword, signInCaps);
-      await setup.driver.tap(find.text(ok));
+    test(': SIGN IN with fake valid E-Mail and fake password.', () async {
+      await logIn(setup.driver, fakeValidEmail, fakePassword);
+      expect(await setup.driver.getText(find.text(L.getKey(L.loginFailed))), L.getKey(L.loginFailed));
+      await setup.driver.tap(find.text(L.getKey(L.ok)));
+      expect(await setup.driver.getText(find.text(L.getKey(L.loginCheckUsernamePassword))), L.getKey(L.loginCheckUsernamePassword));
+    }, timeout: Timeout(Duration(seconds: 60)));
 
-      //  Check real authentication and get chat.
-      print('Real authentication.');
-      await getAuthentication(setup.driver, email, realEmail, password, realPassword, signInCaps);
-      await catchScreenshot(setup.driver, 'screenshots/entered.png');
-      Invoker.current.heartbeat();
-      print('SIGN IN ist done. Wait for chat.');
-      await setup.driver.waitFor(chatWelcome);
-      Invoker.current.heartbeat();
-      await catchScreenshot(setup.driver, 'screenshots/chat.png');
-      print('Get chat.');
+    test(': SIGN IN with fake invalid E-Mail and real password.', () async {
+      await logIn(setup.driver, fakeInvalidEmail, realPassword);
+      expect(await setup.driver.getText(errorMessage), L.getKey(L.loginCheckMail));
+    });
+
+    test(': SIGN IN with fake valid E-Mail and real password.', () async {
+      await logIn(setup.driver, fakeValidEmail, realPassword);
+      expect(await setup.driver.getText(find.text(L.getKey(L.loginFailed))), L.getKey(L.loginFailed));
+      await setup.driver.tap(find.text(L.getKey(L.ok)));
+      expect(await setup.driver.getText(find.text(L.getKey(L.loginCheckUsernamePassword))), L.getKey(L.loginCheckUsernamePassword));
+    }, timeout: Timeout(Duration(seconds: 60)));
+
+    test(': SIGN IN with real E-Mail and fake password.', () async {
+      await logIn(setup.driver, realEmail, fakePassword);
+      await setup.driver.tap(find.text(L.getKey(L.ok)));
+      expect(await setup.driver.getText(find.text(L.getKey(L.loginCheckUsernamePassword))), L.getKey(L.loginCheckUsernamePassword));
     }, timeout: Timeout(Duration(seconds: 60)));
   });
 
-
+  group('Performing the login with real authentication informations', () {
+    test(': Login test: SIGN IN with realEmail and realPassword.', () async {
+      await logIn(setup.driver, realEmail, realPassword);
+      expect(await setup.driver.getText(find.text(L.getKey(L.chatListPlaceholder))), L.getKey(L.chatListPlaceholder));
+    });
+  });
 }
 
 Future checkOxCoiWelcomeAndProviderList(
   FlutterDriver driver,
-  SerializableFinder welcomeMessage,
-  SerializableFinder welcomeDescription,
-  SerializableFinder signInCaps,
-  SerializableFinder register,
-  SerializableFinder outlook,
-  SerializableFinder yahoo,
-  SerializableFinder signIn,
-  SerializableFinder coiDebug,
-  SerializableFinder other,
-  SerializableFinder mailbox,
+  String outlook,
+  String yahoo,
+  SerializableFinder coiDebugFinder,
+  String mailbox,
 ) async {
-  await driver.waitFor(signInCaps);
-  await driver.waitFor(register);
-  await driver.tap(signInCaps);
+  expect(await driver.getText(find.text(L.getKey(L.loginSignIn).toUpperCase())), L.getKey(L.loginSignIn).toUpperCase());
+  expect(await driver.getText(find.text(L.getKey(L.register).toUpperCase())), L.getKey(L.register).toUpperCase());
+  await driver.tap(find.text(L.getKey(L.loginSignIn).toUpperCase()));
 
   //  Check if all providers are found in the list.
-  await driver.waitFor(outlook);
-  await driver.waitFor(yahoo);
-  await driver.waitFor(signIn);
-  await driver.waitFor(coiDebug);
-  await driver.waitFor(other);
-  await driver.waitFor(mailbox);
+  expect(await driver.getText(find.text(outlook)), outlook);
+  expect(await driver.getText(find.text(yahoo)), yahoo);
+  expect(await driver.getText(find.text(L.getKey(L.loginSignIn))), L.getKey(L.loginSignIn));
+  expect(await driver.getText(coiDebugFinder), coiDebug);
+  expect(await driver.getText(find.text(L.getKey(L.providerOtherMailProvider))), L.getKey(L.providerOtherMailProvider));
+  expect(await driver.getText(find.text(mailbox)), mailbox);
 }
 
 Future selectAndTapProvider(
   FlutterDriver driver,
-  SerializableFinder coiDebug,
-  SerializableFinder signInCoiDebug,
-  SerializableFinder email,
-  SerializableFinder password,
 ) async {
-  await driver.tap(coiDebug);
-  await driver.waitFor(signInCoiDebug);
-  await driver.waitFor(email);
-  await driver.waitFor(password);
-}
+  final loginProviderSignInText = 'Sign in with Debug (mobile-qa)';
+  final coiDebugFinder = find.text(coiDebug);
+  final emailFieldFinder = find.byValueKey(keyProviderSignInEmailTextField);
+  final passwordFieldFinder = find.byValueKey(keyProviderSignInPasswordTextField);
 
-Future getAuthentication(
-  FlutterDriver driver,
-  SerializableFinder email,
-  String fakeEmail,
-  SerializableFinder password,
-  String realPassword,
-  SerializableFinder signInCaps,
-) async {
-  await driver.tap(email);
-  await driver.enterText(fakeEmail);
-  await driver.waitFor(email);
-  await driver.tap(password);
-  await driver.enterText(realPassword);
-  Invoker.current.heartbeat();
-  await driver.tap(signInCaps);
-  Invoker.current.heartbeat();
+  expect(await driver.getText(coiDebugFinder), coiDebug);
+  await driver.tap(coiDebugFinder);
+  expect(await driver.getText(find.text(loginProviderSignInText)), loginProviderSignInText);
+  expect(await driver.getText(find.text(L.getKey(L.loginSignIn).toUpperCase())), L.getKey(L.loginSignIn).toUpperCase());
+  await driver.waitFor(emailFieldFinder);
+  await driver.waitFor(passwordFieldFinder);
 }

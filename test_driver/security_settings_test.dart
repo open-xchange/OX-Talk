@@ -52,13 +52,13 @@
  * for more details.
  */
 
+import 'dart:io';
+
 import 'package:flutter_driver/flutter_driver.dart';
 import 'package:ox_coi/src/l10n/l.dart';
 import 'package:test/test.dart';
-import 'package:test_api/src/backend/invoker.dart';
 
 import 'setup/global_consts.dart';
-import 'setup/helper_methods.dart';
 import 'setup/main_test_setup.dart';
 
 void main() {
@@ -66,45 +66,31 @@ void main() {
     var setup = Setup();
     setup.perform();
 
-    final security = 'Security';
+    /*final security = 'Security';
     final expertImportKeys = 'Expert: Import keys';
     final expertExportKeys = 'Expert: Export keys';
 
-    test('Test Create chat list integration tests.', () async {
-      //  Check real authentication and get chat.
-      await getAuthentication(
-        setup.driver,
-        signInFinder,
-        coiDebugProviderFinder,
-        providerEmailFinder,
-        realEmail,
-        providerPasswordFinder,
-        realPassword,
-      );
-
-      //To do
-      //Catch test Export success toast message with the driver.
-      //Catch test failed  toast message with the driver.
-      await setup.driver.waitFor(chatWelcomeFinder);
+    test(': Get profile setting security.', () async {
       await setup.driver.tap(profileFinder);
       await setup.driver.tap(userProfileSettingsAdaptiveIconFinder);
-      Invoker.current.heartbeat();
       await setup.driver.tap(find.text(security));
-
-      await setup.driver.tap(find.text(expertImportKeys));
-      await setup.driver.tap(find.text(ok));
-      await setup.driver.waitForAbsent(find.text(L.getKey(L.settingKeyImportRunning)));
-      await catchScreenshot(setup.driver, 'screenshots/importFailed.png');
-
-      await setup.driver.tap(find.text(expertExportKeys));
-      await setup.driver.tap(find.text(ok));
-      await setup.driver.waitForAbsent(find.text(L.getKey(L.settingKeyExportRunning)));
-      await catchScreenshot(setup.driver, 'screenshots/exportSuccess.png');
-
-      await setup.driver.tap(find.text(expertImportKeys));
-      await setup.driver.tap(find.text(ok));
-      await setup.driver.waitForAbsent(find.text(L.getKey(L.settingKeyImportRunning)));
-      await catchScreenshot(setup.driver, 'screenshots/importSuccess.png');
     });
+    test(': Test first import keys', () async {
+      await setup.driver.tap(find.text(expertImportKeys));
+      await setup.driver.tap(find.text(L.getKey(L.ok)));
+    });
+
+    sleep(Duration(seconds: 2));
+    test(': Test export keys.', () async {
+      await setup.driver.tap(find.text(expertExportKeys));
+      await setup.driver.tap(find.text(L.getKey(L.ok)));
+    });
+
+    sleep(Duration(seconds: 2));
+
+    test(': Test import keys.', () async {
+      await setup.driver.tap(find.text(expertImportKeys));
+      await setup.driver.tap(find.text(L.getKey(L.ok)));
+    });*/
   });
 }

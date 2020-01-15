@@ -53,125 +53,80 @@ import 'setup/helper_methods.dart';
 import 'setup/main_test_setup.dart';
 
 void main() {
-  group('Create chat list integration tests.', () {
+  group('Test navigation tests.', () {
     var setup = Setup();
     setup.perform();
 
-    SerializableFinder searchReturnIconButton = find.byValueKey(keySearchReturnIconButton);
-    SerializableFinder settingsUserSettingsUsernameLabelFinder = find.byValueKey(keyUserSettingsUserSettingsUsernameLabel);
-
-    test('Test Create chat list integration tests.', () async {
-      //  Check real authentication and get chat.
-      await getAuthentication(
-        setup.driver,
-        signInFinder,
-        coiDebugProviderFinder,
-        providerEmailFinder,
-        realEmail,
-        providerPasswordFinder,
-        realPassword,
-      );
-
+    test(': Test chat navigation.', () async {
       await setup.driver.tap(profileFinder);
       await setup.driver.tap(contactsFinder);
       await setup.driver.tap(cancelFinder);
       await setup.driver.tap(chatsFinder);
+      await checkChat(setup.driver);
+    });
 
-      //  Test chat navigation.
-      await checkChat(setup.driver, createChatFinder, searchReturnIconButton);
-
-      //  Test contact navigation.
+    test(': Test contact navigation.', () async {
       await checkContact(
         setup.driver,
-        searchReturnIconButton,
-        personAddFinder,
         meContact,
-        contactsFinder,
-        cancelFinder,
       );
-
-      //  Test profile navigation.
+    });
+    test(': Test profile navigation.', () async {
       await checkProfile(
         setup.driver,
-        profileFinder,
-        userProfileEditRaisedButtonFinder,
-        settingsUserSettingsUsernameLabelFinder,
-        userSettingsCheckIconButtonFinder,
-        contactsFinder,
-        cancelFinder,
       );
     });
   });
 }
 
-Future checkProfile(
-    FlutterDriver driver,
-    SerializableFinder profileFinder,
-    SerializableFinder finderUserProfileEditRaisedButton,
-    SerializableFinder userSettingsUserSettingsUsernameLabel,
-    SerializableFinder finderUserSettingsCheckIconButton,
-    SerializableFinder contactsFinder,
-    SerializableFinder cancelFinder) async {
+Future checkProfile(FlutterDriver driver) async {
+  SerializableFinder settingsUserSettingsUsernameLabelFinder = find.byValueKey(keyUserSettingsUserSettingsUsernameLabel);
+  SerializableFinder finderUserProfileEditRaisedButton = find.byValueKey(keyUserProfileEditProfileRaisedButton);
   await driver.tap(profileFinder);
-  await driver.waitFor(find.text(L.getKey(L.profileNoUsername)));
+  expect(await driver.getText(find.text(L.getKey(L.profileNoUsername))), L.getKey(L.profileNoUsername));
   await driver.tap(finderUserProfileEditRaisedButton);
-  Invoker.current.heartbeat();
-  await driver.tap(userSettingsUserSettingsUsernameLabel);
-  await driver.tap(finderUserSettingsCheckIconButton);
-  print("\nUser name, status, email after edited profile is ok.");
-  Invoker.current.heartbeat();
-  await catchScreenshot(driver, 'screenshots/UserChangeProfile.png');
+  await driver.tap(settingsUserSettingsUsernameLabelFinder);
+  await driver.tap(userSettingsCheckIconButtonFinder);
   await driver.tap(contactsFinder);
   await driver.waitForAbsent(cancelFinder);
 }
 
 Future checkChat(
   FlutterDriver driver,
-  SerializableFinder finderCreateChat,
-  SerializableFinder searchReturnIconButton,
 ) async {
   final chatCreate = L.getKey(L.chatCreate);
-
   //  Check flaggedButton.
   await driver.tap(find.byValueKey(keyChatListGetFlaggedActionIconButton));
   await driver.tap(pageBack);
-  await catchScreenshot(driver, 'screenshots/afterFlaged.png');
-  Invoker.current.heartbeat();
-  await driver.tap(finderCreateChat);
-  await driver.waitFor(find.text(chatCreate));
+  await driver.tap(createChatFinder);
+  expect(await driver.getText(find.text(chatCreate)), chatCreate);
   //  Check newContact.
   await driver.tap(pageBack);
   //  Check searchChat
-  Invoker.current.heartbeat();
   await driver.tap(find.byValueKey(keyChatListSearchIconButton));
   await driver.tap(find.byValueKey(keySearchClearIconButton));
-  await driver.tap(searchReturnIconButton);
+  await driver.tap(find.byValueKey(keySearchReturnIconButton));
 }
 
 Future checkContact(
   FlutterDriver driver,
-  SerializableFinder searchReturnIconButton,
-  SerializableFinder personAddFinder,
   String newTestName,
-  SerializableFinder contactsFinder,
-  SerializableFinder cancelFinder,
 ) async {
   await driver.tap(contactsFinder);
   await driver.waitForAbsent(cancelFinder);
-  Invoker.current.heartbeat();
   await driver.tap(personAddFinder);
   await driver.tap(find.byValueKey(keyContactChangeCloseIconButton));
-  await driver.waitFor(find.text(newTestName));
+  expect(await driver.getText(find.text(newTestName)), newTestName);
+
   //  Check import contact.
   await driver.tap(find.byValueKey(keyContactListImportContactIconButton));
   await driver.tap(cancelFinder);
   //  Check blocked.
   await driver.tap(find.byValueKey(keyContactListBlockIconButton));
-  await driver.waitFor(find.text(L.getKey(L.contactNoBlocked)));
+  expect(await driver.getText(find.text(L.getKey(L.contactNoBlocked))), L.getKey(L.contactNoBlocked));
   await driver.tap(find.byValueKey(keyContactBlockedListCloseIconButton));
   //  Check Search.
   await driver.tap(find.byValueKey(keyContactListSearchIconButton));
-  await driver.waitFor(find.text(newTestName));
-  await driver.tap(searchReturnIconButton);
-  print('\nNew contact is added.');
+  expect(await driver.getText(find.text(newTestName)), newTestName);
+  await driver.tap(find.byValueKey(keySearchReturnIconButton));
 }

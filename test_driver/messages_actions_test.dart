@@ -54,14 +54,14 @@
 
 import 'package:flutter_driver/flutter_driver.dart';
 import 'package:test/test.dart';
-import 'package:test_api/src/backend/invoker.dart';
+import 'package:ox_coi/src/l10n/l.dart';
 
 import 'setup/global_consts.dart';
 import 'setup/helper_methods.dart';
 import 'setup/main_test_setup.dart';
 
 void main() {
-  group('Test block / unblock functionality', () {
+  group('Test messages fonctionslity', () {
     var setup = Setup();
     setup.perform();
 
@@ -75,74 +75,53 @@ void main() {
     final meContactFinder = find.text(meContact);
     final textToDeleteFinder = find.text(textToDelete);
 
-    test('Test block / unblock functionality.', () async {
-      //  Check real authentication and get chat.
-      await getAuthentication(
-        setup.driver,
-        signInFinder,
-        coiDebugProviderFinder,
-        providerEmailFinder,
-        realEmail,
-        providerPasswordFinder,
-        realPassword,
-      );
-
-      Invoker.current.heartbeat();
-      await setup.driver.waitFor(chatWelcomeFinder);
-      Invoker.current.heartbeat();
-
-      //  Get contacts and add new contacts.
+    test(': Get contacts and add new contacts.', () async {
       await setup.driver.tap(contactsFinder);
       await setup.driver.tap(cancelFinder);
-      await setup.driver.waitFor(meContactFinder);
-
-      //  Add two new contacts in the contact list.
+      expect(await setup.driver.getText(meContactFinder), meContact);
       await addNewContact(
         setup.driver,
-        personAddFinder,
-        keyContactChangeNameFinder,
         newTestName01,
-        keyContactChangeEmailFinder,
-        newTestContact04,
-        keyContactChangeCheckFinder,
+        newTestEmail04,
       );
+    });
 
-      //  Create chat and write something.
+    test(': Create chat and write something.', () async {
       await setup.driver.tap(meContactFinder);
       await setup.driver.tap(find.text(openChat));
-      await writeChatFromChat(setup.driver, helloWorld);
+      await writeChatFromChat(setup.driver);
+    });
 
-      //  First test action: Flagged messages from  meChat.
+    test(': Flagged messages from  meChat.', () async {
       await flaggedMessage(setup.driver, flagUnFlag, helloWorldFinder);
-
       await setup.driver.tap(pageBack);
-      await navigateTo(setup.driver, chat);
+      await navigateTo(setup.driver, L.getPluralKey(L.chatP));
+     });
 
-      //  Second test action: UnFlagged messages.
-      await unFlaggedMessage(setup.driver, flagUnFlag, helloWorldFinder);
+    test(': UnFlagged messages.', () async {
+      await unFlaggedMessage(setup.driver, flagUnFlag, helloWorld);
       await setup.driver.waitForAbsent(helloWorldFinder);
-
-      //  Return to chatList.
       await setup.driver.tap(pageBack);
       await setup.driver.tap(meContactFinder);
+    });
 
-      //  Third test action: Forward message.
+    test(': Forward message.', () async {
       await forwardMessageTo(setup.driver, newTestName01, forward);
-      await setup.driver.waitFor(helloWorldFinder);
-
-      //  Return to chatList.
+      expect(await setup.driver.getText(helloWorldFinder), helloWorld);
       await setup.driver.tap(pageBack);
       await setup.driver.tap(meContactFinder);
+    });
 
-      //  Forth test action: Copy message from meContact and it paste in meContact.
+    test(': Copy message from meContact and it paste in meContact.', () async {
       await copyAndPasteMessage(setup.driver, copy, paste);
+    });
 
-      //  Enter new text to delete.
+    test(': Enter new text to delete.', () async {
       await writeTextInChat(setup.driver, textToDelete);
-      await setup.driver.waitFor(textToDeleteFinder);
-      await catchScreenshot(setup.driver, 'screenshots/addTextToDelete.png');
+      expect(await setup.driver.getText(textToDeleteFinder), textToDelete);
+    });
 
-      //  Fifth test action: Delete message.
+    test(': Delete message.', () async {
       await deleteMessage(textToDeleteFinder, setup.driver);
       await setup.driver.waitForAbsent(textToDeleteFinder);
     });

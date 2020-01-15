@@ -43,7 +43,11 @@
 import 'dart:io';
 
 import 'package:flutter_driver/flutter_driver.dart';
+import 'package:ox_coi/src/l10n/l.dart';
 import 'package:test/test.dart';
+
+import 'global_consts.dart';
+import 'helper_methods.dart';
 
 const String adbPath = 'adb';
 
@@ -64,13 +68,22 @@ class Setup {
 
   FlutterDriver get driver => _driver;
 
-  perform() {
+  perform([bool isLogin = false]) {
     setUpAll(() async {
       String targetPlatform = Platform.environment[environmentTargetPlatform];
       if (targetPlatform == environmentTargetPlatformAndroid) {
         await setupAndroid();
       }
       _driver = await FlutterDriver.connect();
+
+      if (!isLogin) {
+        await getAuthentication(
+          _driver,
+          coiDebug,
+          realEmail,
+          realPassword,
+        );
+      }
     });
 
     tearDownAll(() async {
@@ -103,5 +116,19 @@ class Setup {
         permission,
       ],
     );
+  }
+
+  Future getAuthentication(
+    FlutterDriver driver,
+    String provider,
+    String email,
+    String password,
+  ) async {
+    final providerFinder = find.text(provider);
+    await driver.tap(signInFinder);
+    await driver.scroll(find.text(mailCom), 0, -600, Duration(milliseconds: 500));
+    await driver.tap(providerFinder);
+    await logIn(driver, email, password);
+    expect(await driver.getText(find.text(L.getKey(L.chatListPlaceholder))), L.getKey(L.chatListPlaceholder));
   }
 }

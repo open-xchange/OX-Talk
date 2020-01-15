@@ -54,14 +54,13 @@
 
 import 'package:flutter_driver/flutter_driver.dart';
 import 'package:test/test.dart';
-import 'package:test_api/src/backend/invoker.dart';
+import 'package:ox_coi/src/l10n/l.dart';
 
 import 'setup/global_consts.dart';
-import 'setup/helper_methods.dart';
 import 'setup/main_test_setup.dart';
 
 void main() {
-  group('Add account settings test.', () {
+  group('Test account settings', () {
     var setup = Setup();
     setup.perform();
 
@@ -70,53 +69,37 @@ void main() {
     final fakeSMTPCoiServer = 'mobile-coi.open-xchange.comm';
     final realServer = 'mobile-coi.open-xchange.com';
 
-    test('Test create profile integration tests.', () async {
-      //  Check real authentication and get chat.
-      await getAuthentication(
-        setup.driver,
-        signInFinder,
-        coiDebugProviderFinder,
-        providerEmailFinder,
-        realEmail,
-        providerPasswordFinder,
-        realPassword,
-      );
-
-      Invoker.current.heartbeat();
+    test(': Get profile.', () async {
       await setup.driver.tap(profileFinder);
       await setup.driver.tap(userProfileSettingsAdaptiveIconFinder);
-
       await setup.driver.tap(find.text(account));
       await setup.driver.tap(userAccountAdaptiveIconButtonIconCheckFinder);
-      Invoker.current.heartbeat();
+    });
 
-      // Case realPassword and fake IMAP server.
-      Invoker.current.heartbeat();
+    test(': Case realPassword and fake IMAP server..', () async {
       await setup.driver.tap(settingsManuelFormValidatableTextFormFieldPasswordFieldFinder);
       await setup.driver.enterText(realPassword);
       await setup.driver.tap(settingsManuelFormValidatableTextFormFieldImapServerFieldFinder);
-      Invoker.current.heartbeat();
       await setup.driver.enterText(fakeIMAPCoiServer);
       await setup.driver.tap(userAccountAdaptiveIconButtonIconCheckFinder);
-      Invoker.current.heartbeat();
-      await setup.driver.tap(find.text(ok));
+      await setup.driver.tap(find.text(L.getKey(L.ok)));
+    });
 
-      // Case realPassword and fakeIMAPServer and fakeSMTPServer.
+    test(': Case realPassword and fakeIMAPServer and fakeSMTPServer.', () async {
       await setup.driver.tap(settingsManuelFormValidatableTextFormFieldImapServerFieldFinder);
       await setup.driver.enterText(fakeSMTPCoiServer);
       await setup.driver.tap(userAccountAdaptiveIconButtonIconCheckFinder);
-      Invoker.current.heartbeat();
-      await setup.driver.tap(find.text(ok));
+      await setup.driver.tap(find.text(L.getKey(L.ok)));
+    });
 
-      // Case FakePassword and fakeIMAPServer and fakeSMTPServer.
-      Invoker.current.heartbeat();
+    test(': Case FakePassword and fakeIMAPServer and fakeSMTPServer.', () async {
       await setup.driver.tap(settingsManuelFormValidatableTextFormFieldPasswordFieldFinder);
       await setup.driver.enterText(helloWorld);
       await setup.driver.tap(userAccountAdaptiveIconButtonIconCheckFinder);
-      await setup.driver.tap(find.text(ok));
+      await setup.driver.tap(find.text(L.getKey(L.ok)));
+    });
 
-      // Case realPassword and realIMAPServer and realSMTPServer.
-      Invoker.current.heartbeat();
+    test(': Case realPassword and realIMAPServer and realSMTPServer.', () async {
       await setup.driver.tap(settingsManuelFormValidatableTextFormFieldPasswordFieldFinder);
       await setup.driver.enterText(realPassword);
       await setup.driver.tap(settingsManuelFormValidatableTextFormFieldImapServerFieldFinder);
