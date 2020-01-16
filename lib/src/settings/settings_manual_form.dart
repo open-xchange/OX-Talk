@@ -162,8 +162,7 @@ class _SettingsManualFormState extends State<SettingsManualForm> {
           }
         }
       },
-      child: BlocBuilder(
-        bloc: BlocProvider.of<SettingsManualFormBloc>(context),
+      child: BlocBuilder<SettingsManualFormBloc, SettingsManualFormState>(
         builder: (context, state) {
           if (state is SettingsManualFormStateReady || state is SettingsManualFormStateValidation || state is SettingsManualFormStateValidationSuccess) {
             return Form(
