@@ -54,12 +54,10 @@ class AppDelegate: FlutterAppDelegate {
     override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         UIApplication.setupLogging()
 
-        if #available(iOS 10.0, *) {
-          UNUserNotificationCenter.current().delegate = self as? UNUserNotificationCenterDelegate
-        }
-        
+        UNUserNotificationCenter.current().delegate = self
         GeneratedPluginRegistrant.register(with: self)
         setupSharingMethodChannel()
+
         return super.application(application, didFinishLaunchingWithOptions: launchOptions)
     }
 
@@ -92,12 +90,12 @@ class AppDelegate: FlutterAppDelegate {
             }
         }
     }
-    
+
     private func shareFile(arguments: [String: String]) {
         let path = arguments["path"]
         let text = arguments["text"]
         var itemTemp: Any?
-        
+
         if path != "" {
             itemTemp = URL(fileURLWithPath: path!)
         }
@@ -112,7 +110,7 @@ class AppDelegate: FlutterAppDelegate {
         }
         let ac = UIActivityViewController(activityItems: [item], applicationActivities: nil)
         controller.present(ac, animated: true, completion: nil)
-        
+
     }
 
 }
