@@ -53,7 +53,6 @@ class AppDelegate: FlutterAppDelegate {
 
     override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         UIApplication.setupLogging()
-
         UNUserNotificationCenter.current().delegate = self
         GeneratedPluginRegistrant.register(with: self)
         setupSharingMethodChannel()
@@ -67,50 +66,5 @@ class AppDelegate: FlutterAppDelegate {
         return true
     }
 
-    private func setupSharingMethodChannel() {
-        guard let controller = window.rootViewController as? FlutterViewController else {
-            return
-        }
-        let methodChannel = FlutterMethodChannel(name: INTENT_CHANNEL_NAME, binaryMessenger: controller.binaryMessenger)
-        methodChannel.setMethodCallHandler {(call: FlutterMethodCall, result: FlutterResult) -> Void in
-            if call.method.contains(Method.Invite.InviteLink) {
-                if self.startString != nil || self.startString != "" {
-                    result(self.startString)
-                    self.startString = nil
-                } else {
-                    result(nil)
-                }
-            } else if call.method.contains(Method.Sharing.SendSharedData) {
-                guard let args = call.arguments as? [String: String] else {
-                    result(nil)
-                    return
-                }
-                self.shareFile(arguments: args)
-                result(nil)
-            }
-        }
-    }
-
-    private func shareFile(arguments: [String: String]) {
-        let path = arguments["path"]
-        let text = arguments["text"]
-        var itemTemp: Any?
-
-        if path != "" {
-            itemTemp = URL(fileURLWithPath: path!)
-        }
-        if text != "" {
-            itemTemp = text
-        }
-        guard let item = itemTemp else {
-            return
-        }
-        guard let controller = window.rootViewController as? FlutterViewController else {
-            return
-        }
-        let ac = UIActivityViewController(activityItems: [item], applicationActivities: nil)
-        controller.present(ac, animated: true, completion: nil)
-
-    }
 
 }
