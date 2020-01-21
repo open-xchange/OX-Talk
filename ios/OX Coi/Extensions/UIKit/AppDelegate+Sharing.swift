@@ -42,6 +42,8 @@
 
 import Foundation
 
+fileprivate let INTENT_CHANNEL_NAME = "oxcoi.intent"
+
 extension AppDelegate {
 
     internal func setupSharingMethodChannel() {
