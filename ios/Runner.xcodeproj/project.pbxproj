@@ -50,7 +50,7 @@
 		2487BC872369AD1800819871 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		24DD530523214B20005ED412 /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		2A0DB6B723992A9800257C03 /* exportOptionsstable.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = exportOptionsstable.plist; sourceTree = SOURCE_ROOT; };
-		2A955E3F238677DF00DF7F3F /* Method.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Method.swift; sourceTree = SOURCE_ROOT; };
+		2A955E3F238677DF00DF7F3F /* Method.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Method.swift; path = "OX Coi/Helper/Method.swift"; sourceTree = SOURCE_ROOT; };
 		2AB5BDA12396A33B005FDB10 /* GeneratedPluginRegistrant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GeneratedPluginRegistrant.h; path = ../../Runner/GeneratedPluginRegistrant.h; sourceTree = "<group>"; };
 		2AB5BDA22396A33B005FDB10 /* GeneratedPluginRegistrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GeneratedPluginRegistrant.m; path = ../../Runner/GeneratedPluginRegistrant.m; sourceTree = "<group>"; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
