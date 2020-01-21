@@ -42,6 +42,7 @@
 
 import Flutter
 import UIKit
+import Firebase
 
 @UIApplicationMain
 @objc
@@ -51,6 +52,8 @@ class AppDelegate: FlutterAppDelegate {
     var startString: String?
 
     override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        application.setMinimumBackgroundFetchInterval(60 * 3)
+
         UIApplication.setupLogging()
         UNUserNotificationCenter.current().delegate = self
         GeneratedPluginRegistrant.register(with: self)
@@ -63,6 +66,22 @@ class AppDelegate: FlutterAppDelegate {
         startString = url.absoluteString
         setupSharingMethodChannel()
         return true
+    }
+
+    override func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        Messaging.messaging().apnsToken = deviceToken
+    }
+
+    override func applicationDidEnterBackground(_ application: UIApplication) {
+        scheduleAppRefreshTask()
+    }
+
+    override func applicationWillEnterForeground(_ application: UIApplication) {
+        stopAppRefresh()
+    }
+
+    override func applicationWillTerminate(_ application: UIApplication) {
+        stopAppRefresh()
     }
 
 }

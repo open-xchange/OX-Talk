@@ -20,6 +20,8 @@
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
 		FD2E2E22231FFEBB00ADF5C5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2E2E21231FFEBB00ADF5C5 /* AppDelegate.swift */; };
+		FD3A4DC023D758150036F2BE /* AppDelegate+BackgroundTasks.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3A4DBF23D758150036F2BE /* AppDelegate+BackgroundTasks.swift */; };
+		FD3A4DC323D758BB0036F2BE /* UserDefaults+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3A4DC223D758BB0036F2BE /* UserDefaults+Extensions.swift */; };
 		FD51737323266F05007458CC /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = FD51737223266F04007458CC /* .swiftlint.yml */; };
 		FD51737623267295007458CC /* UIApplication+Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD51737523267295007458CC /* UIApplication+Logging.swift */; };
 		FD5F8B06236AEA7500E05845 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FD5F8B08236AEA7500E05845 /* InfoPlist.strings */; };
@@ -74,6 +76,8 @@
 		F90D6A58DFAD88989F0B373D /* Pods-Runner.debug-development.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-development.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-development.xcconfig"; sourceTree = "<group>"; };
 		FD2E2E21231FFEBB00ADF5C5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FD2E2E23231FFF3C00ADF5C5 /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Runner-Bridging-Header.h"; sourceTree = "<group>"; };
+		FD3A4DBF23D758150036F2BE /* AppDelegate+BackgroundTasks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+BackgroundTasks.swift"; sourceTree = "<group>"; };
+		FD3A4DC223D758BB0036F2BE /* UserDefaults+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Extensions.swift"; sourceTree = "<group>"; };
 		FD51737223266F04007458CC /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
 		FD51737523267295007458CC /* UIApplication+Logging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Logging.swift"; sourceTree = "<group>"; };
 		FD5F8B07236AEA7500E05845 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -202,9 +206,18 @@
 			path = Storyboards;
 			sourceTree = "<group>";
 		};
+		FD3A4DC123D758A40036F2BE /* Foundation */ = {
+			isa = PBXGroup;
+			children = (
+				FD3A4DC223D758BB0036F2BE /* UserDefaults+Extensions.swift */,
+			);
+			path = Foundation;
+			sourceTree = "<group>";
+		};
 		FD3A797E2320058900C46411 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				FD3A4DC123D758A40036F2BE /* Foundation */,
 				FD517377232672C9007458CC /* UIKit */,
 			);
 			path = Extensions;
@@ -213,6 +226,7 @@
 		FD517377232672C9007458CC /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
+				FD3A4DBF23D758150036F2BE /* AppDelegate+BackgroundTasks.swift */,
 				FD961FB123D73ADC00AD0D90 /* AppDelegate+Sharing.swift */,
 				FD51737523267295007458CC /* UIApplication+Logging.swift */,
 			);
@@ -406,8 +420,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				FDF8F9B523D7421D0009B368 /* Method.swift in Sources */,
+				FD3A4DC023D758150036F2BE /* AppDelegate+BackgroundTasks.swift in Sources */,
 				FD961FB223D73ADC00AD0D90 /* AppDelegate+Sharing.swift in Sources */,
 				FD2E2E22231FFEBB00ADF5C5 /* AppDelegate.swift in Sources */,
+				FD3A4DC323D758BB0036F2BE /* UserDefaults+Extensions.swift in Sources */,
 				FD51737623267295007458CC /* UIApplication+Logging.swift in Sources */,
 				2AB5BDA32396A33B005FDB10 /* GeneratedPluginRegistrant.m in Sources */,
 			);
