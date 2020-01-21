@@ -47,7 +47,6 @@ import UIKit
 @objc
 class AppDelegate: FlutterAppDelegate {
 
-    private let INTENT_CHANNEL_NAME = "oxcoi.intent"
     private var sharedData: [String: String]?
     var startString: String?
 

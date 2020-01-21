@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		2487BC882369AD1800819871 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2487BC872369AD1800819871 /* GoogleService-Info.plist */; };
 		2A0DB6B823992A9800257C03 /* exportOptionsstable.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2A0DB6B723992A9800257C03 /* exportOptionsstable.plist */; };
-		2A955E40238677DF00DF7F3F /* Method.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A955E3F238677DF00DF7F3F /* Method.swift */; };
 		2AB5BDA32396A33B005FDB10 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AB5BDA22396A33B005FDB10 /* GeneratedPluginRegistrant.m */; };
 		374E43D3FB49E295AE9799DD /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 899B7188477F2A02FA10829E /* Pods_Runner.framework */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
@@ -25,6 +24,7 @@
 		FD51737623267295007458CC /* UIApplication+Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD51737523267295007458CC /* UIApplication+Logging.swift */; };
 		FD5F8B06236AEA7500E05845 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FD5F8B08236AEA7500E05845 /* InfoPlist.strings */; };
 		FD961FB223D73ADC00AD0D90 /* AppDelegate+Sharing.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD961FB123D73ADC00AD0D90 /* AppDelegate+Sharing.swift */; };
+		FDF8F9B523D7421D0009B368 /* Method.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A955E3F238677DF00DF7F3F /* Method.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -405,8 +405,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FDF8F9B523D7421D0009B368 /* Method.swift in Sources */,
 				FD961FB223D73ADC00AD0D90 /* AppDelegate+Sharing.swift in Sources */,
-				2A955E40238677DF00DF7F3F /* Method.swift in Sources */,
 				FD2E2E22231FFEBB00ADF5C5 /* AppDelegate.swift in Sources */,
 				FD51737623267295007458CC /* UIApplication+Logging.swift in Sources */,
 				2AB5BDA32396A33B005FDB10 /* GeneratedPluginRegistrant.m in Sources */,
