@@ -43,6 +43,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ox_coi/src/error/error_bloc.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_app_bar.dart';
 import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon.dart';
 import 'package:ox_coi/src/adaptiveWidgets/adaptive_ink_well.dart';
 import 'package:ox_coi/src/l10n/l.dart';
@@ -81,12 +82,12 @@ class _ProviderListState extends State<ProviderList> {
   String title;
   String text;
   Provider otherProvider;
+  final _navigation = Navigation();
 
   @override
   void initState() {
     super.initState();
-    var navigation = Navigation();
-    navigation.current = Navigatable(Type.loginProviderList);
+    _navigation.current = Navigatable(Type.loginProviderList);
     _loginBloc = LoginBloc(BlocProvider.of<ErrorBloc>(context));
     _loginBloc.add(RequestProviders(type: widget.type));
   }
@@ -100,12 +101,21 @@ class _ProviderListState extends State<ProviderList> {
       title = L10n.get(L.register);
       text = L10n.get(L.providerRegisterChoose);
     }
-    return Scaffold(body: createProviderList());
+    return Scaffold(
+        appBar: AdaptiveAppBar(
+          title: Text(title),
+      ),
+      body: createProviderList()
+    );
   }
 
   Widget createProviderList() {
     return Padding(
-        padding: EdgeInsets.only(left: loginHorizontalPadding, right: loginHorizontalPadding, bottom: loginVerticalPadding, top: loginTopPadding),
+        padding: EdgeInsets.only(
+            left: loginHorizontalPadding,
+            right: loginHorizontalPadding,
+            bottom: loginVerticalPadding,
+            top: loginTopPadding),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -131,9 +141,7 @@ class _ProviderListState extends State<ProviderList> {
                   } else if (state is! LoginStateFailure) {
                     return StateInfo(showLoading: true);
                   } else {
-                    return AdaptiveIcon(
-                        icon: IconSource.error
-                    );
+                    return AdaptiveIcon(icon: IconSource.error);
                   }
                 },
               ),
@@ -148,7 +156,8 @@ class _ProviderListState extends State<ProviderList> {
                   textColor: CustomTheme.of(context).accent,
                   color: CustomTheme.of(context).background,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(loginOtherProviderButtonRadius),
+                    borderRadius:
+                        BorderRadius.circular(loginOtherProviderButtonRadius),
                     side: BorderSide(color: CustomTheme.of(context).accent),
                   ),
                 ),
@@ -186,22 +195,27 @@ class _ProviderListState extends State<ProviderList> {
         child: Column(
           children: <Widget>[
             Padding(
-                padding: EdgeInsets.symmetric(vertical: loginVerticalPadding12dp, horizontal: loginHorizontalPadding16dp),
+                padding: EdgeInsets.symmetric(
+                    vertical: loginVerticalPadding12dp,
+                    horizontal: loginHorizontalPadding16dp),
                 child: Column(
                   children: <Widget>[
                     Row(
                       children: <Widget>[
                         Padding(
-                          padding: EdgeInsets.only(right: loginHorizontalPadding16dp),
+                          padding: EdgeInsets.only(
+                              right: loginHorizontalPadding16dp),
                           child: Image(
-                            image: AssetImage(getProviderIconPath(context, provider.id)),
+                            image: AssetImage(
+                                getProviderIconPath(context, provider.id)),
                             height: loginProviderIconSize,
                             width: loginProviderIconSize,
                           ),
                         ),
                         Text(
                           provider.name,
-                          style: Theme.of(context).textTheme.body1.apply(color: CustomTheme.of(context).onBackground),
+                          style: Theme.of(context).textTheme.body1.apply(
+                              color: CustomTheme.of(context).onBackground),
                         ),
                       ],
                     ),
@@ -223,7 +237,8 @@ class _ProviderListState extends State<ProviderList> {
       navigation.push(
         context,
         MaterialPageRoute(
-          builder: (context) => ProviderSignIn(provider: provider, success: widget.success),
+          builder: (context) =>
+              ProviderSignIn(provider: provider, success: widget.success),
         ),
       );
     } else if (widget.type == ProviderListType.register) {
