@@ -72,16 +72,4 @@ class AppDelegate: FlutterAppDelegate {
         Messaging.messaging().apnsToken = deviceToken
     }
 
-    override func applicationDidEnterBackground(_ application: UIApplication) {
-        scheduleAppRefreshTask()
-    }
-
-    override func applicationWillEnterForeground(_ application: UIApplication) {
-        stopAppRefresh()
-    }
-
-    override func applicationWillTerminate(_ application: UIApplication) {
-        stopAppRefresh()
-    }
-
 }
