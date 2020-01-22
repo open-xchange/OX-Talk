@@ -52,7 +52,7 @@ class AppDelegate: FlutterAppDelegate {
     var startString: String?
 
     override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        application.setMinimumBackgroundFetchInterval(60 * 3)
+        application.setMinimumBackgroundFetchInterval(60 * 5)
 
         UIApplication.setupLogging()
         UNUserNotificationCenter.current().delegate = self
