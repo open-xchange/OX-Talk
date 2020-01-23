@@ -160,33 +160,26 @@ class _LoginManualSettingsState extends State<LoginManualSettings> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text(
-                          L10n.get(L.settingManual),
-                          style: Theme.of(context).textTheme.headline,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(top: loginVerticalPadding8dp),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Visibility(
-                                visible: widget.fromError,
-                                child: Text(
-                                  L10n.get(L.loginManualSetupRequired),
-                                ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Visibility(
+                              visible: widget.fromError,
+                              child: Text(
+                                L10n.get(L.loginManualSetupRequired),
                               ),
-                              Padding(padding: EdgeInsets.all(loginManualSettingsSubTitlePadding)),
-                              Text(
-                                L10n.get(L.loginCheckServer),
-                                textAlign: TextAlign.center,
-                              ),
-                              Padding(padding: EdgeInsets.all(loginManualSettingsSubTitlePadding)),
-                              Text(
-                                L10n.get(L.loginWelcomeManual),
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
-                          ),
+                            ),
+                            Padding(padding: EdgeInsets.all(loginManualSettingsSubTitlePadding)),
+                            Text(
+                              L10n.get(L.loginCheckServer),
+                              textAlign: TextAlign.center,
+                            ),
+                            Padding(padding: EdgeInsets.all(loginManualSettingsSubTitlePadding)),
+                            Text(
+                              L10n.get(L.loginWelcomeManual),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: loginVerticalPadding),

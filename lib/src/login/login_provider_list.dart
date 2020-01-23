@@ -121,12 +121,6 @@ class _ProviderListState extends State<ProviderList> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Text(
-              title,
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.headline,
-            ),
-            Padding(padding: EdgeInsets.only(top: loginVerticalPadding24dp)),
-            Text(
               text,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.body1,
