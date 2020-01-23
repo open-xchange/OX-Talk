@@ -42,6 +42,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_app_bar.dart';
 import 'package:ox_coi/src/error/error_bloc.dart';
 import 'package:ox_coi/src/l10n/l.dart';
 import 'package:ox_coi/src/l10n/l10n.dart';
@@ -146,16 +147,12 @@ class _LoginManualSettingsState extends State<LoginManualSettings> {
           }
         },
         child: Scaffold(
+          appBar: AdaptiveAppBar(
+            title: Text(L10n.get(L.settingManual)),
+            actions: <Widget>[LoginButton()],
+          ),
           body: Column(
             children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(
-                  top: loginManualSettingsPadding,
-                  right: loginManualSettingsPadding,
-                  left: loginManualSettingsPadding,
-                ),
-                child: LoginButton(),
-              ),
               Expanded(
                 child: SingleChildScrollView(
                   child: Padding(

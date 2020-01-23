@@ -156,8 +156,7 @@ class _ProviderListState extends State<ProviderList> {
                   textColor: CustomTheme.of(context).accent,
                   color: CustomTheme.of(context).background,
                   shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.circular(loginOtherProviderButtonRadius),
+                    borderRadius: BorderRadius.circular(loginOtherProviderButtonRadius),
                     side: BorderSide(color: CustomTheme.of(context).accent),
                   ),
                 ),
@@ -203,19 +202,16 @@ class _ProviderListState extends State<ProviderList> {
                     Row(
                       children: <Widget>[
                         Padding(
-                          padding: EdgeInsets.only(
-                              right: loginHorizontalPadding16dp),
+                          padding: EdgeInsets.only(right: loginHorizontalPadding16dp),
                           child: Image(
-                            image: AssetImage(
-                                getProviderIconPath(context, provider.id)),
+                            image: AssetImage(getProviderIconPath(context, provider.id)),
                             height: loginProviderIconSize,
                             width: loginProviderIconSize,
                           ),
                         ),
                         Text(
                           provider.name,
-                          style: Theme.of(context).textTheme.body1.apply(
-                              color: CustomTheme.of(context).onBackground),
+                          style: Theme.of(context).textTheme.body1.apply(color: CustomTheme.of(context).onBackground),
                         ),
                       ],
                     ),
@@ -237,8 +233,7 @@ class _ProviderListState extends State<ProviderList> {
       navigation.push(
         context,
         MaterialPageRoute(
-          builder: (context) =>
-              ProviderSignIn(provider: provider, success: widget.success),
+          builder: (context) => ProviderSignIn(provider: provider, success: widget.success),
         ),
       );
     } else if (widget.type == ProviderListType.register) {

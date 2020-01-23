@@ -148,7 +148,7 @@ class _ProviderSignInState extends State<ProviderSignIn> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AdaptiveAppBar(
-          title: Text(""),
+          title: Text(widget.provider.name),
         ),
         body: createProviderSignIn()
     );;
