@@ -60,12 +60,11 @@ import 'package:ox_coi/src/l10n/l10n.dart';
 import 'package:ox_coi/src/main/root_child.dart';
 import 'package:ox_coi/src/navigation/navigatable.dart';
 import 'package:ox_coi/src/navigation/navigation.dart';
-import 'package:ox_coi/src/ui/color.dart';
 import 'package:ox_coi/src/ui/custom_theme.dart';
-import 'package:ox_coi/src/ui/dimensions.dart';
 import 'package:ox_coi/src/utils/dialog_builder.dart';
 import 'package:ox_coi/src/utils/error.dart';
 import 'package:ox_coi/src/utils/keyMapping.dart';
+import 'package:ox_coi/src/utils/key_generator.dart';
 import 'package:ox_coi/src/utils/toast.dart';
 import 'package:ox_coi/src/widgets/fullscreen_progress.dart';
 import 'package:ox_coi/src/widgets/search.dart';
@@ -155,6 +154,7 @@ class _ContactListState extends State<ContactList> {
   Navigation navigation = Navigation();
   OverlayEntry _progressOverlayEntry;
   StreamSubscription appBarActionsSubscription;
+  var _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -204,8 +204,9 @@ class _ContactListState extends State<ContactList> {
     } else if (state is ContactsImportFailure) {
       String contactImportFailure = L10n.get(L.contactImportFailed);
       showToast(contactImportFailure);
-    } else if(state is GooglemailContactsDetected){
-      showConfirmationDialog(context: context,
+    } else if (state is GooglemailContactsDetected) {
+      showConfirmationDialog(
+        context: context,
         title: L10n.get(L.contactGooglemailDialogTitle),
         content: L10n.get(L.contactGooglemailDialogContent),
         positiveButton: L10n.get(L.contactGooglemailDialogPositiveButton),
@@ -229,7 +230,83 @@ class _ContactListState extends State<ContactList> {
       bloc: _contactListBloc,
       builder: (context, state) {
         if (state is ContactListStateSuccess) {
-          return buildListViewItems(state.contactIds, state.contactLastUpdateValues);
+          var contactIds = state.contactIds;
+          var contactLastUpdateValues = state.contactLastUpdateValues;
+          return ListView.custom(
+              controller: _scrollController,
+              childrenDelegate: SliverChildBuilderDelegate(
+                  (BuildContext context, int index) {
+                    var contactId = contactIds[index];
+                    var key = createKeyFromId(contactId, [contactLastUpdateValues[index]]);
+                    return Slidable.builder(
+                      key: key,
+                      actionPane: SlidableBehindActionPane(),
+                      actionExtentRatio: 0.2,
+                      actionDelegate: SlideActionBuilderDelegate(
+                          actionCount: 1,
+                          builder: (context, index, animation, renderingMode) {
+                            return IconSlideAction(
+                              caption: L10n.get(L.block),
+                              color: CustomTheme.of(context).warning,
+                              foregroundColor: CustomTheme.of(context).onWarning,
+                              iconWidget: AdaptiveIcon(
+                                icon: IconSource.block,
+                                color: CustomTheme.of(context).onWarning,
+                              ),
+                              onTap: () {
+                                var state = Slidable.of(context);
+                                state.dismiss();
+                              },
+                            );
+                          }),
+                      secondaryActionDelegate: SlideActionBuilderDelegate(
+                          actionCount: 1,
+                          builder: (context, index, animation, renderingMode) {
+                            // for more than one slide action we need take care of `index`
+                            return IconSlideAction(
+                              caption: L10n.get(L.delete),
+                              color: Theme.of(context).errorColor,
+                              foregroundColor: CustomTheme.of(context).onError,
+                              iconWidget: AdaptiveIcon(
+                                icon: IconSource.delete,
+                                color: CustomTheme.of(context).onError,
+                              ),
+                              onTap: () {
+                                var state = Slidable.of(context);
+                                state.dismiss();
+                              },
+                            );
+                          }),
+                      dismissal: SlidableDismissal(
+                        child: SlidableDrawerDismissal(),
+                        onWillDismiss: (actionType) async {
+                          if (actionType == SlideActionType.secondary) {
+                            await _slidableActionCalled(contactId: contactId, action: SlidableAction.delete);
+                          } else if (actionType == SlideActionType.primary) {
+                            await _slidableActionCalled(contactId: contactId, action: SlidableAction.block);
+                            return true;
+                          }
+                          return false;
+                        },
+                      ),
+                      child: ContactItem(
+                        contactId: contactId,
+                        contactItemType: ContactItemType.edit,
+                        key: key,
+                      ),
+                    );
+                  },
+                  childCount: contactIds.length,
+                  findChildIndexCallback: (Key key) {
+                    final ValueKey valueKey = key;
+                    var id = extractId(valueKey);
+                    if(contactIds.contains(id)) {
+                      var indexOf = contactIds.indexOf(id);
+                      return indexOf;
+                    }else{
+                      return null;
+                    }
+                  }));
         } else if (state is! ContactListStateFailure) {
           return StateInfo(showLoading: true);
         } else {
@@ -289,71 +366,6 @@ class _ContactListState extends State<ContactList> {
       },
       navigatable: Navigatable(Type.contactImportDialog),
     );
-  }
-
-  Widget buildListViewItems(List<int> contactIds, List<int> contactLastUpdateValues) {
-    return ListView.separated(
-        separatorBuilder: (context, index) => Divider(
-              height: dividerHeight,
-              color: CustomTheme.of(context).onBackground.withOpacity(barely),
-            ),
-        itemCount: contactIds.length,
-        itemBuilder: (BuildContext context, int index) {
-          var contactId = contactIds[index];
-          var key = "$contactId-${contactLastUpdateValues[index]}";
-          return Slidable.builder(
-              key: Key(key),
-              actionPane: SlidableBehindActionPane(),
-              actionExtentRatio: 0.2,
-              actionDelegate: SlideActionBuilderDelegate(
-                  actionCount: 1,
-                  builder: (context, index, animation, renderingMode) {
-                    return IconSlideAction(
-                      caption: L10n.get(L.block),
-                      color: CustomTheme.of(context).warning,
-                      foregroundColor: CustomTheme.of(context).onWarning,
-                      iconWidget: AdaptiveIcon(
-                        icon: IconSource.block,
-                        color: CustomTheme.of(context).onWarning,
-                      ),
-                      onTap: () {
-                        var state = Slidable.of(context);
-                        state.dismiss();
-                      },
-                    );
-                  }),
-              secondaryActionDelegate: SlideActionBuilderDelegate(
-                  actionCount: 1,
-                  builder: (context, index, animation, renderingMode) {
-                    // for more than one slide action we need take care of `index`
-                    return IconSlideAction(
-                      caption: L10n.get(L.delete),
-                      color: Theme.of(context).errorColor,
-                      foregroundColor: CustomTheme.of(context).onError,
-                      iconWidget: AdaptiveIcon(
-                        icon: IconSource.delete,
-                        color: CustomTheme.of(context).onError,
-                      ),
-                      onTap: () {
-                        var state = Slidable.of(context);
-                        state.dismiss();
-                      },
-                    );
-                  }),
-              dismissal: SlidableDismissal(
-                child: SlidableDrawerDismissal(),
-                onWillDismiss: (actionType) async {
-                  if (actionType == SlideActionType.secondary) {
-                    await _slidableActionCalled(contactId: contactId, action: SlidableAction.delete);
-                  } else if (actionType == SlideActionType.primary) {
-                    await _slidableActionCalled(contactId: contactId, action: SlidableAction.block);
-                    return true;
-                  }
-                  return false;
-                },
-              ),
-              child: ContactItem(contactId: contactId, contactItemType: ContactItemType.edit, key: key));
-        });
   }
 
   Future<bool> _slidableActionCalled({@required int contactId, @required SlidableAction action}) async {
