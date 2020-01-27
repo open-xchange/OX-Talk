@@ -55,8 +55,11 @@ class AppDelegate: FlutterAppDelegate {
         application.setMinimumBackgroundFetchInterval(60 * 5)
 
         UIApplication.setupLogging()
+        UIApplication.setupFirebase()
+
         UNUserNotificationCenter.current().delegate = self
         GeneratedPluginRegistrant.register(with: self)
+
         setupSharingMethodChannel()
 
         return super.application(application, didFinishLaunchingWithOptions: launchOptions)
@@ -70,6 +73,10 @@ class AppDelegate: FlutterAppDelegate {
 
     override func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         Messaging.messaging().apnsToken = deviceToken
+    }
+
+    override func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        log.error(error)
     }
 
 }

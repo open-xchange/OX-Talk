@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2487BC882369AD1800819871 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2487BC872369AD1800819871 /* GoogleService-Info.plist */; };
 		2A0DB6B823992A9800257C03 /* exportOptionsstable.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2A0DB6B723992A9800257C03 /* exportOptionsstable.plist */; };
 		2AB5BDA32396A33B005FDB10 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AB5BDA22396A33B005FDB10 /* GeneratedPluginRegistrant.m */; };
 		374E43D3FB49E295AE9799DD /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 899B7188477F2A02FA10829E /* Pods_Runner.framework */; };
@@ -19,10 +18,13 @@
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
+		FD047A5E23DF350400BBDCE3 /* UIApplication+Firebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD047A5D23DF350400BBDCE3 /* UIApplication+Firebase.swift */; };
 		FD2E2E22231FFEBB00ADF5C5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2E2E21231FFEBB00ADF5C5 /* AppDelegate.swift */; };
 		FD51737323266F05007458CC /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = FD51737223266F04007458CC /* .swiftlint.yml */; };
 		FD51737623267295007458CC /* UIApplication+Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD51737523267295007458CC /* UIApplication+Logging.swift */; };
 		FD5F8B06236AEA7500E05845 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FD5F8B08236AEA7500E05845 /* InfoPlist.strings */; };
+		FD690F3A23DF471700855CEF /* GoogleService-Info-Development.plist in Resources */ = {isa = PBXBuildFile; fileRef = FD690F3823DF471700855CEF /* GoogleService-Info-Development.plist */; };
+		FD690F3B23DF471700855CEF /* GoogleService-Info-Production.plist in Resources */ = {isa = PBXBuildFile; fileRef = FD690F3923DF471700855CEF /* GoogleService-Info-Production.plist */; };
 		FD961FB223D73ADC00AD0D90 /* AppDelegate+Sharing.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD961FB123D73ADC00AD0D90 /* AppDelegate+Sharing.swift */; };
 		FDF8F9B523D7421D0009B368 /* Method.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A955E3F238677DF00DF7F3F /* Method.swift */; };
 /* End PBXBuildFile section */
@@ -47,7 +49,6 @@
 		2421A2112375966400BBE6C8 /* stable.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = stable.xcconfig; path = Flutter/stable.xcconfig; sourceTree = "<group>"; };
 		2421A2132375A7CE00BBE6C8 /* development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = development.xcconfig; path = Flutter/development.xcconfig; sourceTree = "<group>"; };
 		242D004E2370336900491A66 /* exportOptionsdevelopment.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = exportOptionsdevelopment.plist; path = ../exportOptionsdevelopment.plist; sourceTree = "<group>"; };
-		2487BC872369AD1800819871 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		24DD530523214B20005ED412 /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		2A0DB6B723992A9800257C03 /* exportOptionsstable.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = exportOptionsstable.plist; sourceTree = SOURCE_ROOT; };
 		2A955E3F238677DF00DF7F3F /* Method.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Method.swift; path = "OX Coi/Helper/Method.swift"; sourceTree = SOURCE_ROOT; };
@@ -72,6 +73,7 @@
 		DD93F73C7246AEDD7418AB12 /* Pods-Runner.debug-stable.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-stable.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-stable.xcconfig"; sourceTree = "<group>"; };
 		F41DB3006AA42C6AFAF21669 /* Pods-Runner.release-stable.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-stable.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-stable.xcconfig"; sourceTree = "<group>"; };
 		F90D6A58DFAD88989F0B373D /* Pods-Runner.debug-development.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-development.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-development.xcconfig"; sourceTree = "<group>"; };
+		FD047A5D23DF350400BBDCE3 /* UIApplication+Firebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Firebase.swift"; sourceTree = "<group>"; };
 		FD2E2E21231FFEBB00ADF5C5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FD2E2E23231FFF3C00ADF5C5 /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Runner-Bridging-Header.h"; sourceTree = "<group>"; };
 		FD51737223266F04007458CC /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
@@ -81,6 +83,8 @@
 		FD5F8B11236AF0F200E05845 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		FD5F8B12236AF0F400E05845 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		FD5F8B13236AF0F600E05845 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		FD690F3823DF471700855CEF /* GoogleService-Info-Development.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Development.plist"; sourceTree = "<group>"; };
+		FD690F3923DF471700855CEF /* GoogleService-Info-Production.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Production.plist"; sourceTree = "<group>"; };
 		FD961FB123D73ADC00AD0D90 /* AppDelegate+Sharing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+Sharing.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -162,11 +166,11 @@
 		97C146F11CF9000F007C117D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				FD690F3723DF471700855CEF /* Firebase */,
 				97C146FD1CF9000F007C117D /* Assets.xcassets */,
 				2A0DB6B723992A9800257C03 /* exportOptionsstable.plist */,
 				242D004E2370336900491A66 /* exportOptionsdevelopment.plist */,
 				FD5F8B08236AEA7500E05845 /* InfoPlist.strings */,
-				2487BC872369AD1800819871 /* GoogleService-Info.plist */,
 				97C147021CF9000F007C117D /* Info.plist */,
 				24DD530523214B20005ED412 /* Runner.entitlements */,
 			);
@@ -222,6 +226,7 @@
 			isa = PBXGroup;
 			children = (
 				FD961FB123D73ADC00AD0D90 /* AppDelegate+Sharing.swift */,
+				FD047A5D23DF350400BBDCE3 /* UIApplication+Firebase.swift */,
 				FD51737523267295007458CC /* UIApplication+Logging.swift */,
 			);
 			path = UIKit;
@@ -233,6 +238,15 @@
 				2A955E3F238677DF00DF7F3F /* Method.swift */,
 			);
 			path = Helper;
+			sourceTree = "<group>";
+		};
+		FD690F3723DF471700855CEF /* Firebase */ = {
+			isa = PBXGroup;
+			children = (
+				FD690F3823DF471700855CEF /* GoogleService-Info-Development.plist */,
+				FD690F3923DF471700855CEF /* GoogleService-Info-Production.plist */,
+			);
+			path = Firebase;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -251,6 +265,7 @@
 				9705A1C41CF9048500538489 /* Embed Frameworks */,
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
 				245A4ECEE3BE63ECDF6D9407 /* [CP] Embed Pods Frameworks */,
+				FD690F3C23DF476C00855CEF /* Google Service Plist */,
 			);
 			buildRules = (
 			);
@@ -310,11 +325,12 @@
 			files = (
 				FD51737323266F05007458CC /* .swiftlint.yml in Resources */,
 				FD5F8B06236AEA7500E05845 /* InfoPlist.strings in Resources */,
+				FD690F3B23DF471700855CEF /* GoogleService-Info-Production.plist in Resources */,
 				97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */,
 				2A0DB6B823992A9800257C03 /* exportOptionsstable.plist in Resources */,
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
+				FD690F3A23DF471700855CEF /* GoogleService-Info-Development.plist in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
-				2487BC882369AD1800819871 /* GoogleService-Info.plist in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -406,6 +422,25 @@
 			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 			showEnvVarsInLog = 0;
 		};
+		FD690F3C23DF476C00855CEF /* Google Service Plist */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Google Service Plist";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "PATH_TO_GOOGLE_PLISTS=\"${PROJECT_DIR}/OX Coi/Firebase\"\n\necho \"PHRANCK\"\necho \"${CONFIGURATION}\"\necho \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/GoogleService-Info.plist\"\n\ncase \"${CONFIGURATION}\" in\n\n   \"Debug\" | \"Debug-development\" | \"Debug-stable\" | \"Release-development\" )\n        cp -r \"$PATH_TO_GOOGLE_PLISTS/GoogleService-Info-Development.plist\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/GoogleService-Info.plist\" ;;\n\n   \"Debug-stable\" | \"Release\" | \"Release-stable\" )\n        cp -r \"$PATH_TO_GOOGLE_PLISTS/GoogleService-Info-Production.plist\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/GoogleService-Info.plist\" ;;\n\n    *)\n        ;;\nesac\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -418,6 +453,7 @@
 				FD2E2E22231FFEBB00ADF5C5 /* AppDelegate.swift in Sources */,
 				FD51737623267295007458CC /* UIApplication+Logging.swift in Sources */,
 				2AB5BDA32396A33B005FDB10 /* GeneratedPluginRegistrant.m in Sources */,
+				FD047A5E23DF350400BBDCE3 /* UIApplication+Firebase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -494,6 +530,15 @@
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+					"COCOAPODS=1",
+					"GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS=1",
+					"PB_FIELD_32BIT=1",
+					"PB_NO_PACKED_STRUCTS=1",
+					"PB_ENABLE_MALLOC=1",
+				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -528,6 +573,14 @@
 					"$(PROJECT_DIR)/Flutter",
 				);
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS=1",
+					"PB_FIELD_32BIT=1",
+					"PB_NO_PACKED_STRUCTS=1",
+					"PB_ENABLE_MALLOC=1",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/OX Coi/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -545,7 +598,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "OX Coi/Application/Runner-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = "Debug-development";
@@ -588,6 +641,14 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS=1",
+					"PB_FIELD_32BIT=1",
+					"PB_NO_PACKED_STRUCTS=1",
+					"PB_ENABLE_MALLOC=1",
+				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -620,6 +681,14 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS=1",
+					"PB_FIELD_32BIT=1",
+					"PB_NO_PACKED_STRUCTS=1",
+					"PB_ENABLE_MALLOC=1",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/OX Coi/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -630,12 +699,12 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.openxchange.oxcoi.stable;
+				PRODUCT_BUNDLE_IDENTIFIER = com.openxchange.oxcoi;
 				PRODUCT_NAME = "$(FLUTTER_BUNDLE_DISPLAY_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "com.openxchange.oxcoi.stable Appstore";
+				PROVISIONING_PROFILE_SPECIFIER = "com.openxchange.oxcoi Appstore";
 				SWIFT_OBJC_BRIDGING_HEADER = "OX Coi/Application/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = "Release-stable";
@@ -678,6 +747,15 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+					"COCOAPODS=1",
+					"GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS=1",
+					"PB_FIELD_32BIT=1",
+					"PB_NO_PACKED_STRUCTS=1",
+					"PB_ENABLE_MALLOC=1",
+				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -710,6 +788,14 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS=1",
+					"PB_FIELD_32BIT=1",
+					"PB_NO_PACKED_STRUCTS=1",
+					"PB_ENABLE_MALLOC=1",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/OX Coi/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -725,7 +811,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "OX Coi/Application/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = "Release-development";
@@ -769,6 +855,14 @@
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS=1",
+					"PB_FIELD_32BIT=1",
+					"PB_NO_PACKED_STRUCTS=1",
+					"PB_ENABLE_MALLOC=1",
+				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -803,6 +897,14 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS=1",
+					"PB_FIELD_32BIT=1",
+					"PB_NO_PACKED_STRUCTS=1",
+					"PB_ENABLE_MALLOC=1",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/OX Coi/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -818,7 +920,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "OX Coi/Application/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = "Debug-stable";
@@ -919,6 +1021,14 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS=1",
+					"PB_FIELD_32BIT=1",
+					"PB_NO_PACKED_STRUCTS=1",
+					"PB_ENABLE_MALLOC=1",
+				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -952,6 +1062,14 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS=1",
+					"PB_FIELD_32BIT=1",
+					"PB_NO_PACKED_STRUCTS=1",
+					"PB_ENABLE_MALLOC=1",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/OX Coi/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -968,7 +1086,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "OX Coi/Application/Runner-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -990,6 +1108,14 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS=1",
+					"PB_FIELD_32BIT=1",
+					"PB_NO_PACKED_STRUCTS=1",
+					"PB_ENABLE_MALLOC=1",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/OX Coi/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1005,7 +1131,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "OX Coi/Application/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
