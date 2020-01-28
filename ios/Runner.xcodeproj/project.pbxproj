@@ -23,8 +23,8 @@
 		FD51737323266F05007458CC /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = FD51737223266F04007458CC /* .swiftlint.yml */; };
 		FD51737623267295007458CC /* UIApplication+Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD51737523267295007458CC /* UIApplication+Logging.swift */; };
 		FD5F8B06236AEA7500E05845 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FD5F8B08236AEA7500E05845 /* InfoPlist.strings */; };
-		FD690F3A23DF471700855CEF /* GoogleService-Info-development.plist in Resources */ = {isa = PBXBuildFile; fileRef = FD690F3823DF471700855CEF /* GoogleService-Info-development.plist */; };
-		FD690F3B23DF471700855CEF /* GoogleService-Info-stable.plist in Resources */ = {isa = PBXBuildFile; fileRef = FD690F3923DF471700855CEF /* GoogleService-Info-stable.plist */; };
+		FD690F3A23DF471700855CEF /* GoogleService-Info-Debug-development.plist in Resources */ = {isa = PBXBuildFile; fileRef = FD690F3823DF471700855CEF /* GoogleService-Info-Debug-development.plist */; };
+		FD690F3B23DF471700855CEF /* GoogleService-Info-Release-stable.plist in Resources */ = {isa = PBXBuildFile; fileRef = FD690F3923DF471700855CEF /* GoogleService-Info-Release-stable.plist */; };
 		FD961FB223D73ADC00AD0D90 /* AppDelegate+Sharing.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD961FB123D73ADC00AD0D90 /* AppDelegate+Sharing.swift */; };
 		FDF8F9B523D7421D0009B368 /* Method.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A955E3F238677DF00DF7F3F /* Method.swift */; };
 /* End PBXBuildFile section */
@@ -61,7 +61,7 @@
 		9740EEB21CF90195004384FC /* development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = development.xcconfig; path = Flutter/development.xcconfig; sourceTree = "<group>"; };
 		9740EEB31CF90195004384FC /* Generated.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Generated.xcconfig; path = Flutter/Generated.xcconfig; sourceTree = "<group>"; };
 		9740EEBA1CF902C7004384FC /* Flutter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Flutter.framework; path = Flutter/Flutter.framework; sourceTree = "<group>"; };
-		97C146EE1CF9000F007C117D /* Runner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Runner.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		97C146EE1CF9000F007C117D /* OX COI Messenger Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "OX COI Messenger Dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		97C146FB1CF9000F007C117D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		97C146FD1CF9000F007C117D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		97C147001CF9000F007C117D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -81,8 +81,8 @@
 		FD5F8B11236AF0F200E05845 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		FD5F8B12236AF0F400E05845 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		FD5F8B13236AF0F600E05845 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		FD690F3823DF471700855CEF /* GoogleService-Info-development.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-development.plist"; sourceTree = "<group>"; };
-		FD690F3923DF471700855CEF /* GoogleService-Info-stable.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-stable.plist"; sourceTree = "<group>"; };
+		FD690F3823DF471700855CEF /* GoogleService-Info-Debug-development.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Debug-development.plist"; sourceTree = "<group>"; };
+		FD690F3923DF471700855CEF /* GoogleService-Info-Release-stable.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Release-stable.plist"; sourceTree = "<group>"; };
 		FD961FB123D73ADC00AD0D90 /* AppDelegate+Sharing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+Sharing.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -143,7 +143,7 @@
 		97C146EF1CF9000F007C117D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				97C146EE1CF9000F007C117D /* Runner.app */,
+				97C146EE1CF9000F007C117D /* OX COI Messenger Dev.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -239,8 +239,8 @@
 		FD690F3723DF471700855CEF /* Firebase */ = {
 			isa = PBXGroup;
 			children = (
-				FD690F3823DF471700855CEF /* GoogleService-Info-development.plist */,
-				FD690F3923DF471700855CEF /* GoogleService-Info-stable.plist */,
+				FD690F3823DF471700855CEF /* GoogleService-Info-Debug-development.plist */,
+				FD690F3923DF471700855CEF /* GoogleService-Info-Release-stable.plist */,
 			);
 			path = Firebase;
 			sourceTree = "<group>";
@@ -269,7 +269,7 @@
 			);
 			name = Runner;
 			productName = Runner;
-			productReference = 97C146EE1CF9000F007C117D /* Runner.app */;
+			productReference = 97C146EE1CF9000F007C117D /* OX COI Messenger Dev.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -321,11 +321,11 @@
 			files = (
 				FD51737323266F05007458CC /* .swiftlint.yml in Resources */,
 				FD5F8B06236AEA7500E05845 /* InfoPlist.strings in Resources */,
-				FD690F3B23DF471700855CEF /* GoogleService-Info-stable.plist in Resources */,
+				FD690F3B23DF471700855CEF /* GoogleService-Info-Release-stable.plist in Resources */,
 				97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */,
 				2A0DB6B823992A9800257C03 /* exportOptionsstable.plist in Resources */,
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
-				FD690F3A23DF471700855CEF /* GoogleService-Info-development.plist in Resources */,
+				FD690F3A23DF471700855CEF /* GoogleService-Info-Debug-development.plist in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
 			);
@@ -487,7 +487,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		97C147031CF9000F007C117D /* development */ = {
+		97C147031CF9000F007C117D /* Debug-development */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9740EEB21CF90195004384FC /* development.xcconfig */;
 			buildSettings = {
@@ -543,9 +543,9 @@
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
-			name = development;
+			name = "Debug-development";
 		};
-		97C147041CF9000F007C117D /* stable */ = {
+		97C147041CF9000F007C117D /* Release-stable */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* stable.xcconfig */;
 			buildSettings = {
@@ -604,9 +604,9 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
-			name = stable;
+			name = "Release-stable";
 		};
-		97C147061CF9000F007C117D /* development */ = {
+		97C147061CF9000F007C117D /* Debug-development */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9740EEB21CF90195004384FC /* development.xcconfig */;
 			buildSettings = {
@@ -643,7 +643,7 @@
 					"$(PROJECT_DIR)/Flutter",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.openxchange.oxcoi.dev;
-				PRODUCT_NAME = Runner;
+				PRODUCT_NAME = "${PRODUCT_NAME}";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "OX Coi/Application/Runner-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -651,9 +651,9 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
-			name = development;
+			name = "Debug-development";
 		};
-		97C147071CF9000F007C117D /* stable */ = {
+		97C147071CF9000F007C117D /* Release-stable */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* stable.xcconfig */;
 			buildSettings = {
@@ -689,14 +689,14 @@
 					"$(PROJECT_DIR)/Flutter",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.openxchange.oxcoi.dev;
-				PRODUCT_NAME = Runner;
+				PRODUCT_NAME = "${PRODUCT_NAME}";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "OX Coi/Application/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
-			name = stable;
+			name = "Release-stable";
 		};
 /* End XCBuildConfiguration section */
 
@@ -704,20 +704,20 @@
 		97C146E91CF9000F007C117D /* Build configuration list for PBXProject "Runner" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				97C147031CF9000F007C117D /* development */,
-				97C147041CF9000F007C117D /* stable */,
+				97C147031CF9000F007C117D /* Debug-development */,
+				97C147041CF9000F007C117D /* Release-stable */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = development;
+			defaultConfigurationName = "Debug-development";
 		};
 		97C147051CF9000F007C117D /* Build configuration list for PBXNativeTarget "Runner" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				97C147061CF9000F007C117D /* development */,
-				97C147071CF9000F007C117D /* stable */,
+				97C147061CF9000F007C117D /* Debug-development */,
+				97C147071CF9000F007C117D /* Release-stable */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = development;
+			defaultConfigurationName = "Debug-development";
 		};
 /* End XCConfigurationList section */
 	};
