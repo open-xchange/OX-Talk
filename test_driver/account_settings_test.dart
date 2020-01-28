@@ -53,60 +53,60 @@
  */
 
 import 'package:flutter_driver/flutter_driver.dart';
-import 'package:test/test.dart';
 import 'package:ox_coi/src/l10n/l.dart';
+import 'package:test/test.dart';
 
 import 'setup/global_consts.dart';
 import 'setup/main_test_setup.dart';
 
 void main() {
   group('Test account settings', () {
-    var setup = Setup();
+    final setup = Setup();
     setup.perform();
+    final driver = setup.driver;
 
-    final account = 'Account';
-    final fakeIMAPCoiServer = 'mobile-coi.open-xchange.comm';
-    final fakeSMTPCoiServer = 'mobile-coi.open-xchange.comm';
-    final realServer = 'mobile-coi.open-xchange.com';
+    const fakeIMAPCoiServer = 'mobile-coi.open-xchange.comm';
+    const fakeSMTPCoiServer = 'mobile-coi.open-xchange.comm';
+    const realServer = 'mobile-coi.open-xchange.com';
 
-    test(': Get profile.', () async {
-      await setup.driver.tap(profileFinder);
-      await setup.driver.tap(userProfileSettingsAdaptiveIconFinder);
-      await setup.driver.tap(find.text(account));
-      await setup.driver.tap(userAccountAdaptiveIconButtonIconCheckFinder);
+    test(': Open edit profile.', () async {
+      await driver.tap(profileFinder);
+      await driver.tap(userProfileSettingsAdaptiveIconFinder);
+      await driver.tap(find.text(L.getKey(L.settingAccount)));
+      await driver.tap(userAccountAdaptiveIconButtonIconCheckFinder);
     });
 
-    test(': Case realPassword and fake IMAP server..', () async {
-      await setup.driver.tap(settingsManuelFormValidatableTextFormFieldPasswordFieldFinder);
-      await setup.driver.enterText(realPassword);
-      await setup.driver.tap(settingsManuelFormValidatableTextFormFieldImapServerFieldFinder);
-      await setup.driver.enterText(fakeIMAPCoiServer);
-      await setup.driver.tap(userAccountAdaptiveIconButtonIconCheckFinder);
-      await setup.driver.tap(find.text(L.getKey(L.ok)));
+    test(': Case real password and fake IMAP server.', () async {
+      await driver.tap(settingsManuelFormValidatableTextFormFieldPasswordFieldFinder);
+      await driver.enterText(realPassword);
+      await driver.tap(settingsManuelFormValidatableTextFormFieldImapServerFieldFinder);
+      await driver.enterText(fakeIMAPCoiServer);
+      await driver.tap(userAccountAdaptiveIconButtonIconCheckFinder);
+      await driver.tap(find.text(L.getKey(L.ok)));
     });
 
-    test(': Case realPassword and fakeIMAPServer and fakeSMTPServer.', () async {
-      await setup.driver.tap(settingsManuelFormValidatableTextFormFieldImapServerFieldFinder);
-      await setup.driver.enterText(fakeSMTPCoiServer);
-      await setup.driver.tap(userAccountAdaptiveIconButtonIconCheckFinder);
-      await setup.driver.tap(find.text(L.getKey(L.ok)));
+    test(': Case real password and fake IMAP Server and fake SMTPServer.', () async {
+      await driver.tap(settingsManuelFormValidatableTextFormFieldImapServerFieldFinder);
+      await driver.enterText(fakeSMTPCoiServer);
+      await driver.tap(userAccountAdaptiveIconButtonIconCheckFinder);
+      await driver.tap(find.text(L.getKey(L.ok)));
     });
 
-    test(': Case FakePassword and fakeIMAPServer and fakeSMTPServer.', () async {
-      await setup.driver.tap(settingsManuelFormValidatableTextFormFieldPasswordFieldFinder);
-      await setup.driver.enterText(helloWorld);
-      await setup.driver.tap(userAccountAdaptiveIconButtonIconCheckFinder);
-      await setup.driver.tap(find.text(L.getKey(L.ok)));
+    test(': Case fake password and fake IMAP Server and fake SMTP Server.', () async {
+      await driver.tap(settingsManuelFormValidatableTextFormFieldPasswordFieldFinder);
+      await driver.enterText(helloWorld);
+      await driver.tap(userAccountAdaptiveIconButtonIconCheckFinder);
+      await driver.tap(find.text(L.getKey(L.ok)));
     });
 
-    test(': Case realPassword and realIMAPServer and realSMTPServer.', () async {
-      await setup.driver.tap(settingsManuelFormValidatableTextFormFieldPasswordFieldFinder);
-      await setup.driver.enterText(realPassword);
-      await setup.driver.tap(settingsManuelFormValidatableTextFormFieldImapServerFieldFinder);
-      await setup.driver.enterText(realServer);
-      await setup.driver.tap(settingsManuelFormValidatableTextFormFieldSMTPServerField);
-      await setup.driver.enterText(realServer);
-      await setup.driver.tap(userAccountAdaptiveIconButtonIconCheckFinder);
+    test(': Case real password and real IMAP Server and real SMTP Server.', () async {
+      await driver.tap(settingsManuelFormValidatableTextFormFieldPasswordFieldFinder);
+      await driver.enterText(realPassword);
+      await driver.tap(settingsManuelFormValidatableTextFormFieldImapServerFieldFinder);
+      await driver.enterText(realServer);
+      await driver.tap(settingsManuelFormValidatableTextFormFieldSMTPServerField);
+      await driver.enterText(realServer);
+      await driver.tap(userAccountAdaptiveIconButtonIconCheckFinder);
     });
   });
 }

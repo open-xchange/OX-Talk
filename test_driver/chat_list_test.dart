@@ -49,37 +49,39 @@ import 'setup/main_test_setup.dart';
 
 void main() {
   group('Test create chat list', () {
-    var setup = Setup();
+    final setup = Setup();
     setup.perform();
+    final driver = setup.driver;
 
     const searchString = 'Douglas0';
 
     test(': Add three chats.', () async {
       await createNewChat(
-        setup.driver,
+        driver,
         realEmail,
         meContact,
       );
       await createNewChat(
-        setup.driver,
+        driver,
         newTestEmail02,
         newTestName02,
       );
       await createNewChat(
-        setup.driver,
+        driver,
         newTestEmail04,
         newTestName01,
       );
     });
-    test(': Type something and get it.', () async {
-      await chatTest(setup.driver, newTestName01);
-      await callTest(setup.driver);
-      await setup.driver.tap(pageBack);
 
+    test(': Type something and get it.', () async {
+      await chatTest(driver, newTestName01);
+      await callTest(driver);
+      await driver.tap(pageBack);
     });
+
     test(': Search chat.', () async {
       await chatSearch(
-        setup.driver,
+        driver,
         newTestName01,
         searchString,
       );

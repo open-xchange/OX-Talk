@@ -46,34 +46,33 @@ import 'package:flutter_driver/flutter_driver.dart';
 import 'package:ox_coi/src/l10n/l.dart';
 import 'package:ox_coi/src/utils/keyMapping.dart';
 import 'package:test/test.dart';
-import 'package:test_api/src/backend/invoker.dart';
 
 import 'setup/global_consts.dart';
-import 'setup/helper_methods.dart';
 import 'setup/main_test_setup.dart';
 
 void main() {
   group('Test navigation tests.', () {
-    var setup = Setup();
+    final setup = Setup();
     setup.perform();
+    final driver = setup.driver;
 
     test(': Test chat navigation.', () async {
-      await setup.driver.tap(profileFinder);
-      await setup.driver.tap(contactsFinder);
-      await setup.driver.tap(cancelFinder);
-      await setup.driver.tap(chatsFinder);
-      await checkChat(setup.driver);
+      await driver.tap(profileFinder);
+      await driver.tap(contactsFinder);
+      await driver.tap(cancelFinder);
+      await driver.tap(chatsFinder);
+      await checkChat(driver);
     });
 
     test(': Test contact navigation.', () async {
       await checkContact(
-        setup.driver,
+        driver,
         meContact,
       );
     });
     test(': Test profile navigation.', () async {
       await checkProfile(
-        setup.driver,
+        driver,
       );
     });
   });
@@ -83,7 +82,8 @@ Future checkProfile(FlutterDriver driver) async {
   SerializableFinder settingsUserSettingsUsernameLabelFinder = find.byValueKey(keyUserSettingsUserSettingsUsernameLabel);
   SerializableFinder finderUserProfileEditRaisedButton = find.byValueKey(keyUserProfileEditProfileRaisedButton);
   await driver.tap(profileFinder);
-  expect(await driver.getText(find.text(L.getKey(L.profileNoUsername))), L.getKey(L.profileNoUsername));
+  var actualUsernamePlaceholder = await driver.getText(find.text(L.getKey(L.profileNoUsername)));
+  expect(actualUsernamePlaceholder, L.getKey(L.profileNoUsername));
   await driver.tap(finderUserProfileEditRaisedButton);
   await driver.tap(settingsUserSettingsUsernameLabelFinder);
   await driver.tap(userSettingsCheckIconButtonFinder);
@@ -91,15 +91,14 @@ Future checkProfile(FlutterDriver driver) async {
   await driver.waitForAbsent(cancelFinder);
 }
 
-Future checkChat(
-  FlutterDriver driver,
-) async {
+Future checkChat(FlutterDriver driver) async {
   final chatCreate = L.getKey(L.chatCreate);
   //  Check flaggedButton.
   await driver.tap(find.byValueKey(keyChatListGetFlaggedActionIconButton));
   await driver.tap(pageBack);
   await driver.tap(createChatFinder);
-  expect(await driver.getText(find.text(chatCreate)), chatCreate);
+  var actualNewChatName = await driver.getText(find.text(chatCreate));
+  expect(actualNewChatName, chatCreate);
   //  Check newContact.
   await driver.tap(pageBack);
   //  Check searchChat
@@ -108,25 +107,24 @@ Future checkChat(
   await driver.tap(find.byValueKey(keySearchReturnIconButton));
 }
 
-Future checkContact(
-  FlutterDriver driver,
-  String newTestName,
-) async {
+Future checkContact(FlutterDriver driver, String newTestName) async {
   await driver.tap(contactsFinder);
   await driver.waitForAbsent(cancelFinder);
   await driver.tap(personAddFinder);
   await driver.tap(find.byValueKey(keyContactChangeCloseIconButton));
-  expect(await driver.getText(find.text(newTestName)), newTestName);
+  var actualNewContactName = await driver.getText(find.text(newTestName));
+  expect(actualNewContactName, newTestName);
 
   //  Check import contact.
   await driver.tap(find.byValueKey(keyContactListImportContactIconButton));
   await driver.tap(cancelFinder);
   //  Check blocked.
   await driver.tap(find.byValueKey(keyContactListBlockIconButton));
-  expect(await driver.getText(find.text(L.getKey(L.contactNoBlocked))), L.getKey(L.contactNoBlocked));
+  var actualBlockedContactListPlaceholder = await driver.getText(find.text(L.getKey(L.contactNoBlocked)));
+  expect(actualBlockedContactListPlaceholder, L.getKey(L.contactNoBlocked));
   await driver.tap(find.byValueKey(keyContactBlockedListCloseIconButton));
   //  Check Search.
   await driver.tap(find.byValueKey(keyContactListSearchIconButton));
-  expect(await driver.getText(find.text(newTestName)), newTestName);
+  expect(actualNewContactName, newTestName);
   await driver.tap(find.byValueKey(keySearchReturnIconButton));
 }

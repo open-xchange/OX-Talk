@@ -52,8 +52,6 @@
  * for more details.
  */
 
-import 'dart:io';
-
 import 'package:flutter_driver/flutter_driver.dart';
 import 'package:ox_coi/src/l10n/l.dart';
 import 'package:test/test.dart';
@@ -63,34 +61,33 @@ import 'setup/main_test_setup.dart';
 
 void main() {
   group('Security test.', () {
-    var setup = Setup();
+    final setup = Setup();
     setup.perform();
+    final driver = setup.driver;
 
-    /*final security = 'Security';
-    final expertImportKeys = 'Expert: Import keys';
-    final expertExportKeys = 'Expert: Export keys';
+    final security = L.getKey(L.security);
+    final expertImportKeys = L.getKey(L.settingImportKeys);
+    final expertExportKeys = L.getKey(L.settingExportKeys);
 
     test(': Get profile setting security.', () async {
-      await setup.driver.tap(profileFinder);
-      await setup.driver.tap(userProfileSettingsAdaptiveIconFinder);
-      await setup.driver.tap(find.text(security));
+      await driver.tap(profileFinder);
+      await driver.tap(userProfileSettingsAdaptiveIconFinder);
+      await driver.tap(find.text(security));
     });
+
     test(': Test first import keys', () async {
-      await setup.driver.tap(find.text(expertImportKeys));
-      await setup.driver.tap(find.text(L.getKey(L.ok)));
+      await driver.tap(find.text(expertImportKeys));
+      await driver.tap(find.text(L.getKey(L.ok)));
     });
 
-    sleep(Duration(seconds: 2));
     test(': Test export keys.', () async {
-      await setup.driver.tap(find.text(expertExportKeys));
-      await setup.driver.tap(find.text(L.getKey(L.ok)));
+      await driver.tap(find.text(expertExportKeys));
+      await driver.tap(find.text(L.getKey(L.ok)));
     });
-
-    sleep(Duration(seconds: 2));
 
     test(': Test import keys.', () async {
-      await setup.driver.tap(find.text(expertImportKeys));
-      await setup.driver.tap(find.text(L.getKey(L.ok)));
-    });*/
-  });
+      await driver.tap(find.text(expertImportKeys));
+      await driver.tap(find.text(L.getKey(L.ok)));
+    });
+  }, skip: "Currently not reliable");
 }

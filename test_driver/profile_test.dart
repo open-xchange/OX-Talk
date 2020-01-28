@@ -52,27 +52,32 @@ import 'setup/main_test_setup.dart';
 
 void main() {
   group('Test profile.', () {
-    var setup = Setup();
+    final setup = Setup();
     setup.perform();
+    final driver = setup.driver;
 
     final testUserNameUserProfile = 'EDN tester';
     final profileUserStatus = 'Sent with OX COI Messenger - https://coi.me';
     final userProfileStatusTextFinder = find.text(profileUserStatus);
 
     test(': Get and edit profile.', () async {
-      await setup.driver.tap(profileFinder);
-      expect(await setup.driver.getText(userProfileEmailTextFinder),realEmail);
-      expect(await setup.driver.getText(userProfileStatusTextFinder), profileUserStatus);
-      await setup.driver.tap(userProfileEditRaisedButtonFinder);
-      await setup.driver.tap(find.byValueKey(keyUserSettingsUserSettingsUsernameLabel));
-      await setup.driver.enterText(testUserNameUserProfile);
-      await setup.driver.tap(userSettingsCheckIconButtonFinder);
+      await driver.tap(profileFinder);
+      var actualMail = await driver.getText(userProfileEmailTextFinder);
+      expect(actualMail,realEmail);
+      var actualStatus = await driver.getText(userProfileStatusTextFinder);
+      expect(actualStatus, profileUserStatus);
+      await driver.tap(userProfileEditRaisedButtonFinder);
+      await driver.tap(find.byValueKey(keyUserSettingsUserSettingsUsernameLabel));
+      await driver.enterText(testUserNameUserProfile);
+      await driver.tap(userSettingsCheckIconButtonFinder);
     });
 
     test(': Check profile after change.', () async {
-      expect(await setup.driver.getText(find.text(testUserNameUserProfile)), testUserNameUserProfile);
-      expect(await setup.driver.getText(find.text(profileUserStatus)), profileUserStatus);
-      await navigateTo(setup.driver, L.getPluralKey(L.chatP));
+      var actualNewUsername = await driver.getText(find.text(testUserNameUserProfile));
+      expect(actualNewUsername, testUserNameUserProfile);
+      var actualNewStatus = await driver.getText(find.text(profileUserStatus));
+      expect(actualNewStatus, profileUserStatus);
+      await navigateTo(driver, L.getPluralKey(L.chatP));
     });
   });
 }

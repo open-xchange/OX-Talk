@@ -62,27 +62,29 @@ import 'setup/main_test_setup.dart';
 
 void main() {
   group('Test Add swipe to delete for chats test.', () {
-    var setup = Setup();
+    final setup = Setup();
     setup.perform();
+    final driver = setup.driver;
 
     test(': Create a chat.', () async {
       await createNewChat(
-        setup.driver,
+        driver,
         newTestEmail04,
         newTestName01,
       );
     });
 
     test(': Test swipe and delete one chat.', () async {
-      await setup.driver.scroll(find.text(newTestName01), -100, 0, Duration(milliseconds: 100));
-      await setup.driver.tap(find.text(L.getKey(L.delete)));
-      await setup.driver.waitForAbsent(find.text(newTestName01));
+      await driver.scroll(find.text(newTestName01), -100, 0, Duration(milliseconds: 100));
+      await driver.tap(find.text(L.getKey(L.delete)));
+      await driver.waitForAbsent(find.text(newTestName01));
     });
+
     test(': Test navigate and check if everithing is okay.', () async {
-      await navigateTo(setup.driver, L.getPluralKey(L.contactP));
-      await setup.driver.tap(cancelFinder);
-      await navigateTo(setup.driver, L.getPluralKey(L.chatP));
-      await setup.driver.waitForAbsent(find.text(newTestName01));
+      await navigateTo(driver, L.getPluralKey(L.contactP));
+      await driver.tap(cancelFinder);
+      await navigateTo(driver, L.getPluralKey(L.chatP));
+      await driver.waitForAbsent(find.text(newTestName01));
     });
   });
 }

@@ -51,40 +51,43 @@ import 'setup/main_test_setup.dart';
 
 void main() {
   group('Test create profile integration tests.', () {
-    var setup = Setup();
+    final setup = Setup();
     setup.perform();
+    final driver = setup.driver;
 
     test(': Get conatact.', () async {
-      await setup.driver.tap(contactsFinder);
-      await setup.driver.tap(cancelFinder);
-      expect(await setup.driver.getText(find.text(meContact)), meContact);
+      await driver.tap(contactsFinder);
+      await driver.tap(cancelFinder);
+      var actualMeContact = await driver.getText(find.text(meContact));
+      expect(actualMeContact, meContact);
     });
 
     test(': Add two new contacts in the contact list.', () async {
       await addNewContact(
-        setup.driver,
+        driver,
         newTestName01,
         newTestEmail04,
       );
       await addNewContact(
-        setup.driver,
+        driver,
         newTestName02,
         newTestEmail02,
       );
     });
     test(': Manage one created contact.', () async {
-      await manageContact(setup.driver, newTestName01, newMe);
+      await manageContact(driver, newTestName01, newMe);
     });
 
     test(': Delete one contact.', () async {
-      await deleteContact(setup.driver, newTestName02);
+      await deleteContact(driver, newTestName02);
     });
   });
 }
 
 Future manageContact(FlutterDriver driver, String newTestName, String newMe) async {
   await driver.tap(find.text(newTestName));
-  expect(await driver.getText(find.text(newTestName)), newTestName);
+  var actualContactName = await driver.getText(find.text(newTestName));
+  expect(actualContactName, newTestName);
   await driver.tap(find.byValueKey(keyContactDetailEditContactProfileActionIcon));
   await driver.tap(keyContactChangeNameFinder);
   await driver.enterText(newMe);

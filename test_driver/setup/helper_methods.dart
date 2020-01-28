@@ -80,7 +80,8 @@ Future addNewContact(
   await driver.tap(keyContactChangeEmailFinder);
   await driver.enterText(newTestContact);
   await driver.tap(keyContactChangeCheckFinder);
-  expect(await driver.getText(find.text(newTestName)), newTestName);
+  var actualNewContact = await driver.getText(find.text(newTestName));
+  expect(actualNewContact, newTestName);
 }
 
 Future deleteContact(
@@ -128,7 +129,8 @@ Future writeTextInChat(FlutterDriver driver, [String text = ""]) async {
     await driver.enterText(text);
   }
   await driver.tap(find.byValueKey(KeyChatComposerMixinOnSendTextIcon));
-  expect(await driver.getText(find.text(text)), text);
+  var actualNewMessage = await driver.getText(find.text(text));
+  expect(actualNewMessage, text);
 }
 
 Future callTest(FlutterDriver driver) async {
@@ -143,7 +145,8 @@ Future unblockOneContactFromBlockedContacts(
   const unblock = 'Unblock';
   await driver.tap(find.text(contactNameToUnblock));
   await driver.tap(find.text(unblock));
-  expect(await driver.getText(find.text(L.getKey(L.contactNoBlocked))), L.getKey(L.contactNoBlocked));
+  var actualUnblockedContact = await driver.getText(find.text(L.getKey(L.contactNoBlocked)));
+  expect(actualUnblockedContact, L.getKey(L.contactNoBlocked));
   await driver.tap(find.byValueKey(keyContactBlockedListCloseIconButton));
 }
 
@@ -157,7 +160,8 @@ Future blockOneContactFromContacts(FlutterDriver driver, String contactNameToBlo
 Future unFlaggedMessage(FlutterDriver driver, String flagUnFlag, String messageToUnFlagged) async {
   SerializableFinder messageToUnFlaggedFinder = find.text(messageToUnFlagged);
   await driver.tap(find.byValueKey(keyChatListGetFlaggedActionIconButton));
-  expect(await driver.getText(messageToUnFlaggedFinder), messageToUnFlagged);
+  var actualUnflaggedMessage = await driver.getText(messageToUnFlaggedFinder);
+  expect(actualUnflaggedMessage, messageToUnFlagged);
   await driver.scroll(messageToUnFlaggedFinder, 0, 0, scrollDuration);
   await driver.tap(find.text(flagUnFlag));
 }
@@ -202,21 +206,26 @@ Future createNewChat(
   if (chatName == meContact) {
     await driver.tap(finderMe);
     await driver.tap(pageBack);
-    expect(await driver.getText(finderMe), meContact);
+    var actualMeContact = await driver.getText(finderMe);
+    expect(actualMeContact, meContact);
 
     await driver.waitFor(finderMe);
   } else {
     await driver.tap(finderNewContact);
-    expect(await driver.getText(find.text(name)), name);
-    expect(await driver.getText(find.text(emailAddress)), emailAddress);
+    var actualContactName = await driver.getText(find.text(name));
+    expect(actualContactName, name);
+    var actualContactEmail = await driver.getText(find.text(emailAddress));
+    expect(actualContactEmail, emailAddress);
     await driver.tap(find.byValueKey(keyContactChangeNameValidatableTextFormField));
-    expect(await driver.getText(find.text(L.getKey(L.contactName))), L.getKey(L.contactName));
+    var actualContactNameHintText = await driver.getText(find.text(L.getKey(L.contactName)));
+    expect(actualContactNameHintText, L.getKey(L.contactName));
     await driver.enterText(chatName);
     await driver.tap(find.byValueKey(keyContactChangeEmailValidatableTextFormField));
-    expect(await driver.getText(find.text(emailAddress)), emailAddress);
+    expect(actualContactEmail, emailAddress);
     await driver.enterText(chatEmail);
     await driver.tap(find.byValueKey(keyContactChangeCheckIconButton));
-    expect(await driver.getText(find.text(L.getKey(L.chatNewPlaceholder))), L.getKey(L.chatNewPlaceholder));
+    var actualNewMessageHintText = await driver.getText(find.text(L.getKey(L.chatNewPlaceholder)));
+    expect(actualNewMessageHintText, L.getKey(L.chatNewPlaceholder));
     await driver.tap(pageBack);
   }
 }

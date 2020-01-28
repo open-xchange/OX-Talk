@@ -62,12 +62,12 @@ import 'setup/main_test_setup.dart';
 
 void main() {
   group('Test messages fonctionslity', () {
-    var setup = Setup();
+    final setup = Setup();
     setup.perform();
+    final driver = setup.driver;
 
-    final openChat = 'Open chat';
-    final flagUnFlag = 'Flag/Unflag';
-    final forward = 'Forward';
+    final flagUnFlag = L.getKey(L.messageActionFlagUnflag);
+    final forward = L.getKey(L.messageActionForward);
     final textToDelete = 'Text to delete';
     final paste = 'PASTE';
     final copy = 'Copy';
@@ -76,54 +76,52 @@ void main() {
     final textToDeleteFinder = find.text(textToDelete);
 
     test(': Get contacts and add new contacts.', () async {
-      await setup.driver.tap(contactsFinder);
-      await setup.driver.tap(cancelFinder);
-      expect(await setup.driver.getText(meContactFinder), meContact);
+      await driver.tap(contactsFinder);
+      await driver.tap(cancelFinder);
+      var actualMeContact = await driver.getText(meContactFinder);
+      expect(actualMeContact, meContact);
       await addNewContact(
-        setup.driver,
+        driver,
         newTestName01,
         newTestEmail04,
       );
     });
 
     test(': Create chat and write something.', () async {
-      await setup.driver.tap(meContactFinder);
-      await setup.driver.tap(find.text(openChat));
-      await writeChatFromChat(setup.driver);
+      await driver.tap(meContactFinder);
+      await driver.tap(find.text(L.getKey(L.chatOpen)));
+      await writeChatFromChat(driver);
     });
 
     test(': Flagged messages from  meChat.', () async {
-      await flaggedMessage(setup.driver, flagUnFlag, helloWorldFinder);
-      await setup.driver.tap(pageBack);
-      await navigateTo(setup.driver, L.getPluralKey(L.chatP));
+      await flaggedMessage(driver, flagUnFlag, helloWorldFinder);
+      await driver.tap(pageBack);
+      await navigateTo(driver, L.getPluralKey(L.chatP));
      });
 
     test(': UnFlagged messages.', () async {
-      await unFlaggedMessage(setup.driver, flagUnFlag, helloWorld);
-      await setup.driver.waitForAbsent(helloWorldFinder);
-      await setup.driver.tap(pageBack);
-      await setup.driver.tap(meContactFinder);
+      await unFlaggedMessage(driver, flagUnFlag, helloWorld);
+      await driver.waitForAbsent(helloWorldFinder);
+      await driver.tap(pageBack);
+      await driver.tap(meContactFinder);
     });
 
     test(': Forward message.', () async {
-      await forwardMessageTo(setup.driver, newTestName01, forward);
-      expect(await setup.driver.getText(helloWorldFinder), helloWorld);
-      await setup.driver.tap(pageBack);
-      await setup.driver.tap(meContactFinder);
+      await forwardMessageTo(driver, newTestName01, forward);
+      var actualMessage = await driver.getText(helloWorldFinder);
+      expect(actualMessage, helloWorld);
+      await driver.tap(pageBack);
+      await driver.tap(meContactFinder);
     });
 
     test(': Copy message from meContact and it paste in meContact.', () async {
-      await copyAndPasteMessage(setup.driver, copy, paste);
-    });
-
-    test(': Enter new text to delete.', () async {
-      await writeTextInChat(setup.driver, textToDelete);
-      expect(await setup.driver.getText(textToDeleteFinder), textToDelete);
+      await copyAndPasteMessage(driver, copy, paste);
     });
 
     test(': Delete message.', () async {
-      await deleteMessage(textToDeleteFinder, setup.driver);
-      await setup.driver.waitForAbsent(textToDeleteFinder);
+      await writeTextInChat(driver, textToDelete);
+      await deleteMessage(textToDeleteFinder, driver);
+      await driver.waitForAbsent(textToDeleteFinder);
     });
   });
 }

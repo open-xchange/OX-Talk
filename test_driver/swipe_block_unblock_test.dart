@@ -53,9 +53,9 @@
  */
 
 import 'package:flutter_driver/flutter_driver.dart';
+import 'package:ox_coi/src/l10n/l.dart';
 import 'package:ox_coi/src/utils/keyMapping.dart';
 import 'package:test/test.dart';
-import 'package:ox_coi/src/l10n/l.dart';
 
 import 'setup/global_consts.dart';
 import 'setup/helper_methods.dart';
@@ -63,48 +63,52 @@ import 'setup/main_test_setup.dart';
 
 void main() {
   group('Test block / unblock functionality', () {
-    var setup = Setup();
+    final setup = Setup();
     setup.perform();
+    final driver = setup.driver;
 
-    final block = 'Block';
-    final unblock = 'Unblock';
+    final block = L.getKey(L.block);
+    final unblock = L.getKey(L.unblock);
 
     test(': Get contacts', () async {
-      await setup.driver.tap(contactsFinder);
-      await setup.driver.tap(cancelFinder);
-      expect(await setup.driver.getText(find.text(meContact)), meContact);
+      await driver.tap(contactsFinder);
+      await driver.tap(cancelFinder);
+      var actualMeContact = await driver.getText(find.text(meContact));
+      expect(actualMeContact, meContact);
     });
 
     test(': Add one contact.', () async {
       await addNewContact(
-        setup.driver,
+        driver,
         newTestName01,
         newTestEmail04,
       );
     });
 
     test(': Test block functionality.\n', () async {
-      await setup.driver.scroll(find.text(newTestName01), 75, 0, Duration(milliseconds: 100));
-      await setup.driver.tap(find.text(block));
-      await setup.driver.waitForAbsent(find.text(newTestName01));
-      await navigateTo(setup.driver, L.getPluralKey(L.chatP));
-      await navigateTo(setup.driver, L.getPluralKey(L.contactP));
-      await setup.driver.waitForAbsent(find.text(newTestName01));
+      await driver.scroll(find.text(newTestName01), 75, 0, Duration(milliseconds: 100));
+      await driver.tap(find.text(block));
+      await driver.waitForAbsent(find.text(newTestName01));
+      await navigateTo(driver, L.getPluralKey(L.chatP));
+      await navigateTo(driver, L.getPluralKey(L.contactP));
+      await driver.waitForAbsent(find.text(newTestName01));
     });
 
     test(': Test unblock functionality.\n', () async {
-      await setup.driver.tap(find.byValueKey(keyContactListBlockIconButton));
-      expect(await setup.driver.getText(find.text(newTestName01)), newTestName01);
-      await setup.driver.scroll(find.text(newTestName01), 75, 0, Duration(milliseconds: 100));
-      await setup.driver.tap(find.text(unblock));
-      await setup.driver.waitForAbsent(find.text(newTestName01));
-      await setup.driver.tap(find.byValueKey(keyContactBlockedListCloseIconButton));
+      await driver.tap(find.byValueKey(keyContactListBlockIconButton));
+      var actualBlockedContact = await driver.getText(find.text(newTestName01));
+      expect(actualBlockedContact, newTestName01);
+      await driver.scroll(find.text(newTestName01), 75, 0, Duration(milliseconds: 100));
+      await driver.tap(find.text(unblock));
+      await driver.waitForAbsent(find.text(newTestName01));
+      await driver.tap(find.byValueKey(keyContactBlockedListCloseIconButton));
     });
 
     test(': Test check if block and unblock are really been done\n', () async {
-      expect(await setup.driver.getText(find.text(newTestName01)), newTestName01);
-      await setup.driver.tap(find.byValueKey(keyContactListBlockIconButton));
-      await setup.driver.waitForAbsent(find.text(newTestName01));
+      var actualUnblockedContact = await driver.getText(find.text(newTestName01));
+      expect(actualUnblockedContact, newTestName01);
+      await driver.tap(find.byValueKey(keyContactListBlockIconButton));
+      await driver.waitForAbsent(find.text(newTestName01));
     });
   });
 }

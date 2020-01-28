@@ -53,8 +53,8 @@
  */
 
 import 'package:flutter_driver/flutter_driver.dart';
-import 'package:test/test.dart';
 import 'package:ox_coi/src/l10n/l.dart';
+import 'package:test/test.dart';
 
 import 'setup/global_consts.dart';
 import 'setup/helper_methods.dart';
@@ -62,33 +62,36 @@ import 'setup/main_test_setup.dart';
 
 void main() {
   group('Test: Add swipe to delete for contacts test', () {
-    var setup = Setup();
+    final setup = Setup();
     setup.perform();
+    final driver = setup.driver;
 
     final newTestName1Finder = find.text(newTestName01);
 
     test(': Get contacts', () async {
-      await setup.driver.tap(contactsFinder);
-      await setup.driver.tap(cancelFinder);
-      expect(await setup.driver.getText(find.text(meContact)), meContact);
+      await driver.tap(contactsFinder);
+      await driver.tap(cancelFinder);
+      var actualMeContact = await driver.getText(find.text(meContact));
+      expect(actualMeContact, meContact);
     });
 
     test(': Add one contact.', () async {
       await addNewContact(
-        setup.driver,
+        driver,
         newTestName01,
         newTestEmail04,
       );
     });
 
     test(': Test Swipe and delete created contact.', () async {
-      await setup.driver.scroll(newTestName1Finder, -100, 0, Duration(milliseconds: 100));
-      await setup.driver.tap(find.text(L.getKey(L.delete)));
+      await driver.scroll(newTestName1Finder, -100, 0, Duration(milliseconds: 100));
+      await driver.tap(find.text(L.getKey(L.delete)));
     });
+
     test(': Test navigate and check if everithing is okay.', () async {
-      await navigateTo(setup.driver, L.getPluralKey(L.chatP));
-      await setup.driver.waitForAbsent(newTestName1Finder);
-      await navigateTo(setup.driver, L.getPluralKey(L.contactP));
+      await navigateTo(driver, L.getPluralKey(L.chatP));
+      await driver.waitForAbsent(newTestName1Finder);
+      await navigateTo(driver, L.getPluralKey(L.contactP));
     });
   });
 }

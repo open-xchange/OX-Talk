@@ -43,7 +43,6 @@
 import 'dart:io';
 
 import 'package:flutter_driver/flutter_driver.dart';
-import 'package:ox_coi/src/l10n/l.dart';
 import 'package:test/test.dart';
 
 import 'global_consts.dart';
@@ -129,6 +128,5 @@ class Setup {
     await driver.scroll(find.text(mailCom), 0, -600, Duration(milliseconds: 500));
     await driver.tap(providerFinder);
     await logIn(driver, email, password);
-    expect(await driver.getText(find.text(L.getKey(L.chatListPlaceholder))), L.getKey(L.chatListPlaceholder));
   }
 }
