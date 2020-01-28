@@ -73,6 +73,7 @@
    </AnalyzeAction>
    <ArchiveAction
       buildConfiguration = "Release-development"
+      customArchiveName = "OS COI Messenger Dev"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>

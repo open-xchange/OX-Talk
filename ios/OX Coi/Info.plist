@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>$(FLUTTER_BUILD_NAME)</string>
+	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -32,7 +32,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>LSSupportsOpeningDocumentsInPlace</key>
@@ -57,7 +57,7 @@
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Access to your Microphone is required in order to take audio messages.</string>
 	<key>NSMotionUsageDescription</key>
-	<string>Access to the Motion Sensor is required in order to I don&apos;t know. (Not in use ATM)</string>
+	<string>Access to the Motion Sensor is required in order to I don't know. (Not in use ATM)</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Access to the Photo Gallery is required in order to add attachments.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
