@@ -5,8 +5,8 @@ ENV['COCOAPODS_DISABLE_STATS'] = 'true'
 ENV['SWIFT_VERSION'] = '5'
 
 project 'Runner', {
-  'Debug' => :debug,
-  'Release' => :release,
+  'development' => :debug,
+  'stable' => :release,
 }
 
 def parse_KV_file(file, separator='=')
@@ -94,7 +94,7 @@ post_install do |installer|
     end
   end
   installer.pods_project.build_configurations.each do |config|
-      if config.name.include?("Debug")
+      if config.name.include?("development")
           config.build_settings['GCC_OPTIMIZATION_LEVEL'] = '0'
           config.build_settings['SWIFT_OPTIMIZATION_LEVEL'] = '-Onone'
       end

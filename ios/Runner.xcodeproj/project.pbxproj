@@ -23,8 +23,8 @@
 		FD51737323266F05007458CC /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = FD51737223266F04007458CC /* .swiftlint.yml */; };
 		FD51737623267295007458CC /* UIApplication+Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD51737523267295007458CC /* UIApplication+Logging.swift */; };
 		FD5F8B06236AEA7500E05845 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FD5F8B08236AEA7500E05845 /* InfoPlist.strings */; };
-		FD690F3A23DF471700855CEF /* GoogleService-Info-Development.plist in Resources */ = {isa = PBXBuildFile; fileRef = FD690F3823DF471700855CEF /* GoogleService-Info-Development.plist */; };
-		FD690F3B23DF471700855CEF /* GoogleService-Info-Production.plist in Resources */ = {isa = PBXBuildFile; fileRef = FD690F3923DF471700855CEF /* GoogleService-Info-Production.plist */; };
+		FD690F3A23DF471700855CEF /* GoogleService-Info-development.plist in Resources */ = {isa = PBXBuildFile; fileRef = FD690F3823DF471700855CEF /* GoogleService-Info-development.plist */; };
+		FD690F3B23DF471700855CEF /* GoogleService-Info-stable.plist in Resources */ = {isa = PBXBuildFile; fileRef = FD690F3923DF471700855CEF /* GoogleService-Info-stable.plist */; };
 		FD961FB223D73ADC00AD0D90 /* AppDelegate+Sharing.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD961FB123D73ADC00AD0D90 /* AppDelegate+Sharing.swift */; };
 		FDF8F9B523D7421D0009B368 /* Method.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A955E3F238677DF00DF7F3F /* Method.swift */; };
 /* End PBXBuildFile section */
@@ -46,8 +46,6 @@
 
 /* Begin PBXFileReference section */
 		125F4957EFC6D57D2B18CDF8 /* Pods-Runner.release-development.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-development.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-development.xcconfig"; sourceTree = "<group>"; };
-		2421A2112375966400BBE6C8 /* stable.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = stable.xcconfig; path = Flutter/stable.xcconfig; sourceTree = "<group>"; };
-		2421A2132375A7CE00BBE6C8 /* development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = development.xcconfig; path = Flutter/development.xcconfig; sourceTree = "<group>"; };
 		242D004E2370336900491A66 /* exportOptionsdevelopment.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = exportOptionsdevelopment.plist; path = ../exportOptionsdevelopment.plist; sourceTree = "<group>"; };
 		24DD530523214B20005ED412 /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		2A0DB6B723992A9800257C03 /* exportOptionsstable.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = exportOptionsstable.plist; sourceTree = SOURCE_ROOT; };
@@ -57,10 +55,10 @@
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
 		3B80C3931E831B6300D905FE /* App.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = App.framework; path = Flutter/App.framework; sourceTree = "<group>"; };
 		6F6BA9A235C8C854C6105BBB /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
-		7AFA3C8E1D35360C0083082E /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = Flutter/Release.xcconfig; sourceTree = "<group>"; };
+		7AFA3C8E1D35360C0083082E /* stable.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = stable.xcconfig; path = Flutter/stable.xcconfig; sourceTree = "<group>"; };
 		81A3BCC8525B6F2D0510F16F /* Pods-Runner.stable.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.stable.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.stable.xcconfig"; sourceTree = "<group>"; };
 		899B7188477F2A02FA10829E /* Pods_Runner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Runner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		9740EEB21CF90195004384FC /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = Flutter/Debug.xcconfig; sourceTree = "<group>"; };
+		9740EEB21CF90195004384FC /* development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = development.xcconfig; path = Flutter/development.xcconfig; sourceTree = "<group>"; };
 		9740EEB31CF90195004384FC /* Generated.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Generated.xcconfig; path = Flutter/Generated.xcconfig; sourceTree = "<group>"; };
 		9740EEBA1CF902C7004384FC /* Flutter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Flutter.framework; path = Flutter/Flutter.framework; sourceTree = "<group>"; };
 		97C146EE1CF9000F007C117D /* Runner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Runner.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -83,8 +81,8 @@
 		FD5F8B11236AF0F200E05845 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		FD5F8B12236AF0F400E05845 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		FD5F8B13236AF0F600E05845 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		FD690F3823DF471700855CEF /* GoogleService-Info-Development.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Development.plist"; sourceTree = "<group>"; };
-		FD690F3923DF471700855CEF /* GoogleService-Info-Production.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Production.plist"; sourceTree = "<group>"; };
+		FD690F3823DF471700855CEF /* GoogleService-Info-development.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-development.plist"; sourceTree = "<group>"; };
+		FD690F3923DF471700855CEF /* GoogleService-Info-stable.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-stable.plist"; sourceTree = "<group>"; };
 		FD961FB123D73ADC00AD0D90 /* AppDelegate+Sharing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+Sharing.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -121,13 +119,11 @@
 			isa = PBXGroup;
 			children = (
 				3B80C3931E831B6300D905FE /* App.framework */,
-				3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */,
-				9740EEB21CF90195004384FC /* Debug.xcconfig */,
-				2421A2132375A7CE00BBE6C8 /* development.xcconfig */,
 				9740EEBA1CF902C7004384FC /* Flutter.framework */,
+				3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */,
+				9740EEB21CF90195004384FC /* development.xcconfig */,
 				9740EEB31CF90195004384FC /* Generated.xcconfig */,
-				7AFA3C8E1D35360C0083082E /* Release.xcconfig */,
-				2421A2112375966400BBE6C8 /* stable.xcconfig */,
+				7AFA3C8E1D35360C0083082E /* stable.xcconfig */,
 			);
 			name = Flutter;
 			sourceTree = "<group>";
@@ -243,8 +239,8 @@
 		FD690F3723DF471700855CEF /* Firebase */ = {
 			isa = PBXGroup;
 			children = (
-				FD690F3823DF471700855CEF /* GoogleService-Info-Development.plist */,
-				FD690F3923DF471700855CEF /* GoogleService-Info-Production.plist */,
+				FD690F3823DF471700855CEF /* GoogleService-Info-development.plist */,
+				FD690F3923DF471700855CEF /* GoogleService-Info-stable.plist */,
 			);
 			path = Firebase;
 			sourceTree = "<group>";
@@ -325,11 +321,11 @@
 			files = (
 				FD51737323266F05007458CC /* .swiftlint.yml in Resources */,
 				FD5F8B06236AEA7500E05845 /* InfoPlist.strings in Resources */,
-				FD690F3B23DF471700855CEF /* GoogleService-Info-Production.plist in Resources */,
+				FD690F3B23DF471700855CEF /* GoogleService-Info-stable.plist in Resources */,
 				97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */,
 				2A0DB6B823992A9800257C03 /* exportOptionsstable.plist in Resources */,
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
-				FD690F3A23DF471700855CEF /* GoogleService-Info-Development.plist in Resources */,
+				FD690F3A23DF471700855CEF /* GoogleService-Info-development.plist in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
 			);
@@ -438,7 +434,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "case \"${CONFIGURATION}\" in\n\n   \"Debug\" | \"Debug-development\" | \"Release-development\" )\n       cp \"${SRCROOT}/OX COI/Firebase/GoogleService-Info-Development.plist\" \"${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleService-Info.plist\" ;;\n\n   \"Release\" | \"Release-stable\" | \"Debug-stable\" )\n       cp \"${SRCROOT}/OX COI/Firebase/GoogleService-Info-Production.plist\" \"${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleService-Info.plist\" ;;\n\n    *)\n        ;;\nesac\n";
+			shellScript = "cp \"${SRCROOT}/OX COI/Firebase/GoogleService-Info-${CONFIGURATION}.plist\" \"${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleService-Info.plist\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -491,443 +487,9 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		2421A20C2375913B00BBE6C8 /* Debug-development */ = {
+		97C147031CF9000F007C117D /* development */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2421A2132375A7CE00BBE6C8 /* development.xcconfig */;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
-					"DEBUG=1",
-					"COCOAPODS=1",
-					"GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS=1",
-					"PB_FIELD_32BIT=1",
-					"PB_NO_PACKED_STRUCTS=1",
-					"PB_ENABLE_MALLOC=1",
-				);
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = iphoneos;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = "Debug-development";
-		};
-		2421A20D2375913B00BBE6C8 /* Debug-development */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2421A2132375A7CE00BBE6C8 /* development.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
-				CODE_SIGN_ENTITLEMENTS = "OX Coi/Runner.entitlements";
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = "${FLUTTER_BUILD_NUMBER}";
-				DEVELOPMENT_TEAM = 528HQ38877;
-				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Flutter",
-				);
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
-					"COCOAPODS=1",
-					"GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS=1",
-					"PB_FIELD_32BIT=1",
-					"PB_NO_PACKED_STRUCTS=1",
-					"PB_ENABLE_MALLOC=1",
-				);
-				INFOPLIST_FILE = "$(SRCROOT)/OX Coi/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Flutter",
-				);
-				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.openxchange.oxcoi.dev;
-				PRODUCT_NAME = "$(FLUTTER_BUNDLE_DISPLAY_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "OX Coi/Application/Runner-Bridging-Header.h";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-			};
-			name = "Debug-development";
-		};
-		2421A20E237591D100BBE6C8 /* Release-stable */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2421A2112375966400BBE6C8 /* stable.xcconfig */;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
-					"COCOAPODS=1",
-					"GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS=1",
-					"PB_FIELD_32BIT=1",
-					"PB_NO_PACKED_STRUCTS=1",
-					"PB_ENABLE_MALLOC=1",
-				);
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				SDKROOT = iphoneos;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = "Release-stable";
-		};
-		2421A20F237591D100BBE6C8 /* Release-stable */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2421A2112375966400BBE6C8 /* stable.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
-				CODE_SIGN_ENTITLEMENTS = "OX Coi/Runner.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = "${FLUTTER_BUILD_NUMBER}";
-				DEVELOPMENT_TEAM = 267G7KX6FQ;
-				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Flutter",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
-					"COCOAPODS=1",
-					"GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS=1",
-					"PB_FIELD_32BIT=1",
-					"PB_NO_PACKED_STRUCTS=1",
-					"PB_ENABLE_MALLOC=1",
-				);
-				INFOPLIST_FILE = "$(SRCROOT)/OX Coi/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Flutter",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.openxchange.oxcoi;
-				PRODUCT_NAME = "$(FLUTTER_BUNDLE_DISPLAY_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "OX COI Messenger";
-				SWIFT_OBJC_BRIDGING_HEADER = "OX Coi/Application/Runner-Bridging-Header.h";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-			};
-			name = "Release-stable";
-		};
-		24D64F4723798719004B1B36 /* Release-development */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2421A2132375A7CE00BBE6C8 /* development.xcconfig */;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
-					"DEBUG=1",
-					"COCOAPODS=1",
-					"GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS=1",
-					"PB_FIELD_32BIT=1",
-					"PB_NO_PACKED_STRUCTS=1",
-					"PB_ENABLE_MALLOC=1",
-				);
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				SDKROOT = iphoneos;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = "Release-development";
-		};
-		24D64F4823798719004B1B36 /* Release-development */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2421A2132375A7CE00BBE6C8 /* development.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
-				CODE_SIGN_ENTITLEMENTS = "OX Coi/Runner.entitlements";
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = "${FLUTTER_BUILD_NUMBER}";
-				DEVELOPMENT_TEAM = 528HQ38877;
-				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Flutter",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
-					"COCOAPODS=1",
-					"GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS=1",
-					"PB_FIELD_32BIT=1",
-					"PB_NO_PACKED_STRUCTS=1",
-					"PB_ENABLE_MALLOC=1",
-				);
-				INFOPLIST_FILE = "$(SRCROOT)/OX Coi/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Flutter",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.openxchange.oxcoi.dev;
-				PRODUCT_NAME = "$(FLUTTER_BUNDLE_DISPLAY_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "OX Coi/Application/Runner-Bridging-Header.h";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-			};
-			name = "Release-development";
-		};
-		24D64F492379872C004B1B36 /* Debug-stable */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2421A2112375966400BBE6C8 /* stable.xcconfig */;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
-					"COCOAPODS=1",
-					"GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS=1",
-					"PB_FIELD_32BIT=1",
-					"PB_NO_PACKED_STRUCTS=1",
-					"PB_ENABLE_MALLOC=1",
-				);
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = iphoneos;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = "Debug-stable";
-		};
-		24D64F4A2379872C004B1B36 /* Debug-stable */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2421A2112375966400BBE6C8 /* stable.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				BUNDLE_ID = com.openxchange.oxcoi;
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
-				CODE_SIGN_ENTITLEMENTS = "OX Coi/Runner.entitlements";
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = "${FLUTTER_BUILD_NUMBER}";
-				DEVELOPMENT_TEAM = 528HQ38877;
-				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Flutter",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
-					"COCOAPODS=1",
-					"GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS=1",
-					"PB_FIELD_32BIT=1",
-					"PB_NO_PACKED_STRUCTS=1",
-					"PB_ENABLE_MALLOC=1",
-				);
-				INFOPLIST_FILE = "$(SRCROOT)/OX Coi/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Flutter",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.openxchange.oxcoi.dev;
-				PRODUCT_NAME = "$(FLUTTER_BUNDLE_DISPLAY_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "OX Coi/Application/Runner-Bridging-Header.h";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-			};
-			name = "Debug-stable";
-		};
-		97C147031CF9000F007C117D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
+			baseConfigurationReference = 9740EEB21CF90195004384FC /* development.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -981,11 +543,11 @@
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
-			name = Debug;
+			name = development;
 		};
-		97C147041CF9000F007C117D /* Release */ = {
+		97C147041CF9000F007C117D /* stable */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
+			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* stable.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -1042,11 +604,11 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
-			name = Release;
+			name = stable;
 		};
-		97C147061CF9000F007C117D /* Debug */ = {
+		97C147061CF9000F007C117D /* development */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
+			baseConfigurationReference = 9740EEB21CF90195004384FC /* development.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -1089,11 +651,11 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
-			name = Debug;
+			name = development;
 		};
-		97C147071CF9000F007C117D /* Release */ = {
+		97C147071CF9000F007C117D /* stable */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
+			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* stable.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -1134,7 +696,7 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
-			name = Release;
+			name = stable;
 		};
 /* End XCBuildConfiguration section */
 
@@ -1142,28 +704,20 @@
 		97C146E91CF9000F007C117D /* Build configuration list for PBXProject "Runner" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				97C147031CF9000F007C117D /* Debug */,
-				97C147041CF9000F007C117D /* Release */,
-				2421A20C2375913B00BBE6C8 /* Debug-development */,
-				24D64F4723798719004B1B36 /* Release-development */,
-				2421A20E237591D100BBE6C8 /* Release-stable */,
-				24D64F492379872C004B1B36 /* Debug-stable */,
+				97C147031CF9000F007C117D /* development */,
+				97C147041CF9000F007C117D /* stable */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = "Release-stable";
+			defaultConfigurationName = development;
 		};
 		97C147051CF9000F007C117D /* Build configuration list for PBXNativeTarget "Runner" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				97C147061CF9000F007C117D /* Debug */,
-				97C147071CF9000F007C117D /* Release */,
-				2421A20D2375913B00BBE6C8 /* Debug-development */,
-				24D64F4823798719004B1B36 /* Release-development */,
-				2421A20F237591D100BBE6C8 /* Release-stable */,
-				24D64F4A2379872C004B1B36 /* Debug-stable */,
+				97C147061CF9000F007C117D /* development */,
+				97C147071CF9000F007C117D /* stable */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = "Release-stable";
+			defaultConfigurationName = development;
 		};
 /* End XCConfigurationList section */
 	};

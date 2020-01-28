@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "97C146ED1CF9000F007C117D"
-               BuildableName = "OX&#x2007;COI&#x2007;Messenger.app"
+               BuildableName = "Runner.app"
                BlueprintName = "Runner"
                ReferencedContainer = "container:Runner.xcodeproj">
             </BuildableReference>
@@ -23,7 +23,7 @@
       </BuildActionEntries>
    </BuildAction>
    <TestAction
-      buildConfiguration = "Debug"
+      buildConfiguration = "stable"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
@@ -31,7 +31,7 @@
       </Testables>
    </TestAction>
    <LaunchAction
-      buildConfiguration = "Release-stable"
+      buildConfiguration = "stable"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
@@ -45,14 +45,14 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "97C146ED1CF9000F007C117D"
-            BuildableName = "OX&#x2007;COI&#x2007;Messenger.app"
+            BuildableName = "Runner.app"
             BlueprintName = "Runner"
             ReferencedContainer = "container:Runner.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
    <ProfileAction
-      buildConfiguration = "Release"
+      buildConfiguration = "stable"
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
@@ -62,17 +62,17 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "97C146ED1CF9000F007C117D"
-            BuildableName = "OX&#x2007;COI&#x2007;Messenger.app"
+            BuildableName = "Runner.app"
             BlueprintName = "Runner"
             ReferencedContainer = "container:Runner.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
-      buildConfiguration = "Debug">
+      buildConfiguration = "stable">
    </AnalyzeAction>
    <ArchiveAction
-      buildConfiguration = "Release-stable"
+      buildConfiguration = "stable"
       customArchiveName = "OX COI Messenger"
       revealArchiveInOrganizer = "YES">
       <PreActions>
