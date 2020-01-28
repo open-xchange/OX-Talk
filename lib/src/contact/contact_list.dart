@@ -45,10 +45,9 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon.dart';
 import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon_button.dart';
-import 'package:ox_coi/src/contact/contact_change_bloc.dart';
+import 'package:ox_coi/src/chat/chat_create_mixin.dart';
 import 'package:ox_coi/src/contact/contact_import_bloc.dart';
 import 'package:ox_coi/src/contact/contact_import_event_state.dart';
 import 'package:ox_coi/src/contact/contact_item.dart';
@@ -61,16 +60,14 @@ import 'package:ox_coi/src/main/root_child.dart';
 import 'package:ox_coi/src/navigation/navigatable.dart';
 import 'package:ox_coi/src/navigation/navigation.dart';
 import 'package:ox_coi/src/ui/custom_theme.dart';
+import 'package:ox_coi/src/ui/dimensions.dart';
 import 'package:ox_coi/src/utils/dialog_builder.dart';
-import 'package:ox_coi/src/utils/error.dart';
 import 'package:ox_coi/src/utils/keyMapping.dart';
 import 'package:ox_coi/src/utils/key_generator.dart';
 import 'package:ox_coi/src/utils/toast.dart';
 import 'package:ox_coi/src/widgets/fullscreen_progress.dart';
 import 'package:ox_coi/src/widgets/search.dart';
 import 'package:ox_coi/src/widgets/state_info.dart';
-
-import 'contact_change_event_state.dart';
 
 class ContactList extends RootChild {
   final Navigation navigation = Navigation();
@@ -143,12 +140,7 @@ class ContactList extends RootChild {
   }
 }
 
-enum SlidableAction {
-  block,
-  delete,
-}
-
-class _ContactListState extends State<ContactList> {
+class _ContactListState extends State<ContactList> with ChatCreateMixin {
   ContactListBloc _contactListBloc = ContactListBloc();
   ContactImportBloc _contactImportBloc = ContactImportBloc();
   Navigation navigation = Navigation();
@@ -238,57 +230,22 @@ class _ContactListState extends State<ContactList> {
                   (BuildContext context, int index) {
                     var contactId = contactIds[index];
                     var key = createKeyFromId(contactId, [contactLastUpdateValues[index]]);
-                    return Slidable.builder(
+                    return Dismissible(
                       key: key,
-                      actionPane: SlidableBehindActionPane(),
-                      actionExtentRatio: 0.2,
-                      actionDelegate: SlideActionBuilderDelegate(
-                          actionCount: 1,
-                          builder: (context, index, animation, renderingMode) {
-                            return IconSlideAction(
-                              caption: L10n.get(L.block),
-                              color: CustomTheme.of(context).warning,
-                              foregroundColor: CustomTheme.of(context).onWarning,
-                              iconWidget: AdaptiveIcon(
-                                icon: IconSource.block,
-                                color: CustomTheme.of(context).onWarning,
-                              ),
-                              onTap: () {
-                                var state = Slidable.of(context);
-                                state.dismiss();
-                              },
-                            );
-                          }),
-                      secondaryActionDelegate: SlideActionBuilderDelegate(
-                          actionCount: 1,
-                          builder: (context, index, animation, renderingMode) {
-                            // for more than one slide action we need take care of `index`
-                            return IconSlideAction(
-                              caption: L10n.get(L.delete),
-                              color: Theme.of(context).errorColor,
-                              foregroundColor: CustomTheme.of(context).onError,
-                              iconWidget: AdaptiveIcon(
-                                icon: IconSource.delete,
-                                color: CustomTheme.of(context).onError,
-                              ),
-                              onTap: () {
-                                var state = Slidable.of(context);
-                                state.dismiss();
-                              },
-                            );
-                          }),
-                      dismissal: SlidableDismissal(
-                        child: SlidableDrawerDismissal(),
-                        onWillDismiss: (actionType) async {
-                          if (actionType == SlideActionType.secondary) {
-                            await _slidableActionCalled(contactId: contactId, action: SlidableAction.delete);
-                          } else if (actionType == SlideActionType.primary) {
-                            await _slidableActionCalled(contactId: contactId, action: SlidableAction.block);
-                            return true;
-                          }
-                          return false;
-                        },
+                      confirmDismiss: (direction){
+                        createChatFromContact(context, contactId);
+                        return Future.value(false);
+                      },
+                      background: Container(
+                        color: CustomTheme.of(context).chatIcon,
+                        padding: const EdgeInsets.only(right: iconDismissiblePadding),
+                        alignment: Alignment.centerRight,
+                        child: AdaptiveIcon(
+                          icon: IconSource.chat,
+                          color: CustomTheme.of(context).white,
+                        ),
                       ),
+                      direction: DismissDirection.endToStart,
                       child: ContactItem(
                         contactId: contactId,
                         contactItemType: ContactItemType.edit,
@@ -300,10 +257,10 @@ class _ContactListState extends State<ContactList> {
                   findChildIndexCallback: (Key key) {
                     final ValueKey valueKey = key;
                     var id = extractId(valueKey);
-                    if(contactIds.contains(id)) {
+                    if (contactIds.contains(id)) {
                       var indexOf = contactIds.indexOf(id);
                       return indexOf;
-                    }else{
+                    } else {
                       return null;
                     }
                   }));
@@ -366,42 +323,6 @@ class _ContactListState extends State<ContactList> {
       },
       navigatable: Navigatable(Type.contactImportDialog),
     );
-  }
-
-  Future<bool> _slidableActionCalled({@required int contactId, @required SlidableAction action}) async {
-    ContactChangeBloc bloc = ContactChangeBloc();
-    switch (action) {
-      case SlidableAction.block:
-        bloc.add(BlockContact(contactId: contactId));
-        break;
-      case SlidableAction.delete:
-        bloc.add(DeleteContact(id: contactId));
-        break;
-    }
-
-    await for (ContactChangeState state in bloc) {
-      if (state is ContactChangeStateSuccess && state.id == contactId) {
-        if (state.type == ContactChangeType.delete) {
-          showToast(L10n.get(L.contactDeletedSuccess));
-        } else if (state.type == ContactChangeType.block) {
-          showToast(L10n.get(L.contactBlockedSuccess));
-        }
-        bloc.close();
-        return true;
-      } else if (state is ContactChangeStateFailure && state.contactId == contactId) {
-        switch (state.error) {
-          case contactDeleteGeneric:
-            showToast(L10n.get(L.contactDeleteFailed));
-            break;
-          case contactDeleteChatExists:
-            showToast(L10n.get(L.contactDeleteWithActiveChatFailed));
-            break;
-        }
-        bloc.close();
-        return false;
-      }
-    }
-    return false;
   }
 
   Future<bool> _onGoogleMailDialogWillPop() {
