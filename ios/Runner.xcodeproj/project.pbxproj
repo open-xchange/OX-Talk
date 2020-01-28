@@ -438,7 +438,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "PATH_TO_GOOGLE_PLISTS=\"${PROJECT_DIR}/OX Coi/Firebase\"\n\necho \"PHRANCK\"\necho \"${CONFIGURATION}\"\necho \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/GoogleService-Info.plist\"\n\ncase \"${CONFIGURATION}\" in\n\n   \"Debug\" | \"Debug-development\" | \"Debug-stable\" | \"Release-development\" )\n        cp -r \"$PATH_TO_GOOGLE_PLISTS/GoogleService-Info-Development.plist\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/GoogleService-Info.plist\" ;;\n\n   \"Debug-stable\" | \"Release\" | \"Release-stable\" )\n        cp -r \"$PATH_TO_GOOGLE_PLISTS/GoogleService-Info-Production.plist\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/GoogleService-Info.plist\" ;;\n\n    *)\n        ;;\nesac\n";
+			shellScript = "case \"${CONFIGURATION}\" in\n\n   \"Debug\" | \"Debug-development\" | \"Release-development\" )\n       cp \"${SRCROOT}/OX COI/Firebase/GoogleService-Info-Development.plist\" \"${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleService-Info.plist\" ;;\n\n   \"Release\" | \"Release-stable\" | \"Debug-stable\" )\n       cp \"${SRCROOT}/OX COI/Firebase/GoogleService-Info-Production.plist\" \"${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleService-Info.plist\" ;;\n\n    *)\n        ;;\nesac\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

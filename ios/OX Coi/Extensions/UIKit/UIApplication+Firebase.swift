@@ -47,13 +47,6 @@ extension UIApplication {
 
     class func setupFirebase() {
         FirebaseApp.configure()
-
-        if let fireApp = FirebaseApp.app() {
-            let options = fireApp.options
-
-            log.info("fire app bundle ID: \(String(describing: options.bundleID))")
-            log.info("fire app name: \(String(describing: fireApp.name))")
-        }
     }
 
 }
