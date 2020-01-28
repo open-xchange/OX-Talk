@@ -61,7 +61,7 @@
 		899B7188477F2A02FA10829E /* Pods_Runner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Runner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9740EEB31CF90195004384FC /* Generated.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Generated.xcconfig; path = Flutter/Generated.xcconfig; sourceTree = "<group>"; };
 		9740EEBA1CF902C7004384FC /* Flutter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Flutter.framework; path = Flutter/Flutter.framework; sourceTree = "<group>"; };
-		97C146EE1CF9000F007C117D /* OX COI Messenger Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "OX COI Messenger Dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		97C146EE1CF9000F007C117D /* Runner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Runner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		97C146FB1CF9000F007C117D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		97C146FD1CF9000F007C117D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		97C147001CF9000F007C117D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -145,7 +145,7 @@
 		97C146EF1CF9000F007C117D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				97C146EE1CF9000F007C117D /* OX COI Messenger Dev.app */,
+				97C146EE1CF9000F007C117D /* Runner.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -271,7 +271,7 @@
 			);
 			name = Runner;
 			productName = Runner;
-			productReference = 97C146EE1CF9000F007C117D /* OX COI Messenger Dev.app */;
+			productReference = 97C146EE1CF9000F007C117D /* Runner.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -417,7 +417,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "PLISTS_PATH=\"${PROJECT_DIR}/OX COI/Firebase\"\n\ncase \"${CONFIGURATION}\" in\n\n   \"Debug-development\" | \"Release-development\" )\n       cp -r \"$PLISTS_PATH/GoogleService-Info-Development.plist\" \"${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleService-Info.plist\" ;;\n\n   \"Release-stable\" )\n       cp -r \"$PLISTS_PATH/GoogleService-Info-Production.plist\" \"${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleService-Info.plist\" ;;\n\n    *)\n        ;;\nesac\n";
+			shellScript = "PLISTS_PATH=\"${PROJECT_DIR}/OX COI/Firebase\"\n\ncase \"${CONFIGURATION}\" in\n\n   \"Debug-development\" | \"Release-development\" )\n       cp -r \"$PLISTS_PATH/GoogleService-Info-Development.plist\" \"${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleService-Info.plist\" ;;\n\n   \"Release-stable\" )\n       cp -r \"$PLISTS_PATH/GoogleService-Info-Production.plist\" \"${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleService-Info.plist\" ;;\n\n    *)\n        ;;\nesac\n\nprintenv\n";
 			showEnvVarsInLog = 0;
 		};
 		FD51737123266E81007458CC /* SwiftLint */ = {
@@ -577,7 +577,7 @@
 				MARKETING_VERSION = 0.400.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "${PRODUCT_BUNDLE_IDENTIFIER}";
-				PRODUCT_NAME = "${BUNDLE_DISPLAY_NAME}";
+				PRODUCT_NAME = "${PRODUCT_NAME}";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "OX Coi/Application/Runner-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -671,7 +671,7 @@
 				);
 				MARKETING_VERSION = 0.400.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "${PRODUCT_BUNDLE_IDENTIFIER}";
-				PRODUCT_NAME = "${BUNDLE_DISPLAY_NAME}";
+				PRODUCT_NAME = "${PRODUCT_NAME}";
 				PROVISIONING_PROFILE_SPECIFIER = "OX COI Messenger";
 				SWIFT_OBJC_BRIDGING_HEADER = "OX Coi/Application/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -764,7 +764,7 @@
 				);
 				MARKETING_VERSION = 0.400.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "${PRODUCT_BUNDLE_IDENTIFIER}";
-				PRODUCT_NAME = "${BUNDLE_DISPLAY_NAME}";
+				PRODUCT_NAME = "${PRODUCT_NAME}";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "OX Coi/Application/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
