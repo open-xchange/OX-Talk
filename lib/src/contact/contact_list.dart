@@ -213,14 +213,17 @@ class _ContactListState extends State<ContactList> with ChatCreateMixin {
       bloc: _contactListBloc,
       builder: (context, state) {
         if (state is ContactListStateSuccess) {
-          var contactIds = state.contactIds;
-          var contactLastUpdateValues = state.contactLastUpdateValues;
+          final contactIds = state.contactIds;
+          final contactLastUpdateValues = state.contactLastUpdateValues;
+
           return ListView.custom(
               controller: _scrollController,
-              childrenDelegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
-                    var contactId = contactIds[index];
-                    var key = createKeyFromId(contactId, [contactLastUpdateValues[index]]);
+              childrenDelegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+                    final contactId = contactIds[index];
+                    final key = createKeyFromId(contactId, [contactLastUpdateValues[index]]);
+                    final contactItem = ContactItem(contactId: contactId, key: key);
+                    final chatIcon = AdaptiveIcon(icon: IconSource.chat, color: CustomTheme.of(context).white);
+
                     return Dismissible(
                       key: key,
                       confirmDismiss: (direction){
@@ -231,30 +234,20 @@ class _ContactListState extends State<ContactList> with ChatCreateMixin {
                         color: CustomTheme.of(context).chatIcon,
                         padding: const EdgeInsets.only(right: iconDismissiblePadding),
                         alignment: Alignment.centerRight,
-                        child: AdaptiveIcon(
-                          icon: IconSource.chat,
-                          color: CustomTheme.of(context).white,
-                        ),
+                        child: chatIcon,
                       ),
                       direction: DismissDirection.endToStart,
-                      child: ContactItem(
-                        contactId: contactId,
-                        contactItemType: ContactItemType.edit,
-                        key: key,
-                      ),
+                      child: contactItem,
                     );
                   },
                   childCount: contactIds.length,
                   findChildIndexCallback: (Key key) {
                     final ValueKey valueKey = key;
-                    var id = extractId(valueKey);
-                    if (contactIds.contains(id)) {
-                      var indexOf = contactIds.indexOf(id);
-                      return indexOf;
-                    } else {
-                      return null;
-                    }
-                  }));
+                    final id = extractId(valueKey);
+                    return (contactIds.contains(id) ? contactIds.indexOf(id) : null);
+                  }
+              )
+          );
         } else if (state is! ContactListStateFailure) {
           return StateInfo(showLoading: true);
         } else {
