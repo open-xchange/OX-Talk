@@ -1,7 +1,7 @@
 name: ox_coi
 description: OX COI Messenger is a mail based chat app.
 
-version: 0.450.1+415 # x.y.z+build-number
+version: 0.500.1+512 # x.y.z+build-number
 
 environment:
   sdk: ">=2.6.0 <3.0.0"
@@ -60,7 +60,9 @@ dependencies:
       url: https://github.com/Boehrsi/flutter_qr_mobile_vision
       ref: android-embedding-v2
   uuid: ^2.0.4
-  video_thumbnail: ^0.2.0
+  video_thumbnail:
+    git:
+      url: https://github.com/CihanOezkan/video_thumbnail.git
   delta_chat_core:
     path: ../flutter-deltachat-core/ # Intended path outside the project context
 
