@@ -54,7 +54,6 @@ import 'package:ox_coi/src/ui/color.dart';
 
 class ContactItemBloc extends Bloc<ContactItemEvent, ContactItemState> {
   Repository<Contact> _contactRepository;
-  int _contactId;
 
   ContactItemBloc();
 
@@ -64,11 +63,10 @@ class ContactItemBloc extends Bloc<ContactItemEvent, ContactItemState> {
   @override
   Stream<ContactItemState> mapEventToState(ContactItemEvent event) async* {
     if (event is RequestContact) {
-      _contactId = event.contactId;
       _contactRepository = RepositoryManager.get(RepositoryType.contact);
       yield ContactItemStateLoading();
       try {
-        _setupContact();
+        _setupContact(event.contactId);
       } catch (error) {
         yield ContactItemStateFailure(error: error.toString());
       }
@@ -83,20 +81,22 @@ class ContactItemBloc extends Bloc<ContactItemEvent, ContactItemState> {
     }
   }
 
-  void _setupContact() async {
-    Contact contact = _contactRepository.get(_contactId);
+  void _setupContact(int contactId) async {
+    Contact contact = _contactRepository.get(contactId);
     String name = await contact.getName();
     String email = await contact.getAddress();
     int colorValue = await contact.getColor();
     bool isVerified = await contact.isVerified();
+    String phoneNumbers = contact.get(ContactExtension.contactPhoneNumber);
+    Color color = rgbColorFromInt(colorValue);
+
     String imagePath;
-    if(_contactId == Contact.idSelf){
+    if(contactId == Contact.idSelf){
       imagePath = await contact.getProfileImage();
     }else {
       imagePath = contact.get(ContactExtension.contactAvatar);
     }
-    String phoneNumbers = contact.get(ContactExtension.contactPhoneNumber);
-    Color color = rgbColorFromInt(colorValue);
+
     add(ContactLoaded(
       name: name,
       email: email,
