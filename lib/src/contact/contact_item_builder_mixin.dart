@@ -74,21 +74,36 @@ mixin ContactItemBuilder {
     );
   }
 
-  BlocBuilder getAvatarItemBlocBuilder({ContactItemBloc bloc, Function onContactTapped, bool isSelectable = false, bool isSelected = false, PopupMenuButton moreButton}) {
+  BlocBuilder getAvatarItemBlocBuilder({ContactItemBloc bloc, Function onContactTapped, bool isSelectable = false, bool isSelected = false, bool hasHeader = true, PopupMenuButton moreButton}) {
     return BlocBuilder(
         bloc: bloc,
         builder: (context, state) {
           if (state is ContactItemStateSuccess) {
-            return AvatarListItem(
-              title: state.name,
-              subTitle: state.email,
-              color: state.color,
-              isSelectable: isSelectable,
-              isSelected: isSelected,
-              onTap: onContactTapped,
-              isVerified: state.isVerified != null ? state.isVerified : false,
-              imagePath: state.imagePath,
-              moreButton: moreButton,
+            return Column(
+              children: [
+                if (hasHeader)
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: listItemPadding,
+                    ),
+                    child: Container(
+                      padding: EdgeInsets.all(listItemPadding/2),
+                      child: Text(state.name[0].toUpperCase())
+                    ),
+                  ),
+
+                AvatarListItem(
+                  title: state.name,
+                  subTitle: state.email,
+                  color: state.color,
+                  isSelectable: isSelectable,
+                  isSelected: isSelected,
+                  onTap: onContactTapped,
+                  isVerified: state.isVerified != null ? state.isVerified : false,
+                  imagePath: state.imagePath,
+                  moreButton: moreButton,
+                ),
+              ],
             );
           } else if (state is ContactItemStateFailure) {
             return new Text(state.error);
@@ -99,6 +114,7 @@ mixin ContactItemBuilder {
               onTap: onContactTapped,
             );
           }
-        });
+        }
+    );
   }
 }
