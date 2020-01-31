@@ -57,14 +57,14 @@ import 'package:ox_coi/src/utils/dialog_builder.dart';
 
 import 'contact_details.dart';
 
-enum ContactItemType { display, edit, createChat, blocked, forward }
+enum ContactItemType { edit, createChat, blocked, forward }
 
 class ContactItem extends StatefulWidget {
   final int contactId;
   final ContactItemType contactItemType;
   final Function onTap;
 
-  ContactItem({@required this.contactId, this.contactItemType = ContactItemType.display, this.onTap, Key key}) : super(key: key);
+  ContactItem({@required this.contactId, this.contactItemType = ContactItemType.edit, this.onTap, Key key}) : super(key: key);
 
   @override
   _ContactItemState createState() => _ContactItemState();
