@@ -126,7 +126,6 @@ const formVerticalPadding = 16.0;
 
 //GroupHeader
 const groupHeaderTopPadding = 16.0;
-const groupHeaderTopPaddingBig = 24.0;
 const groupHeaderHorizontalPadding = 16.0;
 const groupHeaderBottomPadding = 8.0;
 
