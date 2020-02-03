@@ -65,37 +65,18 @@ class ContactItemBloc extends Bloc<ContactItemEvent, ContactItemState> {
 
   @override
   Stream<ContactItemState> mapEventToState(ContactItemEvent event) async* {
-    Contact _contact;
-
     if (event is RequestContact) {
       _contactId = event.contactId;
 
       yield ContactItemStateLoading();
       try {
-        _contact = _contactRepository.get(_contactId);
-        _setup(contact: _contact);
+        _setup(contact: _contactRepository.get(_contactId));
 
       } catch (error) {
         yield ContactItemStateFailure(error: error.toString());
       }
 
     } else if (event is ContactLoaded) {
-      bool hasHeader;
-      String headerText = event.name[0].toUpperCase();
-      final int previousContactId = _contactRepository.getPreviousIdOf(id: _contactId);
-
-      if (previousContactId == null) {
-        hasHeader = true;
-      } else {
-        _contact = _contactRepository.get(_contactId);
-        final Contact previousContact = _contactRepository.get(previousContactId);
-        final String previousName = await previousContact.getName();
-        hasHeader = event.name[0].toUpperCase() != previousName[0].toUpperCase();
-        if (_contact.id == Contact.idSelf) {
-          headerText = L10n.get(L.contactOwnCardGroupHeaderText);
-        }
-      }
-
       yield ContactItemStateSuccess(
           name: event.name,
           email: event.email,
@@ -103,8 +84,8 @@ class ContactItemBloc extends Bloc<ContactItemEvent, ContactItemState> {
           isVerified: event.isVerified,
           imagePath: event.imagePath,
           phoneNumbers: event.phoneNumbers,
-          hasHeader: hasHeader,
-          headerText: headerText);
+          hasHeader: event.hasHeader,
+          headerText: event.headerText);
     }
   }
 
@@ -123,6 +104,21 @@ class ContactItemBloc extends Bloc<ContactItemEvent, ContactItemState> {
       imagePath = contact.get(ContactExtension.contactAvatar);
     }
 
+    // case for list item #0
+    bool hasHeader = true;
+    String headerText = name[0].toUpperCase();
+
+    // case for list item #>0
+    final int previousContactId = _contactRepository.getPreviousIdOf(id: _contactId);
+    if (previousContactId != null) {
+      final Contact previousContact = _contactRepository.get(previousContactId);
+      final String previousName = await previousContact.getName();
+      hasHeader = name[0].toUpperCase() != previousName[0].toUpperCase();
+      if (contact.id == Contact.idSelf) {
+        headerText = L10n.get(L.contactOwnCardGroupHeaderText);
+      }
+    }
+
     add(ContactLoaded(
       name: name,
       email: email,
@@ -130,6 +126,8 @@ class ContactItemBloc extends Bloc<ContactItemEvent, ContactItemState> {
       isVerified: isVerified,
       imagePath: imagePath,
       phoneNumbers: phoneNumbers,
+      hasHeader: hasHeader,
+      headerText: headerText,
     ));
   }
 

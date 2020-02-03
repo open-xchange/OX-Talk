@@ -59,8 +59,10 @@ class ContactLoaded extends ContactItemEvent {
   final bool isVerified;
   final String imagePath;
   final String phoneNumbers;
+  final bool hasHeader;
+  final String headerText;
 
-  ContactLoaded({@required this.name, @required this.email, @required this.color, @required this.isVerified, @required this.imagePath, this.phoneNumbers});
+  ContactLoaded({@required this.name, @required this.email, @required this.color, @required this.isVerified, @required this.imagePath, this.phoneNumbers, this.hasHeader, this.headerText});
 }
 
 abstract class ContactItemState {}
