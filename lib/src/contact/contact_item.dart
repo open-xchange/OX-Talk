@@ -101,7 +101,7 @@ class _ContactItemState extends State<ContactItem> with ContactItemBuilder, Chat
     if (widget.contactItemType == ContactItemType.createChat || widget.contactItemType == ContactItemType.forward) {
       return createChatFromContact(context, widget.contactId, _handleCreateChatStateChange);
     } else if (widget.contactItemType == ContactItemType.blocked) {
-      return buildUnblockContactDialog(name, email);
+      return _buildUnblockContactDialog(name, email);
     } else if (widget.contactItemType == ContactItemType.edit) {
       navigation.push(
         context,
@@ -123,7 +123,7 @@ class _ContactItemState extends State<ContactItem> with ContactItemBuilder, Chat
     }
   }
 
-  buildUnblockContactDialog(String name, String email) {
+  _buildUnblockContactDialog(String name, String email) {
     String contact = name.isNotEmpty ? name : email;
     Navigation navigation = Navigation();
     return showNavigatableDialog(

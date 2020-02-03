@@ -44,6 +44,7 @@ import 'dart:async';
 import 'dart:collection';
 
 import 'package:delta_chat_core/delta_chat_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:ox_coi/src/data/repository_stream_handler.dart';
 
 typedef T RepositoryItemCreator<T extends Base>(int id);
@@ -79,6 +80,17 @@ abstract class Repository<T extends Base> {
       lastUpdateValues.add(item != null ? item.lastUpdate : 0);
     });
     return lastUpdateValues;
+  }
+
+  int getPreviousIdOf({@required int id}) {
+    final idIndex = getAllIds().indexOf(id);
+    final previousIdIndex = (idIndex > 0 ? idIndex-1 : null);
+
+    if (previousIdIndex != null) {
+      return _items.keys.elementAt(previousIdIndex);
+    }
+
+    return null;
   }
 
   void _set(int id, T value) {

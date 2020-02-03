@@ -49,6 +49,7 @@ import 'package:ox_coi/src/ui/custom_theme.dart';
 import 'package:ox_coi/src/ui/dimensions.dart';
 import 'package:ox_coi/src/utils/text.dart';
 import 'package:ox_coi/src/widgets/avatar_list_item.dart';
+import 'package:ox_coi/src/widgets/list_group_header.dart';
 
 import 'contact_item_event_state.dart';
 
@@ -74,23 +75,25 @@ mixin ContactItemBuilder {
     );
   }
 
-  BlocBuilder getAvatarItemBlocBuilder({ContactItemBloc bloc, Function onContactTapped, bool isSelectable = false, bool isSelected = false, bool hasHeader = true, PopupMenuButton moreButton}) {
+  BlocBuilder getAvatarItemBlocBuilder({ContactItemBloc bloc, Function onContactTapped, bool isSelectable = false, bool isSelected = false, PopupMenuButton moreButton}) {
     return BlocBuilder(
         bloc: bloc,
         builder: (context, state) {
           if (state is ContactItemStateSuccess) {
             return Column(
               children: [
-                if (hasHeader)
-                  Padding(
+                Visibility(
+                  visible: state.hasHeader,
+                  child: ListGroupHeader(
+                    text: state.headerText,
                     padding: EdgeInsets.only(
-                      top: listItemPadding,
-                    ),
-                    child: Container(
-                      padding: EdgeInsets.all(listItemPadding/2),
-                      child: Text(state.name[0].toUpperCase())
+                      top: groupHeaderTopPaddingBig,
+                      bottom: groupHeaderBottomPadding,
+                      left: groupHeaderHorizontalPadding * 2,
+                      right: groupHeaderHorizontalPadding
                     ),
                   ),
+                ),
 
                 AvatarListItem(
                   title: state.name,
@@ -117,4 +120,6 @@ mixin ContactItemBuilder {
         }
     );
   }
+
 }
+

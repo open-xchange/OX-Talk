@@ -76,8 +76,10 @@ class ContactItemStateSuccess extends ContactItemState {
   final bool isVerified;
   final String imagePath;
   final String phoneNumbers;
+  final bool hasHeader;
+  final String headerText;
 
-  ContactItemStateSuccess({@required this.name, @required this.email, @required this.color, @required this.isVerified, @required this.imagePath, this.phoneNumbers});
+  ContactItemStateSuccess({@required this.name, @required this.email, @required this.color, @required this.isVerified, @required this.imagePath, this.phoneNumbers, this.hasHeader = false, this.headerText});
 }
 
 class ContactItemStateFailure extends ContactItemState {

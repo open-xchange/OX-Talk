@@ -44,10 +44,18 @@ import 'package:flutter/material.dart';
 import 'package:ox_coi/src/ui/custom_theme.dart';
 import 'package:ox_coi/src/ui/dimensions.dart';
 
-class GroupHeader extends StatelessWidget {
-  final String text;
+class ListGroupHeader extends StatelessWidget {
+  static const EdgeInsets paddingDefault = EdgeInsets.only(
+    left: groupHeaderHorizontalPadding,
+    right: groupHeaderHorizontalPadding,
+    top: groupHeaderTopPadding,
+    bottom: groupHeaderBottomPadding,
+  );
 
-  GroupHeader({@required this.text});
+  final String text;
+  final EdgeInsets padding;
+
+  ListGroupHeader({@required this.text, this.padding = ListGroupHeader.paddingDefault});
 
   @override
   Widget build(BuildContext context) {
@@ -56,12 +64,7 @@ class GroupHeader extends StatelessWidget {
       child: Container(
         color: CustomTheme.of(context).background,
         child: Padding(
-            padding: EdgeInsets.only(
-              left: groupHeaderHorizontalPadding,
-              right: groupHeaderHorizontalPadding,
-              top: groupHeaderTopPadding,
-              bottom: groupHeaderBottomPadding,
-            ),
+            padding: padding,
             child: Text(
               text,
               style: Theme.of(context).textTheme.body2.apply(color: CustomTheme.of(context).onBackground),
