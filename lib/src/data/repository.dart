@@ -86,11 +86,7 @@ abstract class Repository<T extends Base> {
     final idIndex = getAllIds().indexOf(id);
     final previousIdIndex = (idIndex > 0 ? idIndex-1 : null);
 
-    if (previousIdIndex != null) {
-      return _items.keys.elementAt(previousIdIndex);
-    }
-
-    return null;
+    return (previousIdIndex != null ? _items.keys.elementAt(previousIdIndex) : null);
   }
 
   void _set(int id, T value) {
