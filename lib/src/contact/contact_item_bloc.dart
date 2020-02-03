@@ -98,7 +98,7 @@ class ContactItemBloc extends Bloc<ContactItemEvent, ContactItemState> {
     final Color color = rgbColorFromInt(colorValue);
 
     String imagePath;
-    if (contact.id == Contact.idSelf) {
+    if (Contact.idSelf == contact.id) {
       imagePath = await contact.getProfileImage();
     } else {
       imagePath = contact.get(ContactExtension.contactAvatar);
