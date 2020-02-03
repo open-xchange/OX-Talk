@@ -97,26 +97,22 @@ class ContactItemBloc extends Bloc<ContactItemEvent, ContactItemState> {
     final String phoneNumbers = contact.get(ContactExtension.contactPhoneNumber);
     final Color color = rgbColorFromInt(colorValue);
 
+    bool hasHeader = true;
+    String headerText = name[0].toUpperCase();
+
     String imagePath;
     if (Contact.idSelf == contact.id) {
+      headerText = L10n.get(L.contactOwnCardGroupHeaderText);
       imagePath = await contact.getProfileImage();
     } else {
       imagePath = contact.get(ContactExtension.contactAvatar);
     }
 
-    // case for list item #0
-    bool hasHeader = true;
-    String headerText = name[0].toUpperCase();
-
     // case for list item #>0
     final int previousContactId = _contactRepository.getPreviousIdOf(id: _contactId);
     if (previousContactId != null) {
-      final Contact previousContact = _contactRepository.get(previousContactId);
-      final String previousName = await previousContact.getName();
+      final String previousName = await _contactRepository.get(previousContactId).getName();
       hasHeader = headerText != previousName[0].toUpperCase();
-      if (Contact.idSelf == contact.id) {
-        headerText = L10n.get(L.contactOwnCardGroupHeaderText);
-      }
     }
 
     add(ContactLoaded(
