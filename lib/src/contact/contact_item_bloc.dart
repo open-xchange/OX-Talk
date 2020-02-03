@@ -56,7 +56,6 @@ import 'package:ox_coi/src/ui/color.dart';
 
 class ContactItemBloc extends Bloc<ContactItemEvent, ContactItemState> {
   Repository<Contact> _contactRepository = RepositoryManager.get(RepositoryType.contact);
-  int _contactId;
 
   ContactItemBloc();
 
@@ -66,11 +65,10 @@ class ContactItemBloc extends Bloc<ContactItemEvent, ContactItemState> {
   @override
   Stream<ContactItemState> mapEventToState(ContactItemEvent event) async* {
     if (event is RequestContact) {
-      _contactId = event.contactId;
-
       yield ContactItemStateLoading();
+
       try {
-        _setup(contact: _contactRepository.get(_contactId));
+        _setup(contact: _contactRepository.get(event.contactId));
 
       } catch (error) {
         yield ContactItemStateFailure(error: error.toString());
@@ -109,7 +107,7 @@ class ContactItemBloc extends Bloc<ContactItemEvent, ContactItemState> {
     }
 
     // case for list item #>0
-    final int previousContactId = _contactRepository.getPreviousIdOf(id: _contactId);
+    final int previousContactId = _contactRepository.getPreviousIdOf(id: contact.id);
     if (previousContactId != null) {
       final String previousName = await _contactRepository.get(previousContactId).getName();
       hasHeader = headerText != previousName[0].toUpperCase();
