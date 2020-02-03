@@ -92,6 +92,8 @@ mixin ContactItemBuilder {
                       left: groupHeaderHorizontalPadding * 2,
                       right: groupHeaderHorizontalPadding
                     ),
+                    fontWeightDelta: 2,
+                    fontSizeDelta: 3,
                   ),
                 ),
 

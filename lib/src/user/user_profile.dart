@@ -162,7 +162,7 @@ class _ProfileState extends State<UserProfile> {
                       secondText: config.email,
                       avatarPath: _avatarPath,
                       placeholderText: L10n.get(L.profileNoUsername),
-                      imageBackgroundcolor: CustomTheme.of(context).onBackground.withOpacity(barely),
+                      imageBackgroundColor: CustomTheme.of(context).onBackground.withOpacity(barely),
                       imageActionCallback: _editPhotoCallback,
                       withPlaceholder: true,
                       editActionCallback: () => _editUserSettings(),

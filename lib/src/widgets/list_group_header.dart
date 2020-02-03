@@ -54,8 +54,10 @@ class ListGroupHeader extends StatelessWidget {
 
   final String text;
   final EdgeInsets padding;
+  final int fontWeightDelta;
+  final double fontSizeDelta;
 
-  ListGroupHeader({@required this.text, this.padding = ListGroupHeader.paddingDefault});
+  ListGroupHeader({@required this.text, this.padding = ListGroupHeader.paddingDefault, this.fontWeightDelta = 1, this.fontSizeDelta = 1.0});
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +69,11 @@ class ListGroupHeader extends StatelessWidget {
             padding: padding,
             child: Text(
               text,
-              style: Theme.of(context).textTheme.body2.apply(color: CustomTheme.of(context).onBackground),
+              style: Theme.of(context).textTheme.body2.apply(
+                color: CustomTheme.of(context).onBackground,
+                fontWeightDelta: fontWeightDelta,
+                fontSizeDelta: fontSizeDelta,
+              ),
             )),
       ),
     );
