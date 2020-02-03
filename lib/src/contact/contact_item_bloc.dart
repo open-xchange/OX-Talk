@@ -68,7 +68,7 @@ class ContactItemBloc extends Bloc<ContactItemEvent, ContactItemState> {
       yield ContactItemStateLoading();
 
       try {
-        _setup(contact: _contactRepository.get(event.contactId));
+        _setupContact(contactId: event.contactId);
 
       } catch (error) {
         yield ContactItemStateFailure(error: error.toString());
@@ -87,7 +87,8 @@ class ContactItemBloc extends Bloc<ContactItemEvent, ContactItemState> {
     }
   }
 
-  void _setup({@required Contact contact}) async {
+  void _setupContact({@required int contactId}) async {
+    final Contact contact = _contactRepository.get(contactId);
     final String name = await contact.getName();
     final String email = await contact.getAddress();
     final int colorValue = await contact.getColor();
