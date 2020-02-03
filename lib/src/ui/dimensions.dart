@@ -60,7 +60,6 @@ const listItemPaddingBig = 16.0;
 const listItemPadding = 16.0;
 const listItemPaddingMedium = 8.0;
 const listItemPaddingSmall = 4.0;
-const listItemHeaderPaddingHorizontal = listItemPadding + 14;
 const listItemHeaderFontSize = 16.0;
 const listAvatarRadius = 22.0;
 const listAvatarDiameter = listAvatarRadius * 2;
