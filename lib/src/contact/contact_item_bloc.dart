@@ -113,8 +113,8 @@ class ContactItemBloc extends Bloc<ContactItemEvent, ContactItemState> {
     if (previousContactId != null) {
       final Contact previousContact = _contactRepository.get(previousContactId);
       final String previousName = await previousContact.getName();
-      hasHeader = name[0].toUpperCase() != previousName[0].toUpperCase();
-      if (contact.id == Contact.idSelf) {
+      hasHeader = headerText != previousName[0].toUpperCase();
+      if (Contact.idSelf == contact.id) {
         headerText = L10n.get(L.contactOwnCardGroupHeaderText);
       }
     }
