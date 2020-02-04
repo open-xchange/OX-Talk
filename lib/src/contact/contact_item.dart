@@ -70,7 +70,7 @@ class ContactItem extends StatefulWidget {
   _ContactItemState createState() => _ContactItemState();
 }
 
-class _ContactItemState extends State<ContactItem> with ContactItemBuilder, ChatCreateMixin {
+class _ContactItemState extends State<ContactItem> with ContactItemBuilder, ChatCreateMixin, AutomaticKeepAliveClientMixin<ContactItem> {
   ContactItemBloc _contactBloc = ContactItemBloc();
   Navigation navigation = Navigation();
 
@@ -85,6 +85,9 @@ class _ContactItemState extends State<ContactItem> with ContactItemBuilder, Chat
     }
     _contactBloc.add(RequestContact(contactId: widget.contactId, typeOrChatId: listType));
   }
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void dispose() {
