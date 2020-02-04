@@ -52,18 +52,26 @@ class UpdateAudioRecording extends ChatComposerEvent {
   UpdateAudioRecording({@required this.timer});
 }
 
+class UpdateAudioDBPeak extends ChatComposerEvent {
+  final List<double> dbPeakList;
+
+  UpdateAudioDBPeak({@required this.dbPeakList});
+}
+
+class RemoveFirstAudioDBPeak extends ChatComposerEvent {
+  final bool removeFirstEntry;
+  final int cutoffValue;
+
+  RemoveFirstAudioDBPeak({@required this.removeFirstEntry, @required this.cutoffValue});
+}
+
 class StopAudioRecording extends ChatComposerEvent {
-  final bool shouldSend;
+  final bool sendAudio;
 
-  StopAudioRecording({@required this.shouldSend});
+  StopAudioRecording({this.sendAudio = false});
 }
 
-class AudioRecordingStopped extends ChatComposerEvent {
-  final String audioPath;
-  final bool shouldSend;
-
-  AudioRecordingStopped({@required this.audioPath, @required this.shouldSend});
-}
+class AbortAudioRecording extends ChatComposerEvent {}
 
 class StartImageOrVideoRecording extends ChatComposerEvent {
   final bool pickImage;
@@ -76,6 +84,30 @@ class StopImageOrVideoRecording extends ChatComposerEvent {
   final int type;
 
   StopImageOrVideoRecording({@required this.type, @required this.filePath});
+}
+
+class ReplayAudio extends ChatComposerEvent {}
+
+class ReplayAudioTimeUpdate extends ChatComposerEvent {
+  final int replayTime;
+
+  ReplayAudioTimeUpdate({@required this.replayTime});
+}
+
+class ReplayAudioStopped extends ChatComposerEvent {}
+
+class StopAudioReplay extends ChatComposerEvent {}
+
+class ReplayAudioSeek extends ChatComposerEvent {
+  final int seekValue;
+
+  ReplayAudioSeek({@required this.seekValue});
+}
+
+class UpdateReplayTime extends ChatComposerEvent {
+  final int replayTime;
+
+  UpdateReplayTime({@required this.replayTime});
 }
 
 enum ChatComposerStateError {
@@ -93,17 +125,35 @@ class ChatComposerRecordingAudio extends ChatComposerState {
   ChatComposerRecordingAudio({@required this.timer});
 }
 
-class ChatComposerRecordingAudioStopped extends ChatComposerState {
-  String filePath;
-  bool shouldSend;
+class ChatComposerDBPeakUpdated extends ChatComposerState {
+  List<double> dbPeakList;
 
-  ChatComposerRecordingAudioStopped({@required this.filePath, @required this.shouldSend});
+  ChatComposerDBPeakUpdated({@required this.dbPeakList});
 }
 
-class ChatComposerRecordingAborted extends ChatComposerState {
+class ChatComposerRecordingAudioStopped extends ChatComposerState {
+  String filePath;
+  List<double> dbPeakList;
+  bool sendAudio;
+
+  ChatComposerRecordingAudioStopped({@required this.filePath, @required this.dbPeakList, @required this.sendAudio});
+}
+
+class ChatComposerRecordingAudioAborted extends ChatComposerState {}
+
+class ChatComposerRecordingFailed extends ChatComposerState {
   ChatComposerStateError error;
 
-  ChatComposerRecordingAborted({@required this.error});
+  ChatComposerRecordingFailed({@required this.error});
+}
+
+class ChatComposerReplayStopped extends ChatComposerState {}
+
+class ChatComposerReplayTimeUpdated extends ChatComposerState {
+  final List<double> dbPeakList;
+  final int replayTime;
+
+  ChatComposerReplayTimeUpdated({@required this.dbPeakList, @required this.replayTime});
 }
 
 class ChatComposerRecordingImageOrVideoStopped extends ChatComposerState {
