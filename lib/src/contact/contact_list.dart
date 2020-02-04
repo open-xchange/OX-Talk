@@ -220,8 +220,9 @@ class _ContactListState extends State<ContactList> with ChatCreateMixin {
               controller: _scrollController,
               childrenDelegate: SliverChildBuilderDelegate((BuildContext context, int index) {
                     final contactId = contactIds[index];
+                    final int previousContactId = (index > 0) ? contactIds[index - 1] : null;
                     final key = createKeyFromId(contactId, [contactLastUpdateValues[index]]);
-                    final contactItem = ContactItem(contactId: contactId, key: key);
+                    final contactItem = ContactItem(contactId: contactId, previousContactId: previousContactId, key: key);
                     final chatIcon = AdaptiveIcon(icon: IconSource.chat, color: CustomTheme.of(context).white);
 
                     return Dismissible(

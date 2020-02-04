@@ -68,7 +68,7 @@ class ContactItemBloc extends Bloc<ContactItemEvent, ContactItemState> {
       yield ContactItemStateLoading();
 
       try {
-        _setupContact(contactId: event.contactId);
+        _setupContact(contactId: event.contactId, previousContactId: event.previousContactId);
 
       } catch (error) {
         yield ContactItemStateFailure(error: error.toString());
@@ -87,7 +87,7 @@ class ContactItemBloc extends Bloc<ContactItemEvent, ContactItemState> {
     }
   }
 
-  void _setupContact({@required int contactId}) async {
+  void _setupContact({@required int contactId, int previousContactId}) async {
     final Contact contact = _contactRepository.get(contactId);
     final String name = await contact.getName();
     final String email = await contact.getAddress();
@@ -108,7 +108,6 @@ class ContactItemBloc extends Bloc<ContactItemEvent, ContactItemState> {
     }
 
     // case for list item #>0
-    final int previousContactId = _contactRepository.getPreviousIdOf(id: contact.id);
     if (previousContactId != null) {
       final String previousName = await _contactRepository.get(previousContactId).getName();
       hasHeader = headerText != previousName[0].toUpperCase();

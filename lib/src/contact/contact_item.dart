@@ -61,10 +61,11 @@ enum ContactItemType { edit, createChat, blocked, forward }
 
 class ContactItem extends StatefulWidget {
   final int contactId;
+  final int previousContactId;
   final ContactItemType contactItemType;
   final Function onTap;
 
-  ContactItem({@required this.contactId, this.contactItemType = ContactItemType.edit, this.onTap, Key key}) : super(key: key);
+  ContactItem({@required this.contactId, this.contactItemType = ContactItemType.edit, this.onTap, this.previousContactId, Key key}) : super(key: key);
 
   @override
   _ContactItemState createState() => _ContactItemState();
@@ -83,7 +84,7 @@ class _ContactItemState extends State<ContactItem> with ContactItemBuilder, Chat
     } else {
       listType = validContacts;
     }
-    _contactBloc.add(RequestContact(contactId: widget.contactId, typeOrChatId: listType));
+    _contactBloc.add(RequestContact(contactId: widget.contactId, previousContactId: widget.previousContactId, typeOrChatId: listType));
   }
 
   @override

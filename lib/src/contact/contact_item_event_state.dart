@@ -47,9 +47,10 @@ abstract class ContactItemEvent {}
 
 class RequestContact extends ContactItemEvent {
   final int contactId;
+  final int previousContactId;
   final int typeOrChatId;
 
-  RequestContact({@required this.contactId, @required this.typeOrChatId});
+  RequestContact({@required this.contactId, this.previousContactId, @required this.typeOrChatId});
 }
 
 class ContactLoaded extends ContactItemEvent {

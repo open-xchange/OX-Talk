@@ -82,13 +82,6 @@ abstract class Repository<T extends Base> {
     return lastUpdateValues;
   }
 
-  int getPreviousIdOf({@required int id}) {
-    final idIndex = getAllIds().indexOf(id);
-    final previousIdIndex = (idIndex > 0 ? idIndex-1 : null);
-
-    return (previousIdIndex != null ? _items.keys.elementAt(previousIdIndex) : null);
-  }
-
   void _set(int id, T value) {
     _items[id] = value;
   }
