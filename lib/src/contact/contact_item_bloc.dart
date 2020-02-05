@@ -82,12 +82,11 @@ class ContactItemBloc extends Bloc<ContactItemEvent, ContactItemState> {
           isVerified: event.isVerified,
           imagePath: event.imagePath,
           phoneNumbers: event.phoneNumbers,
-          hasHeader: event.hasHeader,
           headerText: event.headerText);
     }
   }
 
-  void _setupContact({@required int contactId, int previousContactId}) async {
+  void _setupContact({@required int contactId, @required int previousContactId}) async {
     final Contact contact = _contactRepository.get(contactId);
     final String name = await contact.getName();
     final String email = await contact.getAddress();
@@ -96,8 +95,11 @@ class ContactItemBloc extends Bloc<ContactItemEvent, ContactItemState> {
     final String phoneNumbers = contact.get(ContactExtension.contactPhoneNumber);
     final Color color = rgbColorFromInt(colorValue);
 
-    bool hasHeader = true;
     String headerText = name[0].toUpperCase();
+    if (previousContactId != null) {
+      final String previousName = await _contactRepository.get(previousContactId).getName();
+      headerText = (headerText == previousName[0].toUpperCase() ? null : headerText);
+    }
 
     String imagePath;
     if (Contact.idSelf == contact.id) {
@@ -107,12 +109,6 @@ class ContactItemBloc extends Bloc<ContactItemEvent, ContactItemState> {
       imagePath = contact.get(ContactExtension.contactAvatar);
     }
 
-    // case for list item #>0
-    if (previousContactId != null) {
-      final String previousName = await _contactRepository.get(previousContactId).getName();
-      hasHeader = headerText != previousName[0].toUpperCase();
-    }
-
     add(ContactLoaded(
       name: name,
       email: email,
@@ -120,7 +116,6 @@ class ContactItemBloc extends Bloc<ContactItemEvent, ContactItemState> {
       isVerified: isVerified,
       imagePath: imagePath,
       phoneNumbers: phoneNumbers,
-      hasHeader: hasHeader,
       headerText: headerText,
     ));
   }

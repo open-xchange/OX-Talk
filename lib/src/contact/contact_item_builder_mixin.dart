@@ -68,6 +68,7 @@ mixin ContactItemBuilder {
               deleteIconColor: CustomTheme.of(context).accent,
             ),
           );
+
         } else {
           return Container();
         }
@@ -80,38 +81,22 @@ mixin ContactItemBuilder {
         bloc: bloc,
         builder: (context, state) {
           if (state is ContactItemStateSuccess) {
-            return Column(
-              children: [
-                Visibility(
-                  visible: state.hasHeader,
-                  child: ListGroupHeader(
-                    text: state.headerText,
-                    padding: EdgeInsets.only(
-                      top: groupHeaderTopPaddingBig,
-                      bottom: groupHeaderBottomPadding,
-                      left: groupHeaderHorizontalPadding * 2,
-                      right: groupHeaderHorizontalPadding
-                    ),
-                    fontWeightDelta: 2,
-                    fontSizeDelta: 3,
-                  ),
-                ),
-
-                AvatarListItem(
-                  title: state.name,
-                  subTitle: state.email,
-                  color: state.color,
-                  isSelectable: isSelectable,
-                  isSelected: isSelected,
-                  onTap: onContactTapped,
-                  isVerified: state.isVerified != null ? state.isVerified : false,
-                  imagePath: state.imagePath,
-                  moreButton: moreButton,
-                ),
-              ],
+            return AvatarListItem(
+              title: state.name,
+              subTitle: state.email,
+              color: state.color,
+              isSelectable: isSelectable,
+              isSelected: isSelected,
+              onTap: onContactTapped,
+              isVerified: state.isVerified != null ? state.isVerified : false,
+              imagePath: state.imagePath,
+              moreButton: moreButton,
+              headerText: state.headerText,
             );
+
           } else if (state is ContactItemStateFailure) {
             return new Text(state.error);
+
           } else {
             return AvatarListItem(
               title: "",

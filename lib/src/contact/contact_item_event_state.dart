@@ -60,10 +60,9 @@ class ContactLoaded extends ContactItemEvent {
   final bool isVerified;
   final String imagePath;
   final String phoneNumbers;
-  final bool hasHeader;
   final String headerText;
 
-  ContactLoaded({@required this.name, @required this.email, @required this.color, @required this.isVerified, @required this.imagePath, this.phoneNumbers, this.hasHeader, this.headerText});
+  ContactLoaded({@required this.name, @required this.email, @required this.color, @required this.isVerified, @required this.imagePath, this.phoneNumbers, this.headerText});
 }
 
 abstract class ContactItemState {}
@@ -79,10 +78,9 @@ class ContactItemStateSuccess extends ContactItemState {
   final bool isVerified;
   final String imagePath;
   final String phoneNumbers;
-  final bool hasHeader;
   final String headerText;
 
-  ContactItemStateSuccess({@required this.name, @required this.email, @required this.color, @required this.isVerified, @required this.imagePath, this.phoneNumbers, this.hasHeader = false, this.headerText});
+  ContactItemStateSuccess({@required this.name, @required this.email, @required this.color, @required this.isVerified, @required this.imagePath, this.phoneNumbers, this.headerText});
 }
 
 class ContactItemStateFailure extends ContactItemState {
