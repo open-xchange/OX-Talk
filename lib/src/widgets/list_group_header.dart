@@ -74,7 +74,8 @@ class ListGroupHeader extends StatelessWidget {
                   fontWeightDelta: fontWeightDelta,
                   fontSizeDelta: fontSizeDelta,
                 ),
-              )),
+              )
+          ),
         ),
       ],
     );
