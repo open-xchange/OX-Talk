@@ -44,7 +44,6 @@ import 'dart:async';
 import 'dart:collection';
 
 import 'package:delta_chat_core/delta_chat_core.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:ox_coi/src/data/repository_stream_handler.dart';
 
 typedef T RepositoryItemCreator<T extends Base>(int id);

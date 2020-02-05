@@ -98,7 +98,7 @@ class ContactItemBloc extends Bloc<ContactItemEvent, ContactItemState> {
     String headerText = name[0].toUpperCase();
     if (previousContactId != null) {
       final String previousName = await _contactRepository.get(previousContactId).getName();
-      headerText = (headerText == previousName[0].toUpperCase() ? null : headerText);
+      headerText = headerText == previousName[0].toUpperCase() ? null : headerText;
     }
 
     String imagePath;

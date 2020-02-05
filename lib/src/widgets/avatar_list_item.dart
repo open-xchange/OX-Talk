@@ -82,7 +82,7 @@ class AvatarListItem extends StatelessWidget {
     this.isVerified = false,
     this.isInvite = false,
     this.moreButton,
-    this.headerText
+    this.headerText,
   });
 
   @override
@@ -100,8 +100,7 @@ class AvatarListItem extends StatelessWidget {
                     top: groupHeaderTopPaddingBig,
                     bottom: groupHeaderBottomPadding,
                     left: groupHeaderHorizontalPadding * 2,
-                    right: groupHeaderHorizontalPadding
-                ),
+                    right: groupHeaderHorizontalPadding),
                 fontWeightDelta: 2,
                 fontSizeDelta: 3,
               ),
@@ -185,7 +184,9 @@ class AvatarListItem extends StatelessWidget {
                                   child: Text(
                                     "!",
                                     style: TextStyle(
-                                        color: CustomTheme.of(context).white, fontSize: listInviteUnreadIndicatorFontSize, fontWeight: FontWeight.bold),
+                                        color: CustomTheme.of(context).white,
+                                        fontSize: listInviteUnreadIndicatorFontSize,
+                                        fontWeight: FontWeight.bold),
                                     textAlign: TextAlign.center,
                                   ),
                                 ),
@@ -197,7 +198,8 @@ class AvatarListItem extends StatelessWidget {
                                   width: iconSize,
                                   height: iconSize,
                                   decoration: BoxDecoration(
-                                      color: CustomTheme.of(context).accent, borderRadius: BorderRadius.circular(listInviteUnreadIndicatorBorderRadius)),
+                                      color: CustomTheme.of(context).accent,
+                                      borderRadius: BorderRadius.circular(listInviteUnreadIndicatorBorderRadius)),
                                   child: Text(
                                     freshMessageCount <= 99 ? freshMessageCount.toString() : "99+",
                                     style: TextStyle(color: CustomTheme.of(context).onAccent, fontSize: listInviteUnreadIndicatorFontSize),
