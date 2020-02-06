@@ -182,4 +182,8 @@ class Navigation {
   void logActionAbort() {
     _logger.info("No context. Aborting");
   }
+
+  void toRoot(BuildContext context) {
+    popUntil(context, ModalRoute.withName(Navigation.root));
+  }
 }
