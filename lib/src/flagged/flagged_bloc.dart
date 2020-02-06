@@ -111,9 +111,9 @@ class FlaggedBloc extends Bloc<FlaggedEvent, FlaggedState> {
   void _updateMessages(Event event) => add(UpdateMessages());
 
   void _loadFlaggedMessages() async {
-    List<int> dateMakerIds = List();
-    Context context = Context();
-    List<int> messageIds = List.from(await context.getChatMessages(Chat.typeStarred, Context.chatListAddDayMarker));
+    final List<int> dateMakerIds = List();
+    final Context context = Context();
+    final List<int> messageIds = List.from(await context.getChatMessages(Chat.typeStarred, Context.chatListAddDayMarker));
 
     if (null != _chatId) {
       final List<int> messageIdsFromChat = List.from(await context.getChatMessages(_chatId, Context.chatListAddDayMarker));
