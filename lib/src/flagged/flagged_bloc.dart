@@ -49,9 +49,14 @@ import 'package:ox_coi/src/data/repository_stream_handler.dart';
 import 'flagged_events_state.dart';
 
 class FlaggedBloc extends Bloc<FlaggedEvent, FlaggedState> {
-  RepositoryEventStreamHandler repositoryStreamHandler;
+  RepositoryEventStreamHandler _repositoryStreamHandler;
   Repository<ChatMsg> _messageListRepository;
   bool _listenersRegistered = false;
+  int _chatId;
+
+  FlaggedBloc({int chatId}) {
+    _chatId = chatId;
+  }
 
   @override
   FlaggedState get initialState => FlaggedStateInitial();
@@ -61,18 +66,22 @@ class FlaggedBloc extends Bloc<FlaggedEvent, FlaggedState> {
     if (event is RequestFlaggedMessages) {
       yield FlaggedStateLoading();
       try {
+        _chatId = event.chatId;
         _messageListRepository = RepositoryManager.get(RepositoryType.chatMessage, Chat.typeStarred);
         _registerListeners();
         _loadFlaggedMessages();
+
       } catch (error) {
         yield FlaggedStateFailure(error: error.toString());
       }
+
     } else if (event is FlaggedMessagesLoaded) {
       yield FlaggedStateSuccess(
         messageIds: event.messageIds,
         messageLastUpdateValues: event.messageLastUpdateValues,
         dateMarkerIds: event.dateMarkerIds,
       );
+
     } else if (event is UpdateMessages) {
       _loadFlaggedMessages();
     }
@@ -87,15 +96,15 @@ class FlaggedBloc extends Bloc<FlaggedEvent, FlaggedState> {
   void _registerListeners() {
       if (!_listenersRegistered) {
         _listenersRegistered = true;
-        repositoryStreamHandler = RepositoryEventStreamHandler(Type.publish, Event.msgsChanged, _updateMessages);
-        _messageListRepository.addListener(repositoryStreamHandler);
+        _repositoryStreamHandler = RepositoryEventStreamHandler(Type.publish, Event.msgsChanged, _updateMessages);
+        _messageListRepository.addListener(_repositoryStreamHandler);
       }
   }
 
   void _unregisterListeners() {
       if (_listenersRegistered) {
         _listenersRegistered = false;
-        _messageListRepository?.removeListener(repositoryStreamHandler);
+        _messageListRepository?.removeListener(_repositoryStreamHandler);
       }
   }
 
@@ -105,6 +114,12 @@ class FlaggedBloc extends Bloc<FlaggedEvent, FlaggedState> {
     List<int> dateMakerIds = List();
     Context context = Context();
     List<int> messageIds = List.from(await context.getChatMessages(Chat.typeStarred, Context.chatListAddDayMarker));
+
+    if (null != _chatId) {
+      final List<int> messageIdsFromChat = List.from(await context.getChatMessages(_chatId, Context.chatListAddDayMarker));
+      messageIds.removeWhere((id) => !messageIdsFromChat.contains(id));
+    }
+
     for (int index = 0; index < messageIds.length; index++) {
       int previousIndex = index - 1;
       if (previousIndex >= 0 && messageIds[previousIndex] == ChatMsg.idDayMarker) {

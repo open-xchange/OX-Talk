@@ -61,6 +61,7 @@ import 'package:ox_coi/src/chat/chat_profile.dart';
 import 'package:ox_coi/src/contact/contact_change_bloc.dart';
 import 'package:ox_coi/src/contact/contact_change_event_state.dart';
 import 'package:ox_coi/src/data/contact_extension.dart';
+import 'package:ox_coi/src/flagged/flagged.dart';
 import 'package:ox_coi/src/invite/invite_mixin.dart';
 import 'package:ox_coi/src/l10n/l.dart';
 import 'package:ox_coi/src/l10n/l10n.dart';
@@ -259,6 +260,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
           bool isVerified = false;
           String imagePath = "";
           bool isGroup = false;
+
           if (state is ChatStateSuccess) {
             name = state.name;
             subTitle = state.subTitle;
@@ -270,6 +272,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
             name = "";
             subTitle = "";
           }
+
           return Scaffold(
             appBar: AdaptiveAppBar(
               title: isInviteChat(widget.chatId)
@@ -279,15 +282,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
                       onTap: () => _chatTitleTapped(),
                       child: buildRow(imagePath, name, subTitle, color, context, isVerified),
                     ),
-              actions: <Widget>[
-                if (!isGroup)
-                  AdaptiveIconButton(
-                    icon: AdaptiveIcon(icon: IconSource.phone),
-                    key: Key(keyChatIconButtonIconPhone),
-                    onPressed: onPhonePressed,
-                    color: CustomTheme.of(context).onPrimary,
-                  ),
-              ],
+              actions: getActions(isGroupChat: isGroup),
             ),
             body: new Column(
               children: <Widget>[
@@ -318,6 +313,24 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
         },
       ),
     );
+  }
+
+  List<Widget> getActions({bool isGroupChat}) {
+    return [
+      if (!isGroupChat)
+        AdaptiveIconButton(
+          icon: AdaptiveIcon(icon: IconSource.phone),
+          key: Key(keyChatIconButtonIconPhone),
+          onPressed: onPhonePressed,
+          color: CustomTheme.of(context).onPrimary,
+        ),
+      AdaptiveIconButton(
+        icon: AdaptiveIcon(icon: IconSource.flag,),
+        key: Key(keyChatListGetFlaggedActionIconButton),
+        onPressed: onFlaggedPressed,
+        color: CustomTheme.of(context).onPrimary,
+      ),
+    ];
   }
 
   Widget buildInviteChoice() {
@@ -741,6 +754,13 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
         );
       }
     }
+  }
+
+  void onFlaggedPressed() {
+    navigation.push(
+      context,
+      MaterialPageRoute(builder: (context) => Flagged(chatId: widget.chatId)),
+    );
   }
 
   void callNumber(String phoneNumber) {
