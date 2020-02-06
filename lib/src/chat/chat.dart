@@ -105,11 +105,11 @@ class Chat extends StatefulWidget {
 }
 
 class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteMixin {
-  Navigation navigation = Navigation();
-  ChatBloc _chatBloc = ChatBloc();
-  MessageListBloc _messageListBloc = MessageListBloc();
-  ChatComposerBloc _chatComposerBloc = ChatComposerBloc();
-  ChatChangeBloc _chatChangeBloc = ChatChangeBloc();
+  final Navigation navigation = Navigation();
+  final ChatBloc _chatBloc = ChatBloc();
+  final MessageListBloc _messageListBloc = MessageListBloc();
+  final ChatComposerBloc _chatComposerBloc = ChatComposerBloc();
+  final ChatChangeBloc _chatChangeBloc = ChatChangeBloc();
 
   // Ignoring false positive https://github.com/felangel/bloc/issues/587
   // ignore: close_sinks
@@ -124,7 +124,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
   String _selectedExtension = "";
   String _fileName = "";
   String _phoneNumbers;
-  var _scrollController = ScrollController();
+  final  _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -174,7 +174,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
   }
 
   void setFileData() {
-    var path = widget.sharedData.path;
+    final path = widget.sharedData.path;
     FileType type;
     switch (widget.sharedData.mimeType) {
       case "image/*":
@@ -366,7 +366,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
     _messageListBloc.close();
     // Ignoring false positive https://github.com/felangel/bloc/issues/587
     // ignore: close_sinks
-    ContactChangeBloc contactChangeBloc = ContactChangeBloc();
+    final contactChangeBloc = ContactChangeBloc();
     contactChangeBloc.add(BlockContact(messageId: widget.messageId, chatId: widget.chatId));
     navigation.popUntil(context, ModalRoute.withName(Navigation.root));
   }
@@ -485,7 +485,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
   }
 
   Widget _buildTextComposer() {
-    List<Widget> widgets = List();
+    final List<Widget> widgets = List();
     widgets.add(buildLeftComposerPart(
       context: context,
       type: _getComposerType(),
@@ -507,6 +507,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
       type: _getComposerType(),
       onSendText: _onPrepareMessageSend,
     ));
+
     return IconTheme(
       data: IconThemeData(color: CustomTheme.of(context).accent),
       child: Container(
@@ -564,7 +565,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
   }
 
   void _onMessageSend() {
-    String text = _textController.text;
+    final String text = _textController.text;
     _textController.clear();
     if (_filePath.isEmpty) {
       _messageListBloc.add(SendMessage(text: text));
@@ -664,7 +665,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
 
   _getFilePath(FileType fileType, [String extension]) async {
     navigation.pop(context);
-    String filePath = await FilePicker.getFilePath(type: fileType, fileExtension: extension);
+    final String filePath = await FilePicker.getFilePath(type: fileType, fileExtension: extension);
     if (filePath == null) {
       return;
     }
@@ -730,11 +731,11 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
         navigatable: Navigatable(Type.contactNoNumberDialog),
       );
     } else {
-      var phoneNumberList = ContactExtension.getPhoneNumberList(_phoneNumbers);
+      final phoneNumberList = ContactExtension.getPhoneNumberList(_phoneNumbers);
       if (phoneNumberList.length == 1) {
         _callNumber(phoneNumberList.first);
       } else {
-        var phoneNumberWidgetList = List<Widget>();
+        final phoneNumberWidgetList = List<Widget>();
         phoneNumberList.forEach((phoneNumber) {
           phoneNumberWidgetList.add(SimpleDialogOption(
             child: Text(phoneNumber),
@@ -764,7 +765,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
   }
 
   void _callNumber(String phoneNumber) {
-    String parsedPhoneNumber = getPhoneNumberFromString(phoneNumber);
+    final String parsedPhoneNumber = getPhoneNumberFromString(phoneNumber);
     launch("tel://$parsedPhoneNumber");
   }
 }
