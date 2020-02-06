@@ -118,6 +118,7 @@ class FlaggedBloc extends Bloc<FlaggedEvent, FlaggedState> {
     if (null != _chatId) {
       final List<int> messageIdsFromChat = List.from(await context.getChatMessages(_chatId, Context.chatListAddDayMarker));
       messageIds.removeWhere((id) => !messageIdsFromChat.contains(id));
+      _messageListRepository.clear();
     }
 
     for (int index = 0; index < messageIds.length; index++) {

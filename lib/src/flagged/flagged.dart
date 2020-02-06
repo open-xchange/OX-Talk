@@ -78,12 +78,6 @@ class _FlaggedState extends State<Flagged> {
   }
 
   @override
-  void dispose() {
-    _flaggedBloc.close();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: new AdaptiveAppBar(
