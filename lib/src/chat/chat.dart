@@ -282,7 +282,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
                       onTap: () => _chatTitleTapped(),
                       child: buildRow(imagePath, name, subTitle, color, context, isVerified),
                     ),
-              actions: getActions(isGroupChat: isGroup),
+              actions: _getActions(isGroupChat: isGroup),
             ),
             body: new Column(
               children: <Widget>[
@@ -313,24 +313,6 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
         },
       ),
     );
-  }
-
-  List<Widget> getActions({bool isGroupChat}) {
-    return [
-      if (!isGroupChat)
-        AdaptiveIconButton(
-          icon: AdaptiveIcon(icon: IconSource.phone),
-          key: Key(keyChatIconButtonIconPhone),
-          onPressed: onPhonePressed,
-          color: CustomTheme.of(context).onPrimary,
-        ),
-      AdaptiveIconButton(
-        icon: AdaptiveIcon(icon: IconSource.flag,),
-        key: Key(keyChatListGetFlaggedActionIconButton),
-        onPressed: onFlaggedPressed,
-        color: CustomTheme.of(context).onPrimary,
-      ),
-    ];
   }
 
   Widget buildInviteChoice() {
@@ -721,7 +703,25 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
     );
   }
 
-  void onPhonePressed() {
+  List<Widget> _getActions({bool isGroupChat}) {
+    return [
+      if (!isGroupChat)
+        AdaptiveIconButton(
+          icon: AdaptiveIcon(icon: IconSource.phone),
+          key: Key(keyChatIconButtonIconPhone),
+          onPressed: _onPhonePressed,
+          color: CustomTheme.of(context).onPrimary,
+        ),
+      AdaptiveIconButton(
+        icon: AdaptiveIcon(icon: IconSource.flag,),
+        key: Key(keyChatListGetFlaggedActionIconButton),
+        onPressed: _onFlaggedPressed,
+        color: CustomTheme.of(context).onPrimary,
+      ),
+    ];
+  }
+
+  void _onPhonePressed() {
     if (_phoneNumbers == null || _phoneNumbers.isEmpty) {
       showInformationDialog(
         context: context,
@@ -732,7 +732,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
     } else {
       var phoneNumberList = ContactExtension.getPhoneNumberList(_phoneNumbers);
       if (phoneNumberList.length == 1) {
-        callNumber(phoneNumberList.first);
+        _callNumber(phoneNumberList.first);
       } else {
         var phoneNumberWidgetList = List<Widget>();
         phoneNumberList.forEach((phoneNumber) {
@@ -740,7 +740,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
             child: Text(phoneNumber),
             onPressed: () {
               navigation.pop(context);
-              callNumber(phoneNumber);
+              _callNumber(phoneNumber);
             },
           ));
         });
@@ -756,14 +756,14 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
     }
   }
 
-  void onFlaggedPressed() {
+  void _onFlaggedPressed() {
     navigation.push(
       context,
       MaterialPageRoute(builder: (context) => Flagged(chatId: widget.chatId)),
     );
   }
 
-  void callNumber(String phoneNumber) {
+  void _callNumber(String phoneNumber) {
     String parsedPhoneNumber = getPhoneNumberFromString(phoneNumber);
     launch("tel://$parsedPhoneNumber");
   }
