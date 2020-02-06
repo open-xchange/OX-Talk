@@ -259,7 +259,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
           Color color;
           bool isVerified = false;
           String imagePath = "";
-          bool isGroup = false;
+          bool isGroupChat = false;
 
           if (state is ChatStateSuccess) {
             name = state.name;
@@ -267,7 +267,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
             color = state.color;
             isVerified = state.isVerified;
             imagePath = state.avatarPath;
-            isGroup = state.isGroupChat;
+            isGroupChat = state.isGroupChat;
           } else {
             name = "";
             subTitle = "";
@@ -282,7 +282,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
                       onTap: () => _chatTitleTapped(),
                       child: buildRow(imagePath, name, subTitle, color, context, isVerified),
                     ),
-              actions: _getActions(isGroupChat: isGroup),
+              actions: _getActions(isGroupChat: isGroupChat),
             ),
             body: new Column(
               children: <Widget>[
