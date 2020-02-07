@@ -54,10 +54,6 @@ class FlaggedBloc extends Bloc<FlaggedEvent, FlaggedState> {
   bool _listenersRegistered = false;
   int _chatId;
 
-  FlaggedBloc({int chatId}) {
-    _chatId = chatId;
-  }
-
   @override
   FlaggedState get initialState => FlaggedStateInitial();
 
