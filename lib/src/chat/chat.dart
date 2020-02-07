@@ -795,8 +795,8 @@ class MessageList extends StatelessWidget {
                       nextMessageId = state.messageIds[index + 1];
                     }
                     bool hasDateMarker = state.dateMarkerIds.contains(messageId);
-                    var key = createKey(messageId);
-                    return ChatMessageItem(
+                    final key = createKey(messageId);
+                    return MessageItem(
                       chatId: chatId,
                       messageId: messageId,
                       isGroupChat: BlocProvider.of<ChatBloc>(context).isGroup,
@@ -808,8 +808,8 @@ class MessageList extends StatelessWidget {
                   childCount: state.messageIds.length,
                   findChildIndexCallback: (Key key) {
                     final ValueKey valueKey = key;
-                    var id = extractId(valueKey);
-                    var indexOf = state.messageIds.indexOf(id);
+                    final id = extractId(valueKey);
+                    final indexOf = state.messageIds.indexOf(id);
                     return indexOf;
                   }),
             );
