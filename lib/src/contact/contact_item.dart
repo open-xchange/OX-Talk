@@ -136,15 +136,15 @@ class _ContactItemState extends State<ContactItem> with ContactItemBuilder, Chat
       navigatable: Navigatable(Type.contactUnblockDialog),
       dialog: AlertDialog(
         title: Text(L10n.get(L.contactUnblock)),
-        content: new Text(L10n.getFormatted(L.contactUnblockTextX, [contact])),
+        content: Text(L10n.getFormatted(L.contactUnblockTextX, [contact])),
         actions: <Widget>[
-          new FlatButton(
-            child: new Text(L10n.get(L.cancel)),
+          FlatButton(
+            child: Text(L10n.get(L.cancel)),
             onPressed: () {
               navigation.pop(context);
             },
           ),
-          new FlatButton(
+          FlatButton(
             child: Text(L10n.get(L.unblock)),
             onPressed: () {
               unblockContact();
