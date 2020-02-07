@@ -140,7 +140,16 @@ class Navigation {
       return null;
     }
     Navigator.pushAndRemoveUntil(context, newRoute, predicate).then((value) {
-      current = newParent;
+      var newCurrent = _navigationStack.lastWhere((navigatable) {
+        if (newParent.type == Type.rootChildren) {
+          return navigatable.type == Type.chatList || navigatable.type == Type.contactList || navigatable.type == Type.profile;
+        } else {
+          return false;
+        }
+      }, orElse: () {
+        return newParent;
+      });
+      current = newCurrent;
     });
   }
 
@@ -175,15 +184,15 @@ class Navigation {
     Navigator.popUntil(context, predicate);
   }
 
+  void popUntilRoot(BuildContext context) {
+    popUntil(context, ModalRoute.withName(Navigation.root));
+  }
+
   bool hasElements() {
     return _navigationStack.isNotEmpty;
   }
 
   void logActionAbort() {
     _logger.info("No context. Aborting");
-  }
-
-  void toRoot(BuildContext context) {
-    popUntil(context, ModalRoute.withName(Navigation.root));
   }
 }

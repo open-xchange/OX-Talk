@@ -73,7 +73,7 @@ class ContactItem extends StatefulWidget {
 
 class _ContactItemState extends State<ContactItem> with ContactItemBuilder, ChatCreateMixin, AutomaticKeepAliveClientMixin<ContactItem> {
   ContactItemBloc _contactBloc = ContactItemBloc();
-  Navigation navigation = Navigation();
+  Navigation _navigation = Navigation();
 
   @override
   void initState() {
@@ -108,7 +108,7 @@ class _ContactItemState extends State<ContactItem> with ContactItemBuilder, Chat
     } else if (widget.contactItemType == ContactItemType.blocked) {
       return _buildUnblockContactDialog(name, email);
     } else if (widget.contactItemType == ContactItemType.edit) {
-      navigation.push(
+      _navigation.push(
         context,
         MaterialPageRoute(builder: (context) => ContactDetails(contactId: widget.contactId)),
       );
@@ -119,11 +119,11 @@ class _ContactItemState extends State<ContactItem> with ContactItemBuilder, Chat
     if (widget.contactItemType == ContactItemType.forward) {
       widget.onTap(chatId);
     } else {
-      navigation.pushAndRemoveUntil(
+      _navigation.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => Chat(chatId: chatId)),
         ModalRoute.withName(Navigation.root),
-        Navigatable(Type.chatList),
+        Navigatable(Type.rootChildren),
       );
     }
   }

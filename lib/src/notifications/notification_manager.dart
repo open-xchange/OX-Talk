@@ -113,13 +113,13 @@ class NotificationManager {
             },
           ),
           ModalRoute.withName(Navigation.root),
-          Navigatable(Type.chatList),
+          Navigatable(Type.rootChildren),
         );
       } else {
-        navigation.toRoot(_buildContext);
+        navigation.popUntilRoot(_buildContext);
       }
     } else {
-      navigation.toRoot(_buildContext);
+      navigation.popUntilRoot(_buildContext);
     }
     return Future.value(true);
   }
