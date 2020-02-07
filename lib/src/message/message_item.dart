@@ -67,7 +67,7 @@ import 'message_received.dart';
 import 'message_sent.dart';
 import 'message_special.dart';
 
-class ChatMessageItem extends StatefulWidget {
+class MessageItem extends StatefulWidget {
   final int chatId;
   final int messageId;
   final int nextMessageId;
@@ -75,7 +75,7 @@ class ChatMessageItem extends StatefulWidget {
   final bool hasDateMarker;
   final bool isFlaggedView;
 
-  ChatMessageItem(
+  MessageItem(
       {@required this.chatId,
       @required this.messageId,
       @required this.nextMessageId,
@@ -86,10 +86,10 @@ class ChatMessageItem extends StatefulWidget {
       : super(key: key);
 
   @override
-  _ChatMessageItemState createState() => _ChatMessageItemState();
+  _MessageItemState createState() => _MessageItemState();
 }
 
-class _ChatMessageItemState extends State<ChatMessageItem> with AutomaticKeepAliveClientMixin<ChatMessageItem> {
+class _MessageItemState extends State<MessageItem> with AutomaticKeepAliveClientMixin<MessageItem> {
   final List<MessageAction> _messageActions = <MessageAction>[
     MessageAction(title: L10n.get(L.messageActionForward), icon: IconSource.forward, messageActionTag: MessageActionTag.forward),
     MessageAction(title: L10n.get(L.messageActionCopy), icon: IconSource.contentCopy, messageActionTag: MessageActionTag.copy),

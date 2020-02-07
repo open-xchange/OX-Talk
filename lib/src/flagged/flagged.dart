@@ -125,7 +125,7 @@ class _FlaggedState extends State<Flagged> {
         }
         bool hasDateMarker = state.dateMarkerIds.contains(messageId);
         var key = createKeyFromId(messageId, [state.messageLastUpdateValues[index]]);
-        return ChatMessageItem(
+        return MessageItem(
           chatId: Chat.typeStarred,
           messageId: messageId,
           isGroupChat: true,
