@@ -105,11 +105,11 @@ class Chat extends StatefulWidget {
 }
 
 class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteMixin {
-  final Navigation navigation = Navigation();
-  final ChatBloc _chatBloc = ChatBloc();
-  final MessageListBloc _messageListBloc = MessageListBloc();
-  final ChatComposerBloc _chatComposerBloc = ChatComposerBloc();
-  final ChatChangeBloc _chatChangeBloc = ChatChangeBloc();
+  Navigation _navigation = Navigation();
+  ChatBloc _chatBloc = ChatBloc();
+  MessageListBloc _messageListBloc = MessageListBloc();
+  ChatComposerBloc _chatComposerBloc = ChatComposerBloc();
+  ChatChangeBloc _chatChangeBloc = ChatChangeBloc();
 
   // Ignoring false positive https://github.com/felangel/bloc/issues/587
   // ignore: close_sinks
@@ -129,7 +129,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
   @override
   void initState() {
     super.initState();
-    navigation.current = Navigatable(Type.chat, params: [widget.chatId]);
+    _navigation.current = Navigatable(Type.chat, params: [widget.chatId]);
     _chatBloc.add(RequestChat(chatId: widget.chatId, isHeadless: widget.headlessStart, messageId: widget.messageId));
     _chatBloc.add(ClearNotifications());
     _chatBloc.listen((state) {
@@ -368,7 +368,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
     // ignore: close_sinks
     final contactChangeBloc = ContactChangeBloc();
     contactChangeBloc.add(BlockContact(messageId: widget.messageId, chatId: widget.chatId));
-    navigation.popUntil(context, ModalRoute.withName(Navigation.root));
+    _navigation.popUntilRoot(context);
   }
 
   _createChat() {
@@ -549,7 +549,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
   }
 
   _handleCreateChatSuccess(int chatId) {
-    navigation.pushAndRemoveUntil(
+    _navigation.pushAndRemoveUntil(
       context,
       MaterialPageRoute(
         builder: (context) => Chat(
@@ -560,7 +560,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
         ),
       ),
       ModalRoute.withName(Navigation.root),
-      Navigatable(Type.chatList),
+      Navigatable(Type.rootChildren),
     );
   }
 
@@ -664,8 +664,8 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
   }
 
   _getFilePath(FileType fileType, [String extension]) async {
-    navigation.pop(context);
-    final String filePath = await FilePicker.getFilePath(type: fileType, fileExtension: extension);
+    _navigation.pop(context);
+    String filePath = await FilePicker.getFilePath(type: fileType, fileExtension: extension);
     if (filePath == null) {
       return;
     }
@@ -693,7 +693,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
   }
 
   _chatTitleTapped() {
-    navigation.push(
+    _navigation.push(
       context,
       MaterialPageRoute(builder: (context) {
         return BlocProvider.value(
@@ -740,8 +740,8 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
           phoneNumberWidgetList.add(SimpleDialogOption(
             child: Text(phoneNumber),
             onPressed: () {
-              navigation.pop(context);
-              _callNumber(phoneNumber);
+              _navigation.pop(context);
+              callNumber(phoneNumber);
             },
           ));
         });
@@ -757,15 +757,8 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
     }
   }
 
-  void _onFlaggedPressed() {
-    navigation.push(
-      context,
-      MaterialPageRoute(builder: (context) => Flagged(chatId: widget.chatId)),
-    );
-  }
-
-  void _callNumber(String phoneNumber) {
-    final String parsedPhoneNumber = getPhoneNumberFromString(phoneNumber);
+  void callNumber(String phoneNumber) {
+    String parsedPhoneNumber = phoneNumber.getPhoneNumberFromString();
     launch("tel://$parsedPhoneNumber");
   }
 }
