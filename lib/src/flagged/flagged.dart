@@ -60,7 +60,7 @@ import 'flagged_events_state.dart';
 class Flagged extends StatefulWidget {
   final int chatId;
 
-  const Flagged({Key key, this.chatId}) : super(key: key);
+  const Flagged({Key key, this.chatId = Chat.typeStarred}) : super(key: key);
 
   @override
   _FlaggedState createState() => _FlaggedState();
@@ -75,6 +75,12 @@ class _FlaggedState extends State<Flagged> {
     super.initState();
     _navigation.current = Navigatable(Type.flagged);
     _flaggedBloc.add(RequestFlaggedMessages(chatId: widget.chatId));
+  }
+
+  @override
+  void dispose() {
+    _flaggedBloc.close();
+    super.dispose();
   }
 
   @override
@@ -126,7 +132,7 @@ class _FlaggedState extends State<Flagged> {
         bool hasDateMarker = state.dateMarkerIds.contains(messageId);
         var key = createKeyFromId(messageId, [state.messageLastUpdateValues[index]]);
         return MessageItem(
-          chatId: Chat.typeStarred,
+          chatId: widget.chatId,
           messageId: messageId,
           isGroupChat: true,
           hasDateMarker: hasDateMarker,

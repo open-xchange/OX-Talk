@@ -118,7 +118,7 @@ class FlaggedBloc extends Bloc<FlaggedEvent, FlaggedState> {
     }
 
     for (int index = 0; index < messageIds.length; index++) {
-      int previousIndex = index - 1;
+      final previousIndex = index - 1;
       if (previousIndex >= 0 && messageIds[previousIndex] == ChatMsg.idDayMarker) {
         dateMakerIds.add(messageIds[index]);
       }
