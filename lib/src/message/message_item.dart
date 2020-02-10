@@ -125,8 +125,7 @@ class _MessageItemState extends State<MessageItem> with AutomaticKeepAliveClient
   @override
   void initState() {
     super.initState();
-    _messageItemBloc
-        .add(LoadMessage(chatId: widget.chatId, messageId: widget.messageId, nextMessageId: widget.nextMessageId, isGroupChat: widget.isGroupChat));
+    _messageItemBloc.add(LoadMessage(chatId: widget.chatId, messageId: widget.messageId, nextMessageId: widget.nextMessageId, isGroupChat: widget.isGroupChat));
   }
 
   @override
@@ -140,7 +139,8 @@ class _MessageItemState extends State<MessageItem> with AutomaticKeepAliveClient
         bloc: _messageItemBloc,
         builder: (context, state) {
           if (state is MessageItemStateSuccess) {
-            var messageStateData = state.messageStateData;
+            final messageStateData = state.messageStateData;
+
             Widget message;
             if (messageStateData.isInfo) {
               message = MessageInfo(messageStateData: messageStateData, useInformationText: false);
@@ -151,6 +151,7 @@ class _MessageItemState extends State<MessageItem> with AutomaticKeepAliveClient
             } else {
               message = MessageReceived(messageStateData: messageStateData);
             }
+
             return Column(
               crossAxisAlignment: messageStateData.isOutgoing ? CrossAxisAlignment.end : CrossAxisAlignment.start,
               children: [
@@ -191,6 +192,7 @@ class _MessageItemState extends State<MessageItem> with AutomaticKeepAliveClient
                 ),
               ],
             );
+
           } else {
             return Container();
           }
