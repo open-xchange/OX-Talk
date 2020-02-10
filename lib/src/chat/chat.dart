@@ -741,7 +741,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
             child: Text(phoneNumber),
             onPressed: () {
               _navigation.pop(context);
-              callNumber(phoneNumber);
+              _callNumber(phoneNumber);
             },
           ));
         });
@@ -757,7 +757,14 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
     }
   }
 
-  void callNumber(String phoneNumber) {
+  void _onFlaggedPressed() {
+    _navigation.push(
+      context,
+      MaterialPageRoute(builder: (context) => Flagged(chatId: widget.chatId)),
+    );
+  }
+
+  void _callNumber(String phoneNumber) {
     String parsedPhoneNumber = phoneNumber.getPhoneNumberFromString();
     launch("tel://$parsedPhoneNumber");
   }
