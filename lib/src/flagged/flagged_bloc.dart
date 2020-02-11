@@ -114,7 +114,6 @@ class FlaggedBloc extends Bloc<FlaggedEvent, FlaggedState> {
     if (null != _chatId) {
       final List<int> messageIdsFromChat = List.from(await context.getChatMessages(_chatId, Context.chatListAddDayMarker));
       messageIds.removeWhere((id) => !messageIdsFromChat.contains(id));
-      _messageListRepository.clear();
     }
 
     for (int index = 0; index < messageIds.length; index++) {
@@ -124,11 +123,10 @@ class FlaggedBloc extends Bloc<FlaggedEvent, FlaggedState> {
       }
     }
     messageIds.removeWhere((id) => id == ChatMsg.idDayMarker);
-    _messageListRepository.putIfAbsent(ids: messageIds);
 
     add(
       FlaggedMessagesLoaded(
-          messageIds: _messageListRepository.getAllIds().reversed.toList(growable: false),
+          messageIds: messageIds,
           messageLastUpdateValues: _messageListRepository.getAllLastUpdateValues().reversed.toList(growable: false),
           dateMarkerIds: dateMakerIds),
     );
