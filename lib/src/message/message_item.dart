@@ -155,8 +155,6 @@ class _MessageItemState extends State<MessageItem> with AutomaticKeepAliveClient
             } else if (messageStateData.isSetupMessage) {
               message = MessageSetup(messageStateData: messageStateData);
             } else if (messageStateData.isOutgoing) {
-              final isFlagged = messageStateData.isFlagged;
-              print("[phranck] message_item.build isFlagged: $isFlagged");
               message = MessageSent(messageStateData: messageStateData);
             } else {
               message = MessageReceived(messageStateData: messageStateData);
