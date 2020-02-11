@@ -41,19 +41,14 @@
  */
 
 import 'dart:async';
-import 'dart:developer';
 import 'dart:ui';
 
 import 'package:bloc/bloc.dart';
 import 'package:delta_chat_core/delta_chat_core.dart';
 import 'package:flutter/foundation.dart';
-import 'package:ox_coi/src/chatlist/chat_list_bloc.dart';
-import 'package:ox_coi/src/chatlist/chat_list_event_state.dart';
 import 'package:ox_coi/src/data/repository.dart';
 import 'package:ox_coi/src/data/repository_manager.dart';
 import 'package:ox_coi/src/data/repository_stream_handler.dart';
-import 'package:ox_coi/src/flagged/flagged_bloc.dart';
-import 'package:ox_coi/src/flagged/flagged_events_state.dart';
 import 'package:ox_coi/src/l10n/l.dart';
 import 'package:ox_coi/src/l10n/l10n.dart';
 import 'package:ox_coi/src/message/message_item_event_state.dart';
@@ -185,7 +180,6 @@ class MessageItemBloc extends Bloc<MessageItemEvent, MessageItemState> {
         messageInfo: messageInfo,
       );
       yield MessageItemStateSuccess(messageStateData: messageStateData);
-
     } catch (error) {
       yield MessageItemStateFailure(error: error.toString());
     }
@@ -229,7 +223,7 @@ class MessageItemBloc extends Bloc<MessageItemEvent, MessageItemState> {
       _listenersRegistered = true;
       _repositoryStreamHandler = RepositoryMultiEventStreamHandler(
         Type.publish,
-        [Event.msgDelivered, Event.msgRead, Event.msgFailed],
+        [Event.msgDelivered, Event.msgRead, Event.msgFailed, Event.msgsChanged],
         _onMessageStateChanged,
       );
       _messageListRepository.addListener(_repositoryStreamHandler);
@@ -243,24 +237,29 @@ class MessageItemBloc extends Bloc<MessageItemEvent, MessageItemState> {
     }
   }
 
-  void _onMessageStateChanged(Event event) async{
+  void _onMessageStateChanged(Event event) async {
     final eventMessageId = event.data2;
-    if (_messageId == eventMessageId && (event.hasType(Event.msgDelivered) || event.hasType(Event.msgRead))) {
-      if (state is MessageItemStateSuccess) {
-        final eventMessageState = event.hasType(Event.msgDelivered) ? ChatMsg.messageStateDelivered : ChatMsg.messageStateReceived;
-        final messageStateData = (state as MessageItemStateSuccess).messageStateData.copyWith(state: eventMessageState);
-        add(MessageUpdated(messageStateData: messageStateData));
-        if (eventMessageState == ChatMsg.messageStateReceived) {
-          _unregisterListeners();
+    if (_messageId == eventMessageId) {
+      if (event.hasType(Event.msgDelivered) || event.hasType(Event.msgRead)) {
+        if (state is MessageItemStateSuccess) {
+          final eventMessageState = event.hasType(Event.msgDelivered) ? ChatMsg.messageStateDelivered : ChatMsg.messageStateReceived;
+          final messageStateData = (state as MessageItemStateSuccess).messageStateData.copyWith(state: eventMessageState);
+          add(MessageUpdated(messageStateData: messageStateData));
+          if (eventMessageState == ChatMsg.messageStateReceived) {
+            _unregisterListeners();
+          }
         }
+      } else if (event.hasType(Event.msgFailed)) {
+        final eventMessageState = ChatMsg.messageStateFailed;
+        final context = Context();
+        final String messageInfo = await context.getMessageInfo(_messageId);
+        final messageStateData = (state as MessageItemStateSuccess).messageStateData.copyWith(state: eventMessageState, messageInfo: messageInfo);
+        _unregisterListeners();
+        add(MessageUpdated(messageStateData: messageStateData));
+      } else if (event.hasType(Event.msgsChanged) && state is MessageItemStateSuccess) {
+        var flagged = await _messageListRepository.get(eventMessageId).isStarred();
+        add((MessageUpdated(messageStateData: (state as MessageItemStateSuccess).messageStateData.copyWith(isFlagged: flagged))));
       }
-    } else if (event.hasType(Event.msgFailed) && _messageId == event.data2){
-      final eventMessageState = ChatMsg.messageStateFailed;
-      final context = Context();
-      final String messageInfo = await context.getMessageInfo(_messageId);
-      final messageStateData = (state as MessageItemStateSuccess).messageStateData.copyWith(state: eventMessageState, messageInfo: messageInfo);
-      _unregisterListeners();
-      add(MessageUpdated(messageStateData: messageStateData));
     }
   }
 
