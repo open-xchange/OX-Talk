@@ -19,6 +19,7 @@ IOS_BUILD_FOLDER="build/app/outputs/ios/${flavor}"
 
 ANDROID_ARM_32="armeabi-v7a_libnative-utils.so"
 ANDROID_ARM_64="arm64-v8a_libnative-utils.so"
+ANDROID_X86="x86_libnative-utils.so"
 ANDROID_X64="x86_64_libnative-utils.so"
 ANDROID_LIBRARY_FOLDER="android/libs"
 ANDROID_LIBRARY_FILENAME="libnative-utils.so"
@@ -136,10 +137,12 @@ function downloadCore {
         if [[ ${coreVersion} == "latest" ]]; then
             wgetQuiet "${urlLatest}${ANDROID_ARM_32}";
             wgetQuiet "${urlLatest}${ANDROID_ARM_64}";
+            wgetQuiet "${urlLatest}${ANDROID_X86}";
             wgetQuiet "${urlLatest}${ANDROID_X64}";
         else
             wgetQuiet "${urlTag}${ANDROID_ARM_32}";
             wgetQuiet "${urlTag}${ANDROID_ARM_64}";
+            wgetQuiet "${urlTag}${ANDROID_X86}";
             wgetQuiet "${urlTag}${ANDROID_X64}";
         fi
     elif isIos; then
@@ -174,6 +177,7 @@ function moveCore {
     if isAndroid; then
         moveSingleCoreFile ${ANDROID_ARM_32}
         moveSingleCoreFile ${ANDROID_ARM_64}
+        moveSingleCoreFile ${ANDROID_X86}
         moveSingleCoreFile ${ANDROID_X64}
     elif isIos; then
         moveSingleCoreFile ${IOS_LIBRARY_FILENAME}
