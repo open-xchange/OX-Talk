@@ -19,10 +19,12 @@ IOS_BUILD_FOLDER="build/app/outputs/ios/${flavor}"
 
 ANDROID_ARM_32="armeabi-v7a_libnative-utils.so"
 ANDROID_ARM_64="arm64-v8a_libnative-utils.so"
-ANDROID_X86="x86_libnative-utils.so"
 ANDROID_X64="x86_64_libnative-utils.so"
 ANDROID_LIBRARY_FOLDER="android/libs"
 ANDROID_LIBRARY_FILENAME="libnative-utils.so"
+
+IOS_LIBRARY_FOLDER="ios/Libraries"
+IOS_LIBRARY_FILENAME="libdeltachat.a"
 
 # Setup
 if [[ "$#" != 6 ]]; then
@@ -134,13 +136,17 @@ function downloadCore {
         if [[ ${coreVersion} == "latest" ]]; then
             wgetQuiet "${urlLatest}${ANDROID_ARM_32}";
             wgetQuiet "${urlLatest}${ANDROID_ARM_64}";
-            wgetQuiet "${urlLatest}${ANDROID_X86}";
             wgetQuiet "${urlLatest}${ANDROID_X64}";
         else
             wgetQuiet "${urlTag}${ANDROID_ARM_32}";
             wgetQuiet "${urlTag}${ANDROID_ARM_64}";
-            wgetQuiet "${urlTag}${ANDROID_X86}";
             wgetQuiet "${urlTag}${ANDROID_X64}";
+        fi
+    elif isIos; then
+        if [[ ${coreVersion} == "latest" ]]; then
+            wgetQuiet "${urlLatest}${IOS_LIBRARY_FILENAME}";
+        else
+            wgetQuiet "${urlTag}${IOS_LIBRARY_FILENAME}";
         fi
     fi
 }
@@ -154,6 +160,10 @@ function moveSingleCoreFile {
         rm -f ${targetPath}
         echo "Moving $1 to ${targetPath}"
         mv ${1} ${targetPath}
+    elif isIos; then
+        targetFolder="../${PLUGIN_FOLDER}/${IOS_LIBRARY_FOLDER}/"
+        echo "Moving $1 to ${targetFolder}"
+        mv ${1} ${targetFolder}
     fi
 }
 
@@ -161,8 +171,9 @@ function moveCore {
     if isAndroid; then
         moveSingleCoreFile ${ANDROID_ARM_32}
         moveSingleCoreFile ${ANDROID_ARM_64}
-        moveSingleCoreFile ${ANDROID_X86}
         moveSingleCoreFile ${ANDROID_X64}
+    elif isIos; then
+        moveSingleCoreFile ${IOS_LIBRARY_FILENAME}
     fi
 }
 
@@ -198,5 +209,11 @@ elif isIos; then
     else
         iosDebugBuild
     fi
+fi
+echo "-- Performing additional build steps --"
+if isIos; then
+    echo "Adjusting symlinks"
+    cd "..$PLUGIN_FOLDER/$IOS_LIBRARY_FOLDER"
+    ln -sf "../../delta_chat_core/deltachat-ffi/deltachat.h" .
 fi
 echo "-- Finishing --"
