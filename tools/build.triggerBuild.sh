@@ -162,6 +162,9 @@ function moveSingleCoreFile {
         mv ${1} ${targetPath}
     elif isIos; then
         targetFolder="../${PLUGIN_FOLDER}/${IOS_LIBRARY_FOLDER}/"
+        targetPath="${targetFolder}${IOS_LIBRARY_FILENAME}"
+        mkdir -p ${targetFolder}
+        rm -f ${targetPath}
         echo "Moving $1 to ${targetFolder}"
         mv ${1} ${targetFolder}
     fi
@@ -213,7 +216,7 @@ fi
 echo "-- Performing additional build steps --"
 if isIos; then
     echo "Adjusting symlinks"
-    cd "..$PLUGIN_FOLDER/$IOS_LIBRARY_FOLDER"
+    cd "../$PLUGIN_FOLDER/$IOS_LIBRARY_FOLDER"
     ln -sf "../../delta_chat_core/deltachat-ffi/deltachat.h" .
 fi
 echo "-- Finishing --"
