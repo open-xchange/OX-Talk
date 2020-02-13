@@ -50,7 +50,7 @@ import 'flagged_events_state.dart';
 
 class FlaggedBloc extends Bloc<FlaggedEvent, FlaggedState> {
   RepositoryEventStreamHandler _repositoryStreamHandler;
-  Repository<ChatMsg> _messageListRepository;
+  Repository<ChatMsg> _messageListRepository = RepositoryManager.get(RepositoryType.chatMessage, Chat.typeStarred);
   bool _listenersRegistered = false;
   int _chatId;
 
@@ -63,21 +63,17 @@ class FlaggedBloc extends Bloc<FlaggedEvent, FlaggedState> {
       yield FlaggedStateLoading();
       try {
         _chatId = event.chatId;
-        _messageListRepository = RepositoryManager.get(RepositoryType.chatMessage, Chat.typeStarred);
         _registerListeners();
         _loadFlaggedMessages();
-
       } catch (error) {
         yield FlaggedStateFailure(error: error.toString());
       }
-
     } else if (event is FlaggedMessagesLoaded) {
       yield FlaggedStateSuccess(
         messageIds: event.messageIds,
         messageLastUpdateValues: event.messageLastUpdateValues,
         dateMarkerIds: event.dateMarkerIds,
       );
-
     } else if (event is UpdateMessages) {
       _loadFlaggedMessages();
     }
@@ -90,18 +86,18 @@ class FlaggedBloc extends Bloc<FlaggedEvent, FlaggedState> {
   }
 
   void _registerListeners() {
-      if (!_listenersRegistered) {
-        _listenersRegistered = true;
-        _repositoryStreamHandler = RepositoryEventStreamHandler(Type.publish, Event.msgsChanged, _updateMessages);
-        _messageListRepository.addListener(_repositoryStreamHandler);
-      }
+    if (!_listenersRegistered) {
+      _listenersRegistered = true;
+      _repositoryStreamHandler = RepositoryEventStreamHandler(Type.publish, Event.msgsChanged, _updateMessages);
+      _messageListRepository.addListener(_repositoryStreamHandler);
+    }
   }
 
   void _unregisterListeners() {
-      if (_listenersRegistered) {
-        _listenersRegistered = false;
-        _messageListRepository?.removeListener(_repositoryStreamHandler);
-      }
+    if (_listenersRegistered) {
+      _listenersRegistered = false;
+      _messageListRepository?.removeListener(_repositoryStreamHandler);
+    }
   }
 
   void _updateMessages(Event event) => add(UpdateMessages());
@@ -110,6 +106,7 @@ class FlaggedBloc extends Bloc<FlaggedEvent, FlaggedState> {
     final List<int> dateMakerIds = List();
     final Context context = Context();
     final List<int> messageIds = List.from(await context.getChatMessages(Chat.typeStarred, Context.chatListAddDayMarker));
+    _messageListRepository.putIfAbsent(ids: messageIds.where((id) => id != ChatMsg.idDayMarker).toList());
 
     if (null != _chatId) {
       final List<int> messageIdsFromChat = List.from(await context.getChatMessages(_chatId, Context.chatListAddDayMarker));
@@ -123,11 +120,10 @@ class FlaggedBloc extends Bloc<FlaggedEvent, FlaggedState> {
       }
     }
     messageIds.removeWhere((id) => id == ChatMsg.idDayMarker);
-
     add(
       FlaggedMessagesLoaded(
-          messageIds: messageIds,
-          messageLastUpdateValues: _messageListRepository.getAllLastUpdateValues().reversed.toList(growable: false),
+          messageIds: messageIds.reversed.toList(growable: false),
+          messageLastUpdateValues: _messageListRepository.getLastUpdateValuesForIds(messageIds).reversed.toList(growable: false),
           dateMarkerIds: dateMakerIds),
     );
   }

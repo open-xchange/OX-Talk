@@ -282,7 +282,21 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
                       onTap: () => _chatTitleTapped(),
                       child: buildRow(imagePath, name, subTitle, color, context, isVerified),
                     ),
-              actions: _getActions(isGroupChat: isGroupChat),
+              actions: [
+                if (!isGroupChat)
+                  AdaptiveIconButton(
+                    icon: AdaptiveIcon(icon: IconSource.phone),
+                    key: Key(keyChatIconButtonIconPhone),
+                    onPressed: _onPhonePressed,
+                    color: CustomTheme.of(context).onPrimary,
+                  ),
+                AdaptiveIconButton(
+                  icon: AdaptiveIcon(icon: IconSource.flag,),
+                  key: Key(keyChatListGetFlaggedActionIconButton),
+                  onPressed: _onFlaggedPressed,
+                  color: CustomTheme.of(context).onPrimary,
+                ),
+              ],
             ),
             body: new Column(
               children: <Widget>[
@@ -702,24 +716,6 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
         );
       }),
     );
-  }
-
-  List<Widget> _getActions({bool isGroupChat}) {
-    return [
-      if (!isGroupChat)
-        AdaptiveIconButton(
-          icon: AdaptiveIcon(icon: IconSource.phone),
-          key: Key(keyChatIconButtonIconPhone),
-          onPressed: _onPhonePressed,
-          color: CustomTheme.of(context).onPrimary,
-        ),
-      AdaptiveIconButton(
-        icon: AdaptiveIcon(icon: IconSource.flag,),
-        key: Key(keyChatListGetFlaggedActionIconButton),
-        onPressed: _onFlaggedPressed,
-        color: CustomTheme.of(context).onPrimary,
-      ),
-    ];
   }
 
   void _onPhonePressed() {
