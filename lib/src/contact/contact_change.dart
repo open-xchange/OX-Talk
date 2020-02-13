@@ -143,6 +143,8 @@ class _ContactChangeState extends State<ContactChange> {
           );
         }
       }
+    } else if (state is ContactChangeStateFailure) {
+      showToast(L10n.get(L.contactAddFailedAlreadyExists));
     }
   }
 
@@ -177,25 +179,25 @@ class _ContactChangeState extends State<ContactChange> {
         ),
         body: SingleChildScrollView(
             child: BlocListener(
-              bloc: _contactChangeBloc,
-              listener: (context, state) {
-                if (state is GoogleContactDetected) {
-                  showConfirmationDialog(context: context,
-                    title: L10n.get(L.contactGooglemailDialogTitle),
-                    content: L10n.get(L.contactGooglemailDialogContent),
-                    positiveButton: L10n.get(L.contactGooglemailDialogPositiveButton),
-                    positiveAction: () => _goolemailMailAddressAction(state.name, state.email, true),
-                    negativeButton: L10n.get(L.contactGooglemailDialogNegativeButton),
-                    negativeAction: () => _goolemailMailAddressAction(state.name, state.email, false),
-                    navigatable: Navigatable(Type.contactGooglemailDetectedDialog),
-                    barrierDismissible: false,
-                    onWillPop: _onGoogleMailDialogWillPop,
-                  );
-                }
-              },
-              child: _buildForm(),
-            )
-        ));
+          bloc: _contactChangeBloc,
+          listener: (context, state) {
+            if (state is GoogleContactDetected) {
+              showConfirmationDialog(
+                context: context,
+                title: L10n.get(L.contactGooglemailDialogTitle),
+                content: L10n.get(L.contactGooglemailDialogContent),
+                positiveButton: L10n.get(L.contactGooglemailDialogPositiveButton),
+                positiveAction: () => _goolemailMailAddressAction(state.name, state.email, true),
+                negativeButton: L10n.get(L.contactGooglemailDialogNegativeButton),
+                negativeAction: () => _goolemailMailAddressAction(state.name, state.email, false),
+                navigatable: Navigatable(Type.contactGooglemailDetectedDialog),
+                barrierDismissible: false,
+                onWillPop: _onGoogleMailDialogWillPop,
+              );
+            }
+          },
+          child: _buildForm(),
+        )));
   }
 
   _onSubmit() {
@@ -243,7 +245,7 @@ class _ContactChangeState extends State<ContactChange> {
               child: Container(
                 color: CustomTheme.of(context).surface,
                 child: Padding(
-                  padding: const EdgeInsets.only(left: formHorizontalPadding, right: formHorizontalPadding),
+                  padding: const EdgeInsets.symmetric(horizontal: formHorizontalPadding),
                   child: Row(
                     children: <Widget>[
                       AdaptiveIcon(icon: IconSource.person),
@@ -282,7 +284,7 @@ class _ContactChangeState extends State<ContactChange> {
                   children: <Widget>[
                     for (var phoneNumber in ContactExtension.getPhoneNumberList(widget.phoneNumbers))
                       Padding(
-                        padding: const EdgeInsets.only(top: formVerticalPadding, bottom: formVerticalPadding),
+                        padding: const EdgeInsets.symmetric(horizontal: formHorizontalPadding, vertical: formVerticalPadding),
                         child: Row(
                           children: <Widget>[
                             AdaptiveIcon(icon: IconSource.phone),
@@ -316,7 +318,9 @@ class _ContactChangeState extends State<ContactChange> {
               visible: widget.contactAction == ContactAction.add,
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: ListGroupHeader(text: L10n.get(L.qrAddContactHeader),) ,
+                child: ListGroupHeader(
+                  text: L10n.get(L.qrAddContactHeader),
+                ),
               ),
             ),
             Visibility(

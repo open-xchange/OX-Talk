@@ -97,10 +97,10 @@ class _ContactDetailsState extends State<ContactDetails> with ChatCreateMixin {
     } else if (state is ContactChangeStateFailure) {
       switch (state.error) {
         case contactDeleteGeneric:
-          showToast(getDeleteFailedMessage(context));
+          showToast(L10n.get(L.contactDeleteFailed));
           break;
         case contactDeleteChatExists:
-          showToast(getDeleteFailedBecauseChatExistsMessage(context));
+          showToast(L10n.get(L.contactDeleteWithActiveChatFailed));
           break;
       }
     }
@@ -124,7 +124,7 @@ class _ContactDetailsState extends State<ContactDetails> with ChatCreateMixin {
                   ProfileData(
                     text: state.name,
                     textStyle: Theme.of(context).textTheme.title,
-                    secondText: state.email,
+                    secondaryText: state.email,
                     avatarPath: state.imagePath,
                     imageBackgroundColor: state.color,
                     editActionCallback: () => _editContact(context, state.name, state.email, state.phoneNumbers),
@@ -225,11 +225,4 @@ class _ContactDetailsState extends State<ContactDetails> with ChatCreateMixin {
     return L10n.get(L.contactBlockedSuccess);
   }
 
-  String getDeleteFailedMessage(BuildContext context) {
-    return L10n.get(L.contactDeleteFailed);
-  }
-
-  String getDeleteFailedBecauseChatExistsMessage(BuildContext context) {
-    return L10n.get(L.contactDeleteWithActiveChatFailed);
-  }
 }
