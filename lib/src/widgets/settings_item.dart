@@ -77,6 +77,7 @@ class SettingsItem extends StatelessWidget {
   final bool showChevron;
   final Function onSwitchChanged;
   final Color textColor;
+  final double itemHeight;
 
   SettingsItem({
     Key key,
@@ -88,22 +89,30 @@ class SettingsItem extends StatelessWidget {
     this.showChevron = true,
     this.onSwitchChanged,
     this.textColor,
+    this.itemHeight = listItemHeight,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    
-    ThemeKey actualKey = CustomTheme.instanceOf(context).actualThemeKey;
+    final ThemeKey actualKey = CustomTheme.instanceOf(context).actualThemeKey;
+
+    final backgroundSize = itemHeight - settingsItemVerticalPadding * 2;
+    final iconBackgroundPadding = 4.0;
+    final iconSize = backgroundSize - iconBackgroundPadding * 2;
+
     return InkWell(
       onTap: onTap,
       child: Container(
         color: CustomTheme.of(context).surface,
+        height: itemHeight,
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: settingsItemHorizontalPadding, vertical: settingsItemVerticalPadding),
           child: Row(
-            children: <Widget>[
+            children: [
               AdaptiveSuperellipseIcon(
                 color: iconBackground,
+                backgroundSize: backgroundSize,
+                iconSize: iconSize,
                 iconColor: CustomTheme.of(context).white,
                 icon: icon,
               ),

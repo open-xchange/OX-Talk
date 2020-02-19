@@ -40,19 +40,16 @@
  * for more details.
  */
 
-import 'package:delta_chat_core/delta_chat_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon.dart';
 import 'package:ox_coi/src/data/config.dart';
-import 'package:ox_coi/src/error/error_bloc.dart';
 import 'package:ox_coi/src/flagged/flagged.dart';
 import 'package:ox_coi/src/invite/invite_bloc.dart';
 import 'package:ox_coi/src/invite/invite_event_state.dart';
 import 'package:ox_coi/src/l10n/l.dart';
 import 'package:ox_coi/src/l10n/l10n.dart';
-import 'package:ox_coi/src/login/login.dart';
 import 'package:ox_coi/src/main/main_bloc.dart';
 import 'package:ox_coi/src/main/main_event_state.dart';
 import 'package:ox_coi/src/main/root_child.dart';
@@ -76,8 +73,6 @@ import 'package:ox_coi/src/widgets/list_group_header.dart';
 import 'package:ox_coi/src/widgets/profile_header.dart';
 import 'package:ox_coi/src/widgets/settings_item.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../../main.dart';
 
 class UserProfile extends RootChild {
   UserProfile({appBarActionsStream, Key key}) : super(appBarActionsStream: appBarActionsStream, key: key);
@@ -362,19 +357,20 @@ class _ProfileState extends State<UserProfile> {
   }
 
   void _showLogoutDialog({BuildContext context}) {
-    // ignore: close_sinks
-    final mainBloc = BlocProvider.of<MainBloc>(context);
-
     showConfirmationDialog(
       context: context,
       title: L10n.get(L.logoutTitle),
       content: L10n.get(L.logoutConfirmationText),
       positiveButton: L10n.get(L.logoutTitle),
-      positiveAction: () => {
-        mainBloc.add(Logout())
-      },
+      positiveAction: _logoutAction,
       navigatable: Navigatable(Type.logout),
     );
+  }
+
+  void _logoutAction() {
+    // ignore: close_sinks
+    final mainBloc = BlocProvider.of<MainBloc>(context);
+    mainBloc.add(Logout());
   }
 
   void _changeTheme() async {

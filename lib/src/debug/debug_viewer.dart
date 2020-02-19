@@ -40,9 +40,12 @@
  * for more details.
  */
 
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_app_bar.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon.dart';
+import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon_button.dart';
 import 'package:ox_coi/src/debug/debug_viewer_bloc.dart';
 import 'package:ox_coi/src/debug/debug_viewer_event_state.dart';
 import 'package:ox_coi/src/l10n/l.dart';
@@ -52,10 +55,6 @@ import 'package:ox_coi/src/navigation/navigation.dart';
 import 'package:ox_coi/src/utils/clipboard.dart';
 import 'package:ox_coi/src/utils/text.dart';
 import 'package:ox_coi/src/widgets/state_info.dart';
-
-import 'package:ox_coi/src/adaptiveWidgets/adaptive_app_bar.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon_button.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon.dart';
 
 class DebugViewer extends StatefulWidget {
   final String input;

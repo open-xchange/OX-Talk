@@ -61,6 +61,8 @@ class AppDelegate: FlutterAppDelegate {
         application.setMinimumBackgroundFetchInterval(60 * 5)
         setupSharingMethodChannel()
 
+        UserDefaults.applicationShouldTerminate = false
+
         return super.application(application, didFinishLaunchingWithOptions: launchOptions)
     }
 
@@ -72,6 +74,17 @@ class AppDelegate: FlutterAppDelegate {
 
     override func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         Messaging.messaging().apnsToken = deviceToken
+    }
+
+    override func applicationDidEnterBackground(_ application: UIApplication) {
+        if UserDefaults.applicationShouldTerminate {
+            let sel = Selector("terminateWithSuccess")
+            if application.responds(to: sel) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                    application.perform(sel)
+                }
+            }
+        }
     }
 
 }

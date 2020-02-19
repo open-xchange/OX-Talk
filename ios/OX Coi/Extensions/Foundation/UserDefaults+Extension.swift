@@ -40,42 +40,18 @@
  * for more details.
  */
 
-import 'package:flutter/material.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon.dart';
-import 'package:ox_coi/src/l10n/l.dart';
-import 'package:ox_coi/src/l10n/l10n.dart';
-import 'package:ox_coi/src/utils/keyMapping.dart';
+import Foundation
 
-class Search extends StatelessWidget {
-  final TextEditingController controller;
+extension UserDefaults {
 
-  Search({@required this.controller});
+    class var applicationShouldTerminate: Bool {
+        get {
+            standard.bool(forKey: #function)
+        }
+        set {
+            standard.set(newValue, forKey: #function)
+            standard.synchronize()
+        }
+    }
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: TextField(
-        textInputAction: TextInputAction.search,
-        decoration: InputDecoration(
-          labelText: L10n.get(L.contactSearch),
-          prefixIcon: AdaptiveIcon(
-              icon: IconSource.search
-          ),
-          suffixIcon: GestureDetector(
-            child: AdaptiveIcon(
-                icon: IconSource.close
-            ),
-            key: Key(keySearchFieldCloseIcon),
-            onTap: () => _exitSearch(context),
-          ),
-        ),
-        controller: controller,
-      ),
-    );
-  }
-
-  void _exitSearch(BuildContext context) {
-    controller.text = "";
-    FocusScope.of(context).requestFocus(new FocusNode());
-  }
 }
