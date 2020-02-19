@@ -64,7 +64,7 @@ void main() {
   const testNameGroup = "TestGroup";
   const newNameTestGroup = "NewNameTestGroup";
   const keyMoreButton11 = "keyMoreButton_11";
-  const keyMoreButton10 = "keyMoreButton_12";
+  const keyMoreButton12 = "keyMoreButton_12";
   const popupItemInfo = "Info";
   const popupItemRemove = "Remove from group";
   const popupItemSendMessage = "Send message";
@@ -120,9 +120,9 @@ void main() {
       await driver.tap(find.text(testNameGroup));
       await driver.tap(find.byValueKey(keyChatNameText));
       await driver.tap(find.byValueKey(keyProfileHeaderAdaptiveIconButton));
-      await driver.tap(find.byValueKey(keyEditNameValidatableTextFormField));
+      await driver.tap(find.byValueKey(keyUserSettingsUsernameLabel));
       await driver.enterText(newNameTestGroup);
-      await driver.tap(find.byValueKey(keyEditNameCheckIcon));
+      await driver.tap(find.byValueKey(keyEditGroupProfilAdaptiveIconIconSource));
       expect(await driver.getText(find.text(newNameTestGroup)), newNameTestGroup);
       await driver.tap(pageBack);
       await driver.tap(pageBack);
@@ -163,7 +163,7 @@ void main() {
     });
 
     test(': Check popupMenu: Test send menu.', () async {
-      await driver.tap(find.byValueKey(keyMoreButton10));
+      await driver.tap(find.byValueKey(keyMoreButton12));
       await driver.tap(find.text(popupItemSendMessage));
       await writeChatFromChat(driver);
       await driver.tap(pageBack);
@@ -172,6 +172,7 @@ void main() {
     test(': Check popupMenu: Leave group.', () async {
       await driver.tap(find.text(newNameTestGroup));
       await driver.tap(find.byValueKey(keyChatNameText));
+      await driver.scroll(find.byValueKey(keyChatProfileGroupAddParticipant), 0.0, -600, Duration(milliseconds: 500));
       await driver.tap(find.byValueKey(keyChatProfileGroupDelete));
       await driver.tap(find.byValueKey(keyConfirmationDialogPositiveButton));
       await driver.waitForAbsent(find.text(newNameTestGroup));

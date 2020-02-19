@@ -76,16 +76,16 @@ void main() {
     const realServer = 'mobile-coi.open-xchange.com';
     final settingsManuelFormValidatableTextFormFieldPasswordFieldFinder = find.byValueKey(keySettingsManuelFormValidatableTextFormFieldPasswordField);
     final userAccountAdaptiveIconButtonIconCheckFinder = find.byValueKey(keyUserAccountAdaptiveIconButtonIconCheck);
-    final settingsManuelFormValidatableTextFormFieldImapServerFieldFinder = find.byValueKey(keySettingsManuelFormValidatableTextFormFieldImapServerField);
-
+    final settingsManuelFormValidatableTextFormFieldImapServerFieldFinder =
+        find.byValueKey(keySettingsManuelFormValidatableTextFormFieldImapServerField);
 
     test(': Open profile', () async {
       await driver.tap(profileFinder);
+      await driver.scroll(find.byValueKey(keyUserProfileDarkModeIconSource), 0.0, -600, Duration(milliseconds: 500));
+      await driver.tap(find.byValueKey(keyUserProfileServerSettingIconSource));
     });
 
     test(': Case real password and fake IMAP server.', () async {
-      await driver.scroll(find.byValueKey(keyUserProfileDarkModeIconSource), 0.0, -600, Duration(milliseconds: 500));
-      await driver.tap(find.byValueKey(keyUserProfileServerSettingIconSource));
       await driver.tap(settingsManuelFormValidatableTextFormFieldPasswordFieldFinder);
       await driver.enterText(realPassword);
       await driver.tap(settingsManuelFormValidatableTextFormFieldImapServerFieldFinder);

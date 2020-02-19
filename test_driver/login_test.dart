@@ -174,7 +174,6 @@ Future checkOxCoiWelcomeAndProviderList(
 
   //  Check if all providers are found in the list.
   var actualProvideOutlook = await driver.getText(find.text(outlook));
-
   var actualProviderYahoo = await driver.getText(find.text(yahoo));
   var actualLoginText = await driver.getText(find.text(L.getKey(L.loginSignIn)));
   var actualProviderDebug = await driver.getText(coiDebugFinder);

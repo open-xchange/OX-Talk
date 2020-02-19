@@ -160,13 +160,12 @@ class _ChatCreateState extends State<ChatCreate> {
           leading: AdaptiveIcon(
             icon: IconSource.personAdd,
             color: CustomTheme.of(context).accent,
-            key: Key(keyChatCreatePersonAddIcon),
           ),
           title: Text(
             L10n.get(L.contactNew),
             style: Theme.of(context).textTheme.subhead.merge(getAccentW500TextStyle(context)),
           ),
-          onTap: newContactTapped,
+          onTap: newContactTapped,key: Key(keyChatCreatePersonAddIcon),
         ),
         Container(
           decoration: BoxDecoration(
@@ -178,13 +177,12 @@ class _ChatCreateState extends State<ChatCreate> {
             leading: AdaptiveIcon(
               icon: IconSource.groupAdd,
               color: CustomTheme.of(context).accent,
-              key: Key(keyChatCreateGroupAddIcon),
             ),
             title: Text(
               L10n.get(L.groupCreate),
               style: Theme.of(context).textTheme.subhead.merge(getAccentW500TextStyle(context)),
             ),
-            onTap: createGroupTapped,
+            onTap: createGroupTapped, key: Key(keyChatCreateGroupAddIcon),
           ),
         ),
       ],

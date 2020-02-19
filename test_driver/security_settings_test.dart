@@ -95,6 +95,6 @@ void main() {
     test(': Test import keys.', () async {
       await driver.tap(find.text(expertImportKeys));
       await driver.tap(find.text(L.getKey(L.ok)));
-    });
+    }, timeout: Timeout(Duration(seconds: 60)));
   });
 }

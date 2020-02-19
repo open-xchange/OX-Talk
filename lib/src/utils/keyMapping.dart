@@ -51,7 +51,8 @@ const keyUserProfileFlagIconSource = "keyUserProfileFlagIconSource";
 const keyUserProfileAvatarIconSource = "keyUserProfileAvatarIconSource";
 const keyUserProfileQrIconSource = "keyUserProfileQrIconSource";
 const keyUserProfileChatIconSource = "keyUserProfileChatIconSource";
-const keyUserProfileSecurityIconSource = "keyUserProfileSecorityIconsource";
+const keyUserProfileSecurityIconSource = "keyUserProfileSecurityIconsource";
+
 const keyUserProfilePersonAddIconSource = "keyUserProfilePersonAddIconSource";
 const keyUserProfileSignatureIconSource = "keyUserProfileSignatureIconSource";
 const keyUserProfileLockIconSource = "keyUserProfileLockIconSource";
@@ -64,21 +65,20 @@ const keyRootIconContactsTitleText = "Contacts";
 const keyRootIconProfileTitleText = "Profile";
 
 const keyUserSettingsCheckIconButton = "keyUserSettingsCheckIconButton";
-const keyUserSettingsUserSettingsUsernameLabel = "key_UserSettingsUserSettingsUsernameLabel";
+const keyUserSettingsUsernameLabel = "keyUserSettingsUsernameLabel";
 
 const keyInformationDialogPositiveButton = "keyDialogBuilderImportFlatButton";
-
 const keyConfirmationDialogPositiveButton = "keyDialogBuilderImportFlatButton";
 const keyConfirmationDialogCancelButton = "keyDialogBuilderCancelFlatButton";
 
-const keyContactListPersonAddFloatingActionButton = "key_ContactListPersonAddFloatingActionButton";
+const keyContactListPersonAddFloatingActionButton = "keyContactListPersonAddFloatingActionButton";
 
 const keyContactChangeCheckIconButton = "keyContactChangeCheckIconButton";
 const keyContactChangeCloseIconButton = "keyContactChangeCloseIconButton";
-const keyContactChangeEmailValidatableTextFormField = "keyContact_changeEmailValidatableTextFormField";
-const keyContactChangeNameValidatableTextFormField = "key_ContactChangeNameValidatableTextFormField";
+const keyContactChangeEmailValidatableTextFormField = "keyContactchangeEmailValidatableTextFormField";
+const keyContactChangeNameValidatableTextFormField = "keyContactChangeNameValidatableTextFormField";
 
-const keyContactListImportContactIconButton = "key_ContactListImportContactIconButton";
+const keyContactListImportContactIconButton = "keyContactListImportContactIconButton";
 const keyUserProfileBlockIconButton = "keyContactListBlockIconButton";
 const keyUserProfileBlockIconSource = "keyUserProfilBlockIconSource";
 const keyContactListSearchIconButton = "keyContactListSearchIconButton";
@@ -90,22 +90,22 @@ const keyContactDetailOpenChatProfileActionIcon = "keyContactDetailOpenChatProfi
 const keyContactDetailEditContactProfileActionIcon = "keyContactDetailEditContactProfileActionIcon";
 const keyContactDetailDeleteContactProfileActionIcon = "keyContactDetaildeleteContactProfileActionIcon";
 
-const keyContactBlockedListCloseIconButton = "key_ContactBlockedListCloseIconButton";
+const keyContactBlockedListCloseIconButton = "keyContactBlockedListCloseIconButton";
 
-const keyChatListChatFloatingActionButton = "key_ChatListChatFloatingActionButton";
-const keyChatListSearchIconButton = "key_ChatListSearchIconButton";
-const keyChatListSearchEmptyIconButton = "key_ChatListSearchEmptyIconButton";
+const keyChatListChatFloatingActionButton = "keyChatListChatFloatingActionButton";
+const keyChatListSearchIconButton = "keyChatListSearchIconButton";
+const keyChatListSearchEmptyIconButton = "keyChatListSearchEmptyIconButton";
 
-const keySearchReturnIconButton = "key_SearchReturnIconButton";
-const keySearchFieldCloseIcon = "key_SearchFieldCloseIcon";
-const keySearchClearIconButton = "key_SearchClearIconButton";
+const keySearchReturnIconButton = "keySearchReturnIconButton";
+const keySearchFieldCloseIcon = "keySearchFieldCloseIcon";
+const keySearchClearIconButton = "keySearchClearIconButton";
 
-const keyChatCreatePersonAddIcon = "key_ChatCreatePersonAddIcon";
-const keyChatCreateGroupAddIcon = "key_ChatcreateGroupAddIcon";
-const keyChatCreateSearchIcon = "key_ChatcreateSearchIcon";
+const keyChatCreatePersonAddIcon = "keyChatCreatePersonAddIcon";
+const keyChatCreateGroupAddIcon = "keyChatcreateGroupAddIcon";
+const keyChatCreateSearchIcon = "keyChatcreateSearchIcon";
 const keyChatCreateAdaptiveAppBar = "keyChatCreateAdaptiveAppBar";
 
-const keyChatCreateGroupParticipantsCloseIconButton = "key_ChatCreateGroupParticipantsIconButton";
+const keyChatCreateGroupParticipantsCloseIconButton = "keyChatCreateGroupParticipantsIconButton";
 const keyChatCreateGroupParticipantsSummitIconButton = "keyChatCreateGroupParticipantsSummitIconButton";
 
 const keyChatCreateGroupSettingCheckIconButton = "keyChatCreateGroupParticipantsCheckIconButton";
@@ -116,15 +116,16 @@ const keyChatProfileGroupAddParticipant = "keyChatProfileGroupAddParticipant";
 
 const keyEditNameCheckIcon = "keyEditNameICheckIcon";
 const keyEditNameCloseIcon = "keyEditNameICloseIcon";
-const keyEditNameValidatableTextFormField = "keyEditNameValidatableTextFormField";
+const keyEditNameEditableProfileHeader = "keyEditNameValidatableTextFormField";
+const keyEditGroupProfilAdaptiveIconIconSource = "keyEditGroupProfilAdaptiveIconIconSource";
 
 const keyChatAddGroupParticipantsSearchIcon = "keyChatAddGroupParticipantsSearchIcon";
 const keyChatAddGroupParticipantsCheckIcon = "keyChatAddGroupParticipantsCheckIcon";
 const keyChatAddGroupParticipantsCloseIcon = "keyChatAddGroupParticipantsCloseIcon";
 
-const KeyChatComposerMixinOnRecordAudioSendIcon = "KeyChat_composer_mixinOnRecordAudioPressedSendIcon";
-const KeyChatComposerMixinOnSendTextIcon = "KeyChat_composer_mixinOnSendTextIcon";
-const KeyChatComposerMixinOnRecordAudioPressedIcon = "keyChat_Composite_MixinOnRecordAudioPressedIcon";
+const KeyChatComposerMixinOnRecordAudioSendIcon = "KeyChatComposerMixinOnRecordAudioPressedSendIcon";
+const KeyChatComposerMixinOnSendTextIcon = "KeyChatcomposermixinOnSendTextIcon";
+const KeyChatComposerMixinOnRecordAudioPressedIcon = "KeyChatComposerMixinOnRecordAudioPressedIcon";
 
 const keyChatProfileGroupDelete = "keyChatProfileGroupDelete";
 const keyChatIconButtonIconPhone = "keyChatIconButtonIconPhone";

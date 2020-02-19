@@ -137,6 +137,7 @@ class _ChatProfileGroupState extends State<ChatProfileGroup> {
                         child: SettingsItem(
                           icon: IconSource.groupAdd,
                           text: L10n.get(L.participantAdd),
+                          key: Key(keyChatProfileGroupAddParticipant),
                           iconBackground: CustomTheme.of(context).accent,
                           onTap: () => _navigation.push(context,
                               MaterialPageRoute(builder: (context) => ChatAddGroupParticipants(chatId: widget.chatId, contactIds: state.contactIds))),
@@ -149,6 +150,7 @@ class _ChatProfileGroupState extends State<ChatProfileGroup> {
                         iconBackground: CustomTheme.of(context).error,
                         textColor: CustomTheme.of(context).error,
                         onTap: () => showActionDialog(context, ProfileActionType.leave, _leaveGroup),
+                        key: Key(keyChatProfileGroupDelete),
                       ),
                     ],
                   );
@@ -225,7 +227,8 @@ class _ChatProfileGroupState extends State<ChatProfileGroup> {
       MaterialPageRoute<EditGroupProfile>(
         builder: (context) {
           return BlocProvider.value(
-            value: _chatBloc,key: Key(keyChatProfileGroupEditIcon),
+            value: _chatBloc,
+            key: Key(keyChatProfileGroupEditIcon),
             child: EditGroupProfile(
               chatId: widget.chatId,
             ),

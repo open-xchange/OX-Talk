@@ -88,6 +88,7 @@ Future deleteContact(
   String newTestName,
 ) async {
   await driver.tap(find.text(newTestName));
+  await driver.scroll(find.byValueKey(keyContactDetailOpenChatProfileActionIcon), 0.0,-600, Duration(milliseconds: 500));
   await driver.tap(find.byValueKey(keyContactDetailDeleteContactProfileActionIcon));
   await driver.tap(find.byValueKey(keyConfirmationDialogPositiveButton));
 }

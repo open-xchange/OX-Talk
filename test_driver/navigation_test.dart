@@ -84,7 +84,7 @@ void main() {
 }
 
 Future checkProfile(FlutterDriver driver) async {
-  SerializableFinder settingsUserSettingsUsernameLabelFinder = find.byValueKey(keyUserSettingsUserSettingsUsernameLabel);
+  SerializableFinder settingsUserSettingsUsernameLabelFinder = find.byValueKey(keyUserSettingsUsernameLabel);
   SerializableFinder finderUserProfileEditRaisedButton = find.byValueKey(keyProfileHeaderAdaptiveIconButton);
   await driver.tap(profileFinder);
   await driver.tap(finderUserProfileEditRaisedButton);

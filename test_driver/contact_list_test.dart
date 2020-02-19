@@ -93,7 +93,7 @@ Future manageContact(FlutterDriver driver, String newTestName, String newMe) asy
   await driver.tap(find.text(newTestName));
   var actualContactName = await driver.getText(find.text(newTestName));
   expect(actualContactName, newTestName);
-  await driver.tap(find.byValueKey(keyContactDetailEditContactProfileActionIcon));
+  await driver.tap(find.byValueKey(keyProfileHeaderAdaptiveIconButton));
   await driver.tap(keyContactChangeNameFinder);
   await driver.enterText(newMe);
   await driver.tap(keyContactChangeCheckFinder);

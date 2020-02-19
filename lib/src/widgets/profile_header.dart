@@ -387,7 +387,7 @@ class EditableProfileHeader extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   TextFormField(
-                      key: Key(keyUserSettingsUserSettingsUsernameLabel),
+                      key: Key(keyUserSettingsUsernameLabel),
                       maxLines: 1,
                       controller: nameController,
                       decoration: InputDecoration(labelText: placeholder)),
