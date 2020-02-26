@@ -67,7 +67,7 @@ void main() {
       await driver.tap(profileFinder);
       expect(await driver.getText(find.byValueKey(keyProfileHeaderText)), realEmail);
       await driver.tap(find.byValueKey(keyProfileHeaderAdaptiveIconButton));
-      await driver.tap(find.byValueKey(keyUserSettingsUserSettingsUsernameLabel));
+      await driver.tap(find.byValueKey(keyUserSettingsUsernameLabel));
       await driver.enterText(testUserNameUserProfile);
       await driver.tap(userSettingsCheckIconButtonFinder);
     });

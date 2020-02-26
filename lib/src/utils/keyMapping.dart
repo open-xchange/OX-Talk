@@ -52,6 +52,7 @@ const keyUserProfileAvatarIconSource = "keyUserProfileAvatarIconSource";
 const keyUserProfileQrIconSource = "keyUserProfileQrIconSource";
 const keyUserProfileChatIconSource = "keyUserProfileChatIconSource";
 const keyUserProfileSecurityIconSource = "keyUserProfileSecorityIconsource";
+
 const keyUserProfilePersonAddIconSource = "keyUserProfilePersonAddIconSource";
 const keyUserProfileSignatureIconSource = "keyUserProfileSignatureIconSource";
 const keyUserProfileLockIconSource = "keyUserProfileLockIconSource";
@@ -64,10 +65,9 @@ const keyRootIconContactsTitleText = "Contacts";
 const keyRootIconProfileTitleText = "Profile";
 
 const keyUserSettingsCheckIconButton = "keyUserSettingsCheckIconButton";
-const keyUserSettingsUserSettingsUsernameLabel = "key_UserSettingsUserSettingsUsernameLabel";
+const keyUserSettingsUsernameLabel = "key_UserSettingsUsernameLabel";
 
 const keyInformationDialogPositiveButton = "keyDialogBuilderImportFlatButton";
-
 const keyConfirmationDialogPositiveButton = "keyDialogBuilderImportFlatButton";
 const keyConfirmationDialogCancelButton = "keyDialogBuilderCancelFlatButton";
 
