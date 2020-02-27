@@ -52,7 +52,6 @@ const keyUserProfileAvatarIconSource = "keyUserProfileAvatarIconSource";
 const keyUserProfileQrIconSource = "keyUserProfileQrIconSource";
 const keyUserProfileChatIconSource = "keyUserProfileChatIconSource";
 const keyUserProfileSecurityIconSource = "keyUserProfileSecurityIconsource";
-
 const keyUserProfilePersonAddIconSource = "keyUserProfilePersonAddIconSource";
 const keyUserProfileSignatureIconSource = "keyUserProfileSignatureIconSource";
 const keyUserProfileLockIconSource = "keyUserProfileLockIconSource";
