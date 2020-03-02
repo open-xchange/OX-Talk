@@ -42,6 +42,7 @@
 
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:delta_chat_core/delta_chat_core.dart';
@@ -226,7 +227,10 @@ class MainBloc extends Bloc<MainEvent, MainState> {
 
   Future<void> _logout() async {
     clearPreferences();
-    _context.logout();
+    await _context.logout();
+    if(Platform.isAndroid){
+      SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+    }
   }
 
 }
