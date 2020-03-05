@@ -227,7 +227,11 @@ class MainBloc extends Bloc<MainEvent, MainState> {
 
   Future<void> _logout() async {
     clearPreferences();
-    await _context.logout();
+    await core.logout();
+
+    final dbFile = File(core.dbPath);
+    await dbFile.delete();
+
     if(Platform.isAndroid){
       SystemChannels.platform.invokeMethod('SystemNavigator.pop');
     }
