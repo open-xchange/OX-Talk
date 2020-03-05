@@ -46,6 +46,8 @@ abstract class ChatComposerEvent {}
 
 class StartAudioRecording extends ChatComposerEvent {}
 
+class CheckPermissions extends ChatComposerEvent {}
+
 class UpdateAudioRecording extends ChatComposerEvent {
   final String timer;
 
@@ -118,6 +120,8 @@ enum ChatComposerStateError {
 abstract class ChatComposerState {}
 
 class ChatComposerInitial extends ChatComposerState {}
+
+class ChatComposerPermissionsAccepted extends ChatComposerState {}
 
 class ChatComposerRecordingAudio extends ChatComposerState {
   String timer;

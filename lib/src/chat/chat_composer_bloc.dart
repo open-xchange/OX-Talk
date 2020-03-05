@@ -69,21 +69,24 @@ class ChatComposerBloc extends Bloc<ChatComposerEvent, ChatComposerState> {
 
   @override
   Stream<ChatComposerState> mapEventToState(ChatComposerEvent event) async* {
-    if (event is StartAudioRecording) {
+    if (event is CheckPermissions) {
+      bool hasMicPermission = await hasPermission(PermissionGroup.microphone);
+      bool hasFilesPermission = await hasPermission(PermissionGroup.storage);
+
+      if (hasMicPermission && hasFilesPermission) {
+        yield ChatComposerPermissionsAccepted();
+      } else {
+        yield ChatComposerRecordingFailed(error: ChatComposerStateError.missingMicrophonePermission);
+      }
+    } else if (event is StartAudioRecording) {
       try {
         _removeFirstEntry = false;
         _cutoffValue = 1;
         _replayTime = 0;
         _isSeeking = false;
         _dbPeakList = List<double>();
-        bool hasContactPermission = await hasPermission(PermissionGroup.microphone);
-        bool hasFilesPermission = await hasPermission(PermissionGroup.storage);
-        if (hasContactPermission && hasFilesPermission) {
-          await startAudioRecorder();
-          yield ChatComposerRecordingAudio(timer: "00:00");
-        } else {
-          yield ChatComposerRecordingFailed(error: ChatComposerStateError.missingMicrophonePermission);
-        }
+
+        await startAudioRecorder();
       } catch (err) {
         print('startRecorder error: $err');
         yield ChatComposerRecordingAudioStopped(filePath: null, dbPeakList: null, sendAudio: false);
@@ -96,6 +99,7 @@ class ChatComposerBloc extends Bloc<ChatComposerEvent, ChatComposerState> {
       if (_removeFirstEntry != event.removeFirstEntry) {
         _removeFirstEntry = event.removeFirstEntry;
       }
+
       _cutoffValue = event.cutoffValue;
     } else if (event is StopAudioRecording) {
       yield* stopAudioRecorder(sendAudio: event.sendAudio);
@@ -103,6 +107,7 @@ class ChatComposerBloc extends Bloc<ChatComposerEvent, ChatComposerState> {
       yield* stopAudioRecorder(isAborted: true);
     } else if (event is StartImageOrVideoRecording) {
       bool hasCameraPermission = await hasPermission(PermissionGroup.camera);
+
       if (hasCameraPermission) {
         startImageOrVideoRecorder(event.pickImage);
       } else {
@@ -132,9 +137,12 @@ class ChatComposerBloc extends Bloc<ChatComposerEvent, ChatComposerState> {
   Future<void> startAudioRecorder() async {
     _dbPeakList = List<double>();
     final shortPeakList = List<double>();
+
     _audioPath = await _flutterSound.startRecorder(null, bitRate: 64000, numChannels: 1);
+
     _flutterSound.setDbLevelEnabled(true);
     _flutterSound.setDbPeakLevelUpdate(1.0);
+
     _recorderDBPeakSubscription = _flutterSound.onRecorderDbPeakChanged.listen((newDBPeak) {
       var newPeak = (newDBPeak / 5);
       _dbPeakList.add(newPeak);
@@ -144,6 +152,7 @@ class ChatComposerBloc extends Bloc<ChatComposerEvent, ChatComposerState> {
       }
       add(UpdateAudioDBPeak(dbPeakList: shortPeakList));
     });
+
     _recorderSubscription = _flutterSound.onRecorderStateChanged.listen((e) {
       String timer = getTimerFromTimestamp(e.currentPosition.toInt());
       add(UpdateAudioRecording(timer: timer));
@@ -153,14 +162,18 @@ class ChatComposerBloc extends Bloc<ChatComposerEvent, ChatComposerState> {
   _seekAudioPlayer(int seekValue) async {
     _isSeeking = false;
     _replayTime = seekValue;
-    add(ReplayAudioTimeUpdate(replayTime: _replayTime));
     int milliSeconds = (seekValue * 1000);
+
+    add(ReplayAudioTimeUpdate(replayTime: _replayTime));
+
     await _flutterSound.seekToPlayer(milliSeconds);
   }
 
   _replayAudio() async {
-    await _flutterSound.startPlayer(_audioPath);
     _replayTime = 0;
+
+    await _flutterSound.startPlayer(_audioPath);
+
     _playerSubscription = _flutterSound.onPlayerStateChanged.listen((data) {
       if (data?.duration != data?.currentPosition) {
         int currentTimer = (data.currentPosition / 1000).round();
@@ -176,7 +189,9 @@ class ChatComposerBloc extends Bloc<ChatComposerEvent, ChatComposerState> {
 
   _stopAudio() async {
     await _flutterSound.stopPlayer();
+
     _isSeeking = false;
+
     if (_playerSubscription != null) {
       _playerSubscription.cancel();
       _playerSubscription = null;
@@ -210,6 +225,7 @@ class ChatComposerBloc extends Bloc<ChatComposerEvent, ChatComposerState> {
   Future<void> startImageOrVideoRecorder(bool pickImage) async {
     File file;
     int type;
+    
     if (pickImage) {
       file = await ImagePicker.pickImage(source: ImageSource.camera);
       type = ChatMsg.typeImage;

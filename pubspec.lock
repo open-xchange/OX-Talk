@@ -910,6 +910,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.8"
+  vibrate:
+    dependency: "direct main"
+    description:
+      name: vibrate
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.4"
   video_player:
     dependency: "direct main"
     description:

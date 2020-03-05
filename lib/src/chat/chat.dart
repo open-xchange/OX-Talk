@@ -84,6 +84,7 @@ import 'package:ox_coi/src/utils/image.dart';
 import 'package:ox_coi/src/utils/keyMapping.dart';
 import 'package:ox_coi/src/utils/key_generator.dart';
 import 'package:ox_coi/src/utils/toast.dart';
+import 'package:ox_coi/src/utils/vibration.dart';
 import 'package:ox_coi/src/widgets/avatar.dart';
 import 'package:ox_coi/src/widgets/state_info.dart';
 import 'package:path/path.dart' as Path;
@@ -122,6 +123,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
   bool _isLocked = false;
   bool _isStopped = false;
   bool _isPlaying = false;
+  bool _hasPermissions = false;
   String _composingAudioTimer;
   List<double> _dbPeakList;
   int _replayTime = 0;
@@ -131,7 +133,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
   String _selectedExtension = "";
   String _fileName = "";
   String _phoneNumbers;
-  final  _scrollController = ScrollController();
+  final _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -214,6 +216,10 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
       setState(() {
         _dbPeakList = state.dbPeakList;
       });
+    } else if (state is ChatComposerPermissionsAccepted) {
+      setState(() {
+        _hasPermissions = true;
+      });
     } else if (state is ChatComposerRecordingAudioStopped) {
       if (state.filePath != null) {
         _filePath = state.filePath;
@@ -250,6 +256,9 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
       _dbPeakList = null;
       String chatComposeFailed;
       if (state.error == ChatComposerStateError.missingMicrophonePermission) {
+        setState(() {
+          _hasPermissions = false;
+        });
         chatComposeFailed = L10n.get(L.chatAudioRecordingFailed);
       } else if (state.error == ChatComposerStateError.missingCameraPermission) {
         chatComposeFailed = L10n.get(L.chatVideoRecordingFailed);
@@ -331,62 +340,62 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
                     color: CustomTheme.of(context).onPrimary,
                   ),
                 AdaptiveIconButton(
-                  icon: AdaptiveIcon(icon: IconSource.flag,),
+                  icon: AdaptiveIcon(
+                    icon: IconSource.flag,
+                  ),
                   // TODO key: Key(keyChatListGetFlaggedActionIconButton),
                   onPressed: _onFlaggedPressed,
                   color: CustomTheme.of(context).onPrimary,
                 ),
               ],
             ),
-            body: Stack(
+            body: Column(
               children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    Flexible(
-                      child: MultiBlocProvider(
-                        providers: [
-                          BlocProvider<MessageListBloc>.value(
-                            value: _messageListBloc,
+                Flexible(
+                  child: MultiBlocProvider(
+                    providers: [
+                      BlocProvider<MessageListBloc>.value(
+                        value: _messageListBloc,
+                      ),
+                      BlocProvider<ChatBloc>.value(
+                        value: _chatBloc,
+                      ),
+                    ],
+                    child: Stack(children: <Widget>[
+                      MessageList(scrollController: _scrollController, chatId: widget.chatId),
+                      Visibility(
+                        visible: _composingAudioTimer != null,
+                        child: Positioned(
+                          bottom: 8.0,
+                          right: 8.0,
+                          child: Container(
+                            decoration: ShapeDecoration(
+                              shape: getSuperEllipseShape(32.0),
+                              color: CustomTheme.of(context).surface,
+                            ),
+                            child: AdaptiveIconButton(
+                              icon: AdaptiveSuperellipseIcon(
+                                icon: IconSource.send,
+                                iconSize: 20.0,
+                                color: CustomTheme.of(context).accent,
+                                iconColor: CustomTheme.of(context).white,
+                              ),
+                              onPressed: () => _isLocked ? _chatComposerBloc.add(StopAudioRecording(sendAudio: true)) : _onPrepareMessageSend(),
+                            ),
                           ),
-                          BlocProvider<ChatBloc>.value(
-                            value: _chatBloc,
-                          ),
-                        ],
-                        child: MessageList(scrollController: _scrollController, chatId: widget.chatId),
-                      ),
-                    ),
-                    if (isInviteChat(widget.chatId)) buildInviteChoice(),
-                    if (_filePath.isNotEmpty && _knownType != ChatMsg.typeVoice) buildPreview(),
-                    Divider(height: dividerHeight),
-                    if (state is ChatStateSuccess && !state.isRemoved)
-                      Container(
-                        decoration: BoxDecoration(color: CustomTheme.of(context).surface),
-                        child: SafeArea(child: _buildTextComposer()),
-                      ),
-                  ],
-                ),
-                Visibility(
-                  visible: _composingAudioTimer != null,
-                  child: Positioned(
-                    bottom: 72.0,
-                    right: 8.0,
-                    child: Container(
-                      decoration: ShapeDecoration(
-                        shape: getSuperEllipseShape(32.0),
-                        color: CustomTheme.of(context).surface,
-                      ),
-                      child: AdaptiveIconButton(
-                        icon: AdaptiveSuperellipseIcon(
-                          icon: IconSource.send,
-                          iconSize: 20.0,
-                          color: CustomTheme.of(context).accent,
-                          iconColor: CustomTheme.of(context).white,
                         ),
-                        onPressed: () => _isLocked ? _chatComposerBloc.add(StopAudioRecording(sendAudio: true)) : _onPrepareMessageSend(),
                       ),
-                    ),
+                    ]),
                   ),
-                )
+                ),
+                if (isInviteChat(widget.chatId)) buildInviteChoice(),
+                if (_filePath.isNotEmpty && _knownType != ChatMsg.typeVoice) buildPreview(),
+                Divider(height: dividerHeight),
+                if (state is ChatStateSuccess && !state.isRemoved)
+                  Container(
+                    decoration: BoxDecoration(color: CustomTheme.of(context).surface),
+                    child: SafeArea(child: _buildTextComposer()),
+                  ),
               ],
             ),
           );
@@ -605,6 +614,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
       onAudioPlayingStopped: _onAudioPlayingStopped,
       onRecordVideoPressed: _onRecordVideoPressed,
       onCaptureImagePressed: _onCaptureImagePressed,
+      onMicTapDown: _onMicTapDown,
       type: _getComposerType(),
       onSendText: _onPrepareMessageSend,
       text: _composingAudioTimer,
@@ -728,22 +738,31 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
   double startLongPressDx;
   double startLongPressDy;
 
-  _onRecordAudioPressed(LongPressStartDetails details) {
+  _onRecordAudioPressed(LongPressStartDetails details) async {
+    if (!_hasPermissions) return;
+
     startLongPressDx = details.localPosition.dx;
     startLongPressDy = details.localPosition.dy;
-    _chatComposerBloc.add(StartAudioRecording());
-    setState(() {
-      _isStopped = false;
-      _isPlaying = false;
-    });
+
+    if (!_isStopped) {
+      _chatComposerBloc.add(StartAudioRecording());
+      setState(() {
+        _isStopped = false;
+        _isPlaying = false;
+      });
+    }
   }
 
   _onAudioRecordingStoppedLongPress(LongPressEndDetails details) {
+    if (!_hasPermissions) return;
+
     double dxDifference = startLongPressDx - details.localPosition.dx;
     double dyDifference = startLongPressDy - details.localPosition.dy;
 
     if (dyDifference > 50.0) {
-      _chatComposerBloc.add(StopAudioRecording(sendAudio: true));
+      if (_dbPeakList != null && _dbPeakList.length > 0) {
+        _chatComposerBloc.add(StopAudioRecording(sendAudio: true));
+      }
     } else if (dxDifference > 45.0) {
       setState(() {
         _isLocked = true;
@@ -751,6 +770,11 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
     } else {
       _chatComposerBloc.add(StopAudioRecording());
     }
+  }
+
+  _onMicTapDown(TapDownDetails details) {
+    vibrateMedium();
+    _chatComposerBloc.add(CheckPermissions());
   }
 
   _onAudioRecordingStopped() {

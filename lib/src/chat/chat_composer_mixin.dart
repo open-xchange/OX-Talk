@@ -42,6 +42,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon.dart';
 import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon_button.dart';
@@ -172,6 +173,7 @@ mixin ChatComposer {
     @required Function onAudioPlayingStopped,
     @required Function onRecordVideoPressed,
     @required Function onCaptureImagePressed,
+    @required Function onMicTapDown,
     @required BuildContext context,
     @required String text,
     @required bool isLocked,
@@ -237,6 +239,7 @@ mixin ChatComposer {
       widgets.add(GestureDetector(
         onLongPressStart: onRecordAudioPressed,
         onLongPressEnd: onRecordAudioStoppedLongPress,
+        onTapDown: onMicTapDown,
         child: Container(
           decoration: BoxDecoration(
             color: isLocked || isStopped || type == ComposerModeType.compose
