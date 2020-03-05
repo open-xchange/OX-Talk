@@ -131,6 +131,9 @@ class MainBloc extends Bloc<MainEvent, MainState> {
 
     } else if (event is Logout) {
       await _logout();
+
+    } else if (event is DatabaseDeleteErrorEncountered) {
+      yield MainStateFailure(error: event.error);
     }
 
     if (event is UserVisibleErrorEncountered) {
@@ -229,11 +232,16 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     clearPreferences();
     await core.logout();
 
-    final dbFile = File(core.dbPath);
-    await dbFile.delete();
+    try {
+      final dbFile = File(core.dbPath);
+      await dbFile.delete();
 
-    if(Platform.isAndroid){
-      SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+      if (Platform.isAndroid) {
+        SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+      }
+
+    } catch(error) {
+      add(DatabaseDeleteErrorEncountered(error: error));
     }
   }
 

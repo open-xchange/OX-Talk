@@ -62,6 +62,12 @@ class UserVisibleErrorEncountered extends MainEvent {
   UserVisibleErrorEncountered({@required this.userVisibleError});
 }
 
+class DatabaseDeleteErrorEncountered extends MainEvent {
+  Error error;
+
+  DatabaseDeleteErrorEncountered({@required this.error});
+}
+
 abstract class MainState {}
 
 class MainStateInitial extends MainState {}
