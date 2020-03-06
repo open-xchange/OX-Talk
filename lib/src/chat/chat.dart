@@ -270,8 +270,8 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
   _clearAudioComposer() async {
     await Future.delayed(Duration(microseconds: 100));
     setState(() {
+      _dbPeakList.clear();
       _composingAudioTimer = null;
-      _dbPeakList = null;
       _isStopped = false;
       _isLocked = false;
       _isPlaying = false;
@@ -694,6 +694,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
       _messageListBloc.add(SendMessage(text: text));
     } else {
       int type = getType();
+      if(type == ChatMsg.typeVoice) _onAudioRecordingAbort();
       _messageListBloc.add(SendMessage(path: _filePath, fileType: type, text: text, isShared: widget.sharedData != null));
     }
 

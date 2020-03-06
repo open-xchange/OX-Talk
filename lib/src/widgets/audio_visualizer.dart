@@ -45,6 +45,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ox_coi/src/chat/chat_composer_bloc.dart';
 import 'package:ox_coi/src/chat/chat_composer_event_state.dart';
 import 'package:ox_coi/src/ui/custom_theme.dart';
+import 'package:ox_coi/src/ui/dimensions.dart';
 import 'package:ox_coi/src/widgets/custom_painters.dart';
 
 class AudioPlayback extends StatefulWidget {
@@ -58,14 +59,17 @@ class AudioPlayback extends StatefulWidget {
 }
 
 class _AudioPlaybackState extends State<AudioPlayback> {
+  var changeableList = List<double>();
   int _dragUpdateValue = 0;
   var _replayFactor = 1.0;
   var _replayTime;
   var _peakListLength;
+  double _maxWidth = 0.0;
 
   @override
   void initState() {
     super.initState();
+    changeableList = List<double>();
     _replayFactor = 1.0;
     _replayTime = 0;
     _dragUpdateValue = 0;
@@ -75,14 +79,14 @@ class _AudioPlaybackState extends State<AudioPlayback> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        var changeableList = List<double>();
-
+        changeableList = List<double>();
+        _maxWidth = constraints.maxWidth;
         changeableList.addAll(widget.dbPeakList);
         _peakListLength = changeableList.length;
 
         var spaceNeeded = (_peakListLength * 3);
-        if (spaceNeeded > constraints.maxWidth) {
-          var start = ((_peakListLength - (((_peakListLength - constraints.maxWidth)).round())) / 3).round();
+        if (spaceNeeded > _maxWidth) {
+          var start = ((_peakListLength - (((_peakListLength - _maxWidth)).round())) / 3).round();
           changeableList.removeRange(start, widget.dbPeakList.length);
           _replayFactor = (widget.dbPeakList.length / changeableList.length);
         }
@@ -92,26 +96,26 @@ class _AudioPlaybackState extends State<AudioPlayback> {
           _replayTime--;
         }
 
-        return Container(
-          padding: const EdgeInsets.only(top: 30.0),
-          child: GestureDetector(
-            onHorizontalDragUpdate: _onHorizontalDragUpdate,
-            onHorizontalDragEnd: _onHorizontalDragEnd,
-            onTapUp: _onTapUp,
-            behavior: HitTestBehavior.opaque,
+        return GestureDetector(
+          onHorizontalDragUpdate: _replayTime > 0 ? _onHorizontalDragUpdate : null,
+          onHorizontalDragEnd: _replayTime > 0 ? _onHorizontalDragEnd : null,
+          onTapDown: _replayTime > 0 ? _onTapUp : null,
+          behavior: HitTestBehavior.opaque,
+          child: Container(
+            padding: const EdgeInsets.only(top: audioPlaybackTopPadding),
             child: Stack(
               children: <Widget>[
                 VoicePainter(
                   dbPeakList: changeableList,
                   color: CustomTheme.of(context).onSurface,
                   withChild: true,
-                  width: constraints.maxWidth,
+                  width: _maxWidth,
                 ),
                 VoicePainter(
                   dbPeakList: changeableList.getRange(0, _replayTime).toList(),
                   color: CustomTheme.of(context).accent,
                   withChild: false,
-                  width: constraints.maxWidth,
+                  width: _maxWidth,
                 ),
               ],
             ),
@@ -122,7 +126,7 @@ class _AudioPlaybackState extends State<AudioPlayback> {
   }
 
   void _onHorizontalDragUpdate(DragUpdateDetails details) {
-    _dragUpdateValue = (details.localPosition.dx / 2).round();
+    _dragUpdateValue = _calculateSeekPosition(details.localPosition.dx);
     final listLength = widget.dbPeakList.length;
 
     if (_dragUpdateValue >= 0 && _dragUpdateValue <= listLength) {
@@ -138,10 +142,14 @@ class _AudioPlaybackState extends State<AudioPlayback> {
     _seekToPosition(_dragUpdateValue);
   }
 
-  void _onTapUp(TapUpDetails details) {
-    final x = (details.localPosition.dx / 2).round();
+  int _calculateSeekPosition(double dxPosition){
+    return (((dxPosition / 3)) * _replayFactor).round();
+  }
 
-    _seekToPosition(x);
+  void _onTapUp(TapDownDetails details) {
+    final position = _calculateSeekPosition(details.localPosition.dx);
+
+    _seekToPosition(position);
   }
 
   _seekToPosition(int position) {
@@ -180,7 +188,7 @@ class _VoicePainterState extends State<VoicePainter> {
               ),
             )
           : Container(),
-      size: Size(widget.width, 0.0),
+      size: Size(widget.width, zero),
       painter: BarPainter(peakLevel: widget.dbPeakList, callback: callback, color: widget.color),
     );
   }

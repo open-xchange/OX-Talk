@@ -204,3 +204,6 @@ const errorBannerPositionLeft = 0.0;
 const errorBannerPositionRight = 0.0;
 const errorBannerPositionTop = 24.0;
 const errorBannerElevation = 4.0;
+
+//Voice Recording
+const audioPlaybackTopPadding = 30.0;

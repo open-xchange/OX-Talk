@@ -216,6 +216,9 @@ class ChatComposerBloc extends Bloc<ChatComposerEvent, ChatComposerState> {
     }
 
     if (isAborted) {
+      if(_flutterSound.isPlaying){
+        await _flutterSound.stopPlayer();
+      }
       yield ChatComposerRecordingAudioAborted();
     } else {
       yield ChatComposerRecordingAudioStopped(filePath: _audioPath, dbPeakList: _dbPeakList, sendAudio: sendAudio);
