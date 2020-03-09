@@ -46,20 +46,38 @@
 import 'dart:core';
 
 import 'package:flutter/cupertino.dart';
-import 'package:metadata_fetch/metadata_fetch.dart';
-import 'package:url/url.dart';
 import 'package:http/http.dart' as http;
-
+import 'package:metadata_fetch/metadata_fetch.dart';
+import 'package:ox_coi/src/extensions/string_apis.dart';
+import 'package:url/url.dart';
 
 extension UrlPreview on String {
-
   static String _previewTitle;
   static String _previewDescription;
-  static String _previewImage;
+  static String _previewImageUrl;
+  static List<Url> _previewUrls;
   static String _previewUrl;
 
   // RegEx is taken from here: https://www.w3resource.com/javascript-exercises/javascript-regexp-exercise-9.php
-  static final _matchUrl = RegExp(r'^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$');
+  static final _matchContainsUrl = RegExp(r'(?:(?:https?|ftps?):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?');
+
+  Future<bool> get containsUrls async {
+    _previewUrls = _matchContainsUrl.allMatches(this).map((match) {
+      try {
+        final url = Url.parse(match.group(0).trim());
+        return url;
+      } catch (error) {
+        return null;
+      }
+    }).toList();
+
+    if (_previewUrls.length > 0) {
+      await _generatePreviewDataFor(url: _previewUrls.first);
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   String get previewTitle {
     return _previewTitle;
@@ -69,42 +87,47 @@ extension UrlPreview on String {
     return _previewDescription;
   }
 
-  String get previewImage {
-    return _previewImage;
+  String get previewImageUrl {
+    return _previewImageUrl;
   }
 
   String get previewUrl {
     return _previewUrl;
   }
 
-  bool get isPreviewableUrl {
-    if (_matchUrl.hasMatch(this)) {
-      final metaData = this._metadata;
+  Future<bool> get isPreviewableUrl async {
+    if (await this.containsUrls) {
+      return this.previewImageUrl.isNullOrEmpty() ? false : true;
     }
     return false;
   }
 
+  Future<void> _generatePreviewDataFor({@required Url url}) async {
+    final metadata = await url._metadata;
+
+    UrlPreview._previewTitle = metadata["title"];
+    UrlPreview._previewDescription = metadata["description"];
+    UrlPreview._previewImageUrl = metadata["imageUrl"];
+    UrlPreview._previewUrl = metadata["url"];
+  }
+}
+
+extension PreviewMetaData on Url {
+
   Future<Map<String, String>> get _metadata async {
-    try {
-      final url = Url.parse(this);
-      final response = await http.get(url.toString());
-      final document = responseToDocument(response);
-      final openGraphData = MetadataParser.OpenGraph(document);
-      final htmlData = MetadataParser.HtmlMeta(document);
-      print(htmlData);
+    final response = await http.get(this.toString());
+    final document = responseToDocument(response);
+    final openGraphData = MetadataParser.OpenGraph(document);
+    final htmlMetaData = MetadataParser.HtmlMeta(document);
+    print(htmlMetaData);
 
-      final result = {
-        'title': openGraphData.title,
-        'description': openGraphData.description,
-        'imageUrl': openGraphData.image,
-        'url': url.toString(),
-      };
-
-      return result;
-
-    } catch (error) {
-      return null;
-    }
+    final result = {
+      'title': openGraphData.title,
+      'description': openGraphData.description,
+      'imageUrl': openGraphData.image,
+      'url': this.toString(),
+    };
+    return result;
   }
 
 }

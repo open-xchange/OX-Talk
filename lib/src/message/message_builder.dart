@@ -113,7 +113,7 @@ class MessageMaterial extends StatelessWidget {
 class MessageText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final markdown = _getText(context).markdown();
+    final markdown = _getText(context).toMarkdownString();
 
     return Padding(
       padding: getNamePaddingForGroups(context),

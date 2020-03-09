@@ -44,7 +44,6 @@
  */
 
 import 'package:html2md/html2md.dart' as html2md;
-import 'package:ox_coi/src/extensions/string_linkpreview.dart';
 
 extension Markdown on String {
 
@@ -55,7 +54,7 @@ extension Markdown on String {
     return addresses.length > 0 ? addresses : null;
   }
 
-  String markdown() {
+  String toMarkdownString() {
     final _emailAddresses = emailAddresses();
     String markdown = this;
 
