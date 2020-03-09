@@ -49,7 +49,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon.dart';
-import 'package:ox_coi/src/extensions/string_apis.dart';
+import 'package:ox_coi/src/extensions/string_markdown.dart';
 import 'package:ox_coi/src/message/message_attachment_bloc.dart';
 import 'package:ox_coi/src/message/message_attachment_event_state.dart';
 import 'package:ox_coi/src/message/message_item_bloc.dart';
