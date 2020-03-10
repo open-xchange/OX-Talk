@@ -479,9 +479,9 @@ packages:
   metadata_fetch:
     dependency: "direct main"
     description:
-      name: metadata_fetch
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../metadata_fetch"
+      relative: true
+    source: path
     version: "0.2.2"
   mime:
     dependency: "direct main"

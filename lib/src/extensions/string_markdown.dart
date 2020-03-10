@@ -44,6 +44,7 @@
  */
 
 import 'package:html2md/html2md.dart' as html2md;
+import 'package:ox_coi/src/extensions/string_linkpreview.dart';
 
 extension Markdown on String {
 
@@ -54,7 +55,7 @@ extension Markdown on String {
     return addresses.length > 0 ? addresses : null;
   }
 
-  String toMarkdownString() {
+  Future<String> markdownString() async {
     final _emailAddresses = emailAddresses();
     String markdown = this;
 
@@ -66,8 +67,6 @@ extension Markdown on String {
     _emailAddresses?.forEach((address) {
       markdown = markdown.replaceAll(address, "[$address](mailto:$address)").toString();
     });
-
-//    final metadata = markdown.metadata();
 
     return markdown;
   }

@@ -113,7 +113,7 @@ class MessageMaterial extends StatelessWidget {
 class MessageText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final markdown = _getText(context).toMarkdownString();
+    final String markdown = _getMarkdownString(context).toString();
 
     return Padding(
       padding: getNamePaddingForGroups(context),
@@ -135,6 +135,11 @@ Future<void> _launch({@required String url}) async {
 
 String _getText(BuildContext context) {
   return MessageData.of(context).useInformationText ? _getMessageStateData(context).informationText : _getMessageStateData(context).text;
+}
+
+Future<String> _getMarkdownString(BuildContext context) async {
+  final result = await _getText(context).markdownString();
+  return result;
 }
 
 MessageStateData _getMessageStateData(BuildContext context) => MessageData.of(context).messageStateData;
