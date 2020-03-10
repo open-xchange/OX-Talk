@@ -228,7 +228,7 @@ class _ContactChangeState extends State<ContactChange> {
                       children: <Widget>[
                         AdaptiveIcon(icon: IconSource.mail),
                         Padding(
-                          padding: EdgeInsets.only(right: iconFormPadding),
+                          padding: const EdgeInsets.only(right: iconFormPadding),
                         ),
                         Text(
                           widget.email ?? "",
@@ -241,7 +241,7 @@ class _ContactChangeState extends State<ContactChange> {
               ),
             ),
             Padding(
-              padding: widget.contactAction == ContactAction.add ? const EdgeInsets.only(top: editAddContactTopPadding) : const EdgeInsets.all(0.0),
+              padding: widget.contactAction == ContactAction.add ? const EdgeInsets.only(top: editAddContactTopPadding) : const EdgeInsets.all(zero),
               child: Container(
                 color: CustomTheme.of(context).surface,
                 child: Padding(
@@ -268,7 +268,7 @@ class _ContactChangeState extends State<ContactChange> {
                     children: <Widget>[
                       AdaptiveIcon(icon: IconSource.mail),
                       Padding(
-                        padding: EdgeInsets.only(right: iconFormPadding),
+                        padding: const EdgeInsets.only(right: iconFormPadding),
                       ),
                       Expanded(child: _emailField),
                     ],
@@ -289,7 +289,7 @@ class _ContactChangeState extends State<ContactChange> {
                           children: <Widget>[
                             AdaptiveIcon(icon: IconSource.phone),
                             Padding(
-                              padding: EdgeInsets.only(right: iconFormPadding),
+                              padding: const EdgeInsets.only(right: iconFormPadding),
                             ),
                             Text(
                               phoneNumber,
@@ -304,8 +304,8 @@ class _ContactChangeState extends State<ContactChange> {
             ),
             Padding(
               padding: const EdgeInsets.only(
-                  top: editAddContactVerticalPadding,
-                  bottom: editAddContactBigVerticalPadding,
+                  top: dimension32dp,
+                  bottom: dimension72dp,
                   left: formVerticalPadding,
                   right: formVerticalPadding),
               child: Text(

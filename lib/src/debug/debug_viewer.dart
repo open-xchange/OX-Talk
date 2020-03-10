@@ -53,6 +53,7 @@ import 'package:ox_coi/src/l10n/l.dart';
 import 'package:ox_coi/src/l10n/l10n.dart';
 import 'package:ox_coi/src/navigation/navigatable.dart';
 import 'package:ox_coi/src/navigation/navigation.dart';
+import 'package:ox_coi/src/ui/dimensions.dart';
 import 'package:ox_coi/src/utils/clipboard.dart';
 import 'package:ox_coi/src/widgets/state_info.dart';
 
@@ -119,7 +120,7 @@ class _DebugViewerState extends State<DebugViewer> {
           return SingleChildScrollView(
             child: Container(
               width: double.infinity,
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(dimension16dp),
               child: Text(state.data),
             ),
           );

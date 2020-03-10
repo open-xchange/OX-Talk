@@ -112,7 +112,7 @@ class _SettingsDebugState extends State<SettingsDebug> {
             return ListView(
               children: ListTile.divideTiles(context: context, tiles: [
                 ListTile(
-                  contentPadding: EdgeInsets.symmetric(vertical: listItemPadding, horizontal: listItemPaddingBig),
+                  contentPadding: EdgeInsets.symmetric(vertical: listItemPadding, horizontal: listItemPadding),
                   title: Text(L10n.get(L.debugFCMToken)),
                   subtitle: Text(token),
                   onTap: () {
@@ -121,7 +121,7 @@ class _SettingsDebugState extends State<SettingsDebug> {
                   },
                 ),
                 ListTile(
-                  contentPadding: EdgeInsets.symmetric(vertical: listItemPadding, horizontal: listItemPaddingBig),
+                  contentPadding: EdgeInsets.symmetric(vertical: listItemPadding, horizontal: listItemPadding),
                   title: Text(L10n.get(L.debugPushData)),
                   subtitle: Text(pushData),
                   onTap: () {
@@ -130,7 +130,7 @@ class _SettingsDebugState extends State<SettingsDebug> {
                   },
                 ),
                 ListTile(
-                  contentPadding: EdgeInsets.symmetric(vertical: listItemPadding, horizontal: listItemPaddingBig),
+                  contentPadding: EdgeInsets.symmetric(vertical: listItemPadding, horizontal: listItemPadding),
                   title: Text(L10n.get(L.debugPushResource)),
                   subtitle: Text(pushResource),
                   onTap: () {
@@ -139,21 +139,21 @@ class _SettingsDebugState extends State<SettingsDebug> {
                   },
                 ),
                 ListTile(
-                  contentPadding: EdgeInsets.symmetric(vertical: listItemPadding, horizontal: listItemPaddingBig),
+                  contentPadding: EdgeInsets.symmetric(vertical: listItemPadding, horizontal: listItemPadding),
                   title: Text(L10n.get(L.debugPushResourceRegister)),
                   onTap: () {
                     _pushBloc.add(RegisterPushResource());
                   },
                 ),
                 ListTile(
-                  contentPadding: EdgeInsets.symmetric(vertical: listItemPadding, horizontal: listItemPaddingBig),
+                  contentPadding: EdgeInsets.symmetric(vertical: listItemPadding, horizontal: listItemPadding),
                   title: Text(L10n.get(L.debugPushResourceDelete)),
                   onTap: () {
                     _pushBloc.add(DeletePushResource());
                   },
                 ),
                 ListTile(
-                  contentPadding: EdgeInsets.symmetric(vertical: listItemPadding, horizontal: listItemPaddingBig),
+                  contentPadding: EdgeInsets.symmetric(vertical: listItemPadding, horizontal: listItemPadding),
                   title: Text("Manually set push service url"),
                   subtitle: TextField(
                     // TODO remove

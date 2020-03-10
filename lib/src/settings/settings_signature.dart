@@ -99,7 +99,7 @@ class _EmailSignatureState extends State<EmailSignature> {
           }
         },
         child: Padding(
-          padding: EdgeInsets.only(left: listItemPaddingBig, right: listItemPaddingBig),
+          padding: EdgeInsets.only(left: listItemPadding, right: listItemPadding),
           child: Column(
             children: <Widget>[
               TextFormField(

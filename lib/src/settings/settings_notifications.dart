@@ -93,7 +93,7 @@ class _SettingsNotificationsState extends State<SettingsNotifications> {
               Visibility(
                 visible: !state.coiSupported,
                 child: ListTile(
-                  contentPadding: EdgeInsets.symmetric(vertical: listItemPadding, horizontal: listItemPaddingBig),
+                  contentPadding: const EdgeInsets.symmetric(vertical: listItemPadding, horizontal: listItemPadding),
                   title: Text(L10n.get(L.settingNotificationPull)),
                   subtitle: Text(L10n.get(L.settingNotificationPullText)),
                   trailing: Switch.adaptive(value: state.pullActive, onChanged: (value) => _changeNotificationsSetting()),
@@ -102,7 +102,7 @@ class _SettingsNotificationsState extends State<SettingsNotifications> {
               Visibility(
                 visible: state.coiSupported,
                 child: ListTile(
-                  contentPadding: EdgeInsets.symmetric(vertical: listItemPadding, horizontal: listItemPaddingBig),
+                  contentPadding: const EdgeInsets.symmetric(vertical: listItemPadding, horizontal: listItemPadding),
                   title: Text(L10n.get(L.settingNotificationPush)),
                   subtitle: Text(L10n.get(L.settingNotificationPushText)),
                   trailing: AdaptiveIcon(

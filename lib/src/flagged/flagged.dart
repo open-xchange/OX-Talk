@@ -101,7 +101,7 @@ class _FlaggedState extends State<Flagged> {
             return buildListItems(state);
           } else {
             return Padding(
-              padding: const EdgeInsets.all(listItemPaddingBig),
+              padding: const EdgeInsets.all(listItemPadding),
               child: Center(
                 child: Text(
                   L10n.get(L.chatNoFlagged),

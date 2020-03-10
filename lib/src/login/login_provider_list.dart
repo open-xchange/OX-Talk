@@ -111,7 +111,7 @@ class _ProviderListState extends State<ProviderList> {
 
   Widget createProviderList() {
     return Padding(
-        padding: EdgeInsets.only(
+        padding: const EdgeInsets.only(
             left: loginHorizontalPadding,
             right: loginHorizontalPadding,
             bottom: loginVerticalPadding,
@@ -125,7 +125,7 @@ class _ProviderListState extends State<ProviderList> {
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.body1,
             ),
-            Padding(padding: EdgeInsets.only(top: loginVerticalPadding24dp)),
+            Padding(padding: const EdgeInsets.only(top: loginVerticalPadding24dp)),
             Flexible(
               child: BlocBuilder(
                 bloc: _loginBloc,
@@ -142,7 +142,7 @@ class _ProviderListState extends State<ProviderList> {
             ),
             if (widget.type == ProviderListType.login)
               Padding(
-                padding: EdgeInsets.only(top: loginVerticalPadding24dp),
+                padding: const EdgeInsets.only(top: loginVerticalPadding24dp),
                 child: ButtonImportanceMedium(
                   child: Text(L10n.get(L.providerOtherMailProvider)),
                   onPressed: () => _onItemTap(otherProvider),
@@ -154,7 +154,7 @@ class _ProviderListState extends State<ProviderList> {
 
   ListView buildListItems(LoginStateProvidersLoaded state) {
     return ListView.builder(
-      padding: EdgeInsets.only(top: listItemPadding),
+      padding: const EdgeInsets.only(top: listItemPadding),
       itemCount: state.providers.length,
       itemBuilder: (BuildContext context, int index) {
         if (state.providers[index].oauth == null) {
@@ -175,13 +175,13 @@ class _ProviderListState extends State<ProviderList> {
       return Container();
     }
     return SizedBox(
-      height: loginListItemHeight,
+      height: dimension64dp,
       child: InkWell(
         onTap: () => _onItemTap(provider),
         child: Column(
           children: <Widget>[
             Padding(
-                padding: EdgeInsets.symmetric(
+                padding: const EdgeInsets.symmetric(
                     vertical: loginVerticalPadding12dp,
                     horizontal: loginHorizontalPadding16dp),
                 child: Column(
@@ -189,7 +189,7 @@ class _ProviderListState extends State<ProviderList> {
                     Row(
                       children: <Widget>[
                         Padding(
-                          padding: EdgeInsets.only(right: loginHorizontalPadding16dp),
+                          padding: const EdgeInsets.only(right: loginHorizontalPadding16dp),
                           child: Image(
                             image: AssetImage(getProviderIconPath(context, provider.id)),
                             height: loginProviderIconSize,
@@ -205,7 +205,7 @@ class _ProviderListState extends State<ProviderList> {
                   ],
                 )),
             Divider(
-              height: loginListItemDividerHeight,
+              height: zero,
               color: CustomTheme.of(context).onBackground.barely(),
             ),
           ],

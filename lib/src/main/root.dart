@@ -146,7 +146,7 @@ class _RootState extends State<Root> {
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.all(verticalPaddingSmall),
+                              padding: const EdgeInsets.all(dimension8dp),
                             ),
                             Flexible(
                               child: Text(name == email ? chatListInviteDialogXText : chatListInviteDialogXYText),
