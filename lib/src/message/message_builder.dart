@@ -117,15 +117,23 @@ class MessageMaterial extends StatelessWidget {
 class MessageText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final messageText = _getText(context);
     final MessageStateData messageStateData = _getMessageStateData(context);
-    final urlPreviewIsVisible = messageStateData.urlPreviewData != null &&
-        messageStateData.urlPreviewData.hasAllMetadata;
+    final urlPreviewIsVisible = messageStateData.urlPreviewData != null && messageStateData.urlPreviewData.hasAllMetadata;
+
+    String markdownString;
+    if (messageText == messageStateData.urlPreviewData?.url) {
+      final previewUrl = Url.parse(messageText);
+      markdownString = "[${previewUrl.host}]($messageText)";
+    } else {
+      markdownString = messageText.markdownString();
+    }
 
     final List<Widget> children = [
       Padding(
         padding: _getNamePaddingForGroups(context),
         child: MarkdownBody(
-          data: _getText(context).markdownString(),
+          data: markdownString,
           onTapLink: (url) {
             final Url tapUrl = Url.parse(url);
             tapUrl.launch();
@@ -135,7 +143,7 @@ class MessageText extends StatelessWidget {
     ];
 
     if (urlPreviewIsVisible) {
-      children.add(UrlPreviewWidget(messageStateData: messageStateData));
+      children.add(UrlPreview(messageStateData: messageStateData));
     }
 
     return Container(
@@ -147,21 +155,10 @@ class MessageText extends StatelessWidget {
 }
 
 String _getText(BuildContext context) {
-  return MessageData.of(context).useInformationText
-      ? _getMessageStateData(context).informationText
-      : _getMessageStateData(context).text;
+  return MessageData.of(context).useInformationText ? _getMessageStateData(context).informationText : _getMessageStateData(context).text;
 }
 
-MessageStateData _getMessageStateData(BuildContext context) =>
-    MessageData.of(context).messageStateData;
-
-class UrlPreview extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return null;
-  }
-}
+MessageStateData _getMessageStateData(BuildContext context) => MessageData.of(context).messageStateData;
 
 class MessageStatus extends StatelessWidget {
   @override
@@ -478,8 +475,7 @@ class MessageDateTime extends StatelessWidget {
   Widget build(BuildContext context) {
     String date;
     if (hasDateMarker && showTime) {
-      date =
-          "${getDateFromTimestamp(timestamp, true, true)} - ${getTimeFormTimestamp(timestamp)}";
+      date = "${getDateFromTimestamp(timestamp, true, true)} - ${getTimeFormTimestamp(timestamp)}";
     } else if (hasDateMarker) {
       date = getDateFromTimestamp(timestamp, true, true);
     } else {

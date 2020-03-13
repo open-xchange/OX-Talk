@@ -45,15 +45,15 @@
 
 import 'dart:core';
 
-import 'package:flutter/material.dart';
 import 'package:url/url.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
 extension UrlHelper on Url {
 
-  Future<void> launch({@required String url}) async {
-    if (await UrlLauncher.canLaunch(url)) {
-      await UrlLauncher.launch(url);
+  Future<void> launch() async {
+    final urlString = this.toString();
+    if (await UrlLauncher.canLaunch(urlString)) {
+      await UrlLauncher.launch(urlString);
     }
   }
 

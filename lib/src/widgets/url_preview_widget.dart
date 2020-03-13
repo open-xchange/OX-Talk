@@ -50,10 +50,10 @@ import 'package:ox_coi/src/ui/color.dart';
 import 'package:ox_coi/src/ui/custom_theme.dart';
 import 'package:url/url.dart';
 
-class UrlPreviewWidget extends StatelessWidget {
+class UrlPreview extends StatelessWidget {
   final MessageStateData messageStateData;
 
-  const UrlPreviewWidget({Key key, @required this.messageStateData}) : super(key: key);
+  const UrlPreview({Key key, @required this.messageStateData}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
