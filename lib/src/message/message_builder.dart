@@ -49,8 +49,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon.dart';
-import 'package:ox_coi/src/extensions/string_linkpreview.dart';
 import 'package:ox_coi/src/extensions/string_markdown.dart';
+import 'package:ox_coi/src/extensions/url_extensions.dart';
 import 'package:ox_coi/src/message/message_attachment_bloc.dart';
 import 'package:ox_coi/src/message/message_attachment_event_state.dart';
 import 'package:ox_coi/src/message/message_item_bloc.dart';
@@ -59,9 +59,9 @@ import 'package:ox_coi/src/ui/custom_theme.dart';
 import 'package:ox_coi/src/ui/dimensions.dart';
 import 'package:ox_coi/src/utils/conversion.dart';
 import 'package:ox_coi/src/utils/date.dart';
+import 'package:ox_coi/src/widgets/url_preview_widget.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:url/url.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import 'message_item_event_state.dart';
 
@@ -98,7 +98,9 @@ class MessageMaterial extends StatelessWidget {
   final Widget child;
   final double elevation;
 
-  const MessageMaterial({Key key, @required this.child, this.elevation = messagesElevation}) : super(key: key);
+  const MessageMaterial(
+      {Key key, @required this.child, this.elevation = messagesElevation})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -115,94 +117,43 @@ class MessageMaterial extends StatelessWidget {
 class MessageText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final String markdownMessage = _getText(context).markdownString();
+    final MessageStateData messageStateData = _getMessageStateData(context);
+    final urlPreviewIsVisible = messageStateData.urlPreviewData != null &&
+        messageStateData.urlPreviewData.hasAllMetadata;
 
-    return FutureBuilder<Url>(
-      future: _getUrlPreviewMetadataFor(message: markdownMessage),
-      builder: (BuildContext context, AsyncSnapshot<Url> snapshot) {
-        List<Widget> children = [
-          Padding(
-            padding: _getNamePaddingForGroups(context),
-            child: MarkdownBody(
-              data: markdownMessage,
-              onTapLink: (url) => _launch(url: url),
-            ),
-          ),
-        ];
+    final List<Widget> children = [
+      Padding(
+        padding: _getNamePaddingForGroups(context),
+        child: MarkdownBody(
+          data: _getText(context).markdownString(),
+          onTapLink: (url) {
+            final Url tapUrl = Url.parse(url);
+            tapUrl.launch();
+          },
+        ),
+      )
+    ];
 
-        if (snapshot.hasData) {
-          children.add(
-            InkWell(
-              enableFeedback: true,
-              child: Column(
-                children: [
-                  Container(
-                    child: Image.network(
-                      snapshot.data.previewMetaData.image,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  Padding(
-                    padding: _getNamePaddingForGroups(context),
-                    child: Column(
-                      children: [
-                        Container(
-                          child: Text(
-                            snapshot.data.previewMetaData.title,
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                                color: CustomTheme.of(context).onSurface,
-                                fontWeight: FontWeight.bold
-                            ),
-                          ),
-                        ),
-                        Container(
-                          child: Text(
-                            snapshot.data.previewMetaData.description,
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              color: CustomTheme.of(context).onSurface.fade(),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        } else {
-        }
+    if (urlPreviewIsVisible) {
+      children.add(UrlPreviewWidget(messageStateData: messageStateData));
+    }
 
-        return Container(
-          child: Column(
-            children: children,
-          ),
-        );
-      },
+    return Container(
+      child: Column(
+        children: children,
+      ),
     );
   }
 }
 
-Future<void> _launch({@required String url}) async {
-  if (await canLaunch(url)) {
-    await launch(url);
-  }
-}
-
 String _getText(BuildContext context) {
-  return MessageData.of(context).useInformationText ? _getMessageStateData(context).informationText : _getMessageStateData(context).text;
+  return MessageData.of(context).useInformationText
+      ? _getMessageStateData(context).informationText
+      : _getMessageStateData(context).text;
 }
 
-Future<Url> _getUrlPreviewMetadataFor({@required String message}) async {
-  if (await message.hasPreviewableUrl) {
-    return message.previewUrl;
-  }
-  return null;
-}
-
-MessageStateData _getMessageStateData(BuildContext context) => MessageData.of(context).messageStateData;
+MessageStateData _getMessageStateData(BuildContext context) =>
+    MessageData.of(context).messageStateData;
 
 class UrlPreview extends StatelessWidget {
   @override
@@ -219,7 +170,9 @@ class MessageStatus extends StatelessWidget {
 
     if (icon != null) {
       return Padding(
-        padding: const EdgeInsets.symmetric(vertical: messagesVerticalInnerPadding, horizontal: messagesHorizontalInnerPadding),
+        padding: const EdgeInsets.symmetric(
+            vertical: messagesVerticalInnerPadding,
+            horizontal: messagesHorizontalInnerPadding),
         child: Row(
           children: <Widget>[
             Padding(
@@ -237,7 +190,9 @@ class MessageStatus extends StatelessWidget {
       );
     } else {
       return Padding(
-        padding: const EdgeInsets.symmetric(vertical: messagesVerticalInnerPadding, horizontal: messagesHorizontalInnerPadding),
+        padding: const EdgeInsets.symmetric(
+            vertical: messagesVerticalInnerPadding,
+            horizontal: messagesHorizontalInnerPadding),
         child: Text(
           _getMessageStateData(context).text,
           textAlign: TextAlign.center,
@@ -266,12 +221,14 @@ class MessageAttachment extends StatelessWidget {
 
 bool isImageOrGif(BuildContext context) {
   final attachment = _getMessageStateData(context).attachmentStateData;
-  return attachment != null && attachment.type == ChatMsg.typeImage || attachment.type == ChatMsg.typeGif;
+  return attachment != null && attachment.type == ChatMsg.typeImage ||
+      attachment.type == ChatMsg.typeGif;
 }
 
 bool isAudioOrVoice(BuildContext context) {
   final attachment = _getMessageStateData(context).attachmentStateData;
-  return attachment != null && attachment.type == ChatMsg.typeAudio || attachment.type == ChatMsg.typeVoice;
+  return attachment != null && attachment.type == ChatMsg.typeAudio ||
+      attachment.type == ChatMsg.typeVoice;
 }
 
 bool isVideo(BuildContext context) {
@@ -298,10 +255,12 @@ class MessagePartImageVideoAttachment extends StatefulWidget {
   MessagePartImageVideoAttachment({this.isVideo = false});
 
   @override
-  _MessagePartImageVideoAttachmentState createState() => _MessagePartImageVideoAttachmentState();
+  _MessagePartImageVideoAttachmentState createState() =>
+      _MessagePartImageVideoAttachmentState();
 }
 
-class _MessagePartImageVideoAttachmentState extends State<MessagePartImageVideoAttachment> {
+class _MessagePartImageVideoAttachmentState
+    extends State<MessagePartImageVideoAttachment> {
   ImageProvider imageProvider;
   String thumbnailPath = "";
   String durationString = "";
@@ -316,10 +275,12 @@ class _MessagePartImageVideoAttachmentState extends State<MessagePartImageVideoA
       File file = File(_getMessageStateData(context).attachmentStateData.path);
       imageProvider = FileImage(file);
     } else {
-      if(imageProvider == null) {
+      if (imageProvider == null) {
         imageProvider = MemoryImage(kTransparentImage);
         _messageAttachmentBloc.add(LoadThumbnailAndDuration(
-            path: _getMessageStateData(context).attachmentStateData.path, duration: _getMessageStateData(context).attachmentStateData.duration));
+            path: _getMessageStateData(context).attachmentStateData.path,
+            duration:
+                _getMessageStateData(context).attachmentStateData.duration));
       }
     }
     precacheImage(imageProvider, context, onError: (error, stacktrace) {
@@ -389,14 +350,20 @@ class _MessagePartImageVideoAttachmentState extends State<MessagePartImageVideoA
                   left: videoPreviewTimePositionLeft,
                   child: Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(videoPreviewTimeBorderRadius),
+                      borderRadius:
+                          BorderRadius.circular(videoPreviewTimeBorderRadius),
                       color: CustomTheme.of(context).black.fade(),
                     ),
                     child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: videoPreviewTimePaddingVertical, horizontal: videoPreviewTimePaddingHorizontal),
+                      padding: EdgeInsets.symmetric(
+                          vertical: videoPreviewTimePaddingVertical,
+                          horizontal: videoPreviewTimePaddingHorizontal),
                       child: Text(
                         durationString,
-                        style: Theme.of(context).textTheme.caption.apply(color: CustomTheme.of(context).white),
+                        style: Theme.of(context)
+                            .textTheme
+                            .caption
+                            .apply(color: CustomTheme.of(context).white),
                       ),
                     ),
                   ),
@@ -425,12 +392,20 @@ class _MessagePartImageVideoAttachmentState extends State<MessagePartImageVideoA
   BorderRadius getImageBorderRadius(BuildContext context, String text) {
     var messageBorderRadius = MessageData.of(context).borderRadius;
     var messageStateData = _getMessageStateData(context);
-    if (messageStateData.isGroup && !messageStateData.isOutgoing && text.isNotEmpty) {
+    if (messageStateData.isGroup &&
+        !messageStateData.isOutgoing &&
+        text.isNotEmpty) {
       messageBorderRadius = BorderRadius.zero;
-    } else if (messageStateData.isGroup && !messageStateData.isOutgoing && text.isEmpty) {
-      messageBorderRadius = BorderRadius.only(bottomLeft: messageBorderRadius.bottomLeft, bottomRight: messageBorderRadius.bottomRight);
+    } else if (messageStateData.isGroup &&
+        !messageStateData.isOutgoing &&
+        text.isEmpty) {
+      messageBorderRadius = BorderRadius.only(
+          bottomLeft: messageBorderRadius.bottomLeft,
+          bottomRight: messageBorderRadius.bottomRight);
     } else if (text.isNotEmpty) {
-      messageBorderRadius = BorderRadius.only(topLeft: messageBorderRadius.topLeft, topRight: messageBorderRadius.topRight);
+      messageBorderRadius = BorderRadius.only(
+          topLeft: messageBorderRadius.topLeft,
+          topRight: messageBorderRadius.topRight);
     }
     return messageBorderRadius;
   }
@@ -440,7 +415,8 @@ class MessagePartGenericAttachment extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var text = _getMessageStateData(context).text;
-    AttachmentStateData attachment = _getMessageStateData(context).attachmentStateData;
+    AttachmentStateData attachment =
+        _getMessageStateData(context).attachmentStateData;
     return Padding(
       padding: _getNamePaddingForGroups(context),
       child: Column(
@@ -491,13 +467,19 @@ class MessageDateTime extends StatelessWidget {
   final bool hasDateMarker;
   final bool showTime;
 
-  const MessageDateTime({Key key, @required this.timestamp, this.hasDateMarker = false, this.showTime = false}) : super(key: key);
+  const MessageDateTime(
+      {Key key,
+      @required this.timestamp,
+      this.hasDateMarker = false,
+      this.showTime = false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     String date;
     if (hasDateMarker && showTime) {
-      date = "${getDateFromTimestamp(timestamp, true, true)} - ${getTimeFormTimestamp(timestamp)}";
+      date =
+          "${getDateFromTimestamp(timestamp, true, true)} - ${getTimeFormTimestamp(timestamp)}";
     } else if (hasDateMarker) {
       date = getDateFromTimestamp(timestamp, true, true);
     } else {
@@ -578,12 +560,14 @@ class MessagePartFlag extends StatelessWidget {
     return BlocBuilder<MessageItemBloc, MessageItemState>(
       builder: (context, state) {
         return Visibility(
-          visible: state is MessageItemStateSuccess && state.messageStateData.isFlagged,
+          visible: state is MessageItemStateSuccess &&
+              state.messageStateData.isFlagged,
           child: Padding(
             padding: EdgeInsets.only(top: 8.0, right: 4.0, left: 4.0),
             child: AdaptiveIcon(
               icon: IconSource.flag,
-              color: Colors.yellow, // TODO remove Colors.xyz call as soon as possible
+              color: Colors
+                  .yellow, // TODO remove Colors.xyz call as soon as possible
             ),
           ),
         );
@@ -602,6 +586,8 @@ EdgeInsetsGeometry _getNamePaddingForGroups(BuildContext context) {
       right: messagesHorizontalInnerPadding,
     );
   } else {
-    return EdgeInsets.symmetric(vertical: messagesVerticalInnerPadding, horizontal: messagesHorizontalInnerPadding);
+    return EdgeInsets.symmetric(
+        vertical: messagesVerticalInnerPadding,
+        horizontal: messagesHorizontalInnerPadding);
   }
 }

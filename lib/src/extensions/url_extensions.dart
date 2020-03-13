@@ -43,59 +43,18 @@
  *
  */
 
+import 'dart:core';
+
 import 'package:flutter/material.dart';
-import 'package:ox_coi/src/extensions/url_extensions.dart';
-import 'package:ox_coi/src/message/message_item_event_state.dart';
-import 'package:ox_coi/src/ui/color.dart';
-import 'package:ox_coi/src/ui/custom_theme.dart';
 import 'package:url/url.dart';
+import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
-class UrlPreviewWidget extends StatelessWidget {
-  final MessageStateData messageStateData;
+extension UrlHelper on Url {
 
-  const UrlPreviewWidget({Key key, @required this.messageStateData}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final Url previewUrl = Url.parse(messageStateData.urlPreviewData.url);
-
-    return GestureDetector(
-      onTap: () => previewUrl.launch(),
-      child: Column(
-        children: [
-          Container(
-            child: Image(
-              image: NetworkImage(messageStateData.urlPreviewData.image),
-              fit: BoxFit.cover,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                Container(
-                  child: Text(
-                    messageStateData.urlPreviewData.title,
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                        color: CustomTheme.of(context).onSurface,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-                Container(
-                  child: Text(
-                    messageStateData.urlPreviewData.description,
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      color: CustomTheme.of(context).onSurface.fade(),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
+  Future<void> launch({@required String url}) async {
+    if (await UrlLauncher.canLaunch(url)) {
+      await UrlLauncher.launch(url);
+    }
   }
+
 }

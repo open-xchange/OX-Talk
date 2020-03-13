@@ -41,7 +41,7 @@
  */
 
 import 'package:logging/logging.dart';
-import 'package:ox_coi/src/extensions/string_apis.dart';
+import 'package:ox_coi/src/extensions/string_helper.dart';
 
 class L {
   static final _logger = Logger("l");

@@ -49,7 +49,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ox_coi/src/data/notification.dart';
 import 'package:ox_coi/src/data/push_chat_message.dart';
 import 'package:ox_coi/src/data/push_validation.dart';
-import 'package:ox_coi/src/extensions/string_apis.dart';
+import 'package:ox_coi/src/extensions/string_helper.dart';
 import 'package:ox_coi/src/notifications/notification_manager.dart';
 import 'package:ox_coi/src/platform/preferences.dart';
 import 'package:ox_coi/src/push/push_bloc.dart';

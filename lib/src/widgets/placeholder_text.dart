@@ -41,7 +41,7 @@
  */
 
 import 'package:flutter/widgets.dart';
-import 'package:ox_coi/src/extensions/string_apis.dart';
+import 'package:ox_coi/src/extensions/string_helper.dart';
 
 class PlaceholderText extends StatelessWidget {
   final String text;

@@ -46,7 +46,7 @@ import 'package:http/http.dart';
 import 'package:http/io_client.dart';
 import 'package:logging/logging.dart';
 import 'package:ox_coi/src/data/push_resource.dart';
-import 'package:ox_coi/src/extensions/string_apis.dart';
+import 'package:ox_coi/src/extensions/string_helper.dart';
 import 'package:ox_coi/src/platform/preferences.dart';
 import 'package:ox_coi/src/utils/constants.dart';
 import 'package:ox_coi/src/utils/http.dart';

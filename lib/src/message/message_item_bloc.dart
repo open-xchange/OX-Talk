@@ -46,9 +46,11 @@ import 'dart:ui';
 import 'package:bloc/bloc.dart';
 import 'package:delta_chat_core/delta_chat_core.dart';
 import 'package:flutter/foundation.dart';
+import 'package:metadata_fetch/metadata_fetch.dart';
 import 'package:ox_coi/src/data/repository.dart';
 import 'package:ox_coi/src/data/repository_manager.dart';
 import 'package:ox_coi/src/data/repository_stream_handler.dart';
+import 'package:ox_coi/src/extensions/string_linkpreview.dart';
 import 'package:ox_coi/src/l10n/l.dart';
 import 'package:ox_coi/src/l10n/l10n.dart';
 import 'package:ox_coi/src/message/message_item_event_state.dart';
@@ -160,6 +162,12 @@ class MessageItemBloc extends Bloc<MessageItemEvent, MessageItemState> {
         );
       }
 
+      // Load possible URL preview data
+      Metadata urlPreviewData;
+      if (await text.hasPreviewableUrl == true) {
+        urlPreviewData = text.previewUrl.previewMetaData;
+      }
+
       final messageStateData = MessageStateData(
         isOutgoing: isOutgoing,
         text: text,
@@ -178,6 +186,7 @@ class MessageItemBloc extends Bloc<MessageItemEvent, MessageItemState> {
         encryptionStatusChanged: encryptionStatusChanged,
         isGroup: isGroup,
         messageInfo: messageInfo,
+        urlPreviewData: urlPreviewData,
       );
       yield MessageItemStateSuccess(messageStateData: messageStateData);
     } catch (error) {
