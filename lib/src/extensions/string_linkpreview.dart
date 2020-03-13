@@ -66,8 +66,8 @@ extension UrlPreview on String {
 
   Future<bool> get hasPreviewableUrl async {
     if (this._containsUrls) {
-      Metadata metadata = await this.previewUrl.previewMetaData;
-      return metadata.image == null ? false : true;
+      await this.previewUrl._retrievePreviewMetaData;
+      return this.previewUrl.previewMetaData.image == null ? false : true;
     }
     return false;
   }
@@ -90,20 +90,23 @@ extension UrlPreview on String {
 extension PreviewMetaData on Url {
   static Metadata _previewMetaData;
 
-  Future<Metadata> get previewMetaData async {
-    if (_previewMetaData != null) {
-      return _previewMetaData;
-    }
+  Metadata get previewMetaData {
+    return PreviewMetaData._previewMetaData;
+  }
 
+  set previewMetaData(Metadata newValue) {
+    PreviewMetaData._previewMetaData = newValue;
+  }
+
+  Future<void> get _retrievePreviewMetaData async {
     final response = await http.get(this.toString());
     final document = responseToDocument(response);
     final metaData = MetadataParser.parse(document);
 
-    _previewMetaData.title = metaData.title;
-    _previewMetaData.description = metaData.description;
-    _previewMetaData.image = metaData.image;
-    _previewMetaData.url = metaData.url;
-
-    return _previewMetaData;
+    this.previewMetaData = Metadata();
+    this.previewMetaData.title = metaData?.title;
+    this.previewMetaData.description = metaData?.description;
+    this.previewMetaData.image = metaData?.image;
+    this.previewMetaData.url = metaData?.url;
   }
 }

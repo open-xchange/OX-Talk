@@ -49,6 +49,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon.dart';
+import 'package:ox_coi/src/extensions/string_linkpreview.dart';
 import 'package:ox_coi/src/extensions/string_markdown.dart';
 import 'package:ox_coi/src/message/message_attachment_bloc.dart';
 import 'package:ox_coi/src/message/message_attachment_event_state.dart';
@@ -59,6 +60,7 @@ import 'package:ox_coi/src/ui/dimensions.dart';
 import 'package:ox_coi/src/utils/conversion.dart';
 import 'package:ox_coi/src/utils/date.dart';
 import 'package:transparent_image/transparent_image.dart';
+import 'package:url/url.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'message_item_event_state.dart';
@@ -113,16 +115,72 @@ class MessageMaterial extends StatelessWidget {
 class MessageText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final String markdown = _getMarkdownString(context).toString();
+    final String markdownMessage = _getText(context).markdownString();
 
-    return Padding(
-      padding: getNamePaddingForGroups(context),
-      child: MarkdownBody(
-        data: markdown,
-        onTapLink: (url) {
-          _launch(url: url);
-        },
-      ),
+    return FutureBuilder<Url>(
+      future: _getUrlPreviewMetadataFor(message: markdownMessage),
+      builder: (BuildContext context, AsyncSnapshot<Url> snapshot) {
+        List<Widget> children = [
+          Padding(
+            padding: _getNamePaddingForGroups(context),
+            child: MarkdownBody(
+              data: markdownMessage,
+              onTapLink: (url) => _launch(url: url),
+            ),
+          ),
+        ];
+
+        if (snapshot.hasData) {
+          children.add(
+            InkWell(
+              enableFeedback: true,
+              child: Column(
+                children: [
+                  Container(
+                    child: Image.network(
+                      snapshot.data.previewMetaData.image,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  Padding(
+                    padding: _getNamePaddingForGroups(context),
+                    child: Column(
+                      children: [
+                        Container(
+                          child: Text(
+                            snapshot.data.previewMetaData.title,
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                                color: CustomTheme.of(context).onSurface,
+                                fontWeight: FontWeight.bold
+                            ),
+                          ),
+                        ),
+                        Container(
+                          child: Text(
+                            snapshot.data.previewMetaData.description,
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              color: CustomTheme.of(context).onSurface.fade(),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        } else {
+        }
+
+        return Container(
+          child: Column(
+            children: children,
+          ),
+        );
+      },
     );
   }
 }
@@ -137,12 +195,22 @@ String _getText(BuildContext context) {
   return MessageData.of(context).useInformationText ? _getMessageStateData(context).informationText : _getMessageStateData(context).text;
 }
 
-Future<String> _getMarkdownString(BuildContext context) async {
-  final result = await _getText(context).markdownString();
-  return result;
+Future<Url> _getUrlPreviewMetadataFor({@required String message}) async {
+  if (await message.hasPreviewableUrl) {
+    return message.previewUrl;
+  }
+  return null;
 }
 
 MessageStateData _getMessageStateData(BuildContext context) => MessageData.of(context).messageStateData;
+
+class UrlPreview extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return null;
+  }
+}
 
 class MessageStatus extends StatelessWidget {
   @override
@@ -215,7 +283,7 @@ class MessagePartAudioAttachment extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: getNamePaddingForGroups(context),
+        padding: _getNamePaddingForGroups(context),
         child: Image.asset(
           "assets/images/img_audio_waves.png",
           width: audioFileImageWidth,
@@ -374,7 +442,7 @@ class MessagePartGenericAttachment extends StatelessWidget {
     var text = _getMessageStateData(context).text;
     AttachmentStateData attachment = _getMessageStateData(context).attachmentStateData;
     return Padding(
-      padding: getNamePaddingForGroups(context),
+      padding: _getNamePaddingForGroups(context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -524,7 +592,7 @@ class MessagePartFlag extends StatelessWidget {
   }
 }
 
-EdgeInsetsGeometry getNamePaddingForGroups(BuildContext context) {
+EdgeInsetsGeometry _getNamePaddingForGroups(BuildContext context) {
   var messageStateData = _getMessageStateData(context);
   if (messageStateData.isGroup && !messageStateData.isOutgoing) {
     return EdgeInsets.only(
