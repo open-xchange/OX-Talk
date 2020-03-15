@@ -42,4 +42,4 @@
 
 import 'package:vibrate/vibrate.dart';
 
-vibrateMedium ()=> Vibrate.feedback(FeedbackType.medium);
+vibrateMedium() => Vibrate.feedback(FeedbackType.medium);

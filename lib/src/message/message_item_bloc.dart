@@ -56,6 +56,7 @@ import 'package:ox_coi/src/l10n/l10n.dart';
 import 'package:ox_coi/src/message/message_item_event_state.dart';
 import 'package:ox_coi/src/ui/color.dart';
 import 'package:ox_coi/src/utils/date.dart';
+import 'package:ox_coi/src/utils/url_preview_cache.dart';
 
 class MessageItemBloc extends Bloc<MessageItemEvent, MessageItemState> {
   Repository<Contact> _contactRepository = RepositoryManager.get(RepositoryType.contact);
@@ -163,10 +164,9 @@ class MessageItemBloc extends Bloc<MessageItemEvent, MessageItemState> {
       }
 
       // Load possible URL preview data
-      Metadata urlPreviewData;
-      if (await text.hasPreviewableUrl == true) {
-        urlPreviewData = text.previewUrl.previewMetaData;
-      }
+      final cache = UrlPreviewCache();
+      cache.saveMetadataFor(url: text.previewUrl);
+      Metadata urlPreviewData = await cache.getMetadataFor(url: text.previewUrl);
 
       final messageStateData = MessageStateData(
         isOutgoing: isOutgoing,

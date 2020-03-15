@@ -43,11 +43,13 @@
  *
  */
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:ox_coi/src/extensions/url_extensions.dart';
 import 'package:ox_coi/src/message/message_item_event_state.dart';
 import 'package:ox_coi/src/ui/color.dart';
 import 'package:ox_coi/src/ui/custom_theme.dart';
+import 'package:ox_coi/src/ui/dimensions.dart';
 import 'package:url/url.dart';
 
 class UrlPreview extends StatelessWidget {
@@ -58,19 +60,22 @@ class UrlPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Url previewUrl = Url.parse(messageStateData.urlPreviewData.url);
+    final cachedImage = CachedNetworkImage(
+      imageUrl: messageStateData.urlPreviewData.image,
+    );
 
     return GestureDetector(
       onTap: () => previewUrl.launch(),
       child: Column(
         children: [
           Container(
-            child: Image(
-              image: NetworkImage(messageStateData.urlPreviewData.image),
-              fit: BoxFit.cover,
-            ),
+            child: cachedImage,
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.symmetric(
+                vertical: messagesVerticalInnerPadding,
+                horizontal: messagesHorizontalPadding
+            ),
             child: Column(
               children: [
                 Container(
