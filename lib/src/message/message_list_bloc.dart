@@ -49,6 +49,7 @@ import 'package:mime/mime.dart';
 import 'package:ox_coi/src/data/repository.dart';
 import 'package:ox_coi/src/data/repository_manager.dart';
 import 'package:ox_coi/src/data/repository_stream_handler.dart';
+import 'package:ox_coi/src/extensions/string_linkpreview.dart';
 import 'package:ox_coi/src/invite/invite_mixin.dart';
 import 'package:ox_coi/src/message/message_list_event_state.dart';
 import 'package:ox_coi/src/utils/url_preview_cache.dart';
@@ -101,6 +102,11 @@ class MessageListBloc extends Bloc<MessageListEvent, MessageListState> with Invi
       } else {
         _submitMessage(event.text);
       }
+
+      // Load possible URL preview data
+      final cache = UrlPreviewCache();
+      await cache.saveMetadataFor(chatId: _chatId, url: event.text.previewUrl);
+
     } else if (event is DeleteCacheFile) {
       _deleteCacheFile(event.path);
     } else if (event is RetrySendingPendingMessages) {

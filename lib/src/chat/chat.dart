@@ -83,6 +83,7 @@ import 'package:ox_coi/src/utils/image.dart';
 import 'package:ox_coi/src/utils/keyMapping.dart';
 import 'package:ox_coi/src/utils/key_generator.dart';
 import 'package:ox_coi/src/utils/toast.dart';
+import 'package:ox_coi/src/utils/url_preview_cache.dart';
 import 'package:ox_coi/src/utils/vibration.dart';
 import 'package:ox_coi/src/widgets/avatar.dart';
 import 'package:ox_coi/src/widgets/button.dart';
@@ -139,6 +140,9 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
   @override
   void initState() {
     super.initState();
+
+    UrlPreviewCache().initPreCacheFor(chatId: widget.chatId);
+
     _navigation.current = Navigatable(Type.chat, params: [widget.chatId]);
     _chatBloc.add(RequestChat(chatId: widget.chatId, isHeadless: widget.headlessStart, messageId: widget.messageId));
     _chatBloc.add(ClearNotifications());
@@ -286,6 +290,9 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
     _messageListBloc.close();
     _chatComposerBloc.close();
     _chatChangeBloc.close();
+
+    UrlPreviewCache().clearPreCache();
+
     super.dispose();
   }
 

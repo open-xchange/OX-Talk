@@ -85,8 +85,8 @@ import 'package:url/url.dart';
 class UrlPreviewCache {
   static const _cacheDirName = "UrlPreviewCache";
   static const _cacheFileExtension = "meta";
+  static const _maxNumberOfCacheItems = 500;
   SplayTreeMap<int, Metadata> _preCache;
-  int _chatId;
 
   static final UrlPreviewCache _instance = UrlPreviewCache._init();
 
@@ -101,29 +101,27 @@ class UrlPreviewCache {
   // Public API
 
   Future<void> initPreCacheFor({@required int chatId}) async {
-    _chatId = chatId;
-
     final cachePath = await _getCacheBasePath();
-    final fileSearchPattern = path.join(cachePath, "${_chatId}_*.$_cacheFileExtension");
+    final fileSearchPattern = path.join(cachePath, "${chatId}_*.$_cacheFileExtension");
     Directory(cachePath).list().listen((FileSystemEntity entity) async {
-      // final url = Url(entity.uri);
-      // final segment = url.pathSegments.last;
-      print(entity);
-      // if (segment.startsWith("${_chatId}_")) {
-      //   final cacheFile = File(entity.path);
-      //   final metadata = await _getMetadataFor(file: cacheFile);
-      //   final key = url.toString().hashCode;
-      //   _preCache[key] = metadata;
-      // }
+      final uri = entity.uri;
+      final segment = uri.pathSegments.last;
+      if (segment.startsWith("${chatId}_")) {
+        final cacheFile = File(entity.path);
+        final metadata = await _getMetadataFor(file: cacheFile);
+        final key = uri.toString().hashCode;
+        _preCache[key] = metadata;
+      }
     });
   }
 
+  int get numberOfCachedItems => _preCache.length;
+
   void clearPreCache() {
     _preCache.clear();
-    _chatId = null;
   }
 
-  Future<void> saveMetadataFor({@required Url url}) async {
+  Future<void> saveMetadataFor({@required int chatId, @required Url url}) async {
     if (url == null || url.toString().isEmpty == true) {
       return;
     }
@@ -140,15 +138,15 @@ class UrlPreviewCache {
       return;
     }
 
-    final cacheFile = await _getCacheFileFor(url: url);
+    _preCache[url.toString().hashCode] = metadata;
+
+    final cacheFile = await _getCacheFileFor(chatId: chatId, url: url);
     await cacheFile.create(recursive: true);
     final json = jsonEncode(metadata);
     await cacheFile.writeAsString(json);
-
-    _preCache[url.toString().hashCode] = metadata;
   }
 
-  Future<Metadata> getMetadataFor({@required Url url}) async {
+  Future<Metadata> getMetadataFor({@required int chatId, @required Url url}) async {
     if (url == null || url.toString().isEmpty == true) {
       return null;
     }
@@ -158,7 +156,7 @@ class UrlPreviewCache {
       return cachedData;
     }
 
-    final cacheFile = await _getCacheFileFor(url: url);
+    final cacheFile = await _getCacheFileFor(chatId: chatId, url: url);
     final metadata = await _getMetadataFor(file: cacheFile);
 
     return metadata;
@@ -171,10 +169,10 @@ class UrlPreviewCache {
     return path.join(applicationSupportDirectory.path, _cacheDirName);
   }
 
-  Future<File> _getCacheFileFor({@required Url url}) async {
+  Future<File> _getCacheFileFor({@required int chatId, @required Url url}) async {
     final cachePath = await _getCacheBasePath();
     final hash = url.toString().hashCode;
-    final cacheFilePath = path.join(cachePath, "${_chatId}_$hash.$_cacheFileExtension");
+    final cacheFilePath = path.join(cachePath, "${chatId}_$hash.$_cacheFileExtension");
 
     return File(cacheFilePath);
   }
