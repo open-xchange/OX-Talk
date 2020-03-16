@@ -56,6 +56,7 @@ import 'package:ox_coi/src/l10n/l.dart';
 import 'package:ox_coi/src/l10n/l10n.dart';
 import 'package:ox_coi/src/notifications/notification_manager.dart';
 import 'package:ox_coi/src/ui/color.dart';
+import 'package:ox_coi/src/utils/url_preview_cache.dart';
 
 class ChatBloc extends Bloc<ChatEvent, ChatState> {
   var _chatRepository = RepositoryManager.get(RepositoryType.chat);
@@ -107,6 +108,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   @override
   Future<void> close() {
     _unregisterListeners();
+//    UrlPreviewCache().clearPreCache();
+
     return super.close();
   }
 
