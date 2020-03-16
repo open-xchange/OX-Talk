@@ -240,7 +240,7 @@ class MessagePartAudioAttachment extends StatelessWidget {
         padding: _getNamePaddingForGroups(context),
         child: Image.asset(
           "assets/images/img_audio_waves.png",
-          width: audioFileImageWidth,
+          width: messageAudioImageWidth,
           color: CustomTheme.of(context).onSurface,
         ));
   }
@@ -326,15 +326,15 @@ class _MessagePartImageVideoAttachmentState
                   child: Align(
                       alignment: Alignment.center,
                       child: Container(
-                        height: videoPreviewIconBackgroundHeight,
-                        width: videoPreviewIconBackgroundWidth,
+                        height: dimension48dp,
+                        width: dimension48dp,
                         decoration: ShapeDecoration(
                           shape: CircleBorder(),
                           color: CustomTheme.of(context).black.fade(),
                         ),
                         child: AdaptiveIcon(
                           icon: IconSource.play,
-                          size: iconMessagePlaySize,
+                          size: dimension24dp,
                           color: CustomTheme.of(context).white,
                         ),
                       )),
@@ -343,18 +343,15 @@ class _MessagePartImageVideoAttachmentState
               Visibility(
                 visible: widget.isVideo && durationString.isNotEmpty,
                 child: Positioned(
-                  bottom: videoPreviewTimePositionBottom,
-                  left: videoPreviewTimePositionLeft,
+                  bottom: dimension8dp,
+                  left: dimension12dp,
                   child: Container(
                     decoration: BoxDecoration(
-                      borderRadius:
-                          BorderRadius.circular(videoPreviewTimeBorderRadius),
+                      borderRadius: BorderRadius.circular(dimension24dp),
                       color: CustomTheme.of(context).black.fade(),
                     ),
                     child: Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: videoPreviewTimePaddingVertical,
-                          horizontal: videoPreviewTimePaddingHorizontal),
+                      padding: const EdgeInsets.symmetric(vertical: dimension2dp, horizontal: dimension8dp),
                       child: Text(
                         durationString,
                         style: Theme.of(context)
@@ -535,16 +532,16 @@ class MessagePartState extends StatelessWidget {
                 break;
             }
             return Padding(
-              padding: EdgeInsets.only(top: 10.0, left: iconTextPadding),
+              padding: const EdgeInsets.only(top: iconTextTopPadding, left: iconTextPadding),
               child: AdaptiveIcon(
                 icon: icon,
-                size: 16.0,
+                size: dimension16dp,
                 color: color,
               ),
             );
           }
         }
-        return Container(width: 20.0);
+        return Container();
       },
     );
   }
@@ -559,7 +556,7 @@ class MessagePartFlag extends StatelessWidget {
           visible: state is MessageItemStateSuccess &&
               state.messageStateData.isFlagged,
           child: Padding(
-            padding: EdgeInsets.only(top: 8.0, right: 4.0, left: 4.0),
+            padding: const EdgeInsets.only(top: dimension8dp, right: dimension4dp, left: dimension4dp),
             child: AdaptiveIcon(
               icon: IconSource.flag,
               color: Colors
@@ -576,7 +573,7 @@ EdgeInsetsGeometry _getNamePaddingForGroups(BuildContext context) {
   var messageStateData = _getMessageStateData(context);
   if (messageStateData.isGroup && !messageStateData.isOutgoing) {
     return EdgeInsets.only(
-      top: 2.0,
+      top: dimension2dp,
       bottom: messagesVerticalInnerPadding,
       left: messagesHorizontalInnerPadding,
       right: messagesHorizontalInnerPadding,

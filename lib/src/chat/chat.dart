@@ -366,17 +366,17 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
                       Visibility(
                         visible: _composingAudioTimer != null,
                         child: Positioned(
-                          bottom: 8.0,
-                          right: 8.0,
+                          bottom: dimension8dp,
+                          right: dimension8dp,
                           child: Container(
                             decoration: ShapeDecoration(
-                              shape: getSuperEllipseShape(32.0),
+                              shape: getSuperEllipseShape(dimension32dp),
                               color: CustomTheme.of(context).surface,
                             ),
                             child: AdaptiveIconButton(
                               icon: AdaptiveSuperellipseIcon(
                                 icon: IconSource.send,
-                                iconSize: 20.0,
+                                iconSize: dimension20dp,
                                 color: CustomTheme.of(context).accent,
                                 iconColor: CustomTheme.of(context).white,
                               ),
@@ -405,16 +405,15 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
   }
 
   Widget buildInviteChoice() {
-    final inviteChoiceButtonSize = 120.0;
     return Column(
       children: <Widget>[
         Divider(),
         Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(dimension16dp),
           child: Text(L10n.get(L.chatCreateText), style: Theme.of(context).textTheme.subhead),
         ),
         Padding(
-          padding: const EdgeInsets.only(right: 16.0, left: 16.0, bottom: 16.0),
+          padding: const EdgeInsets.only(right: dimension16dp, left: dimension16dp, bottom: dimension16dp),
           child: Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -455,7 +454,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
     return Column(
       children: <Widget>[
         Divider(height: dividerHeight),
-        Padding(padding: EdgeInsets.all(attachmentDividerPadding)),
+        Padding(padding: EdgeInsets.all(dimension4dp)),
         SizedBox(
           height: previewMaxSize,
           child: Stack(
@@ -473,13 +472,13 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
                       ),
                     ),
               Padding(
-                padding: EdgeInsets.all(iconTextPadding),
+                padding: const EdgeInsets.all(iconTextPadding),
                 child: GestureDetector(
                   onTap: () => _closePreview(),
                   child: Container(
                     decoration: BoxDecoration(
                       color: CustomTheme.of(context).black.half(),
-                      borderRadius: BorderRadiusDirectional.circular(previewCloseIconBorderRadius),
+                      borderRadius: BorderRadiusDirectional.circular(dimension20dp),
                     ),
                     child: AdaptiveIcon(
                       icon: IconSource.close,
@@ -493,7 +492,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
           ),
         ),
         Padding(
-          padding: EdgeInsets.all(previewFileNamePadding),
+          padding: const EdgeInsets.all(dimension4dp),
           child: Text(_fileName),
         )
       ],
@@ -509,7 +508,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
           textSecondary: subTitle,
           color: color,
         ),
-        Padding(padding: EdgeInsets.only(left: appBarAvatarTextPadding)),
+        Padding(padding: const EdgeInsets.only(left: dimension16dp)),
         Flexible(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -577,7 +576,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
       ));
     } else {
       widgets.add(Padding(
-        padding: EdgeInsets.only(left: 48.0),
+        padding: const EdgeInsets.only(left: dimension48dp),
       ));
     }
     widgets.add(buildCenterComposerPart(
@@ -612,7 +611,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
     return IconTheme(
       data: IconThemeData(color: CustomTheme.of(context).accent),
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: composerHorizontalPadding),
+        margin: const EdgeInsets.symmetric(horizontal: dimension8dp),
         child: BlocProvider.value(
           value: _chatComposerBloc,
           child: Row(
@@ -934,7 +933,7 @@ class MessageList extends StatelessWidget {
           if (state.messageIds.length > 0) {
             return ListView.custom(
               controller: scrollController,
-              padding: const EdgeInsets.fromLTRB(messageListPadding, messageListPadding, messageListPadding, composerMessagePadding),
+              padding: const EdgeInsets.fromLTRB(chatMessageListPadding, chatMessageListPadding, chatMessageListPadding, chatComposerPadding),
               reverse: true,
               childrenDelegate: SliverChildBuilderDelegate(
                   (BuildContext context, int index) {
@@ -963,7 +962,7 @@ class MessageList extends StatelessWidget {
             );
           } else {
             return Padding(
-              padding: const EdgeInsets.all(listItemPaddingBig),
+              padding: const EdgeInsets.all(listItemPadding),
               child: Center(
                 child: Text(
                   L10n.get(L.chatNewPlaceholder),
