@@ -57,6 +57,9 @@ class UrlPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Url previewUrl = Url.parse(messageStateData.urlPreviewData.url);
+    final descriptionLength = messageStateData.urlPreviewData.description.length;
+    final teaserText = messageStateData.urlPreviewData.description.substring(0, (descriptionLength > 100 ? 100 : descriptionLength));
+
     final cachedImage = CachedNetworkImage(
       imageUrl: messageStateData.urlPreviewData.image,
     );
@@ -64,16 +67,18 @@ class UrlPreview extends StatelessWidget {
     return GestureDetector(
       onTap: () => previewUrl.launch(),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Container(
             child: cachedImage,
           ),
           Padding(
             padding: EdgeInsets.symmetric(
-                vertical: messagesVerticalInnerPadding,
+                vertical: messagesVerticalPadding,
                 horizontal: messagesHorizontalPadding
             ),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
                   child: Text(
@@ -86,10 +91,19 @@ class UrlPreview extends StatelessWidget {
                 ),
                 Container(
                   child: Text(
-                    messageStateData.urlPreviewData.description,
+                    "$teaserText …",
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       color: CustomTheme.of(context).onSurface.fade(),
+                    ),
+                  ),
+                ),
+                Container(
+                  child: Text(
+                    previewUrl.host,
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      color: CustomTheme.of(context).onSurface.slightly(),
                     ),
                   ),
                 ),

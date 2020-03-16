@@ -111,11 +111,11 @@ class MessageItemBloc extends Bloc<MessageItemEvent, MessageItemState> {
       if (isOutgoing && state != ChatMsg.messageStateReceived) {
         _registerListeners();
       }
-      bool showTime = await _showTime(nextMessageId);
-      bool encryptionStatusChanged = await _hasEncryptionStatusChanged(nextMessageId);
-      bool hasFile = await message.hasFile();
-      bool isSetupMessage = await message.isSetupMessage();
-      String text = await message.getText();
+      final showTime = await _showTime(nextMessageId);
+      final encryptionStatusChanged = await _hasEncryptionStatusChanged(nextMessageId);
+      final hasFile = await message.hasFile();
+      final isSetupMessage = await message.isSetupMessage();
+      final text = await message.getText();
 
       String informationText;
       if (isSetupMessage) {
@@ -124,15 +124,15 @@ class MessageItemBloc extends Bloc<MessageItemEvent, MessageItemState> {
         informationText = L10n.get(L.chatEncryptionStatusChanged);
       }
 
-      bool isInfo = await message.isInfo();
-      int timestamp = await message.getTimestamp();
-      int showPadlock = await message.showPadlock();
-      bool isFlagged = await message.isStarred();
-      String teaser = await message.getSummaryText(200);
-      String messageInfo = "";
+      final isInfo = await message.isInfo();
+      final timestamp = await message.getTimestamp();
+      final showPadlock = await message.showPadlock();
+      final isFlagged = await message.isStarred();
+      final teaser = await message.getSummaryText(200);
 
+      String messageInfo = "";
       if (state == ChatMsg.messageStateFailed) {
-        Context context = Context();
+        final context = Context();
         messageInfo = await context.getMessageInfo(_messageId);
       }
 
@@ -150,11 +150,11 @@ class MessageItemBloc extends Bloc<MessageItemEvent, MessageItemState> {
 
       ContactStateData contactStateData;
       if (showContact) {
-        Contact contact = _getContact();
-        int contactId = contact.id;
-        String contactName = await contact.getName();
-        String contactAddress = await contact.getAddress();
-        Color contactColor = colorFromArgb(await contact.getColor());
+        final contact = _getContact();
+        final contactId = contact.id;
+        final contactName = await contact.getName();
+        final contactAddress = await contact.getAddress();
+        final contactColor = colorFromArgb(await contact.getColor());
         contactStateData = ContactStateData(
           id: contactId,
           name: contactName,
