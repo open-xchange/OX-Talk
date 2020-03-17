@@ -41,7 +41,7 @@
  */
 
 import 'package:logging/logging.dart';
-import 'package:ox_coi/src/extensions/string_helper.dart';
+import 'package:ox_coi/src/extensions/string_apis.dart';
 import 'package:ox_coi/src/utils/constants.dart';
 
 import 'l10n.dart';

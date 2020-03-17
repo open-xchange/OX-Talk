@@ -48,15 +48,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:markdown/src/extension_set.dart';
 import 'package:ox_coi/src/brandable/brandable_icon.dart';
-import 'package:ox_coi/src/extensions/string_helper.dart';
+import 'package:ox_coi/src/brandable/custom_theme.dart';
+import 'package:ox_coi/src/extensions/color_apis.dart';
+import 'package:ox_coi/src/extensions/numbers_apis.dart';
+import 'package:ox_coi/src/extensions/string_markdown.dart';
+import 'package:ox_coi/src/extensions/url_apis.dart';
 import 'package:ox_coi/src/message/message_attachment_bloc.dart';
 import 'package:ox_coi/src/message/message_attachment_event_state.dart';
 import 'package:ox_coi/src/message/message_item_bloc.dart';
-import 'package:ox_coi/src/extensions/color_apis.dart';
-import 'package:ox_coi/src/brandable/custom_theme.dart';
 import 'package:ox_coi/src/ui/dimensions.dart';
-import 'package:ox_coi/src/extensions/numbers_apis.dart';
 import 'package:ox_coi/src/widgets/url_preview_widget.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:url/url.dart';
@@ -120,17 +122,17 @@ class MessageText extends StatelessWidget {
     final urlPreviewIsVisible = messageStateData.urlPreviewData != null && messageStateData.urlPreviewData.hasAllMetadata;
 
     String markdownString;
-    if (messageText == messageStateData.urlPreviewData?.url) {
-      final previewUrl = Url.parse(messageText);
-      markdownString = "[${previewUrl.host}]($messageText)";
+    if (messageText.trim() == messageStateData.urlPreviewData?.url?.trim()) {
+      markdownString = "[$messageText]($messageText)";
     } else {
-      markdownString = messageText.markdownString();
+      markdownString = messageText.markdownValue;
     }
 
     final List<Widget> children = [
       Padding(
         padding: _getNamePaddingForGroups(context),
         child: MarkdownBody(
+          extensionSet: ExtensionSet.gitHubWeb,
           data: markdownString,
           onTapLink: (url) {
             final Url tapUrl = Url.parse(url);
@@ -146,6 +148,7 @@ class MessageText extends StatelessWidget {
 
     return Container(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: children,
       ),
     );
@@ -165,9 +168,7 @@ class MessageStatus extends StatelessWidget {
 
     if (icon != null) {
       return Padding(
-        padding: const EdgeInsets.symmetric(
-            vertical: messagesVerticalInnerPadding,
-            horizontal: messagesHorizontalInnerPadding),
+        padding: const EdgeInsets.symmetric(vertical: messagesVerticalInnerPadding, horizontal: messagesHorizontalInnerPadding),
         child: Row(
           children: <Widget>[
             Padding(
@@ -185,9 +186,7 @@ class MessageStatus extends StatelessWidget {
       );
     } else {
       return Padding(
-        padding: const EdgeInsets.symmetric(
-            vertical: messagesVerticalInnerPadding,
-            horizontal: messagesHorizontalInnerPadding),
+        padding: const EdgeInsets.symmetric(vertical: messagesVerticalInnerPadding, horizontal: messagesHorizontalInnerPadding),
         child: Text(
           _getMessageStateData(context).text,
           textAlign: TextAlign.center,
@@ -216,14 +215,12 @@ class MessageAttachment extends StatelessWidget {
 
 bool isImageOrGif(BuildContext context) {
   final attachment = _getMessageStateData(context).attachmentStateData;
-  return attachment != null && attachment.type == ChatMsg.typeImage ||
-      attachment.type == ChatMsg.typeGif;
+  return attachment != null && attachment.type == ChatMsg.typeImage || attachment.type == ChatMsg.typeGif;
 }
 
 bool isAudioOrVoice(BuildContext context) {
   final attachment = _getMessageStateData(context).attachmentStateData;
-  return attachment != null && attachment.type == ChatMsg.typeAudio ||
-      attachment.type == ChatMsg.typeVoice;
+  return attachment != null && attachment.type == ChatMsg.typeAudio || attachment.type == ChatMsg.typeVoice;
 }
 
 bool isVideo(BuildContext context) {
@@ -250,12 +247,10 @@ class MessagePartImageVideoAttachment extends StatefulWidget {
   MessagePartImageVideoAttachment({this.isVideo = false});
 
   @override
-  _MessagePartImageVideoAttachmentState createState() =>
-      _MessagePartImageVideoAttachmentState();
+  _MessagePartImageVideoAttachmentState createState() => _MessagePartImageVideoAttachmentState();
 }
 
-class _MessagePartImageVideoAttachmentState
-    extends State<MessagePartImageVideoAttachment> {
+class _MessagePartImageVideoAttachmentState extends State<MessagePartImageVideoAttachment> {
   ImageProvider imageProvider;
   String thumbnailPath = "";
   String durationString = "";
@@ -272,10 +267,8 @@ class _MessagePartImageVideoAttachmentState
     } else {
       if (imageProvider == null) {
         imageProvider = MemoryImage(kTransparentImage);
-        _messageAttachmentBloc.add(LoadThumbnailAndDuration(
-            path: _getMessageStateData(context).attachmentStateData.path,
-            duration:
-                _getMessageStateData(context).attachmentStateData.duration));
+        _messageAttachmentBloc.add(LoadThumbnailAndDuration(path: _getMessageStateData(context).attachmentStateData.path, duration: _getMessageStateData(context).attachmentStateData.duration)
+        );
       }
     }
     precacheImage(imageProvider, context, onError: (error, stacktrace) {
@@ -352,10 +345,7 @@ class _MessagePartImageVideoAttachmentState
                       padding: const EdgeInsets.symmetric(vertical: dimension2dp, horizontal: dimension8dp),
                       child: Text(
                         durationString,
-                        style: Theme.of(context)
-                            .textTheme
-                            .caption
-                            .apply(color: CustomTheme.of(context).white),
+                        style: Theme.of(context).textTheme.caption.apply(color: CustomTheme.of(context).white),
                       ),
                     ),
                   ),
@@ -384,20 +374,12 @@ class _MessagePartImageVideoAttachmentState
   BorderRadius getImageBorderRadius(BuildContext context, String text) {
     var messageBorderRadius = MessageData.of(context).borderRadius;
     var messageStateData = _getMessageStateData(context);
-    if (messageStateData.isGroup &&
-        !messageStateData.isOutgoing &&
-        text.isNotEmpty) {
+    if (messageStateData.isGroup && !messageStateData.isOutgoing && text.isNotEmpty) {
       messageBorderRadius = BorderRadius.zero;
-    } else if (messageStateData.isGroup &&
-        !messageStateData.isOutgoing &&
-        text.isEmpty) {
-      messageBorderRadius = BorderRadius.only(
-          bottomLeft: messageBorderRadius.bottomLeft,
-          bottomRight: messageBorderRadius.bottomRight);
+    } else if (messageStateData.isGroup && !messageStateData.isOutgoing && text.isEmpty) {
+      messageBorderRadius = BorderRadius.only(bottomLeft: messageBorderRadius.bottomLeft, bottomRight: messageBorderRadius.bottomRight);
     } else if (text.isNotEmpty) {
-      messageBorderRadius = BorderRadius.only(
-          topLeft: messageBorderRadius.topLeft,
-          topRight: messageBorderRadius.topRight);
+      messageBorderRadius = BorderRadius.only(topLeft: messageBorderRadius.topLeft, topRight: messageBorderRadius.topRight);
     }
     return messageBorderRadius;
   }
@@ -407,8 +389,7 @@ class MessagePartGenericAttachment extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var text = _getMessageStateData(context).text;
-    AttachmentStateData attachment =
-        _getMessageStateData(context).attachmentStateData;
+    AttachmentStateData attachment = _getMessageStateData(context).attachmentStateData;
     return Padding(
       padding: _getNamePaddingForGroups(context),
       child: Column(
@@ -459,12 +440,7 @@ class MessageDateTime extends StatelessWidget {
   final bool hasDateMarker;
   final bool showTime;
 
-  const MessageDateTime(
-      {Key key,
-      @required this.timestamp,
-      this.hasDateMarker = false,
-      this.showTime = false})
-      : super(key: key);
+  const MessageDateTime({Key key, @required this.timestamp, this.hasDateMarker = false, this.showTime = false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -551,14 +527,12 @@ class MessagePartFlag extends StatelessWidget {
     return BlocBuilder<MessageItemBloc, MessageItemState>(
       builder: (context, state) {
         return Visibility(
-          visible: state is MessageItemStateSuccess &&
-              state.messageStateData.isFlagged,
+          visible: state is MessageItemStateSuccess && state.messageStateData.isFlagged,
           child: Padding(
             padding: const EdgeInsets.only(top: dimension8dp, right: dimension4dp, left: dimension4dp),
             child: AdaptiveIcon(
               icon: IconSource.flag,
-              color: Colors
-                  .yellow, // TODO remove Colors.xyz call as soon as possible
+              color: Colors.yellow, // TODO remove Colors.xyz call as soon as possible
             ),
           ),
         );
@@ -577,8 +551,6 @@ EdgeInsetsGeometry _getNamePaddingForGroups(BuildContext context) {
       right: messagesHorizontalInnerPadding,
     );
   } else {
-    return EdgeInsets.symmetric(
-        vertical: messagesVerticalInnerPadding,
-        horizontal: messagesHorizontalInnerPadding);
+    return EdgeInsets.symmetric(vertical: messagesVerticalInnerPadding, horizontal: messagesHorizontalInnerPadding);
   }
 }

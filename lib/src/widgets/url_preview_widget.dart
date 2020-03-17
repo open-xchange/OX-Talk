@@ -42,10 +42,10 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:ox_coi/src/extensions/url_extensions.dart';
+import 'package:ox_coi/src/brandable/custom_theme.dart';
+import 'package:ox_coi/src/extensions/url_apis.dart';
+import 'package:ox_coi/src/extensions/color_apis.dart';
 import 'package:ox_coi/src/message/message_item_event_state.dart';
-import 'package:ox_coi/src/ui/color.dart';
-import 'package:ox_coi/src/ui/custom_theme.dart';
 import 'package:ox_coi/src/ui/dimensions.dart';
 import 'package:url/url.dart';
 
@@ -58,7 +58,8 @@ class UrlPreview extends StatelessWidget {
   Widget build(BuildContext context) {
     final Url previewUrl = Url.parse(messageStateData.urlPreviewData.url);
     final descriptionLength = messageStateData.urlPreviewData.description.length;
-    final teaserText = messageStateData.urlPreviewData.description.substring(0, (descriptionLength > 100 ? 100 : descriptionLength));
+    final teaserTextLength = 100;
+    final teaserText = messageStateData.urlPreviewData.description.substring(0, (descriptionLength > teaserTextLength ? teaserTextLength : descriptionLength));
 
     final cachedImage = CachedNetworkImage(
       imageUrl: messageStateData.urlPreviewData.image,
@@ -67,7 +68,6 @@ class UrlPreview extends StatelessWidget {
     return GestureDetector(
       onTap: () => previewUrl.launch(),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Container(
             child: cachedImage,
@@ -78,7 +78,7 @@ class UrlPreview extends StatelessWidget {
                 horizontal: dimension8dp
             ),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
                   child: Text(
@@ -98,17 +98,23 @@ class UrlPreview extends StatelessWidget {
                     ),
                   ),
                 ),
-                Container(
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: dimension8dp),
-                    child: Text(
-                      previewUrl.host,
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        color: CustomTheme.of(context).onSurface.slightly(),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    Container(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: dimension8dp),
+                        child: Text(
+                          previewUrl.host,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: CustomTheme.of(context).onSurface.slightly(),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
+                    )
+
+                  ],
                 ),
               ],
             ),

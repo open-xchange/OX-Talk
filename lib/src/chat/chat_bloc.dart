@@ -109,8 +109,6 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   @override
   Future<void> close() {
     _unregisterListeners();
-//    UrlPreviewCache().clearPreCache();
-
     return super.close();
   }
 

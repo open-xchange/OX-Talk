@@ -45,6 +45,12 @@
 
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:ox_coi/src/l10n/l.dart';
+import 'package:ox_coi/src/l10n/l10n.dart';
+
 extension Extract on String {
   static final RegExp matchInvertedNumericAndPlus = RegExp(r'[^0-9+]');
   static final RegExp matchWhiteSpace = RegExp(r'\s');
@@ -105,4 +111,30 @@ extension Check on String {
 
 extension StringConversion on String {
   int get intValue => int.parse(this);
+}
+
+extension UserVisibleActions on String {
+  void copyToClipboard() {
+    if (this != null) {
+      var clipboardData = ClipboardData(text: this);
+      Clipboard.setData(clipboardData);
+    }
+  }
+
+  void copyToClipboardWithToast({@required String toastText}) {
+    copyToClipboard();
+    toastText.showToast();
+  }
+
+  void showToast() {
+    Fluttertoast.showToast(
+      msg: this,
+      toastLength: Toast.LENGTH_LONG,
+      timeInSecForIos: 4,
+    );
+  }
+}
+
+String getDefaultCopyToastText(BuildContext context) {
+  return context != null ? L10n.get(L.clipboardCopied) : "";
 }

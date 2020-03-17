@@ -47,7 +47,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:ox_coi/src/chat/chat.dart';
 import 'package:ox_coi/src/data/repository.dart';
 import 'package:ox_coi/src/data/repository_manager.dart';
-import 'package:ox_coi/src/extensions/string_helper.dart';
+import 'package:ox_coi/src/extensions/string_apis.dart';
 import 'package:ox_coi/src/lifecycle/lifecycle_bloc.dart';
 import 'package:ox_coi/src/navigation/navigatable.dart';
 import 'package:ox_coi/src/navigation/navigation.dart';

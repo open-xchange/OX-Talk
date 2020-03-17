@@ -49,7 +49,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:ox_coi/src/data/config.dart';
 import 'package:ox_coi/src/error/error_bloc.dart';
 import 'package:ox_coi/src/error/error_event_state.dart';
-import 'package:ox_coi/src/extensions/string_helper.dart';
+import 'package:ox_coi/src/extensions/string_apis.dart';
 import 'package:ox_coi/src/login/login_events_state.dart';
 import 'package:ox_coi/src/login/providers.dart';
 import 'package:ox_coi/src/platform/preferences.dart';

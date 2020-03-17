@@ -46,8 +46,8 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:metadata_fetch/metadata_fetch.dart';
-import 'package:ox_coi/src/extensions/url_extensions.dart';
-import 'package:ox_coi/src/extensions/string_helper.dart';
+import 'package:ox_coi/src/extensions/url_apis.dart';
+import 'package:ox_coi/src/extensions/string_apis.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:url/url.dart';
@@ -57,7 +57,7 @@ import 'package:url/url.dart';
 ///
 /// How does the URL preview cache work?
 ///
-/// Once the app has been launched, it will precache all existent metadata of
+/// Once the app has been launched, it will buffer all existent metadata of
 /// URL's posted in a chat. URL preview metadata are encapsulated in [Metadata]
 /// objects, which are serialized in JSONformat. Every [Metadata] object has its
 /// own cache file. The filename contains informations about the belonging URL
@@ -67,13 +67,13 @@ import 'package:url/url.dart';
 ///
 /// 286795806734.meta
 ///      |
-///      +--> Hash-Code of precached URL (by calling [String.hashCode]
+///      +--> Hash-Code of cached URL (by calling [String.hashCode]
 ///
 /// When the app has been launched, all cache files are read, deserialized from
-/// JSON into a [Metadata] object and cached in the [_preCache] map. The key of
+/// JSON into a [Metadata] object and cached in the [_buffer] map. The key of
 /// each map item is the hashCode of its URL string.
 ///
-/// The directory of the cache is computed in [_getCacheBasePath] using the
+/// The directory of the cache is computed in [_getCacheDirPath] using the
 /// [getLibraryDirectory] strategy of the path provider plugin, suffixed by
 /// the string constant [_cacheDirName]. The [getLibraryDirectory] call produces
 /// a platform dependent result.
@@ -82,9 +82,9 @@ import 'package:url/url.dart';
 class UrlPreviewCache {
   static const _cacheDirName = "UrlPreviewCache";
   static const _cacheFileExtension = "meta";
-  static const _maxNumberOfCacheItems = 500;
-  static const _numberOfOldFilesToRemove = 10;
-  SplayTreeMap<int, Metadata> _preCache;
+  static const _maxNumberOfCacheItems = 666;
+  static const _maxOfOldestFilesToDelete = 23;
+  SplayTreeMap<int, Metadata> _buffer;
 
   static final UrlPreviewCache _instance = UrlPreviewCache._init();
 
@@ -93,33 +93,27 @@ class UrlPreviewCache {
   }
 
   UrlPreviewCache._init() {
-    _preCache = SplayTreeMap<int, Metadata>();
+    _buffer = SplayTreeMap<int, Metadata>();
   }
 
   // Public API
 
   Future<void> prepareCache() async {
-    final cachePath = await _getCacheBasePath();
+    final cachePath = await _getCacheDirPath();
     debugPrint("** Cache Path: $cachePath");
-    int fileCount = 0;
-    Directory(cachePath).list().listen((FileSystemEntity entity) async {
-      fileCount++;
-      if (fileCount > _maxNumberOfCacheItems) {
-        await _cleanup();
-      }
-
+    Directory(cachePath).list().listen((entity) async {
       final cacheFile = File(entity.path);
       final metadata = await _getMetadataFor(file: cacheFile);
       final key = path.basenameWithoutExtension(cacheFile.path).intValue;
-      _preCache[key] = metadata;
+      _buffer[key] = metadata;
     });
   }
 
-  int get numberOfCachedItems => _preCache.length;
+  int get numberOfCachedItems => _buffer.length;
 
   Future<int> get sizeOfCacheInBytes async {
     int size = 0;
-    final cachePath = await _getCacheBasePath();
+    final cachePath = await _getCacheDirPath();
     Directory(cachePath).list().listen((FileSystemEntity item) async {
       final stat = await item.stat();
       size += stat.size;
@@ -127,35 +121,33 @@ class UrlPreviewCache {
     return size;
   }
 
-  void clearPreCache() {
-    _preCache.clear();
-  }
-
-  Future<void> saveMetadataFor({@required Url url}) async {
+  Future<void> saveMetadataIfNeededFor({@required Url url}) async {
     if (url == null || url.toString().isEmpty == true) {
       return;
     }
 
     final key = url.toString().hashCode;
 
-    // Do we have it precached already?
-    // (Note: If it's precached, we have a cache file, too!)
-    final preCachedData = _preCache[key];
-    if (preCachedData != null) {
+    // Do we have it buffered already?
+    // (Note: If it's buffered, we have a cache file, too!)
+    final bufferData = _buffer[key];
+    if (bufferData != null) {
       return;
     }
 
     final metadata = await url.metaData;
-    if (metadata?.hasAllMetadata == false) {
+    if (metadata == null || metadata.hasAllMetadata == false) {
       return;
     }
 
-    _preCache[key] = metadata;
+    _buffer[key] = metadata;
 
     final cacheFile = await _getCacheFileFor(url: url);
     await cacheFile.create(recursive: true);
     final json = jsonEncode(metadata);
     await cacheFile.writeAsString(json);
+
+    _cleanUpIfNeeded();
   }
 
   Future<Metadata> getMetadataFor({@required Url url}) async {
@@ -164,18 +156,18 @@ class UrlPreviewCache {
     }
 
     final key = url.toString().hashCode;
-    return _preCache[key];
+    return _buffer[key];
   }
 
   // Private Helper
 
-  Future<String> _getCacheBasePath() async {
+  Future<String> _getCacheDirPath() async {
     final applicationSupportDirectory = await getTemporaryDirectory();
     return path.join(applicationSupportDirectory.path, _cacheDirName);
   }
 
   Future<File> _getCacheFileFor({@required Url url}) async {
-    final cachePath = await _getCacheBasePath();
+    final cachePath = await _getCacheDirPath();
     final hash = url.toString().hashCode;
     final cacheFilePath = path.join(cachePath, "$hash.$_cacheFileExtension");
 
@@ -193,12 +185,20 @@ class UrlPreviewCache {
     return metadata;
   }
 
-  Future<int> _getFileCount() async {
-    final cachePath = await _getCacheBasePath();
-    return Directory(cachePath).listSync().length;
-  }
+  Future<void> _cleanUpIfNeeded() async {
+    if (numberOfCachedItems <= _maxNumberOfCacheItems) {
+      return;
+    }
 
-  Future<void> _cleanup() async {
+    final cachePath = await _getCacheDirPath();
+    final fileList = Directory(cachePath).listSync();
+    fileList.sort((a, b) => a.statSync().changed.millisecondsSinceEpoch.compareTo(b.statSync().changed.millisecondsSinceEpoch));
+    final oldestFiles = fileList.sublist(0, _maxOfOldestFilesToDelete-1);
 
+    oldestFiles.forEach((file) {
+      final key = path.basenameWithoutExtension(file.path).intValue;
+      file.deleteSync();
+      _buffer.remove(key);
+    });
   }
 }

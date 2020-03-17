@@ -241,16 +241,17 @@ class MainBloc extends Bloc<MainEvent, MainState> {
       final dbFile = File(core.dbPath);
       await dbFile.delete();
 
-      final contactExtensionProvider = ContactExtensionProvider();
-      final extensionDbFile = File(contactExtensionProvider.path);
-      await extensionDbFile.delete();
+//      final contactExtensionProvider = ContactExtensionProvider();
+//      final extensionDbFile = File(contactExtensionProvider.path);
+//      await extensionDbFile.delete();
 
       await core.logout();
 
       if (Platform.isAndroid) {
         SystemChannels.platform.invokeMethod('SystemNavigator.pop');
       }
-    } catch (error) {
+    } on FileSystemException catch(error) {
+      debugPrint(error.toString());
       add(DatabaseDeleteErrorEncountered(error: error));
     }
   }
