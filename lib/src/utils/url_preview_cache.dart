@@ -52,36 +52,32 @@ import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:url/url.dart';
 
+///
 /// Precaching URL metadata.
 ///
 /// How does the URL preview cache work?
 ///
-/// Once a chat has been selected in the chat list, the app will precache all
-/// existent metadata of URL's posted in this chat. URL preview metadata are
-/// encapsulated in [Metadata] objects, which are serialized in JSONformat.
-/// Every [Metadata] object has its own cache file. The filename contains
-/// informations about the belonging chat.
+/// Once the app has been launched, it will precache all existent metadata of
+/// URL's posted in a chat. URL preview metadata are encapsulated in [Metadata]
+/// objects, which are serialized in JSONformat. Every [Metadata] object has its
+/// own cache file. The filename contains informations about the belonging URL
+/// the metadata has been cached for.
 ///
 /// Example of a [Metadata] object cache file:
 ///
-/// 10_286795806734.meta
-///  |      |
-///  |      +--> Hash-Code of precached URL (by calling [String.hashCode]
-///  +---------> Chat-ID
+/// 286795806734.meta
+///      |
+///      +--> Hash-Code of precached URL (by calling [String.hashCode]
 ///
-/// Persisting data this way we are able to drop all cache files related to a
-/// specific chat when this chat gets deleted.
-///
-/// When a chat is selected, all belonging cache files are read, deserialized
-/// from JSON into a [Metadata] object and cached in the [_preCache] map.
-/// The key of each map item is the hashCode of an URL string.
+/// When the app has been launched, all cache files are read, deserialized from
+/// JSON into a [Metadata] object and cached in the [_preCache] map. The key of
+/// each map item is the hashCode of its URL string.
 ///
 /// The directory of the cache is computed in [_getCacheBasePath] using the
 /// [getLibraryDirectory] strategy of the path provider plugin, suffixed by
 /// the string constant [_cacheDirName]. The [getLibraryDirectory] call produces
 /// a platform dependent result.
 ///
-/// The [_preCache] map will be cleared on leaving a chat.
 
 class UrlPreviewCache {
   static const _cacheDirName = "UrlPreviewCache";
@@ -102,7 +98,7 @@ class UrlPreviewCache {
 
   // Public API
 
-  Future<void> initPreCacheFor() async {
+  Future<void> prepareCache() async {
     final cachePath = await _getCacheBasePath();
     debugPrint("** Cache Path: $cachePath");
     int fileCount = 0;
@@ -140,9 +136,11 @@ class UrlPreviewCache {
       return;
     }
 
+    final key = url.toString().hashCode;
+
     // Do we have it precached already?
     // (Note: If it's precached, we have a cache file, too!)
-    final preCachedData = _preCache[url.toString().hashCode];
+    final preCachedData = _preCache[key];
     if (preCachedData != null) {
       return;
     }
@@ -152,7 +150,7 @@ class UrlPreviewCache {
       return;
     }
 
-    _preCache[url.toString().hashCode] = metadata;
+    _preCache[key] = metadata;
 
     final cacheFile = await _getCacheFileFor(url: url);
     await cacheFile.create(recursive: true);
@@ -166,15 +164,7 @@ class UrlPreviewCache {
     }
 
     final key = url.toString().hashCode;
-    final cachedData = _preCache[key];
-    if (cachedData != null) {
-      return cachedData;
-    }
-
-    final cacheFile = await _getCacheFileFor(url: url);
-    final metadata = await _getMetadataFor(file: cacheFile);
-
-    return metadata;
+    return _preCache[key];
   }
 
   // Private Helper

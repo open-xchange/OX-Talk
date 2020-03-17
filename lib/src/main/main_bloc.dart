@@ -66,6 +66,7 @@ import 'package:ox_coi/src/platform/preferences.dart';
 import 'package:ox_coi/src/push/push_manager.dart';
 import 'package:ox_coi/src/ui/strings.dart';
 import 'package:ox_coi/src/utils/constants.dart';
+import 'package:ox_coi/src/utils/url_preview_cache.dart';
 
 class MainBloc extends Bloc<MainEvent, MainState> {
   final _logger = Logger("main_bloc");
@@ -116,6 +117,9 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         await _setupBlocs();
         await _setupManagers(buildContext);
         await _loadCustomerConfig();
+
+        await UrlPreviewCache().prepareCache();
+
         add(AppLoaded());
       } catch (error) {
         yield MainStateFailure(error: error.toString());

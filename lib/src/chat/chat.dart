@@ -141,8 +141,6 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
   void initState() {
     super.initState();
 
-    UrlPreviewCache().initPreCacheFor();
-
     _navigation.current = Navigatable(Type.chat, params: [widget.chatId]);
     _chatBloc.add(RequestChat(chatId: widget.chatId, isHeadless: widget.headlessStart, messageId: widget.messageId));
     _chatBloc.add(ClearNotifications());
@@ -290,9 +288,6 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
     _messageListBloc.close();
     _chatComposerBloc.close();
     _chatChangeBloc.close();
-
-    UrlPreviewCache().clearPreCache();
-
     super.dispose();
   }
 

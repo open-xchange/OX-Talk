@@ -80,6 +80,7 @@ class MessageListBloc extends Bloc<MessageListEvent, MessageListState> with Invi
         _messageListRepository = RepositoryManager.get(RepositoryType.chatMessage, _chatId);
         _registerListeners();
         _setupMessages();
+
       } catch (error) {
         yield MessagesStateFailure(error: error.toString());
       }
@@ -90,22 +91,20 @@ class MessageListBloc extends Bloc<MessageListEvent, MessageListState> with Invi
       } catch (error) {
         yield MessagesStateFailure(error: error.toString());
       }
+
     } else if (event is MessagesLoaded) {
       yield MessagesStateSuccess(
         messageIds: event.messageIds,
         messageLastUpdateValues: event.messageLastUpdateValues,
         dateMarkerIds: event.dateMarkerIds,
       );
+
     } else if (event is SendMessage) {
       if (event.path != null) {
         _submitAttachmentMessage(event.path, event.fileType, event.isShared, event.text);
       } else {
         _submitMessage(event.text);
       }
-
-      // Load possible URL preview data
-      final cache = UrlPreviewCache();
-      await cache.saveMetadataFor(url: event.text.previewUrl);
 
     } else if (event is DeleteCacheFile) {
       _deleteCacheFile(event.path);
