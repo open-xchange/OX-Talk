@@ -102,3 +102,7 @@ extension Check on String {
     return this.contains(_matchProtocol);
   }
 }
+
+extension StringConversion on String {
+  int get intValue => int.parse(this);
+}

@@ -164,7 +164,7 @@ class MessageItemBloc extends Bloc<MessageItemEvent, MessageItemState> {
 
       // Load possible URL preview data
       final cache = UrlPreviewCache();
-      final urlPreviewData = await cache.getMetadataFor(chatId: chatId, url: text.previewUrl);
+      final urlPreviewData = await cache.getMetadataFor(url: text.previewUrl);
 
       final messageStateData = MessageStateData(
         isOutgoing: isOutgoing,

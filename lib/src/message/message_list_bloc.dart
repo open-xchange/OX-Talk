@@ -105,7 +105,7 @@ class MessageListBloc extends Bloc<MessageListEvent, MessageListState> with Invi
 
       // Load possible URL preview data
       final cache = UrlPreviewCache();
-      await cache.saveMetadataFor(chatId: _chatId, url: event.text.previewUrl);
+      await cache.saveMetadataFor(url: event.text.previewUrl);
 
     } else if (event is DeleteCacheFile) {
       _deleteCacheFile(event.path);

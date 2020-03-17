@@ -47,6 +47,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:metadata_fetch/metadata_fetch.dart';
 import 'package:ox_coi/src/extensions/url_extensions.dart';
+import 'package:ox_coi/src/extensions/string_helper.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:url/url.dart';
@@ -86,6 +87,7 @@ class UrlPreviewCache {
   static const _cacheDirName = "UrlPreviewCache";
   static const _cacheFileExtension = "meta";
   static const _maxNumberOfCacheItems = 500;
+  static const _numberOfOldFilesToRemove = 10;
   SplayTreeMap<int, Metadata> _preCache;
 
   static final UrlPreviewCache _instance = UrlPreviewCache._init();
@@ -100,28 +102,40 @@ class UrlPreviewCache {
 
   // Public API
 
-  Future<void> initPreCacheFor({@required int chatId}) async {
+  Future<void> initPreCacheFor() async {
     final cachePath = await _getCacheBasePath();
-    final fileSearchPattern = path.join(cachePath, "${chatId}_*.$_cacheFileExtension");
+    debugPrint("** Cache Path: $cachePath");
+    int fileCount = 0;
     Directory(cachePath).list().listen((FileSystemEntity entity) async {
-      final uri = entity.uri;
-      final segment = uri.pathSegments.last;
-      if (segment.startsWith("${chatId}_")) {
-        final cacheFile = File(entity.path);
-        final metadata = await _getMetadataFor(file: cacheFile);
-        final key = uri.toString().hashCode;
-        _preCache[key] = metadata;
+      fileCount++;
+      if (fileCount > _maxNumberOfCacheItems) {
+        await _cleanup();
       }
+
+      final cacheFile = File(entity.path);
+      final metadata = await _getMetadataFor(file: cacheFile);
+      final key = path.basenameWithoutExtension(cacheFile.path).intValue;
+      _preCache[key] = metadata;
     });
   }
 
   int get numberOfCachedItems => _preCache.length;
 
+  Future<int> get sizeOfCacheInBytes async {
+    int size = 0;
+    final cachePath = await _getCacheBasePath();
+    Directory(cachePath).list().listen((FileSystemEntity item) async {
+      final stat = await item.stat();
+      size += stat.size;
+    });
+    return size;
+  }
+
   void clearPreCache() {
     _preCache.clear();
   }
 
-  Future<void> saveMetadataFor({@required int chatId, @required Url url}) async {
+  Future<void> saveMetadataFor({@required Url url}) async {
     if (url == null || url.toString().isEmpty == true) {
       return;
     }
@@ -140,23 +154,24 @@ class UrlPreviewCache {
 
     _preCache[url.toString().hashCode] = metadata;
 
-    final cacheFile = await _getCacheFileFor(chatId: chatId, url: url);
+    final cacheFile = await _getCacheFileFor(url: url);
     await cacheFile.create(recursive: true);
     final json = jsonEncode(metadata);
     await cacheFile.writeAsString(json);
   }
 
-  Future<Metadata> getMetadataFor({@required int chatId, @required Url url}) async {
+  Future<Metadata> getMetadataFor({@required Url url}) async {
     if (url == null || url.toString().isEmpty == true) {
       return null;
     }
 
-    final cachedData = _preCache[url.toString().hashCode];
+    final key = url.toString().hashCode;
+    final cachedData = _preCache[key];
     if (cachedData != null) {
       return cachedData;
     }
 
-    final cacheFile = await _getCacheFileFor(chatId: chatId, url: url);
+    final cacheFile = await _getCacheFileFor(url: url);
     final metadata = await _getMetadataFor(file: cacheFile);
 
     return metadata;
@@ -169,10 +184,10 @@ class UrlPreviewCache {
     return path.join(applicationSupportDirectory.path, _cacheDirName);
   }
 
-  Future<File> _getCacheFileFor({@required int chatId, @required Url url}) async {
+  Future<File> _getCacheFileFor({@required Url url}) async {
     final cachePath = await _getCacheBasePath();
     final hash = url.toString().hashCode;
-    final cacheFilePath = path.join(cachePath, "${chatId}_$hash.$_cacheFileExtension");
+    final cacheFilePath = path.join(cachePath, "$hash.$_cacheFileExtension");
 
     return File(cacheFilePath);
   }
@@ -186,5 +201,14 @@ class UrlPreviewCache {
     final jsonString = await file.readAsString();
     final metadata = Metadata.fromJson(jsonDecode(jsonString));
     return metadata;
+  }
+
+  Future<int> _getFileCount() async {
+    final cachePath = await _getCacheBasePath();
+    return Directory(cachePath).listSync().length;
+  }
+
+  Future<void> _cleanup() async {
+
   }
 }

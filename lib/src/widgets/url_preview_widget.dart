@@ -74,8 +74,8 @@ class UrlPreview extends StatelessWidget {
           ),
           Padding(
             padding: EdgeInsets.symmetric(
-                vertical: messagesVerticalPadding,
-                horizontal: messagesHorizontalPadding
+                vertical: dimension8dp,
+                horizontal: dimension8dp
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -99,11 +99,14 @@ class UrlPreview extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  child: Text(
-                    previewUrl.host,
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      color: CustomTheme.of(context).onSurface.slightly(),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: dimension8dp),
+                    child: Text(
+                      previewUrl.host,
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        color: CustomTheme.of(context).onSurface.slightly(),
+                      ),
                     ),
                   ),
                 ),
