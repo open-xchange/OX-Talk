@@ -48,17 +48,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:ox_coi/src/adaptiveWidgets/adaptive_icon.dart';
-import 'package:ox_coi/src/extensions/string_markdown.dart';
-import 'package:ox_coi/src/extensions/url_extensions.dart';
+import 'package:ox_coi/src/brandable/brandable_icon.dart';
+import 'package:ox_coi/src/extensions/string_helper.dart';
 import 'package:ox_coi/src/message/message_attachment_bloc.dart';
 import 'package:ox_coi/src/message/message_attachment_event_state.dart';
 import 'package:ox_coi/src/message/message_item_bloc.dart';
-import 'package:ox_coi/src/ui/color.dart';
-import 'package:ox_coi/src/ui/custom_theme.dart';
+import 'package:ox_coi/src/extensions/color_apis.dart';
+import 'package:ox_coi/src/brandable/custom_theme.dart';
 import 'package:ox_coi/src/ui/dimensions.dart';
-import 'package:ox_coi/src/utils/conversion.dart';
-import 'package:ox_coi/src/utils/date.dart';
+import 'package:ox_coi/src/extensions/numbers_apis.dart';
 import 'package:ox_coi/src/widgets/url_preview_widget.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:url/url.dart';
@@ -437,7 +435,7 @@ class MessagePartGenericAttachment extends StatelessWidget {
                       softWrap: true,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    Text(byteToPrintableSize(attachment.size)),
+                    Text(attachment.size.byteToPrintableSize()),
                   ],
                 ),
               ),
@@ -472,11 +470,11 @@ class MessageDateTime extends StatelessWidget {
   Widget build(BuildContext context) {
     String date;
     if (hasDateMarker && showTime) {
-      date = "${getDateFromTimestamp(timestamp, true, true)} - ${getTimeFormTimestamp(timestamp)}";
+      date = "${timestamp.getDateFromTimestamp(true, true)} - ${timestamp.getTimeFormTimestamp()}";
     } else if (hasDateMarker) {
-      date = getDateFromTimestamp(timestamp, true, true);
+      date = timestamp.getDateFromTimestamp(true, true);
     } else {
-      date = getTimeFormTimestamp(timestamp);
+      date = timestamp.getTimeFormTimestamp();
     }
     return Center(
       child: Text(
@@ -492,7 +490,7 @@ class MessageDateTime extends StatelessWidget {
 class MessagePartTime extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    String time = getTimeFormTimestamp(_getMessageStateData(context).timestamp);
+    String time = _getMessageStateData(context).timestamp.getTimeFormTimestamp();
     return Text(
       time,
       style: TextStyle(color: MessageData.of(context).secondaryTextColor),

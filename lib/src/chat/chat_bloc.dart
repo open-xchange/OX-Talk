@@ -55,8 +55,8 @@ import 'package:ox_coi/src/data/repository_stream_handler.dart';
 import 'package:ox_coi/src/l10n/l.dart';
 import 'package:ox_coi/src/l10n/l10n.dart';
 import 'package:ox_coi/src/notifications/notification_manager.dart';
-import 'package:ox_coi/src/ui/color.dart';
 import 'package:ox_coi/src/utils/url_preview_cache.dart';
+import 'package:ox_coi/src/extensions/color_apis.dart';
 
 class ChatBloc extends Bloc<ChatEvent, ChatState> {
   var _chatRepository = RepositoryManager.get(RepositoryType.chat);
