@@ -46,16 +46,7 @@
 import 'package:html2md/html2md.dart' as html2md;
 
 extension Markdown on String {
-  static final RegExp _matchContainsEmail = RegExp(
-      r'(https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*))');
-
-  List<String> emailAddresses() {
-    final addresses = _matchContainsEmail.allMatches(this).map((match) => match.group(0)).toList();
-    return addresses.length > 0 ? addresses : null;
-  }
-
   String get markdownValue {
-    final _emailAddresses = emailAddresses();
     String markdown = this;
 
     // NOTE: The MarkDownBody() escapes some characters with '\'. So, this
@@ -63,15 +54,22 @@ extension Markdown on String {
     final Pattern search = "\\";
     markdown = html2md.convert(markdown).replaceAll(search, "");
 
-    _emailAddresses?.forEach((address) {
-      markdown = markdown.replaceAll(address, "[$address](mailto:$address)").toString();
+    // Replace all found email addresses by there Markdown counterpart
+    final emailAddressPatterm = RegExp(r'([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6})');
+    markdown = markdown.replaceAllMapped(emailAddressPatterm, (match) {
+      final email = match.group(0);
+      return "[$email](mailto:$email)";
     });
 
     return markdown;
   }
 
   String stripMarkdown() {
-    return this._stripMarkdownLinks()._stripStrongDelimiter()._stripUnderscoreDelimiter()._stripStrikeThroughDelimiter();
+    return this
+        ._stripMarkdownLinks()
+        ._stripStrongDelimiter()
+        ._stripUnderscoreDelimiter()
+        ._stripStrikeThroughDelimiter();
   }
 
   String _stripMarkdownLinks() {

@@ -47,10 +47,9 @@ import 'dart:core';
 
 import 'package:http/http.dart' as http;
 import 'package:metadata_fetch/metadata_fetch.dart';
-import 'package:url/url.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
-extension UrlLaunch on Url {
+extension UrlLaunch on Uri {
   Future<void> launch() async {
     final urlString = this.toString();
     if (await UrlLauncher.canLaunch(urlString)) {
@@ -59,11 +58,16 @@ extension UrlLaunch on Url {
   }
 }
 
-extension PreviewMetaData on Url {
+extension PreviewMetaData on Uri {
   Future<Metadata> get metaData async {
     final response = await http.get(this.toString());
     final document = responseToDocument(response);
     final metaData = MetadataParser.parse(document);
-    return metaData.hasAllMetadata ? metaData : null;
+
+    if (metaData == null) {
+      return null;
+    }
+
+    return metaData.hasAllMetadata == true ? metaData : null;
   }
 }

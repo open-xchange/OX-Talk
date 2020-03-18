@@ -47,7 +47,6 @@ import 'package:ox_coi/src/extensions/url_apis.dart';
 import 'package:ox_coi/src/extensions/color_apis.dart';
 import 'package:ox_coi/src/message/message_item_event_state.dart';
 import 'package:ox_coi/src/ui/dimensions.dart';
-import 'package:url/url.dart';
 
 class UrlPreview extends StatelessWidget {
   final MessageStateData messageStateData;
@@ -56,7 +55,7 @@ class UrlPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Url previewUrl = Url.parse(messageStateData.urlPreviewData.url);
+    final Uri previewUri = Uri.parse(messageStateData.urlPreviewData.url);
     final descriptionLength = messageStateData.urlPreviewData.description.length;
     final teaserTextLength = 100;
     final teaserText = messageStateData.urlPreviewData.description.substring(0, (descriptionLength > teaserTextLength ? teaserTextLength : descriptionLength));
@@ -66,7 +65,7 @@ class UrlPreview extends StatelessWidget {
     );
 
     return GestureDetector(
-      onTap: () => previewUrl.launch(),
+      onTap: () => previewUri.launch(),
       child: Column(
         children: [
           Container(
@@ -105,7 +104,7 @@ class UrlPreview extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.only(top: dimension8dp),
                         child: Text(
-                          previewUrl.host,
+                          previewUri.host,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: CustomTheme.of(context).onSurface.slightly(),

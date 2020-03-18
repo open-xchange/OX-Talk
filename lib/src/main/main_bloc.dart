@@ -241,9 +241,9 @@ class MainBloc extends Bloc<MainEvent, MainState> {
       final dbFile = File(core.dbPath);
       await dbFile.delete();
 
-//      final contactExtensionProvider = ContactExtensionProvider();
-//      final extensionDbFile = File(contactExtensionProvider.path);
-//      await extensionDbFile.delete();
+      final contactExtensionProvider = ContactExtensionProvider();
+      final extensionDbFile = File(contactExtensionProvider.path);
+      await extensionDbFile.delete();
 
       await core.logout();
 

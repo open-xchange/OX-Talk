@@ -495,7 +495,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "02cfb09b16b56f93e42713a28a082d2eead7b0c9"
+      resolved-ref: "5d0f58a0ed43bcf1751b49ae533a0e483f301f78"
       url: "https://github.com/open-xchange/metadata_fetch"
     source: git
     version: "0.2.2"
@@ -912,13 +912,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.6"
-  url:
-    dependency: "direct main"
-    description:
-      name: url
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.0"
   url_launcher:
     dependency: "direct main"
     description:
@@ -954,13 +947,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.4"
-  validators:
-    dependency: transitive
-    description:
-      name: validators
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.0+1"
   vector_math:
     dependency: transitive
     description:

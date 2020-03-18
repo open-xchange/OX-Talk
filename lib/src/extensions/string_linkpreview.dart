@@ -45,23 +45,13 @@
 
 import 'dart:core';
 
-import 'package:url/url.dart';
-
 extension UrlPreview on String {
-  static final _matchContainsUrl = RegExp(
-      // ignore: valid_regexps
-      r'(((?:http|https)://)?(?:www\\.)?[\\w\\d\\-_]+\\.\\w{2,3}(\\.\\w{2})?(/(?<=/)(?:[\\w\\d\\-./_]+)?)?');
+  RegExp get _matchContainsUrl => RegExp(
+      r'(http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+)');
 
-  Url get previewUrl {
-    final List<Url> urls = _matchContainsUrl
-        .allMatches(this)
-        .map((match) => Url.parse(match.group(0).trim()))
-        .toList();
-
-    if (urls.length > 0) {
-      return urls.first;
-    }
-
-    return null;
+  Uri get previewUri {
+    final match = _matchContainsUrl.firstMatch(this)?.group(0);
+    final uri = match != null ? Uri.parse(match.toString()) : null;
+    return uri;
   }
 }

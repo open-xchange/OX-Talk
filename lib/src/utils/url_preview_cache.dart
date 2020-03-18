@@ -50,9 +50,7 @@ import 'package:ox_coi/src/extensions/url_apis.dart';
 import 'package:ox_coi/src/extensions/string_apis.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
-import 'package:url/url.dart';
 
-///
 /// Precaching URL metadata.
 ///
 /// How does the URL preview cache work?
@@ -77,8 +75,6 @@ import 'package:url/url.dart';
 /// [getLibraryDirectory] strategy of the path provider plugin, suffixed by
 /// the string constant [_cacheDirName]. The [getLibraryDirectory] call produces
 /// a platform dependent result.
-///
-
 class UrlPreviewCache {
   static const _cacheDirName = "UrlPreviewCache";
   static const _cacheFileExtension = "meta";
@@ -86,13 +82,14 @@ class UrlPreviewCache {
   static const _maxOfOldestFilesToDelete = 23;
   SplayTreeMap<int, Metadata> _buffer;
 
-  static final UrlPreviewCache _instance = UrlPreviewCache._init();
+  static UrlPreviewCache _instance;
 
   factory UrlPreviewCache() {
+    _instance ??= UrlPreviewCache._internal();
     return _instance;
   }
 
-  UrlPreviewCache._init() {
+  UrlPreviewCache._internal() {
     _buffer = SplayTreeMap<int, Metadata>();
   }
 
@@ -111,22 +108,23 @@ class UrlPreviewCache {
 
   int get numberOfCachedItems => _buffer.length;
 
-  Future<int> get sizeOfCacheInBytes async {
-    int size = 0;
+  Future<void> getCacheSizeInBytes(Function(int) cacheSize) async {
+    int bytes = 0;
     final cachePath = await _getCacheDirPath();
     Directory(cachePath).list().listen((FileSystemEntity item) async {
       final stat = await item.stat();
-      size += stat.size;
+      bytes += stat.size;
+    }, onDone: () {
+      cacheSize(bytes);
     });
-    return size;
   }
 
-  Future<void> saveMetadataIfNeededFor({@required Url url}) async {
-    if (url == null || url.toString().isEmpty == true) {
+  Future<void> saveMetadataIfNeededFor({@required Uri uri}) async {
+    if (uri == null || uri.toString().isEmpty) {
       return;
     }
 
-    final key = url.toString().hashCode;
+    final key = uri.toString().hashCode;
 
     // Do we have it buffered already?
     // (Note: If it's buffered, we have a cache file, too!)
@@ -135,40 +133,54 @@ class UrlPreviewCache {
       return;
     }
 
-    final metadata = await url.metaData;
-    if (metadata == null || metadata.hasAllMetadata == false) {
+    final metadata = await uri.metaData;
+    if (metadata == null) {
       return;
     }
 
     _buffer[key] = metadata;
 
-    final cacheFile = await _getCacheFileFor(url: url);
+    final cacheFile = await _getCacheFileFor(uri: uri);
     await cacheFile.create(recursive: true);
     final json = jsonEncode(metadata);
     await cacheFile.writeAsString(json);
 
+    await getCacheSizeInBytes((bytes) {
+      debugPrint("** Cache size: $bytes Bytes");
+    });
+
     _cleanUpIfNeeded();
   }
 
-  Future<Metadata> getMetadataFor({@required Url url}) async {
-    if (url == null || url.toString().isEmpty == true) {
+  /// Returns a [Metadata] object for the given URL if it was already cached
+  /// otherwise it performs an implicit call of [saveMetadataIfNeededFor] to
+  /// cache metadata for the given URl.
+  /// If URL doesn't provide any suitable metadata it returns null.
+  Future<Metadata> getMetadataFor({@required Uri uri}) async {
+    if (uri == null || uri.toString().isEmpty) {
       return null;
     }
 
-    final key = url.toString().hashCode;
-    return _buffer[key];
+    final key = uri.toString().hashCode;
+    Metadata bufferedData =  _buffer[key];
+    if (bufferedData == null) {
+      await saveMetadataIfNeededFor(uri: uri);
+      bufferedData =  _buffer[key];
+    }
+
+    return bufferedData;
   }
 
   // Private Helper
 
   Future<String> _getCacheDirPath() async {
-    final applicationSupportDirectory = await getTemporaryDirectory();
-    return path.join(applicationSupportDirectory.path, _cacheDirName);
+    final tmpDir = await getTemporaryDirectory();
+    return path.join(tmpDir.path, _cacheDirName);
   }
 
-  Future<File> _getCacheFileFor({@required Url url}) async {
+  Future<File> _getCacheFileFor({@required Uri uri}) async {
     final cachePath = await _getCacheDirPath();
-    final hash = url.toString().hashCode;
+    final hash = uri.toString().hashCode;
     final cacheFilePath = path.join(cachePath, "$hash.$_cacheFileExtension");
 
     return File(cacheFilePath);

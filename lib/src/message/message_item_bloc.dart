@@ -46,6 +46,7 @@ import 'dart:ui';
 import 'package:bloc/bloc.dart';
 import 'package:delta_chat_core/delta_chat_core.dart';
 import 'package:flutter/foundation.dart';
+import 'package:metadata_fetch/metadata_fetch.dart';
 import 'package:ox_coi/src/data/repository.dart';
 import 'package:ox_coi/src/data/repository_manager.dart';
 import 'package:ox_coi/src/data/repository_stream_handler.dart';
@@ -163,9 +164,7 @@ class MessageItemBloc extends Bloc<MessageItemEvent, MessageItemState> {
       }
 
       // Load possible URL preview data
-      final cache = UrlPreviewCache();
-      await cache.saveMetadataIfNeededFor(url: text.previewUrl);
-      final urlPreviewData = await cache.getMetadataFor(url: text.previewUrl);
+      Metadata urlPreviewData = await UrlPreviewCache().getMetadataFor(uri: text.previewUri);
 
       final messageStateData = MessageStateData(
         isOutgoing: isOutgoing,

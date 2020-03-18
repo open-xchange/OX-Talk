@@ -61,7 +61,6 @@ import 'package:ox_coi/src/message/message_item_bloc.dart';
 import 'package:ox_coi/src/ui/dimensions.dart';
 import 'package:ox_coi/src/widgets/url_preview_widget.dart';
 import 'package:transparent_image/transparent_image.dart';
-import 'package:url/url.dart';
 
 import 'message_item_event_state.dart';
 
@@ -122,34 +121,31 @@ class MessageText extends StatelessWidget {
     final urlPreviewIsVisible = messageStateData.urlPreviewData != null && messageStateData.urlPreviewData.hasAllMetadata;
 
     String markdownString;
+    // TODO: This handling SHOULD be moved into the [markdownValue] getter!
     if (messageText.trim() == messageStateData.urlPreviewData?.url?.trim()) {
       markdownString = "[$messageText]($messageText)";
     } else {
       markdownString = messageText.markdownValue;
     }
 
-    final List<Widget> children = [
-      Padding(
-        padding: _getNamePaddingForGroups(context),
-        child: MarkdownBody(
-          extensionSet: ExtensionSet.gitHubWeb,
-          data: markdownString,
-          onTapLink: (url) {
-            final Url tapUrl = Url.parse(url);
-            tapUrl.launch();
-          },
-        ),
-      )
-    ];
-
-    if (urlPreviewIsVisible) {
-      children.add(UrlPreview(messageStateData: messageStateData));
-    }
-
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: children,
+        children: [
+          Padding(
+            padding: _getNamePaddingForGroups(context),
+            child: MarkdownBody(
+              extensionSet: ExtensionSet.gitHubWeb,
+              data: markdownString,
+              onTapLink: (url) {
+                final Uri tapUrl = Uri.parse(url);
+                tapUrl.launch();
+              },
+            ),
+          ),
+          if (urlPreviewIsVisible)
+            UrlPreview(messageStateData: messageStateData)
+        ],
       ),
     );
   }
