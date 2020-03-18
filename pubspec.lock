@@ -493,9 +493,11 @@ packages:
   metadata_fetch:
     dependency: "direct main"
     description:
-      path: "../metadata_fetch"
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: "02cfb09b16b56f93e42713a28a082d2eead7b0c9"
+      url: "https://github.com/open-xchange/metadata_fetch"
+    source: git
     version: "0.2.2"
   mime:
     dependency: "direct main"
