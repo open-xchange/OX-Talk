@@ -160,10 +160,14 @@ class _UserAccountSettingsState extends State<UserAccountSettings> {
               title: L10n.get(L.settingAccount),
               leading: AppBarCloseButton(context: context),
               trailingList: [
-                IconButton(
-                  key: Key(keyUserAccountAdaptiveIconButtonIconCheck),
-                  icon: AdaptiveIcon(icon: IconSource.check),
-                  onPressed: () => _saveData(context),
+                Builder(
+                  builder: (BuildContext context) {
+                    return IconButton(
+                      key: Key(keyUserAccountAdaptiveIconButtonIconCheck),
+                      icon: AdaptiveIcon(icon: IconSource.check),
+                      onPressed: () => _saveData(context),
+                    );
+                  },
                 ),
               ],
             ),
