@@ -56,7 +56,7 @@ import 'package:ox_coi/src/settings/settings_anti_mobbing.dart';
 import 'package:ox_coi/src/settings/settings_chat.dart';
 import 'package:ox_coi/src/settings/settings_debug.dart';
 import 'package:ox_coi/src/settings/settings_notifications.dart';
-import 'package:ox_coi/src/settings/settings_security.dart';
+import 'package:ox_coi/src/settings/settings_encryption.dart';
 import 'package:ox_coi/src/user/user_account_settings.dart';
 
 class Navigation {
@@ -81,7 +81,7 @@ class Navigation {
     contactsAdd: (context) => ContactChange(contactAction: ContactAction.add),
     settings: (context) => Settings(),
     settingsAccount: (context) => UserAccountSettings(),
-    settingsSecurity: (context) => SettingsSecurity(),
+    settingsSecurity: (context) => SettingsEncryption(),
     settingsAbout: (context) => SettingsAbout(),
     settingsChat: (context) => SettingsChat(),
     settingsAntiMobbing: (context) => SettingsAntiMobbing(),
