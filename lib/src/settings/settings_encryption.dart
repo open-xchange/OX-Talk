@@ -72,7 +72,7 @@ class _SettingsEncryptionState extends State<SettingsEncryption> {
   void initState() {
     super.initState();
     _navigation.current = Navigatable(Type.settingsSecurity);
-    _settingsEncryptionBloc.listen((state) => _settingsSecurityStateChange(state));
+    _settingsEncryptionBloc.listen((state) => _settingsEncryptionStateChange(state));
   }
 
   @override
@@ -81,7 +81,7 @@ class _SettingsEncryptionState extends State<SettingsEncryption> {
     super.dispose();
   }
 
-  void _settingsSecurityStateChange(SettingsEncryptionState state) {
+  void _settingsEncryptionStateChange(SettingsEncryptionState state) {
     if (state is SettingsEncryptionStateLoading) {
       String text;
       if (state.type == SettingsEncryptionType.importKeys) {
