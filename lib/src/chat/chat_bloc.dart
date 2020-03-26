@@ -198,7 +198,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         subTitle = L10n.get(L.chatMessagesSelf);
       } else {
         Contact contact = _contactRepository.get(chatContactId);
-        subTitle = await contact.getAddress();
+        subTitle = await contact?.getAddress() ?? "";
       }
     }
     add(
