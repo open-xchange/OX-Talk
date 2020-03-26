@@ -150,7 +150,7 @@ Future blockOneContactFromContacts(FlutterDriver driver, String contactNameToBlo
   await driver.tap(find.text(blockContact));
 }
 
-Future unFlaggedMessage(FlutterDriver driver,String flagUnFlag, int messageIdToUnFlagged) async {
+Future unflagMessage(FlutterDriver driver,String flagUnFlag, int messageIdToUnFlagged) async {
   SerializableFinder messageToUnFlaggedFinder = find.byValueKey(messageIdToUnFlagged);
   await driver.waitFor(messageToUnFlaggedFinder);
   await performLongPress(driver, messageToUnFlaggedFinder);

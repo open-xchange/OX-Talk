@@ -81,6 +81,7 @@ const messageIdFour = 13;
 // Finders
 final pageBackFinder = find.byValueKey(keyBackOrCloseButton);
 final profileFinder = find.text(L.getKey(L.profile));
+final flaggedMessagesFinder = find.text(L.getKey(L.settingItemFlaggedTitle));
 final contactsFinder = find.text(L.getPluralKey(L.contactP));
 final chatsFinder = find.text(L.getPluralKey(L.chatP));
 final signInFinder = find.text(L.getKey(L.loginSignIn));

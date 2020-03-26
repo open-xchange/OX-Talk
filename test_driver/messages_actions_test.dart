@@ -103,7 +103,7 @@ void main() {
 
     test(': UnFlagged messages.', () async {
       await driver.tap(find.byValueKey(keyUserProfileFlagIconSource));
-      await unFlaggedMessage(driver, flagUnFlag, messageIdOne);
+      await unflagMessage(driver, flagUnFlag, messageIdOne);
       await driver.waitForAbsent(find.byValueKey(inputHelloWorld));
       await driver.tap(pageBackFinder);
       await navigateTo(driver, L.getPluralKey(L.chatP));

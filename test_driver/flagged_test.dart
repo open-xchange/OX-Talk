@@ -54,8 +54,8 @@
 
 import 'package:flutter_driver/flutter_driver.dart';
 import 'package:ox_coi/src/l10n/l.dart';
-import 'package:test/test.dart';
 import 'package:ox_coi/src/utils/keyMapping.dart';
+import 'package:test/test.dart';
 
 import 'setup/helper_methods.dart';
 import 'setup/main_test_setup.dart';
@@ -65,55 +65,69 @@ void main() {
   FlutterDriver driver;
   setUpAll(() async {
     driver = await setupAndGetDriver();
+    await createNewChat(driver, email2, name2);
+    await createNewChat(driver, email3, name3);
   });
 
   tearDownAll(() async {
     await teardownDriver(driver);
   });
 
-  group('Test flagged messages per chat', () {
+  group('Flagged messages per chat', () {
     final flagUnFlag = L.getKey(L.messageActionFlagUnflag);
     final name2ContactFinder = find.text(name2);
     final name3ContactFinder = find.text(name3);
 
-    test(': Add two chats.', () async {
-      await createNewChat(driver, email2, name2);
-      await createNewChat(driver, email3, name3);
-    });
-
-    test(': Edit two messages in chat name2 and flags both. ', () async {
+    test(': Add messages in chat "name2" and flag those.', () async {
       await driver.tap(name2ContactFinder);
       await writeTextInChat(driver, messageIdOne);
-      await writeTextInChat(driver, messageIdTwo,inputTestMessage);
+      await writeTextInChat(driver, messageIdTwo, inputTestMessage);
       await flaggedMessage(driver, flagUnFlag, finderMessageOne);
       await flaggedMessage(driver, flagUnFlag, finderMessageTwo);
-      await driver.tap(pageBackFinder);
-    });
-
-    test(': Edit one messages in chat name3 ', () async {
-      await driver.tap(name3ContactFinder);
-      await writeTextInChat(driver, messageIdThree);
-      await flaggedMessage(driver, flagUnFlag, finderMessageThree);
-    });
-
-    test(': Check flagged messages. ', () async {
       await driver.tap(find.byValueKey(keyChatIconTitleText));
       await driver.tap(find.byValueKey(keyChatProfileSingleIconSourceFlaggedTitle));
       await driver.waitFor(finderMessageOne);
       await driver.waitFor(finderMessageTwo);
-      await driver.waitFor(finderMessageThree);
+      await driver.waitForAbsent(finderMessageThree);
+      await driver.tap(pageBackFinder);
+      await driver.tap(pageBackFinder);
       await driver.tap(pageBackFinder);
     });
 
-    test(': UnFlagged messages.', () async {
+    test(': Add message in chat "name3" and flag it', () async {
       await driver.tap(name3ContactFinder);
+      await writeTextInChat(driver, messageIdThree);
+      await flaggedMessage(driver, flagUnFlag, finderMessageThree);
+      await driver.tap(find.byValueKey(keyChatIconTitleText));
       await driver.tap(find.byValueKey(keyChatProfileSingleIconSourceFlaggedTitle));
-      await unFlaggedMessage(driver, flagUnFlag, messageIdOne);
-      await unFlaggedMessage(driver, flagUnFlag, messageIdTwo);
-      await unFlaggedMessage(driver, flagUnFlag, messageIdThree);
       await driver.waitForAbsent(finderMessageOne);
       await driver.waitForAbsent(finderMessageTwo);
+      await driver.waitFor(finderMessageThree);
+      await driver.tap(pageBackFinder);
+      await driver.tap(pageBackFinder);
+      await driver.tap(pageBackFinder);
+    });
+
+    test(': Unflag message in chat "name2".', () async {
+      await driver.tap(name2ContactFinder);
+      await driver.tap(find.byValueKey(keyChatIconTitleText));
+      await driver.tap(find.byValueKey(keyChatProfileSingleIconSourceFlaggedTitle));
+      await unflagMessage(driver, flagUnFlag, messageIdTwo);
+      await driver.waitFor(finderMessageOne);
+      await driver.waitForAbsent(finderMessageTwo);
       await driver.waitForAbsent(finderMessageThree);
+      await driver.tap(pageBackFinder);
+      await driver.tap(pageBackFinder);
+      await driver.tap(pageBackFinder);
+    });
+  });
+
+  group("All flagged messages", () {
+    test(': Check all flagged messages', () async {
+      await driver.tap(profileFinder);
+      await driver.tap(flaggedMessagesFinder);
+      await driver.waitFor(finderMessageOne);
+      await driver.waitFor(finderMessageThree);
       await driver.tap(pageBackFinder);
     });
   });
