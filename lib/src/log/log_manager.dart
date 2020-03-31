@@ -44,7 +44,6 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:delta_chat_core/delta_chat_core.dart';
-import 'package:device_info/device_info.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
@@ -176,4 +175,5 @@ class LogManager {
     final message = "Device: $deviceName (OS: $deviceOs)";
     final logRecord = LogRecord(Level.INFO, message, _coreLoggerName);
     _writeToLogFile(logRecord);
+  }
 }
