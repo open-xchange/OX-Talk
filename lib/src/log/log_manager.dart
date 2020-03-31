@@ -159,7 +159,7 @@ class LogManager {
 
   void setupCoreListener() {
     _coreLoggerSubject.listen(_loggingCallback);
-    _core.addListener(eventId: Event.internalClientLogging, streamController: _coreLoggerSubject);
+    _core.addListener(eventIdList: [Event.info, Event.warning, Event.error, Event.errorNoNetwork], streamController: _coreLoggerSubject);
   }
 
   void _loggingCallback(Event event) {
