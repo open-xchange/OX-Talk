@@ -221,12 +221,10 @@ packages:
   file_picker:
     dependency: "direct main"
     description:
-      path: "."
-      ref: "192_embeddingV2"
-      resolved-ref: "64596b1d117757d63e86fc8141cdf9062399bfa6"
-      url: "git://github.com/Boehrsi/plugins_flutter_file_picker"
-    source: git
-    version: "1.4.3+2"
+      name: file_picker
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.5.1"
   firebase_messaging:
     dependency: "direct main"
     description:
@@ -290,7 +288,7 @@ packages:
       name: flutter_plugin_android_lifecycle
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.4"
+    version: "1.0.6"
   flutter_sound:
     dependency: "direct main"
     description:
