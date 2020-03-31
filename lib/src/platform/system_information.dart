@@ -48,13 +48,13 @@ IosDeviceInfo iosInfo;
 AndroidDeviceInfo androidInfo;
 
 Future<String> getDeviceName() async {
-  getDeviceInfo();
+  await getDeviceInfo();
   final physicalDevice = Platform.isIOS ? iosInfo.isPhysicalDevice : androidInfo.isPhysicalDevice;
   return Platform.isIOS ? "${iosInfo.utsname.machine} (real device: $physicalDevice)" : "${androidInfo.model} (real device: $physicalDevice)";
 }
 
 Future<String> getDeviceOsVersion() async {
-  getDeviceInfo();
+  await getDeviceInfo();
   return Platform.isIOS
       ? "OS: ${iosInfo.utsname.sysname} - Release: ${iosInfo.utsname.release} - Version: ${iosInfo.utsname.version}"
       : "OS: ${androidInfo.version.baseOS} - Release: ${androidInfo.version.release} (${androidInfo.version.codename}) - SDK: ${androidInfo.version.sdkInt}";

@@ -57,6 +57,7 @@ import 'package:synchronized/extension.dart';
 
 class LogManager {
   static const _coreLoggerName = "dcc";
+  static const _logManagerLoggerName = "logManager";
   static const _maxLogFileCount = 10;
   static const _logFolder = "logs";
   static LogManager _instance;
@@ -172,8 +173,8 @@ class LogManager {
   Future<void> logDeviceInfo() async {
     final deviceName = await getDeviceName();
     final deviceOs = await getDeviceOsVersion();
-    final message = "Device: $deviceName (OS: $deviceOs)";
-    final logRecord = LogRecord(Level.INFO, message, _coreLoggerName);
+    final message = "Device: $deviceName, $deviceOs";
+    final logRecord = LogRecord(Level.INFO, message, _logManagerLoggerName);
     _writeToLogFile(logRecord);
   }
 }
