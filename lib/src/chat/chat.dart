@@ -837,7 +837,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
       final ext = Path.extension(filePath);
       final videoFileName = "${filePath.hashCode}$ext";
       final videoFileDir = Path.dirname(filePath);
-      final videoFilePath = "$videoFileDir/$videoFileName";
+      final videoFilePath = "$videoFileDir${Platform.pathSeparator}$videoFileName";
       final videoFile = File(filePath);
       await videoFile.rename(videoFilePath);
       filePath = videoFilePath;
