@@ -833,7 +833,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
       return;
     }
 
-    if (fileType == FileType.video) {
+    if (fileType == FileType.video && Platform.isIOS) {
       final ext = Path.extension(filePath);
       final videoFileName = "${filePath.hashCode}$ext";
       final videoFileDir = Path.dirname(filePath);
