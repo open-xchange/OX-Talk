@@ -40,14 +40,16 @@
  * for more details.
  */
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:ox_coi/src/platform/preferences.dart';
-
-import 'branded_theme.dart';
+import 'package:ox_coi/src/brandable/branded_theme.dart';
 
 enum ThemeKey {
-  LIGHT,
-  DARK,
+  system,
+  light,
+  dark,
 }
 
 class CustomerThemes {
@@ -93,12 +95,13 @@ class CustomerThemes {
 
   static BrandedTheme getThemeFromKey(ThemeKey themeKey) {
     switch (themeKey) {
-      case ThemeKey.LIGHT:
+      case ThemeKey.light:
         return lightTheme;
-      case ThemeKey.DARK:
+      case ThemeKey.dark:
         return darkTheme;
       default:
-        return lightTheme;
+        final brightness = WidgetsBinding.instance.window.platformBrightness;
+        return brightness == Brightness.light ? lightTheme : darkTheme;
     }
   }
 }
@@ -122,11 +125,7 @@ class CustomTheme extends StatefulWidget {
   final Widget child;
   final ThemeKey initialThemeKey;
 
-  const CustomTheme({
-    Key key,
-    this.initialThemeKey,
-    @required this.child,
-  }) : super(key: key);
+  const CustomTheme({Key key, this.initialThemeKey, @required this.child}) : super(key: key);
 
   @override
   CustomThemeState createState() => new CustomThemeState();
@@ -139,6 +138,24 @@ class CustomTheme extends StatefulWidget {
   static CustomThemeState instanceOf(BuildContext context) {
     _CustomTheme inherited = (context.dependOnInheritedWidgetOfExactType<_CustomTheme>());
     return inherited.data;
+  }
+
+  static ThemeKey getThemeKeyFor({@required String name}) {
+    if (name == describeEnum(ThemeKey.system)) {
+      return ThemeKey.system;
+    } else if (name == describeEnum(ThemeKey.light)) {
+      return ThemeKey.light;
+    } else {
+      return ThemeKey.dark;
+    }
+  }
+
+  static ThemeKey get systemThemeKey {
+    final brightness = WidgetsBinding.instance.window.platformBrightness;
+    if (brightness == Brightness.light) {
+      return ThemeKey.light;
+    }
+    return ThemeKey.dark;
   }
 }
 
@@ -169,23 +186,42 @@ class CustomThemeState extends State<CustomTheme> with WidgetsBindingObserver {
     _checkSavedTheme();
   }
 
-  void _checkSavedTheme() async{
-    var newThemeKey;
-    String savedThemeKey = await getPreference(preferenceAppThemeKey);
-    if(savedThemeKey == null){
-      final Brightness brightness = WidgetsBinding.instance.window.platformBrightness;
-      newThemeKey = brightness == Brightness.light ? ThemeKey.LIGHT : ThemeKey.DARK;
-    }else{
-      newThemeKey = savedThemeKey.compareTo(ThemeKey.LIGHT.toString()) == 0 ? ThemeKey.LIGHT : ThemeKey.DARK;
+  void _checkSavedTheme() async {
+    var savedThemeKeyString = await Preference.themeKey;
+
+    ThemeKey savedThemeKey;
+    if (savedThemeKeyString == null) {
+      savedThemeKey = ThemeKey.system;
+      savedThemeKeyString = describeEnum(savedThemeKey);
+      Preference.themeKey = savedThemeKeyString;
     }
-    changeTheme(newThemeKey);
+
+    ThemeKey newThemeKey;
+    if (savedThemeKey == ThemeKey.system) {
+      final platformBrightness = WidgetsBinding.instance.window.platformBrightness;
+      newThemeKey = platformBrightness == Brightness.light ? ThemeKey.light : ThemeKey.dark;
+    } else {
+      newThemeKey = CustomTheme.getThemeKeyFor(name: savedThemeKeyString);
+    }
+
+    changeTheme(themeKey: newThemeKey, preservePreference: true);
   }
 
-  void changeTheme(ThemeKey themeKey) {
+  void changeTheme({@required ThemeKey themeKey, bool preservePreference = false}) async {
     setState(() {
       _actualThemeKey = themeKey;
       _theme = CustomerThemes.getThemeFromKey(themeKey);
     });
+
+    if (!preservePreference) {
+      Preference.themeKey = describeEnum(themeKey);
+    }
+
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: CustomerThemes.getThemeFromKey(themeKey).background, // Android only
+        statusBarIconBrightness: themeKey == ThemeKey.dark ? Brightness.light : Brightness.dark, // Android only
+        statusBarBrightness: themeKey == ThemeKey.dark ? Brightness.dark : Brightness.light // iOS only
+    ));
   }
 
   @override

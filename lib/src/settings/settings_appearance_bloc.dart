@@ -40,8 +40,24 @@
  * for more details.
  */
 
-import 'package:vibrate/vibrate.dart';
+import 'package:bloc/bloc.dart';
+import 'package:ox_coi/src/brandable/custom_theme.dart';
+import 'package:ox_coi/src/platform/preferences.dart';
+import 'package:ox_coi/src/settings/settings_appearance_event_state.dart';
 
-void vibrateLight() => Vibrate.feedback(FeedbackType.light);
+class SettingsAppearanceBloc extends Bloc<SettingsAppearanceEvent, SettingsAppearanceState> {
+  @override
+  SettingsAppearanceState get initialState => SettingsAppearanceStateInitial();
 
-void vibrateMedium() => Vibrate.feedback(FeedbackType.medium);
+  @override
+  Stream<SettingsAppearanceState> mapEventToState(SettingsAppearanceEvent event) async* {
+    if (event is LoadAppearance) {
+      final themeKeyString = await Preference.themeKey;
+      final savedThemeKey = CustomTheme.getThemeKeyFor(name: themeKeyString);
+      add(AppearanceLoaded(themeKey: savedThemeKey));
+
+    } else if (event is AppearanceLoaded) {
+      yield SettingsAppearanceStateLoaded(themeKey: event.themeKey);
+    }
+  }
+}
