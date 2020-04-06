@@ -45,6 +45,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:logging/logging.dart';
+import 'package:ox_coi/src/brandable/custom_theme.dart';
 import 'package:ox_coi/src/error/error_bloc.dart';
 import 'package:ox_coi/src/l10n/l10n.dart';
 import 'package:ox_coi/src/lifecycle/lifecycle_bloc.dart';
@@ -59,7 +60,6 @@ import 'package:ox_coi/src/main/splash.dart';
 import 'package:ox_coi/src/navigation/navigation.dart';
 import 'package:ox_coi/src/push/push_bloc.dart';
 import 'package:ox_coi/src/push/push_event_state.dart';
-import 'package:ox_coi/src/brandable/custom_theme.dart';
 import 'package:ox_coi/src/widgets/view_switcher.dart';
 
 void main() {
@@ -191,5 +191,4 @@ class _OxCoiState extends State<OxCoi> {
     _navigation.popUntilRoot(context);
     _mainBloc.add(AppLoaded());
   }
-
 }
