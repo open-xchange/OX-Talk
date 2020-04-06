@@ -160,7 +160,6 @@ class _AppearanceSelector extends StatelessWidget {
           children: <Widget>[
             Container(
               margin: EdgeInsets.only(left: dimension8dp, right: dimension8dp),
-              padding: EdgeInsets.all(dimension16dp),
               decoration: BoxDecoration(
                 color: selectedTheme == themeKey ? CustomTheme.of(context).surface : CustomTheme.of(context).background,
                 borderRadius: BorderRadius.all(Radius.circular(dimension8dp)),
@@ -169,25 +168,30 @@ class _AppearanceSelector extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.only(bottom: dimension16dp),
+                    padding: EdgeInsets.only(bottom: dimension4dp),
                     child: Container(
+                      margin: EdgeInsets.all(dimension8dp),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(dimension4dp)),
+                        borderRadius: BorderRadius.all(Radius.circular(dimension6dp)),
                         border: Border.all(color: CustomTheme.of(context).onBackground.slightly()),
                       ),
                       child: Image(
-                        image: AssetImage('assets/images/theme_coi_${describeEnum(themeKey)}.png'),
+                        image: AssetImage('assets/images/theme_coi_${themeKey.stringValue}.png'),
+                        width: 70.0,
                       ),
                     ),
                   ),
-                  Text(
-                    themeItemData[themeKey],
+                  Padding(
+                    padding: EdgeInsets.only(bottom: dimension12dp),
+                    child: Text(
+                      themeItemData[themeKey],
+                    ),
                   ),
                 ],
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(bottom: dimension16dp),
+              padding: EdgeInsets.only(bottom: dimension8dp),
               child: Radio(
                 value: themeKey,
                 groupValue: selectedTheme,

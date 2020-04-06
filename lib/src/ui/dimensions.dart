@@ -50,6 +50,7 @@ const textScaleDefault = 1.0;
 // Defaults
 const dimension2dp = 2.0;
 const dimension4dp = 4.0;
+const dimension6dp = 6.0;
 const dimension8dp = 8.0;
 const dimension12dp = 12.0;
 const dimension16dp = 16.0;

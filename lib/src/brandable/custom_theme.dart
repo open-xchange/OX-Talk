@@ -52,6 +52,12 @@ enum ThemeKey {
   dark,
 }
 
+extension ThemeKeyStrings on ThemeKey {
+  String get stringValue {
+    return describeEnum(this);
+  }
+}
+
 class CustomerThemes {
   static final BrandedTheme lightTheme = BrandedTheme(
     accent: const Color(0xFF0076FF),
@@ -141,9 +147,9 @@ class CustomTheme extends StatefulWidget {
   }
 
   static ThemeKey getThemeKeyFor({@required String name}) {
-    if (name == describeEnum(ThemeKey.system)) {
+    if (name == ThemeKey.system.stringValue) {
       return ThemeKey.system;
-    } else if (name == describeEnum(ThemeKey.light)) {
+    } else if (name == ThemeKey.light.stringValue) {
       return ThemeKey.light;
     } else {
       return ThemeKey.dark;
@@ -152,10 +158,7 @@ class CustomTheme extends StatefulWidget {
 
   static ThemeKey get systemThemeKey {
     final brightness = WidgetsBinding.instance.window.platformBrightness;
-    if (brightness == Brightness.light) {
-      return ThemeKey.light;
-    }
-    return ThemeKey.dark;
+    return brightness == Brightness.light ? ThemeKey.light : ThemeKey.dark;
   }
 }
 
@@ -186,14 +189,14 @@ class CustomThemeState extends State<CustomTheme> with WidgetsBindingObserver {
     _checkSavedTheme();
   }
 
-  void _checkSavedTheme() async {
-    var savedThemeKeyString = await Preference.themeKey;
+  Future<void> _checkSavedTheme() async {
+    var savedThemeKeyString = await getPreference(preferenceApplicationTheme);
 
     ThemeKey savedThemeKey;
     if (savedThemeKeyString == null) {
       savedThemeKey = ThemeKey.system;
-      savedThemeKeyString = describeEnum(savedThemeKey);
-      Preference.themeKey = savedThemeKeyString;
+      savedThemeKeyString = savedThemeKey.stringValue;
+      await setPreference(preferenceApplicationTheme, savedThemeKeyString);
     }
 
     ThemeKey newThemeKey;
@@ -204,24 +207,28 @@ class CustomThemeState extends State<CustomTheme> with WidgetsBindingObserver {
       newThemeKey = CustomTheme.getThemeKeyFor(name: savedThemeKeyString);
     }
 
-    changeTheme(themeKey: newThemeKey, preservePreference: true);
+    await changeTheme(themeKey: newThemeKey, preservePreference: true);
   }
 
-  void changeTheme({@required ThemeKey themeKey, bool preservePreference = false}) async {
+  Future<void> changeTheme({@required ThemeKey themeKey, bool preservePreference = false}) async {
     setState(() {
       _actualThemeKey = themeKey;
       _theme = CustomerThemes.getThemeFromKey(themeKey);
+
+      if (!preservePreference) {
+        setPreference(preferenceApplicationTheme, themeKey.stringValue);
+      }
+
+      SystemUiOverlayStyle overlayStyle;
+      if (themeKey == ThemeKey.system) {
+        final platformBrightness = WidgetsBinding.instance.window.platformBrightness;
+        overlayStyle = platformBrightness == Brightness.light ? SystemUiOverlayStyle.dark : SystemUiOverlayStyle.light;
+      } else {
+        overlayStyle = themeKey == ThemeKey.dark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark;
+      }
+
+      SystemChrome.setSystemUIOverlayStyle(overlayStyle);
     });
-
-    if (!preservePreference) {
-      Preference.themeKey = describeEnum(themeKey);
-    }
-
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        statusBarColor: CustomerThemes.getThemeFromKey(themeKey).background, // Android only
-        statusBarIconBrightness: themeKey == ThemeKey.dark ? Brightness.light : Brightness.dark, // Android only
-        statusBarBrightness: themeKey == ThemeKey.dark ? Brightness.dark : Brightness.light // iOS only
-    ));
   }
 
   @override

@@ -55,6 +55,7 @@ const preferenceNotificationsPushStatus = "preferenceNotificationsPushStatus";
 const preferenceAppState = "preferenceAppState";
 const preferenceInviteServiceUrl = "preferenceInviteServiceUrl";
 const preferenceHasAuthenticationError = "preferenceHasAuthenticationError";
+const preferenceApplicationTheme = "preferenceApplicationTheme";
 
 const preferenceNotificationsAuth = "preferenceNotificationsAuth"; // Unused
 const preferenceNotificationsP256dhPublic = "preferenceNotificationsP256dhPublic"; // Unused
@@ -96,20 +97,4 @@ Future<void> removePreference(String key) async {
 Future<void> clearPreferences() async {
   SharedPreferences sharedPreferences = await getSharedPreferences();
   await sharedPreferences.clear();
-}
-
-class Preference {
-
-  static const _themeKey = "themeKey";
-  static Future<String> get themeKey async => await value(forKey: _themeKey);
-  static set themeKey(String value) => set(value: value, forKey: _themeKey);
-
-  static set({@required value, @required String forKey}) async {
-    await setPreference(forKey, value);
-  }
-
-  static value({@required String forKey}) async {
-    return await getPreference(forKey);
-  }
-
 }
