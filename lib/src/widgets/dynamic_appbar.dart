@@ -67,10 +67,7 @@ StreamController<AppBarAction> _getAppBarActionStream(BuildContext context) {
 }
 
 Border dividerLine(BuildContext context) {
-  return Border(bottom: BorderSide(
-    width: 1.0,
-    color: Theme.of(context).dividerColor,
-  ));
+  return Border(bottom: BorderSide(width: dividerHeight, color: Theme.of(context).dividerColor));
 }
 
 class DynamicAppBar extends StatefulWidget implements PreferredSizeWidget {
@@ -295,7 +292,7 @@ class _DynamicSearchBarContentState extends State<DynamicSearchBarContent> {
   final _controller = TextEditingController();
 
   var _isActive = false;
-  var _hasText = false;
+  var _isSearchingState = false;
   var _canHideAppBar = false;
 
   @override
@@ -334,7 +331,6 @@ class _DynamicSearchBarContentState extends State<DynamicSearchBarContent> {
         border: dividerLine(context),
       ),
       padding: const EdgeInsets.symmetric(horizontal: dimension16dp, vertical: searchBarVerticalPadding),
-
       child: Row(
         children: <Widget>[
           Flexible(
@@ -344,10 +340,8 @@ class _DynamicSearchBarContentState extends State<DynamicSearchBarContent> {
               focusNode: _focusNode,
               onChanged: (text) {
                 widget.onSearch(text);
-                setState(() {
-                  _hasText = _controller.text.isNotEmpty;
-                });
-                },
+                _setSearchingState();
+              },
               decoration: InputDecoration(
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(dimension24dp)),
@@ -359,39 +353,45 @@ class _DynamicSearchBarContentState extends State<DynamicSearchBarContent> {
                 ),
                 filled: true,
                 fillColor: CustomTheme.of(context).onSurface.barely(),
-                prefixIcon: _canHideAppBar && _isActive
-                    ? null : Icon(Icons.search),
-                suffixIcon: _hasText
-                    ? IconButton(
-                        key: ValueKey(keySearchBarClearButton),
-                        icon: Icon(Icons.cancel),
-                        color: CustomTheme.of(context).onSurface.slightly(),
-                        onPressed: _clearSearch,
-                      ) : null,
+                prefixIcon: _canHideAppBar && _isActive ? null : Icon(Icons.search),
+                suffixIcon: Visibility(
+                  visible: _isSearchingState,
+                  child: IconButton(
+                    key: ValueKey(keySearchBarClearButton),
+                    icon: Icon(Icons.cancel),
+                    color: CustomTheme.of(context).onSurface.slightly(),
+                    onPressed: _clearSearch,
+                  ),
+                ),
                 contentPadding: const EdgeInsets.only(left: dimension16dp, top: zero, right: dimension8dp, bottom: zero),
                 hintText: _isActive ? "" : L10n.get(L.search),
                 hintStyle: Theme.of(context).textTheme.body1.apply(color: CustomTheme.of(context).onSurface.half()),
               ),
             ),
           ),
-          Container(
-            child: _isActive ? ButtonImportanceNone(
+          Visibility(
+            visible: _isActive,
+            child: ButtonImportanceNone(
               key: ValueKey(keySearchBarClearButton),
               child: Text('Cancel'),
               onPressed: () => _resetSearch(context),
-            ) : null,
+            ),
           ),
         ],
       ),
     );
   }
 
+  void _setSearchingState([bool isSearching]) {
+    setState(() {
+      _isSearchingState = isSearching ?? _isSearching();
+    });
+  }
+
   bool _isSearching() => _controller.text.isNotEmpty;
 
   void _clearSearch() {
-    setState(() {
-      _hasText = false;
-    });
+    _setSearchingState(false);
     widget.onSearch("");
     safeControllerClear(_controller);
   }

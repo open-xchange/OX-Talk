@@ -179,16 +179,10 @@ class ButtonImportanceNone extends BaseButton {
     final baseColor = isDestructive ? CustomTheme.of(context).error : CustomTheme.of(context).accent;
     return ButtonTheme(
       minWidth: minimumWidth,
-      //height: buttonHeight,
-      //splashColor: Colors.transparent,
       child: FlatButton(
         textColor: CustomTheme.of(context).onSurface,
-        //disabledTextColor: baseColor.disabled(),
         highlightColor: baseColor.slightly(),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 5),
-          child: child,
-        ),
+        child: child,
         shape: _circularBorder,
         onPressed: onPressed,
       ),
