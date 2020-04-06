@@ -163,3 +163,35 @@ class ButtonImportanceLow extends BaseButton {
     );
   }
 }
+
+class ButtonImportanceNone extends BaseButton {
+  const ButtonImportanceNone({Key key, @required onPressed, @required child, minimumWidth = buttonMinWidth, isDestructive = false})
+      : super(
+    key: key,
+    onPressed: onPressed,
+    child: child,
+    minimumWidth: minimumWidth,
+    isDestructive: isDestructive,
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    final baseColor = isDestructive ? CustomTheme.of(context).error : CustomTheme.of(context).accent;
+    return ButtonTheme(
+      minWidth: minimumWidth,
+      //height: buttonHeight,
+      //splashColor: Colors.transparent,
+      child: FlatButton(
+        textColor: CustomTheme.of(context).onSurface,
+        //disabledTextColor: baseColor.disabled(),
+        highlightColor: baseColor.slightly(),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 5),
+          child: child,
+        ),
+        shape: _circularBorder,
+        onPressed: onPressed,
+      ),
+    );
+  }
+}
