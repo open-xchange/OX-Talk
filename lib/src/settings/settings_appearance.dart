@@ -57,6 +57,12 @@ import 'package:ox_coi/src/utils/vibration.dart';
 import 'package:ox_coi/src/widgets/dynamic_appbar.dart';
 import 'package:ox_coi/src/widgets/state_info.dart';
 
+final _themeItemData = {
+  ThemeKey.light: L10n.get(L.settingsAppearanceLightTitle),
+  ThemeKey.dark: L10n.get(L.settingsAppearanceDarkTitle),
+  ThemeKey.system: L10n.get(L.settingsAppearanceSystemTitle),
+};
+
 class SettingsAppearance extends StatefulWidget {
   static get viewTitle => L10n.get(L.settingsAppearanceTitle);
 
@@ -79,80 +85,82 @@ class _SettingsAppearanceState extends State<SettingsAppearance> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder(
-        bloc: _settingsAppearanceBloc,
-        builder: (context, state) {
-          if (state is SettingsAppearanceStateInitial) {
-            return StateInfo(showLoading: true);
-          } else if (state is SettingsAppearanceStateLoaded) {
-            return _buildAppearanceSelector(selectedTheme: state.themeKey);
-          } else {
-            return Center(
-              child: AdaptiveIcon(icon: IconSource.error),
-            );
-          }
-        });
-  }
-
-  Widget _buildAppearanceSelector({@required ThemeKey selectedTheme}) {
     return Scaffold(
-        appBar: DynamicAppBar(
-          title: SettingsAppearance.viewTitle,
-          leading: AppBarBackButton(context: context),
-        ),
-        body: _AppearanceSelector(
-          themeItemData: {
-            ThemeKey.light: L10n.get(L.settingsAppearanceLightTitle),
-            ThemeKey.dark: L10n.get(L.settingsAppearanceDarkTitle),
-            ThemeKey.system: L10n.get(L.settingsAppearanceSystemTitle),
-          },
-          selectedTheme: selectedTheme,
-          onChanged: _appearanceChanged,
-        )
+      appBar: DynamicAppBar(
+        title: SettingsAppearance.viewTitle,
+        leading: AppBarBackButton(context: context),
+      ),
+      body: BlocBuilder(
+          bloc: _settingsAppearanceBloc,
+          builder: (context, state) {
+            if (state is SettingsAppearanceStateInitial) {
+              return StateInfo(showLoading: true);
+            } else if (state is SettingsAppearanceStateLoaded) {
+              return _AppearanceSelector(
+                selectedTheme: state.themeKey,
+                onChanged: _appearanceChanged,
+              );
+            } else {
+              return Center(
+                child: AdaptiveIcon(icon: IconSource.error),
+              );
+            }
+          }),
     );
   }
 
   void _appearanceChanged(ThemeKey theme) async {
     vibrateLight();
     CustomTheme.instanceOf(context).changeTheme(themeKey: theme);
-    _settingsAppearanceBloc.add(AppearanceLoaded(themeKey: theme));
+    _settingsAppearanceBloc.add(AppearanceChanged(themeKey: theme));
   }
 }
 
 class _AppearanceSelector extends StatelessWidget {
-  final Map<ThemeKey, String> themeItemData;
   final ThemeKey selectedTheme;
   final ValueChanged<ThemeKey> onChanged;
 
-  const _AppearanceSelector({Key key, @required this.themeItemData, @required this.selectedTheme, @required this.onChanged}) : super(key: key);
+  const _AppearanceSelector({Key key, @required this.selectedTheme, @required this.onChanged}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final systemTheme = themeItemData[CustomTheme.systemThemeKey];
-
-    return Container(
-      padding: EdgeInsets.all(dimension32dp),
-      color: CustomTheme.of(context).background,
-      child: Column(
-        children: <Widget>[
-          Container(
-            padding: EdgeInsets.only(bottom: dimension32dp),
-            child: Text(
-              L10n.getFormatted(L.settingsAppearanceDescritpion, [L10n.get(L.settingsAppearanceSystemTitle)]),
-            )
-          ),
-          Row(
-            children: <Widget>[
-              for (var themeKey in themeItemData.keys)
-                _buildAppearanceSelectorItem(context, themeKey),
-            ],
-          ),
-        ],
+    return SingleChildScrollView(
+      child: Container(
+        padding: EdgeInsets.all(dimension32dp),
+        color: CustomTheme.of(context).background,
+        child: Column(
+          children: <Widget>[
+            Container(
+                padding: EdgeInsets.only(bottom: dimension32dp),
+                child: Text(
+                  L10n.getFormatted(L.settingsAppearanceDescritpion, [L10n.get(L.settingsAppearanceSystemTitle)]),
+                )),
+            Row(
+              children: <Widget>[
+                for (var themeKey in _themeItemData.keys)
+                  _AppearanceSelectorItem(
+                    themeKey: themeKey,
+                    onChanged: onChanged,
+                    selectedTheme: selectedTheme,
+                  ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
+}
 
-  Widget _buildAppearanceSelectorItem(BuildContext context, ThemeKey themeKey) {
+class _AppearanceSelectorItem extends StatelessWidget {
+  final ThemeKey themeKey;
+  final ValueChanged<ThemeKey> onChanged;
+  final ThemeKey selectedTheme;
+
+  const _AppearanceSelectorItem({Key key, @required this.themeKey, @required this.onChanged, @required this.selectedTheme}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return Expanded(
       child: GestureDetector(
         onTap: () => onChanged(themeKey),
@@ -172,7 +180,7 @@ class _AppearanceSelector extends StatelessWidget {
                     child: Container(
                       margin: EdgeInsets.all(dimension8dp),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(dimension6dp)),
+                        borderRadius: BorderRadius.all(Radius.circular(settingsAppearanceImageRadius)),
                         border: Border.all(color: CustomTheme.of(context).onBackground.slightly()),
                       ),
                       child: Image(
@@ -184,7 +192,7 @@ class _AppearanceSelector extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(bottom: dimension12dp),
                     child: Text(
-                      themeItemData[themeKey],
+                      _themeItemData[themeKey],
                     ),
                   ),
                 ],

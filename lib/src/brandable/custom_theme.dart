@@ -201,8 +201,7 @@ class CustomThemeState extends State<CustomTheme> with WidgetsBindingObserver {
 
     ThemeKey newThemeKey;
     if (savedThemeKey == ThemeKey.system) {
-      final platformBrightness = WidgetsBinding.instance.window.platformBrightness;
-      newThemeKey = platformBrightness == Brightness.light ? ThemeKey.light : ThemeKey.dark;
+      newThemeKey = CustomTheme.systemThemeKey;
     } else {
       newThemeKey = CustomTheme.getThemeKeyFor(name: savedThemeKeyString);
     }

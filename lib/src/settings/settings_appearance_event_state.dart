@@ -49,10 +49,10 @@ mixin SettingsAppearanceEvent {}
 
 class LoadAppearance with SettingsAppearanceEvent {}
 
-class AppearanceLoaded with SettingsAppearanceEvent {
+class AppearanceChanged with SettingsAppearanceEvent {
   final ThemeKey themeKey;
 
-  AppearanceLoaded({@required this.themeKey});
+  AppearanceChanged({@required this.themeKey});
 }
 
 // Bloc States

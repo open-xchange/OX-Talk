@@ -50,7 +50,6 @@ const textScaleDefault = 1.0;
 // Defaults
 const dimension2dp = 2.0;
 const dimension4dp = 4.0;
-const dimension6dp = 6.0;
 const dimension8dp = 8.0;
 const dimension12dp = 12.0;
 const dimension16dp = 16.0;
@@ -179,3 +178,6 @@ const verticalLinePainterPositiveY = 10.0;
 const verticalLinePainterNegativeY = -10.0;
 const barPainterHeight = 30.0;
 const barPainterSpaceWidth = 1.0;
+
+// Settings
+const settingsAppearanceImageRadius = 6.0;

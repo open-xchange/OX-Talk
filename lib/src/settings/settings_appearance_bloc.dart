@@ -54,9 +54,8 @@ class SettingsAppearanceBloc extends Bloc<SettingsAppearanceEvent, SettingsAppea
     if (event is LoadAppearance) {
       final themeKeyString = await getPreference(preferenceApplicationTheme);
       final savedThemeKey = CustomTheme.getThemeKeyFor(name: themeKeyString);
-      add(AppearanceLoaded(themeKey: savedThemeKey));
-
-    } else if (event is AppearanceLoaded) {
+      yield SettingsAppearanceStateLoaded(themeKey: savedThemeKey);
+    } else if (event is AppearanceChanged) {
       yield SettingsAppearanceStateLoaded(themeKey: event.themeKey);
     }
   }
