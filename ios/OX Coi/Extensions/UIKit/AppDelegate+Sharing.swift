@@ -62,12 +62,17 @@ extension AppDelegate {
                         return
                     }
                 }
+                break
 
             case Method.Sharing.SendSharedData:
                 if let args = call.arguments as? [String: String] {
                     self.shareFile(arguments: args)
                 }
-
+                break
+            case Method.Sharing.GetSharedData:
+                result(self.getSharedData())
+                self.clearSharedData()
+                return
             default:
                 break
             }
@@ -100,6 +105,44 @@ extension AppDelegate {
         let activityController = UIActivityViewController(activityItems: [item], applicationActivities: nil)
         rootViewController.present(activityController, animated: true, completion: nil)
 
+    }
+    
+    private func getSharedData() -> [String : Any?]? {
+        var dict: Dictionary<String,Any?>
+        guard let userDefaults = UserDefaults(suiteName: SharedData.SuiteName) else {
+            return nil
+        }
+        guard let _ = userDefaults.object(forKey: SharedData.DataType) else {
+            return nil
+        }
+        
+        if userDefaults.object(forKey: SharedData.DataType) as! String == DataType.url.rawValue {
+            dict = [SharedData.MimeType: "text/plain", SharedData.Text: userDefaults.object(forKey: SharedData.Text)]
+            return dict
+        } else if userDefaults.object(forKey: SharedData.DataType) as! String == DataType.text.rawValue {
+            dict = [SharedData.Text: userDefaults.object(forKey: SharedData.Text)]
+            return dict
+        } else if userDefaults.object(forKey: SharedData.DataType) as! String == DataType.file.rawValue {
+            dict = [SharedData.MimeType: userDefaults.object(forKey: SharedData.MimeType)!, SharedData.Path: userDefaults.object(forKey: SharedData.Path), SharedData.FileName: userDefaults.object(forKey: SharedData.FileName)]
+            return dict
+        } else {
+            return nil
+        }
+        
+    }
+    
+    private func clearSharedData() {
+        for key in UserDefaults(suiteName: SharedData.SuiteName)!.dictionaryRepresentation().keys {
+            if key.hasPrefix("shared"){
+                UserDefaults(suiteName: SharedData.SuiteName)!.removeObject(forKey: key)
+            }
+        }
+    }
+    
+    enum DataType: String {
+        case url
+        case text
+        case file
     }
 
 }

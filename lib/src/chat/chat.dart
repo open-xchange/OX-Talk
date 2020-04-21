@@ -162,7 +162,7 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
     });
 
     if (widget.sharedData != null) {
-      if (widget.sharedData.mimeType.contains("text/")) {
+      if (widget.sharedData.path.isEmpty && widget.sharedData.mimeType.contains("text/")) {
         _textController.text = widget.sharedData.text;
         setState(() {
           _isComposingText = true;
@@ -182,20 +182,16 @@ class _ChatState extends State<Chat> with ChatComposer, ChatCreateMixin, InviteM
   void setFileData() {
     final path = widget.sharedData.path;
     FileType type;
-    switch (widget.sharedData.mimeType) {
-      case "image/*":
-        type = FileType.image;
-        break;
-      case "audio/*":
-        type = FileType.audio;
-        break;
-      case "video/*":
-        type = FileType.video;
-        break;
-      default:
-        type = FileType.any;
-        break;
+    if (widget.sharedData.mimeType.startsWith("image/")) {
+      type = FileType.image;
+    } else if (widget.sharedData.mimeType.startsWith("audio/")) {
+      type = FileType.audio;
+    } else if (widget.sharedData.mimeType.startsWith("video/")) {
+      type = FileType.video;
+    } else {
+      type = FileType.any;
     }
+
     setState(() {
       _filePath = path;
       _selectedFileType = type;
