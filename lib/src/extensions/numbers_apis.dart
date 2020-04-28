@@ -2,10 +2,10 @@ import 'package:date_format/date_format.dart';
 import 'package:ox_coi/src/l10n/l.dart';
 import 'package:ox_coi/src/l10n/l10n.dart';
 
-const _kilobyte = 1024;
-const _megabyte = 1024 * _kilobyte;
-
 extension Convert on int {
+  static const _kilobyte = 1024;
+  static const _megabyte = 1024 * _kilobyte;
+
   String byteToPrintableSize() {
     String unit;
     double result;

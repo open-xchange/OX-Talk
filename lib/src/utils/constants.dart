@@ -53,6 +53,10 @@ const maxAttachmentSize = 100 * 1024 * 1024; // Means 100 MB
 // Extension database - the file is placed in the apps folder structure under ~/databases/$extensionDbName
 const extensionDbName = "extension.db";
 
+// Method channels
+const kMethodChannelSecurity = 'oxcoi.security';
+const kMethodChannelSharing = 'oxcoi.sharing';
+
 // External services
 const defaultCoiPushServiceUrl = "https://push.coi.me/push/resource/";
 const defaultCoiInviteServiceUrl = "https://invite.coi.me/invite/";
@@ -65,6 +69,8 @@ const customerOnboardingConfigPath = "assets/customer/json/onboarding.json";
 const projectUrl = "https://coi.me";
 const issueUrl  = "https://github.com/open-xchange/ox-coi/issues";
 const featureRequestUrl = "https://openxchange.userecho.com/communities/4-ox-coi-messenger";
+const kNotificationChannelMainId = 'com.android.oxcoi.notification.single';
+const kNotificationChannelGroupId = 'com.android.oxcoi.notification.group';
 
 // IMAP https://tools.ietf.org/html/rfc5530
 const imapErrorAuthenticationFailed = '[AUTHENTICATIONFAILED]';

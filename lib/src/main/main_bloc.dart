@@ -63,6 +63,7 @@ import 'package:ox_coi/src/l10n/l.dart';
 import 'package:ox_coi/src/l10n/l10n.dart';
 import 'package:ox_coi/src/main/main_event_state.dart';
 import 'package:ox_coi/src/notifications/local_notification_manager.dart';
+import 'package:ox_coi/src/notifications/display_notification_manager.dart';
 import 'package:ox_coi/src/platform/app_information.dart';
 import 'package:ox_coi/src/platform/preferences.dart';
 import 'package:ox_coi/src/push/push_bloc.dart';
@@ -74,6 +75,9 @@ import 'package:permission_handler/permission_handler.dart';
 
 class MainBloc extends Bloc<MainEvent, MainState> {
   final _logger = Logger("main_bloc");
+  final _notificationManager = DisplayNotificationManager();
+  final _pushManager = PushManager();
+  final _localNotificationManager = LocalNotificationManager();
 
   Config _config = Config();
   Context _context = Context();

@@ -49,7 +49,7 @@ import 'package:ox_coi/src/data/chat_message_repository.dart';
 import 'package:ox_coi/src/data/repository_manager.dart';
 import 'package:ox_coi/src/l10n/l.dart';
 import 'package:ox_coi/src/l10n/l10n.dart';
-import 'package:ox_coi/src/notifications/notification_manager.dart';
+import 'package:ox_coi/src/notifications/display_notification_manager.dart';
 import 'package:ox_coi/src/platform/preferences.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -64,7 +64,7 @@ class LocalNotificationManager {
   final _core = DeltaChatCore();
   final _context = Context();
 
-  NotificationManager _notificationManager;
+  DisplayNotificationManager _notificationManager;
   bool _listenersRegistered = false;
 
   factory LocalNotificationManager() => _instance ??= LocalNotificationManager._internal();
@@ -82,7 +82,7 @@ class LocalNotificationManager {
   void _registerListeners() {
     if (!_listenersRegistered) {
       _listenersRegistered = true;
-      _notificationManager = NotificationManager();
+      _notificationManager = DisplayNotificationManager();
       _messageSubject.listen(_messagesUpdated);
       _core.addListener(eventIdList: [Event.incomingMsg, Event.msgsChanged], streamController: _messageSubject);
     }
@@ -129,7 +129,7 @@ class LocalNotificationManager {
           final teaser = await message.getSummaryText(200);
           final payload = chatId?.toString();
           _logger.info("Creating chat notification for chat id $chatId with message id $messageId");
-          _notificationManager.showNotificationFromLocal(chatId, title, teaser, payload: payload);
+          _notificationManager.showNotificationFromLocalAsync(chatId, title, teaser, payload: payload);
         }
       }
     });
@@ -185,7 +185,7 @@ class LocalNotificationManager {
         final teaser = await message.getSummaryText(200);
         final payload = "${Chat.typeInvite.toString()}_$messageId";
         _logger.info("Creating invite notification for sender id $senderId with message id $messageId");
-        _notificationManager.showNotificationFromLocal(Chat.typeInvite, title, teaser, payload: payload);
+        _notificationManager.showNotificationFromLocalAsync(Chat.typeInvite, title, teaser, payload: payload);
       }
     });
 

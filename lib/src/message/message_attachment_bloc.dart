@@ -54,14 +54,13 @@ import 'package:ox_coi/src/data/repository.dart';
 import 'package:ox_coi/src/data/repository_manager.dart';
 import 'package:ox_coi/src/extensions/numbers_apis.dart';
 import 'package:ox_coi/src/message/message_attachment_event_state.dart';
-import 'package:ox_coi/src/share/shared_data.dart';
 import 'package:ox_coi/src/utils/constants.dart';
 import 'package:ox_coi/src/utils/video.dart';
 import 'package:path/path.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
 class MessageAttachmentBloc extends Bloc<MessageAttachmentEvent, MessageAttachmentState> {
-  static const platform = const MethodChannel(SharedData.sharingChannelName);
+  static const sharingChannel = const MethodChannel(kMethodChannelSharing);
   final _logger = Logger("message_attachment_bloc");
   Repository<Core.ChatMsg> _messageListRepository;
 
@@ -110,7 +109,7 @@ class MessageAttachmentBloc extends Bloc<MessageAttachmentEvent, MessageAttachme
     var mime = filePath.isNotEmpty ? await message.getFileMime() : "text/*";
 
     Map argsMap = <String, String>{'title': '$text', 'path': '$filePath', 'mimeType': '$mime', 'text': '$text'};
-    await platform.invokeMethod('sendSharedData', argsMap);
+    await sharingChannel.invokeMethod('sendSharedData', argsMap);
   }
 
   Core.ChatMsg _getMessage(int messageId) {

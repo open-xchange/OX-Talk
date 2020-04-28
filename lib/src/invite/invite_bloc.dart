@@ -59,6 +59,7 @@ import 'package:ox_coi/src/invite/invite_service.dart';
 import 'package:ox_coi/src/l10n/l.dart';
 import 'package:ox_coi/src/l10n/l10n.dart';
 import 'package:ox_coi/src/share/shared_data.dart';
+import 'package:ox_coi/src/utils/constants.dart';
 import 'package:ox_coi/src/utils/http.dart';
 import 'package:ox_coi/src/utils/image.dart';
 import 'package:path_provider/path_provider.dart';
@@ -68,7 +69,7 @@ import 'invite_event_state.dart';
 class InviteBloc extends Bloc<InviteEvent, InviteState> {
   final Repository<Contact> _contactRepository = RepositoryManager.get(RepositoryType.contact);
   final Repository<Chat> _chatRepository = RepositoryManager.get(RepositoryType.chat);
-  static const platform = const MethodChannel(SharedData.sharingChannelName);
+  static const sharingChannel = const MethodChannel(kMethodChannelSharing);
   InviteService inviteService = InviteService();
 
   @override
@@ -92,7 +93,7 @@ class InviteBloc extends Bloc<InviteEvent, InviteState> {
   Stream<InviteState> createInviteUrl(String message) async* {
     InviteServiceRequest requestInviteService = await _createInviteServiceRequest(message ?? "");
     var response = await inviteService.createInviteUrl(requestInviteService);
-    bool valid = validateHttpResponse(response);
+    bool valid = isHttpResponseValid(response);
     if (valid) {
       InviteServiceResponse responseInviteService = _getInviteResponse(response);
       Map argsMap = <String, String>{
@@ -117,7 +118,7 @@ class InviteBloc extends Bloc<InviteEvent, InviteState> {
     String id = sharedLink.substring(startIndex);
     if (id.isNotEmpty) {
       Response response = await inviteService.getInvite(id);
-      bool valid = validateHttpResponse(response);
+      bool valid = isHttpResponseValid(response);
       if (valid) {
         InviteServiceResponse responseInviteService = _getInviteResponse(response);
         String imageString = responseInviteService.sender.image;
@@ -204,7 +205,7 @@ class InviteBloc extends Bloc<InviteEvent, InviteState> {
     return inviteResponse;
   }
 
-  Future<String> _getInitialLink() async => await platform.invokeMethod('getInitialLink');
+  Future<String> _getInitialLink() async => await sharingChannel.invokeMethod('getInitialLink');
 
-  void sendSharedData(Map argsMap) async => await platform.invokeMethod('sendSharedData', argsMap);
+  void sendSharedData(Map argsMap) async => await sharingChannel.invokeMethod('sendSharedData', argsMap);
 }

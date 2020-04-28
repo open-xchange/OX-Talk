@@ -50,11 +50,12 @@ import 'package:ox_coi/src/contact/contact_list_event_state.dart';
 import 'package:ox_coi/src/data/contact_repository.dart';
 import 'package:ox_coi/src/share/share_event_state.dart';
 import 'package:ox_coi/src/share/shared_data.dart';
+import 'package:ox_coi/src/utils/constants.dart';
 
 class ShareBloc extends Bloc<ShareEvent, ShareState> {
   ChatListBloc _chatListBloc = ChatListBloc();
   ContactListBloc _contactListBloc = ContactListBloc();
-  static const platform = const MethodChannel(SharedData.sharingChannelName);
+  static const sharingChannel = const MethodChannel(kMethodChannelSharing);
 
   @override
   ShareState get initialState => ShareStateInitial();
@@ -138,5 +139,5 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
     }
   }
 
-  Future<Map> _getSharedData() async => await platform.invokeMethod('getSharedData');
+  Future<Map> _getSharedData() async => await sharingChannel.invokeMethod('getSharedData');
 }

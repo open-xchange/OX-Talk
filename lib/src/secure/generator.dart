@@ -52,12 +52,9 @@ import 'package:pointycastle/key_generators/ec_key_generator.dart';
 import 'package:pointycastle/random/fortuna_random.dart';
 import 'package:uuid/uuid.dart';
 
-AsymmetricKeyPair generateEcKeyPair() {
-  var domainParameters = ECCurve_secp256r1();
-  var params = ECKeyGeneratorParameters(domainParameters);
-  var generator = ECKeyGenerator();
-  generator.init(ParametersWithRandom(params, _getSecureRandom()));
-  return generator.generateKeyPair();
+String generateUuid() {
+  var uuid = new Uuid();
+  return uuid.v4();
 }
 
 String getPublicEcKey(AsymmetricKeyPair keyPair) {
@@ -71,9 +68,12 @@ String getPrivateEcKey(AsymmetricKeyPair keyPair) {
   return privateKey.d.toString();
 }
 
-String generateUuid() {
-  var uuid = new Uuid();
-  return uuid.v4();
+AsymmetricKeyPair generateEcKeyPair() {
+  var domainParameters = ECCurve_secp256r1();
+  var params = ECKeyGeneratorParameters(domainParameters);
+  var generator = ECKeyGenerator();
+  generator.init(ParametersWithRandom(params, _getSecureRandom()));
+  return generator.generateKeyPair();
 }
 
 SecureRandom _getSecureRandom() {

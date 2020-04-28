@@ -48,7 +48,6 @@ import 'package:pointycastle/export.dart';
 import 'package:test/test.dart';
 import 'package:uuid/uuid.dart';
 
-
 void main() {
   test('p256dh', () {
     var domainParameters = ECCurve_secp256r1();
@@ -57,10 +56,11 @@ void main() {
     generator.init(ParametersWithRandom(params, getSecureRandom()));
     var generateKeyPair = generator.generateKeyPair();
     ECPublicKey publicKey = generateKeyPair.publicKey;
-    print("Point: ${publicKey.Q}");
+    print("Public Point: ${publicKey.Q}");
     var bytes = utf8.encode(publicKey.Q.toString());
-    var base64Str = base64Url.encode(bytes);
-    print("Base64 $base64Str");
+    var base64Str = base64UrlEncode(bytes);
+    ECPrivateKey privateKey = generateKeyPair.privateKey;
+    print("Private Point: ${privateKey.d}");
   });
 
   test('UUID', () {
@@ -69,7 +69,6 @@ void main() {
   });
 }
 
-
 SecureRandom getSecureRandom() {
   var secureRandom = FortunaRandom();
   var random = Random.secure();
@@ -77,6 +76,6 @@ SecureRandom getSecureRandom() {
   for (int i = 0; i < 32; i++) {
     seeds.add(random.nextInt(255));
   }
-  secureRandom.seed(new KeyParameter(Uint8List.fromList(seeds)));
+  secureRandom.seed(KeyParameter(Uint8List.fromList(seeds)));
   return secureRandom;
 }
