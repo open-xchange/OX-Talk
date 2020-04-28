@@ -44,7 +44,6 @@ import 'dart:convert';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logging/logging.dart';
 import 'package:ox_coi/src/data/notification.dart';
@@ -52,14 +51,13 @@ import 'package:ox_coi/src/data/push_chat_message.dart';
 import 'package:ox_coi/src/data/push_validation.dart';
 import 'package:ox_coi/src/extensions/string_apis.dart';
 import 'package:ox_coi/src/notifications/display_notification_manager.dart';
+import 'package:ox_coi/src/platform/method_channels.dart';
 import 'package:ox_coi/src/platform/preferences.dart';
 import 'package:ox_coi/src/push/push_bloc.dart';
 import 'package:ox_coi/src/push/push_event_state.dart';
-import 'package:ox_coi/src/utils/constants.dart';
+import 'package:ox_coi/src/security/security_manager.dart';
 
 class PushManager {
-  static const securityChannel = const MethodChannel(kMethodChannelSecurity);
-
   final _firebaseMessaging = FirebaseMessaging();
   final _notificationManager = DisplayNotificationManager();
   final _logger = Logger("push_manager");
@@ -116,8 +114,17 @@ class PushManager {
     return await getPreference(preferenceNotificationsPush);
   }
 
-  Future<String> decryptAsync(String base64content) async {
-    return await securityChannel.invokeMethod('decrypt', {"input": base64content});
+  Future<String> decryptAsync(String encryptedBase64Content) async {
+    final privateKey = await getPushPrivateKeyAsync();
+    final publicKey = await getPushPublicKeyAsync();
+    final auth = await getPushAuthAsync();
+
+    return await SecurityChannel.instance.invokeMethod(SecurityChannel.kMethodDecrypt, {
+      SecurityChannel.kArgumentContent: encryptedBase64Content,
+      SecurityChannel.kArgumentPrivateKey: privateKey,
+      SecurityChannel.kArgumentPublicKey: publicKey,
+      SecurityChannel.kArgumentAuth: auth,
+    });
   }
 
   bool _isValidationPush(String decryptedContent) {

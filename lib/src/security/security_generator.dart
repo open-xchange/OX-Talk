@@ -40,65 +40,41 @@
  * for more details.
  */
 
-import 'package:meta/meta.dart';
-import 'package:ox_coi/src/share/incoming_shared_data.dart';
+import 'dart:math';
+import 'dart:typed_data';
 
-abstract class ShareEvent {}
+import 'package:pointycastle/api.dart';
+import 'package:pointycastle/ecc/curves/secp256r1.dart';
+import 'package:pointycastle/key_generators/api.dart';
+import 'package:pointycastle/key_generators/ec_key_generator.dart';
+import 'package:pointycastle/random/fortuna_random.dart';
+import 'package:uuid/uuid.dart';
 
-class RequestChatsAndContacts extends ShareEvent {}
-
-class ChatsAndContactsLoaded extends ShareEvent {
-  final List<dynamic> chatAndContactList;
-  final int chatListLength;
-  final int contactListLength;
-
-  ChatsAndContactsLoaded({
-    @required this.chatAndContactList,
-    @required this.chatListLength,
-    @required this.contactListLength,
-  });
+String generateUuid() {
+  final uuid = Uuid();
+  return uuid.v4();
 }
 
-class ForwardMessages extends ShareEvent {
-  final int destinationChatId;
-  final List<int> messageIds;
-
-  ForwardMessages({
-    @required this.destinationChatId,
-    @required this.messageIds,
-  });
+Uint8List generateRandomBytes([int length = 16]) {
+  final secureRandom = _getSecureRandom();
+  return secureRandom.nextBytes(length);
 }
 
-class LoadSharedData extends ShareEvent {}
-
-class SharedDataLoaded extends ShareEvent {
-  final IncomingSharedData sharedData;
-
-  SharedDataLoaded({@required this.sharedData});
+AsymmetricKeyPair generateEcKeyPair() {
+  final domainParameters = ECCurve_secp256r1();
+  final generatorParameters = ECKeyGeneratorParameters(domainParameters);
+  final generator = ECKeyGenerator();
+  generator.init(ParametersWithRandom(generatorParameters, _getSecureRandom()));
+  return generator.generateKeyPair();
 }
 
-abstract class ShareState {}
-
-class ShareStateInitial extends ShareState {}
-
-class ShareStateLoading extends ShareState {}
-
-class ShareStateSuccess extends ShareState {
-  final List<dynamic> chatAndContactIds;
-  final int chatIdCount;
-  final int contactIdCount;
-  final IncomingSharedData sharedData;
-
-  ShareStateSuccess({
-    this.chatAndContactIds,
-    this.chatIdCount,
-    this.contactIdCount,
-    this.sharedData,
-  });
-}
-
-class ShareStateFailure extends ShareState {
-  final String error;
-
-  ShareStateFailure({@required this.error});
+SecureRandom _getSecureRandom() {
+  final secureRandom = FortunaRandom();
+  final seedingRandom = Random.secure();
+  List<int> seeds = [];
+  for (int i = 0; i < 32; i++) {
+    seeds.add(seedingRandom.nextInt(255));
+  }
+  secureRandom.seed(KeyParameter(Uint8List.fromList(seeds)));
+  return secureRandom;
 }

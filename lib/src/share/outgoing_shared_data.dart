@@ -40,49 +40,17 @@
  * for more details.
  */
 
-import 'dart:convert';
-import 'dart:math';
-import 'dart:typed_data';
+import 'package:flutter/widgets.dart';
 
-import 'package:pointycastle/api.dart';
-import 'package:pointycastle/ecc/api.dart';
-import 'package:pointycastle/ecc/curves/secp256r1.dart';
-import 'package:pointycastle/key_generators/api.dart';
-import 'package:pointycastle/key_generators/ec_key_generator.dart';
-import 'package:pointycastle/random/fortuna_random.dart';
-import 'package:uuid/uuid.dart';
+class OutgoingSharedData {
+  final String title;
+  final String path;
+  final String mimeType;
+  final String text;
 
-String generateUuid() {
-  var uuid = new Uuid();
-  return uuid.v4();
-}
+  OutgoingSharedData({this.title = '', this.path = '', @required this.mimeType, @required this.text});
 
-String getPublicEcKey(AsymmetricKeyPair keyPair) {
-  ECPublicKey publicKey = keyPair.publicKey;
-  var encoded = publicKey.Q.getEncoded(false);
-  return base64UrlEncode(encoded);
-}
-
-String getPrivateEcKey(AsymmetricKeyPair keyPair) {
-  ECPrivateKey privateKey = keyPair.privateKey;
-  return privateKey.d.toString();
-}
-
-AsymmetricKeyPair generateEcKeyPair() {
-  var domainParameters = ECCurve_secp256r1();
-  var params = ECKeyGeneratorParameters(domainParameters);
-  var generator = ECKeyGenerator();
-  generator.init(ParametersWithRandom(params, _getSecureRandom()));
-  return generator.generateKeyPair();
-}
-
-SecureRandom _getSecureRandom() {
-  var secureRandom = FortunaRandom();
-  var random = Random.secure();
-  List<int> seeds = [];
-  for (int i = 0; i < 32; i++) {
-    seeds.add(random.nextInt(255));
+  Map<String, dynamic> toMap() {
+    return <String, String>{'title': '$text', 'path': '$path', 'mimeType': '$mimeType', 'text': '$text'};
   }
-  secureRandom.seed(new KeyParameter(Uint8List.fromList(seeds)));
-  return secureRandom;
 }

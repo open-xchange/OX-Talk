@@ -45,7 +45,6 @@ import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:delta_chat_core/delta_chat_core.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
 import 'package:http/http.dart';
 import 'package:logging/logging.dart';
 import 'package:ox_coi/src/data/push_metadata.dart';
@@ -55,8 +54,8 @@ import 'package:ox_coi/src/platform/preferences.dart';
 import 'package:ox_coi/src/platform/system_information.dart';
 import 'package:ox_coi/src/push/push_event_state.dart';
 import 'package:ox_coi/src/push/push_manager.dart';
-import 'package:ox_coi/src/secure/generator.dart';
-import 'package:ox_coi/src/utils/constants.dart';
+import 'package:ox_coi/src/security/security_generator.dart';
+import 'package:ox_coi/src/security/security_manager.dart';
 import 'package:ox_coi/src/utils/http.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -75,7 +74,6 @@ enum PushSetupState {
 class PushBloc extends Bloc<PushEvent, PushState> {
   static const _subscribeListenerId = 1001;
   static const _validateListenerId = 1002;
-  static const _securityChannel = const MethodChannel(kMethodChannelSecurity);
 
   final _logger = Logger("push_bloc");
   final _pushManager = PushManager();
@@ -256,9 +254,10 @@ class PushBloc extends Bloc<PushEvent, PushState> {
   }
 
   Future<void> _subscribeMetaDataAsync(ResponsePushResource responsePushResource) async {
-    await _generateSecretsAsync();
-    final publicKey = await _getKeyAsync();
-    final auth = await _getAuthSecretAsync();
+    await generateAndPersistPushKeyPairAsync();
+    final publicKey = await getPushPublicKeyAsync();
+    await generateAndPersistPushAuthAsync();
+    final auth = await getPushAuthAsync();
     final clientEndpoint = generateUuid();
     await setPreference(preferenceNotificationsEndpoint, clientEndpoint);
 
@@ -310,16 +309,11 @@ class PushBloc extends Bloc<PushEvent, PushState> {
   }
 
   _errorCallback(error) {
-    _logger.info("An error occured while listening: $error");
+    _logger.warning("An error occured while listening: $error");
   }
 
   Future<void> _setNotificationPushStatusAsync(PushSetupState state) async {
     await setPreference(preferenceNotificationsPushStatus, describeEnum(state));
   }
 
-  Future<void> _generateSecretsAsync() async => await _securityChannel.invokeMethod('generateSecrets'); // TODO move to dart
-
-  Future<String> _getKeyAsync() async => await _securityChannel.invokeMethod('getKey'); // TODO move to dart
-
-  Future<String> _getAuthSecretAsync() async => await _securityChannel.invokeMethod('getAuthSecret'); // TODO move to dart
 }

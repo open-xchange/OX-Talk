@@ -53,10 +53,6 @@ const maxAttachmentSize = 100 * 1024 * 1024; // Means 100 MB
 // Extension database - the file is placed in the apps folder structure under ~/databases/$extensionDbName
 const extensionDbName = "extension.db";
 
-// Method channels
-const kMethodChannelSecurity = 'oxcoi.security';
-const kMethodChannelSharing = 'oxcoi.sharing';
-
 // External services
 const defaultCoiPushServiceUrl = "https://push.coi.me/push/resource/";
 const defaultCoiInviteServiceUrl = "https://invite.coi.me/invite/";

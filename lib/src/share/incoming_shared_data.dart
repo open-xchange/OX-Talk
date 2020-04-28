@@ -40,21 +40,18 @@
  * for more details.
  */
 
-class SharedData {
-  static const String sharedMimeType = "shared_mime_type";
-  static const String sharedText = "shared_text";
-  static const String sharedPath = "shared_path";
-  static const String sharedFileName = "shared_file_name";
+import 'package:ox_coi/src/platform/method_channels.dart';
 
+class IncomingSharedData {
   String mimeType;
   String text;
   String path;
   String fileName;
 
-  SharedData(Map<dynamic, dynamic> data) {
-    mimeType = data.containsKey(sharedMimeType) ? data[sharedMimeType] : "";
-    text = data.containsKey(sharedText) ? data[sharedText] : "";
-    path = data.containsKey(sharedPath) ? data[sharedPath] : "";
-    fileName = data.containsKey(sharedFileName) ? data[sharedFileName] : "";
+  IncomingSharedData(Map<dynamic, dynamic> data) {
+    mimeType = data.containsKey(SharingChannel.kArgumentMimeType) ? data[SharingChannel.kArgumentMimeType] : "";
+    text = data.containsKey(SharingChannel.kArgumentText) ? data[SharingChannel.kArgumentText] : "";
+    path = data.containsKey(SharingChannel.kArgumentPath) ? data[SharingChannel.kArgumentPath] : "";
+    fileName = data.containsKey(SharingChannel.kArgumentFileName) ? data[SharingChannel.kArgumentFileName] : "";
   }
 }

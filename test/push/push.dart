@@ -44,11 +44,19 @@ import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
 
+import 'package:ox_coi/src/security/security_generator.dart';
 import 'package:pointycastle/export.dart';
 import 'package:test/test.dart';
 import 'package:uuid/uuid.dart';
 
 void main() {
+  test("secure randoms", () {
+    final bytes = generateRandomBytes();
+    print("Bytes size (16): ${bytes.length}");
+    final bytes32 = generateRandomBytes(32);
+    print("Bytes size (32): ${bytes32.length}");
+  });
+
   test('p256dh', () {
     var domainParameters = ECCurve_secp256r1();
     var params = ECKeyGeneratorParameters(domainParameters);
@@ -65,7 +73,7 @@ void main() {
 
   test('UUID', () {
     var uuid = new Uuid();
-    print("Secret ${uuid.v4()}");
+    print("UUID ${uuid.v4()}");
   });
 }
 
