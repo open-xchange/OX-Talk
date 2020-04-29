@@ -62,7 +62,6 @@ import 'package:ox_coi/src/message/message_attachment_bloc.dart';
 import 'package:ox_coi/src/message/message_attachment_event_state.dart';
 import 'package:ox_coi/src/message/message_item_bloc.dart';
 import 'package:ox_coi/src/message/message_item_event_state.dart';
-import 'package:ox_coi/src/message/message_list_bloc.dart';
 import 'package:ox_coi/src/navigation/navigatable.dart';
 import 'package:ox_coi/src/navigation/navigation.dart';
 import 'package:ox_coi/src/share/share.dart';
@@ -291,7 +290,7 @@ class _GalleryState extends State<Gallery> {
                       ),
                     ),
                     Visibility(
-                      visible: !_hideLayout && _messageData.text.isNotEmpty,
+                      visible: !_hideLayout && (_messageData.text.isNotEmpty || !_isImage),
                       child: Positioned(
                         bottom: zero,
                         left: zero,
@@ -349,8 +348,11 @@ class _GalleryState extends State<Gallery> {
                                   child: Row(
                                     children: <Widget>[
                                       Padding(
-                                        padding: const EdgeInsets.only(left: dimension16dp, right: dimension12dp),
-                                        child: Text(_videoPosition.getVideoTimeFromTimestamp()),
+                                        padding: const EdgeInsets.only(left: dimension16dp),
+                                        child: Text(
+                                          _videoPosition.getVideoTimeFromTimestamp(),
+                                          style: Theme.of(context).textTheme.body1.apply(color: CustomTheme.of(context).white),
+                                        ),
                                       ),
                                       Expanded(
                                         child: SliderTheme(
@@ -370,11 +372,11 @@ class _GalleryState extends State<Gallery> {
                                         ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsets.only(left: dimension12dp),
-                                      ),
-                                      Text(_videoDuration.getVideoTimeFromTimestamp()),
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: dimension16dp),
+                                        padding: const EdgeInsets.only(right: dimension16dp),
+                                        child: Text(
+                                          _videoDuration.getVideoTimeFromTimestamp(),
+                                          style: Theme.of(context).textTheme.body1.apply(color: CustomTheme.of(context).white),
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -464,11 +466,7 @@ class _GalleryState extends State<Gallery> {
     }
   }
 
-  void _seekVideo(double value) async {
-    _galleryBloc.add(SeekVideoPlayer(position: value, videoStopped: false));
-  }
+  void _seekVideo(double value) async => _galleryBloc.add(SeekVideoPlayer(position: value, videoStopped: false));
 
-  void _goToNextPrevious({int dir}) {
-    _attachmentBloc.add(GetNextPreviousImage(messageId: _messageId, dir: dir));
-  }
+  void _goToNextPrevious({int dir}) => _attachmentBloc.add(GetNextPreviousImage(messageId: _messageId, dir: dir));
 }

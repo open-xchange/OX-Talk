@@ -48,7 +48,6 @@ import 'package:video_player/video_player.dart';
 
 class GalleryBloc extends Bloc<GalleryEvent, GalleryState> {
   VideoPlayerController _controller;
-  bool _listenerAdded = false;
 
   @override
   GalleryState get initialState => GalleryInitial();
@@ -66,7 +65,7 @@ class GalleryBloc extends Bloc<GalleryEvent, GalleryState> {
     } else if (event is UpdateVideoPlayerPosition) {
       yield VideoPlayerStateSuccess(isPlaying: event.isPlaying, position: event.position);
     } else if (event is VideoPlayerStopped) {
-      yield VideoPlayerStateSuccess(isPlaying: false, position: _getVideoPlayerPosition());
+      yield VideoPlayerStateSuccess(isPlaying: false, position: _videoPlayerPosition);
     }
   }
 
@@ -78,20 +77,20 @@ class GalleryBloc extends Bloc<GalleryEvent, GalleryState> {
     _controller = VideoPlayerController.file(File(path));
     addVideoPlayerListener();
     await _controller.initialize();
-    yield VideoPlayerInitialized(videoPlayerController: _controller, duration: _getVideoPlayerDuration());
+    yield VideoPlayerInitialized(videoPlayerController: _controller, duration: _videoPlayerDuration);
   }
 
   Stream<GalleryState> playVideoAsync() async* {
-    if (_getVideoPlayerPosition() == _getVideoPlayerDuration()) {
+    if (_videoPlayerPosition == _videoPlayerDuration) {
       await _controller.seekTo(Duration(milliseconds: 0));
     }
     await _controller.play();
-    yield VideoPlayerStateSuccess(isPlaying: true, position: _getVideoPlayerPosition());
+    yield VideoPlayerStateSuccess(isPlaying: true, position: _videoPlayerPosition);
   }
 
   Stream<GalleryState> pauseVideoAsync() async* {
     await _controller.pause();
-    yield VideoPlayerStateSuccess(isPlaying: false, position: _getVideoPlayerPosition());
+    yield VideoPlayerStateSuccess(isPlaying: false, position: _videoPlayerPosition);
   }
 
   Stream<GalleryState> seekVideoAsync(double seekTo, bool videoStopped) async* {
@@ -99,30 +98,22 @@ class GalleryBloc extends Bloc<GalleryEvent, GalleryState> {
     if (videoStopped) {
       await _controller.pause();
     }
-    yield VideoPlayerStateSuccess(isPlaying: !videoStopped, position: _getVideoPlayerPosition());
+    yield VideoPlayerStateSuccess(isPlaying: !videoStopped, position: _videoPlayerPosition);
   }
 
-  void addVideoPlayerListener() {
-    _controller?.addListener(_videoPlayerListener);
-  }
+  void addVideoPlayerListener() => _controller?.addListener(_videoPlayerListener);
 
   _videoPlayerListener() {
-    int position = _getVideoPlayerPosition();
-    int duration = _getVideoPlayerDuration();
-    if (position != null && duration != null) {
-      if (position < duration && position > 0) {
-        add(UpdateVideoPlayerPosition(isPlaying: _controller.value.isPlaying, position: position));
-      } else if (position == duration) {
+    if (_videoPlayerPosition != null && _videoPlayerDuration != null) {
+      if (_videoPlayerPosition < _videoPlayerDuration && _videoPlayerPosition > 0) {
+        add(UpdateVideoPlayerPosition(isPlaying: _controller.value.isPlaying, position: _videoPlayerPosition));
+      } else if (_videoPlayerPosition == _videoPlayerDuration) {
         add(VideoPlayerStopped());
       }
     }
   }
 
-  int _getVideoPlayerPosition() {
-    return _controller?.value?.position?.inMilliseconds;
-  }
+  int get _videoPlayerPosition => _controller?.value?.position?.inMilliseconds;
 
-  int _getVideoPlayerDuration() {
-    return _controller?.value?.duration?.inMilliseconds;
-  }
+  int get _videoPlayerDuration => _controller?.value?.duration?.inMilliseconds;
 }
