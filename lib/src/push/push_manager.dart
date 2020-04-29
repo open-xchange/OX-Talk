@@ -57,10 +57,17 @@ import 'package:ox_coi/src/push/push_bloc.dart';
 import 'package:ox_coi/src/push/push_event_state.dart';
 import 'package:ox_coi/src/security/security_manager.dart';
 
+final _logger = Logger("push_manager");
+
+Future<void> onBackgroundMessage(Map<String, dynamic> message) {
+  //TODO: Add functionality
+  _logger.info("onBackgroundMessage $message");
+  return Future(null);
+}
+
 class PushManager {
   final _firebaseMessaging = FirebaseMessaging();
   final _notificationManager = DisplayNotificationManager();
-  final _logger = Logger("push_manager");
 
   BuildContext _buildContext;
   PushBloc _pushBloc;
@@ -82,11 +89,13 @@ class PushManager {
           final decryptedContent = await decryptAsync(notificationData.content);
           if (_isValidationPush(decryptedContent)) {
             final validation = _getPushValidation(decryptedContent).validation;
+            _logger.info("Validation message with state validation: $validation received");
             _pushBloc.add(ValidateMetadata(validation: validation));
           } else {
             final pushChatMessage = _getPushChatMessage(decryptedContent);
             final fromEmail = pushChatMessage.fromEmail;
             final body = "I sent you a new chat message"; // TODO replace decrypt
+            _logger.info("Chat message received from: $fromEmail");
             await _notificationManager.showNotificationFromPushAsync(fromEmail, body);
           }
         }
@@ -102,6 +111,7 @@ class PushManager {
         _logger.info("onLaunch $message");
         return Future(null);
       },
+      onBackgroundMessage: onBackgroundMessage,
     );
     _firebaseMessaging.requestNotificationPermissions(const IosNotificationSettings(sound: true, badge: true, alert: true));
   }

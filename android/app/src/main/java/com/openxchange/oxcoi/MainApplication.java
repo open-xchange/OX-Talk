@@ -42,39 +42,22 @@
 
 package com.openxchange.oxcoi;
 
-class MethodChannels {
+import io.flutter.app.FlutterApplication;
+import io.flutter.plugin.common.PluginRegistry;
+import io.flutter.plugin.common.PluginRegistry.PluginRegistrantCallback;
+import io.flutter.plugins.firebasemessaging.FirebaseMessagingPlugin;
+import io.flutter.plugins.firebasemessaging.FlutterFirebaseMessagingService;
 
-    abstract static class Security {
-        static final String NAME = "oxcoi.security";
-
-        abstract static class Methods {
-            static final String DECRYPT = "decrypt";
-        }
-
-        abstract static class Arguments {
-            static final String CONTENT = "encryptedBase64Content";
-            static final String PRIVATE_KEY = "privateKeyBase64";
-            static final String PUBLIC_KEY = "publicKeyBase64";
-            static final String AUTH = "authBase64";
-        }
+// TODO this whole class is a temporary hack to be able to try stuff with the FirebaseMessagingPlugin - See https://github.com/FirebaseExtended/flutterfire/issues/1754 for more information
+public class MainApplication extends FlutterApplication implements PluginRegistrantCallback {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        FlutterFirebaseMessagingService.setPluginRegistrant(this);
     }
 
-    abstract static class Sharing {
-        static final String NAME = "oxcoi.sharing";
-
-        abstract static class Methods {
-            static final String GET_SHARE_DATA = "getSharedData";
-            static final String SEND_SHARE_DATA = "sendSharedData";
-            static final String GET_INITIAL_LINK = "getInitialLink";
-        }
-
-        abstract static class Arguments {
-            static final String MIME_TYPE = "mimeType";
-            static final String TEXT = "text";
-            static final String PATH = "path";
-            static final String NAME = "fileName";
-            static final String TITLE = "title";
-        }
+    @Override
+    public void registerWith(PluginRegistry registry) {
+        FirebaseMessagingPlugin.registerWith(registry.registrarFor("io.flutter.plugins.firebasemessaging.FirebaseMessagingPlugin"));
     }
 }
-
