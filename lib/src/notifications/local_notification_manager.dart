@@ -71,6 +71,10 @@ class LocalNotificationManager {
 
   LocalNotificationManager._internal();
 
+  LocalNotificationManager.recreate() {
+    _instance = LocalNotificationManager._internal();
+  }
+
   void setup() {
     _registerListeners();
   }
@@ -106,7 +110,7 @@ class LocalNotificationManager {
     await createInviteNotificationsAsync();
   }
 
-  Future createChatNotificationsAsync() async {
+  Future<void> createChatNotificationsAsync() async {
     final HashMap<String, int> notificationHistory = await _getNotificationHistoryAsync();
     final List<int> freshMessages = await _context.getFreshMessages();
     _temporaryMessageRepository.putIfAbsent(ids: freshMessages);

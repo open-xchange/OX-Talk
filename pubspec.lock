@@ -49,7 +49,7 @@ packages:
       name: background_fetch
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.0"
+    version: "0.5.5"
   bloc:
     dependency: "direct main"
     description:

@@ -46,27 +46,30 @@ import 'package:logging/logging.dart';
 import 'package:ox_coi/src/notifications/local_notification_manager.dart';
 import 'package:ox_coi/src/utils/constants.dart';
 
-void backgroundHeadlessTask() async {
+void backgroundHeadlessTask(String taskId) async {
+  final _logger = Logger("background_refresh_manager");// TODO not logging cause no global logger configured
+  _logger.info("Callback (background) triggered");
   var core = DeltaChatCore();
-  var init = await core.init(dbName);
-  if (init) {
-    await core.start();
+  var isSetup = await core.setupAsync(dbName);
+  if (isSetup) {
+    _logger.info("Callback (background) checking for new messages");
     await getMessages();
-    await core.stop();
+    await core.tearDownAsync();
   }
-  BackgroundFetch.finish();
+  _logger.info("Callback (background) finishing");
+  BackgroundFetch.finish(taskId);
 }
 
 Future<void> getMessages() async {
-  var context = Context();
+  final context = Context();
   await context.interruptIdleForIncomingMessages();
-  var localNotificationManager = LocalNotificationManager();
+  final localNotificationManager = LocalNotificationManager.recreate();
   localNotificationManager.setup();
   await localNotificationManager.triggerNotificationAsync();
 }
 
 class BackgroundRefreshManager {
-  final Logger _logger = Logger("background_refresh_manager");
+  final _logger = Logger("background_refresh_manager");
 
   static BackgroundRefreshManager _instance;
 
@@ -77,22 +80,27 @@ class BackgroundRefreshManager {
   BackgroundRefreshManager._internal();
 
   setupAndStart() {
-    BackgroundFetch.registerHeadlessTask(backgroundHeadlessTask);
+    BackgroundFetch.registerHeadlessTask(backgroundHeadlessTask).then((value) {
+      _logger.info("Register headless task");
+    });
     BackgroundFetch.configure(
-        BackgroundFetchConfig(
-          minimumFetchInterval: 15,
-          stopOnTerminate: false,
-          enableHeadless: true,
-          startOnBoot: true,
-        ),
-        _callback);
-    _running = true;
-    _logger.info("Configured and started background fetch");
-  }
-
-  Future<void> _callback() async {
-    await getMessages();
-    BackgroundFetch.finish();
+      BackgroundFetchConfig(
+        minimumFetchInterval: 15,
+        stopOnTerminate: false,
+        enableHeadless: true,
+        startOnBoot: true,
+        requiredNetworkType: NetworkType.ANY,
+      ),
+      (String taskId) async {
+        _logger.info("Callback (foreground) triggered, checking for new messages");
+        await getMessages();
+        _logger.info("Callback (foreground) finishing");
+        BackgroundFetch.finish(taskId);
+      },
+    ).then((value) {
+      _logger.info("Configured and started background fetch");
+      _running = true;
+    });
   }
 
   void start() async {
