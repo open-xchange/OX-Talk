@@ -58,7 +58,7 @@ import 'package:synchronized/extension.dart';
 class LogManager {
   static const _coreLoggerName = "dcc";
   static const _logManagerLoggerName = "logManager";
-  static const _maxLogFileCount = 10;
+  static const _maxLogFileCount = 100;
   static const _logFolder = "logs";
   static LogManager _instance;
 
@@ -66,6 +66,9 @@ class LogManager {
   final _core = DeltaChatCore();
 
   File _logFile;
+  bool _isLogging;
+
+  bool get isLogging => _isLogging;
 
   factory LogManager() {
     _instance ??= LogManager._internal();
@@ -77,6 +80,10 @@ class LogManager {
   get currentLogFile => _logFile;
 
   Future<void> setup({@required bool logToFile, @required Level logLevel}) async {
+    if (_isLogging) {
+      return;
+    }
+    _isLogging = true;
     BlocSupervisor.delegate = LogBlocDelegate();
     if (logToFile) {
       _logFile = await _setupAndGetLogFile();

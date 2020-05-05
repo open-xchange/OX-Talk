@@ -43,20 +43,25 @@
 import 'package:background_fetch/background_fetch.dart';
 import 'package:delta_chat_core/delta_chat_core.dart';
 import 'package:logging/logging.dart';
+import 'package:ox_coi/src/log/log_manager.dart';
 import 'package:ox_coi/src/notifications/local_notification_manager.dart';
 import 'package:ox_coi/src/utils/constants.dart';
 
+const loggerName = "background_refresh_manager";
+
 void backgroundHeadlessTask(String taskId) async {
-  final _logger = Logger("background_refresh_manager");// TODO not logging cause no global logger configured
-  _logger.info("Callback (background) triggered");
+  final logManager = LogManager();
+  await logManager.setup(logToFile: true, logLevel: Level.INFO);
+  final logger = Logger(loggerName);
+  logger.info("Callback (background) triggered");
   var core = DeltaChatCore();
   var isSetup = await core.setupAsync(dbName);
   if (isSetup) {
-    _logger.info("Callback (background) checking for new messages");
+    logger.info("Callback (background) checking for new messages");
     await getMessages();
     await core.tearDownAsync();
   }
-  _logger.info("Callback (background) finishing");
+  logger.info("Callback (background) finishing");
   BackgroundFetch.finish(taskId);
 }
 
@@ -69,7 +74,7 @@ Future<void> getMessages() async {
 }
 
 class BackgroundRefreshManager {
-  final _logger = Logger("background_refresh_manager");
+  final _logger = Logger(loggerName);
 
   static BackgroundRefreshManager _instance;
 
