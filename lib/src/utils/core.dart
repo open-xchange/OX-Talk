@@ -48,7 +48,7 @@ import 'package:ox_coi/src/l10n/l10n.dart';
 enum ProtocolType { imap, smtp }
 
 String convertProtocolStringToDccString(String value) {
-  String newValue = "plain_socket";
+  String newValue = "";
   if (value == plain)
     newValue = "plain_socket";
   else if (value == sslTls)
@@ -59,7 +59,7 @@ String convertProtocolStringToDccString(String value) {
 }
 
 String convertProtocolDccStringToString(String value) {
-  String newValue;
+  String newValue = L10n.get(L.automatic);
   if (value == "plain_socket")
     newValue = plain;
   else if (value == "ssl")

@@ -213,7 +213,7 @@ class _SettingsManualFormState extends State<SettingsManualForm> {
                   Padding(padding: const EdgeInsets.all(loginVerticalFormPadding)),
                   Text(L10n.get(L.settingIMAPSecurity)),
                   DropdownButton(
-                      value: selectedImapSecurity ?? plain,
+                      value: selectedImapSecurity,
                       items: getSecurityOptions(context),
                       onChanged: (String newValue) {
                         setState(() {
@@ -232,7 +232,7 @@ class _SettingsManualFormState extends State<SettingsManualForm> {
                   Padding(padding: const EdgeInsets.all(loginVerticalFormPadding)),
                   Text(L10n.get(L.settingSMTPSecurity)),
                   DropdownButton(
-                    value: selectedSmtpSecurity ?? plain,
+                    value: selectedSmtpSecurity,
                     items: getSecurityOptions(context),
                     onChanged: (String newValue) {
                       setState(() {
@@ -253,6 +253,7 @@ class _SettingsManualFormState extends State<SettingsManualForm> {
 
   List<DropdownMenuItem<String>> getSecurityOptions(BuildContext context) {
     return [
+      L10n.get(L.automatic),
       plain,
       sslTls,
       startTLS,

@@ -125,7 +125,7 @@ class UserChangeBloc extends Bloc<UserChangeEvent, UserChangeState> {
     await config.setValue(Context.configMailPassword, event.imapPassword);
     await config.setValue(Context.configMailServer, event.imapServer);
     await config.setValue(Context.configMailPort, event.imapPort);
-    await config.setValue(Context.configImapSecurity, event.smtpSecurity);
+    await config.setValue(Context.configImapSecurity, event.imapSecurity);
     await config.setValue(Context.configSendUser, event.smtpLogin.isNotEmpty ? event.smtpLogin : null);
     await config.setValue(Context.configSendPassword, event.smtpPassword);
     await config.setValue(Context.configSendServer, event.smtpServer);
