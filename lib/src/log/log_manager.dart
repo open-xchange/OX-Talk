@@ -65,8 +65,8 @@ class LogManager {
   final _coreLoggerSubject = PublishSubject<Event>();
   final _core = DeltaChatCore();
 
+  bool _isLogging = false;
   File _logFile;
-  bool _isLogging;
 
   bool get isLogging => _isLogging;
 
