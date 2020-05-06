@@ -46,7 +46,6 @@ import 'package:delta_chat_core/delta_chat_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ox_coi/src/brandable/brandable_icon.dart';
 import 'package:ox_coi/src/brandable/custom_theme.dart';
@@ -93,6 +92,7 @@ class _GalleryState extends State<Gallery> {
   bool _hideLayout = false;
   bool _isTextExpanded = false;
   String name = "";
+  String date = "";
   VideoPlayerController _controller;
   MessageStateData _messageData;
   bool _isImage = false;
@@ -128,17 +128,15 @@ class _GalleryState extends State<Gallery> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: CustomTheme.of(context).black.fade(),
-    ));
-
     return MultiBlocListener(
       listeners: [
         BlocListener(
           bloc: _chatBloc,
           listener: (context, state) {
             if (state is ChatStateSuccess) {
-              name = state.name;
+              setState(() {
+                name = state.name;
+              });
             }
           },
         ),
@@ -163,6 +161,9 @@ class _GalleryState extends State<Gallery> {
             if (state is MessageItemStateSuccess) {
               _messageData = state.messageStateData;
               _isImage = _messageData.attachmentStateData.type == ChatMsg.typeImage || _messageData.attachmentStateData.type == ChatMsg.typeGif;
+              setState(() {
+                date = _messageData?.timestamp?.getGalleryTime();
+              });
               if (!_isImage) {
                 _galleryBloc.add(InitializeVideoPlayer(path: _messageData.attachmentStateData.path));
               }
@@ -192,232 +193,214 @@ class _GalleryState extends State<Gallery> {
           },
         )
       ],
-      child: WillPopScope(
-        onWillPop: _onWillPop,
-        child: Scaffold(
-          body: BlocBuilder(
-            bloc: _messageItemBloc,
-            builder: (context, state) {
-              if (state is MessageItemStateSuccess) {
-                return Stack(
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: !_hideLayout
+            ? AppBar(
+                backgroundColor: CustomTheme.of(context).black.fade(),
+                title: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    GestureDetector(
-                      onTap: _onTapped,
-                      onHorizontalDragUpdate: (details) {
-                        _tapDown = details.localPosition.dx;
-                      },
-                      onHorizontalDragEnd: (details) {
-                        setState(() {
-                          _isPlaying = false;
-                        });
-                        if (_tapDown > (details.primaryVelocity + 50)) {
-                          _goToNextPrevious(dir: actionNextMessage);
-                        } else if (_tapDown < (details.primaryVelocity - 50)) {
-                          _goToNextPrevious(dir: actionPreviousMessage);
-                        }
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: CustomTheme.of(context).black,
-                          image: _isImage
-                              ? DecorationImage(
-                                  image: FileImage(File(_messageData.attachmentStateData.path)),
-                                  fit: BoxFit.contain,
-                                )
-                              : null,
-                        ),
-                        child: !_isImage
-                            ? Center(
-                                child: AspectRatio(
-                                  aspectRatio: _aspectRatio,
-                                  child: Visibility(
-                                      visible: _controller != null,
-                                      child: VideoPlayer(_controller)),
-                                ),
+                    Text(
+                      name,
+                      softWrap: true,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.title.apply(color: CustomTheme.of(context).white),
+                    ),
+                    Text(
+                      date,
+                      style: Theme.of(context).textTheme.body1.apply(color: CustomTheme.of(context).white),
+                    )
+                  ],
+                ),
+                actions: <Widget>[
+                  PopupMenuButton(
+                    itemBuilder: (BuildContext context) {
+                      return _messageAttachmentActions.map((MessageAction choice) {
+                        return PopupMenuItem<MessageAction>(
+                          value: choice,
+                          child: Row(
+                            children: <Widget>[
+                              AdaptiveIcon(icon: choice.icon),
+                              Padding(padding: EdgeInsets.only(right: iconTextPadding)),
+                              Text(choice.title),
+                            ],
+                          ),
+                        );
+                      }).toList();
+                    },
+                    onSelected: _onSelected,
+                  )
+                ],
+              )
+            : null,
+        body: BlocBuilder(
+          bloc: _messageItemBloc,
+          builder: (context, state) {
+            if (state is MessageItemStateSuccess) {
+              return Stack(
+                children: <Widget>[
+                  GestureDetector(
+                    onTap: _onTapped,
+                    onHorizontalDragUpdate: (details) {
+                      _tapDown = details.localPosition.dx;
+                    },
+                    onHorizontalDragEnd: (details) {
+                      setState(() {
+                        _isPlaying = false;
+                      });
+                      if (_tapDown > (details.primaryVelocity + 50)) {
+                        _goToNextPrevious(dir: actionNextMessage);
+                      } else if (_tapDown < (details.primaryVelocity - 50)) {
+                        _goToNextPrevious(dir: actionPreviousMessage);
+                      }
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: CustomTheme.of(context).black,
+                        image: _isImage
+                            ? DecorationImage(
+                                image: FileImage(File(_messageData.attachmentStateData.path)),
+                                fit: BoxFit.contain,
                               )
                             : null,
                       ),
-                    ),
-                    Visibility(
-                      visible: !_hideLayout,
-                      child: Positioned(
-                        top: MediaQuery.of(context).padding.top,
-                        left: zero,
-                        right: zero,
-                        child: Container(
-                          color: CustomTheme.of(context).black.fade(),
-                          child: Row(
-                            children: <Widget>[
-                              IconButton(
-                                icon: AdaptiveIcon(icon: IconSource.arrowBack),
-                                onPressed: _closeScreen,
+                      child: !_isImage
+                          ? Center(
+                              child: AspectRatio(
+                                aspectRatio: _aspectRatio,
+                                child: Visibility(visible: _controller != null, child: VideoPlayer(_controller)),
                               ),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                            )
+                          : null,
+                    ),
+                  ),
+                  Visibility(
+                    visible: !_hideLayout && (_messageData.text.isNotEmpty || !_isImage),
+                    child: Positioned(
+                      bottom: zero,
+                      left: zero,
+                      right: zero,
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _isTextExpanded = !_isTextExpanded;
+                          });
+                        },
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: <Widget>[
+                            Container(
+                              padding: const EdgeInsets.all(dimension16dp),
+                              color: _messageData.text.isNotEmpty ? CustomTheme.of(context).black.fade() : null,
+                              child: LayoutBuilder(builder: (context, size) {
+                                final span = TextSpan(
+                                  text: _messageData.text,
+                                  style: Theme.of(context).textTheme.body1.apply(color: CustomTheme.of(context).white),
+                                );
+                                final textPainter = TextPainter(
+                                  text: span,
+                                  maxLines: 2,
+                                  textDirection: TextDirection.ltr,
+                                );
+                                textPainter.layout(maxWidth: size.maxWidth);
+
+                                if (textPainter.didExceedMaxLines) {
+                                  // The text has more than two lines.
+                                  return RichText(
+                                    softWrap: true,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: _isTextExpanded ? 50 : 2,
+                                    text: TextSpan(children: [
+                                      TextSpan(
+                                        text: _messageData.text,
+                                        style: Theme.of(context).textTheme.body1.apply(color: CustomTheme.of(context).white),
+                                      ),
+                                    ]),
+                                  );
+                                } else {
+                                  return Text(
+                                    _messageData.text,
+                                    style: Theme.of(context).textTheme.body1.apply(color: CustomTheme.of(context).white),
+                                    maxLines: 2,
+                                  );
+                                }
+                              }),
+                            ),
+                            Visibility(
+                              visible: !_isImage,
+                              child: Container(
+                                color: CustomTheme.of(context).black.fade(),
+                                child: Row(
                                   children: <Widget>[
-                                    Text(
-                                      name,
-                                      softWrap: true,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: Theme.of(context).textTheme.title.apply(color: CustomTheme.of(context).white),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: dimension16dp),
+                                      child: Text(
+                                        _videoPosition.getVideoTimeFromTimestamp(),
+                                        style: Theme.of(context).textTheme.body1.apply(color: CustomTheme.of(context).white),
+                                      ),
                                     ),
-                                    Text(
-                                      _messageData.timestamp.getGalleryTime(),
-                                      style: Theme.of(context).textTheme.body1.apply(color: CustomTheme.of(context).white),
-                                    )
+                                    Expanded(
+                                      child: SliderTheme(
+                                        data: SliderTheme.of(context).copyWith(
+                                          trackHeight: dimension4dp,
+                                          thumbShape: RoundSliderThumbShape(
+                                            disabledThumbRadius: dimension8dp,
+                                            enabledThumbRadius: dimension8dp,
+                                          ),
+                                        ),
+                                        child: Slider(
+                                          value: _videoPosition.roundToDouble(),
+                                          min: zero,
+                                          max: _videoDuration.roundToDouble(),
+                                          onChanged: _seekVideo,
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: dimension16dp),
+                                      child: Text(
+                                        _videoDuration.getVideoTimeFromTimestamp(),
+                                        style: Theme.of(context).textTheme.body1.apply(color: CustomTheme.of(context).white),
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
-                              PopupMenuButton(
-                                itemBuilder: (BuildContext context) {
-                                  return _messageAttachmentActions.map((MessageAction choice) {
-                                    return PopupMenuItem<MessageAction>(
-                                      value: choice,
-                                      child: Row(
-                                        children: <Widget>[
-                                          AdaptiveIcon(icon: choice.icon),
-                                          Padding(padding: EdgeInsets.only(right: iconTextPadding)),
-                                          Text(choice.title),
-                                        ],
-                                      ),
-                                    );
-                                  }).toList();
-                                },
-                                onSelected: _onSelected,
-                              )
-                            ],
-                          ),
+                            )
+                          ],
                         ),
                       ),
                     ),
-                    Visibility(
-                      visible: !_hideLayout && (_messageData.text.isNotEmpty || !_isImage),
-                      child: Positioned(
-                        bottom: zero,
-                        left: zero,
-                        right: zero,
-                        child: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _isTextExpanded = !_isTextExpanded;
-                            });
-                          },
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: <Widget>[
-                              Container(
-                                padding: const EdgeInsets.all(dimension16dp),
-                                color: _messageData.text.isNotEmpty ? CustomTheme.of(context).black.fade() : null,
-                                child: LayoutBuilder(builder: (context, size) {
-                                  final span = TextSpan(
-                                    text: _messageData.text,
-                                    style: Theme.of(context).textTheme.body1.apply(color: CustomTheme.of(context).white),
-                                  );
-                                  final textPainter = TextPainter(
-                                    text: span,
-                                    maxLines: 2,
-                                    textDirection: TextDirection.ltr,
-                                  );
-                                  textPainter.layout(maxWidth: size.maxWidth);
-
-                                  if (textPainter.didExceedMaxLines) {
-                                    // The text has more than two lines.
-                                    return RichText(
-                                      softWrap: true,
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: _isTextExpanded ? 50 : 2,
-                                      text: TextSpan(children: [
-                                        TextSpan(
-                                          text: _messageData.text,
-                                          style: Theme.of(context).textTheme.body1.apply(color: CustomTheme.of(context).white),
-                                        ),
-                                      ]),
-                                    );
-                                  } else {
-                                    return Text(
-                                      _messageData.text,
-                                      style: Theme.of(context).textTheme.body1.apply(color: CustomTheme.of(context).white),
-                                      maxLines: 2,
-                                    );
-                                  }
-                                }),
-                              ),
-                              Visibility(
-                                visible: !_isImage,
-                                child: Container(
-                                  color: CustomTheme.of(context).black.fade(),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: dimension16dp),
-                                        child: Text(
-                                          _videoPosition.getVideoTimeFromTimestamp(),
-                                          style: Theme.of(context).textTheme.body1.apply(color: CustomTheme.of(context).white),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: SliderTheme(
-                                          data: SliderTheme.of(context).copyWith(
-                                            trackHeight: dimension4dp,
-                                            thumbShape: RoundSliderThumbShape(
-                                              disabledThumbRadius: dimension8dp,
-                                              enabledThumbRadius: dimension8dp,
-                                            ),
-                                          ),
-                                          child: Slider(
-                                            value: _videoPosition.roundToDouble(),
-                                            min: zero,
-                                            max: _videoDuration.roundToDouble(),
-                                            onChanged: _seekVideo,
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(right: dimension16dp),
-                                        child: Text(
-                                          _videoDuration.getVideoTimeFromTimestamp(),
-                                          style: Theme.of(context).textTheme.body1.apply(color: CustomTheme.of(context).white),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
+                  ),
+                  Visibility(
+                    visible: !_isImage && !_hideLayout,
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: IconButton(
+                        iconSize: dimension72dp,
+                        icon: SuperellipseIcon(
+                          icon: _isPlaying ? IconSource.pause : IconSource.play,
+                          iconColor: CustomTheme.of(context).white,
+                          color: CustomTheme.of(context).black.fade(),
+                          backgroundSize: dimension72dp,
                         ),
+                        onPressed: () {
+                          if (_isPlaying) {
+                            _galleryBloc.add(PauseVideoPlayer());
+                          } else {
+                            _galleryBloc.add(PlayVideoPlayer());
+                          }
+                        },
                       ),
                     ),
-                    Visibility(
-                      visible: !_isImage && !_hideLayout,
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: IconButton(
-                          iconSize: dimension72dp,
-                          icon: SuperellipseIcon(
-                            icon: _isPlaying ? IconSource.pause : IconSource.play,
-                            iconColor: CustomTheme.of(context).white,
-                            color: CustomTheme.of(context).black.fade(),
-                            backgroundSize: dimension72dp,
-                          ),
-                          onPressed: () {
-                            if (_isPlaying) {
-                              _galleryBloc.add(PauseVideoPlayer());
-                            } else {
-                              _galleryBloc.add(PlayVideoPlayer());
-                            }
-                          },
-                        ),
-                      ),
-                    )
-                  ],
-                );
-              } else {
-                return Container();
-              }
-            },
-          ),
+                  )
+                ],
+              );
+            } else {
+              return Container();
+            }
+          },
         ),
       ),
     );
@@ -427,20 +410,6 @@ class _GalleryState extends State<Gallery> {
     setState(() {
       _hideLayout = !_hideLayout;
     });
-  }
-
-  Future<bool> _onWillPop() {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-    ));
-    return Future.value(true);
-  }
-
-  void _closeScreen() {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-    ));
-    _navigation.pop(context);
   }
 
   void _onSelected(MessageAction action) {
