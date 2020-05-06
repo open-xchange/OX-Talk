@@ -65,6 +65,7 @@ import 'package:ox_coi/src/navigation/navigatable.dart';
 import 'package:ox_coi/src/navigation/navigation.dart';
 import 'package:ox_coi/src/share/share.dart';
 import 'package:ox_coi/src/ui/dimensions.dart';
+import 'package:ox_coi/src/widgets/dynamic_appbar.dart';
 import 'package:ox_coi/src/widgets/superellipse_icon.dart';
 import 'package:video_player/video_player.dart';
 
@@ -197,6 +198,8 @@ class _GalleryState extends State<Gallery> {
         extendBodyBehindAppBar: true,
         appBar: !_hideLayout
             ? AppBar(
+                leading: AppBarBackButton(context: context),
+                iconTheme: IconThemeData(color: CustomTheme.of(context).white),
                 backgroundColor: CustomTheme.of(context).black.fade(),
                 title: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
