@@ -55,7 +55,7 @@ void backgroundHeadlessTask(String taskId) async {
   final logger = Logger(loggerName);
   logger.info("Callback (background) triggered");
   var core = DeltaChatCore();
-  var isSetup = await core.setupAsync(dbName);
+  var isSetup = await core.setupAsync(dbName: dbName, minimalSetup: true);
   if (isSetup) {
     logger.info("Callback (background) checking for new messages");
     await getMessages();
