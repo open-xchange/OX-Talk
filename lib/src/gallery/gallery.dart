@@ -186,7 +186,7 @@ class _GalleryState extends State<Gallery> {
               });
             } else if (state is VideoPlayerDisposed) {
               setState(() {
-                _controller = VideoPlayerController.file(File(""));
+                _controller = null;
               });
             }
           },
@@ -230,7 +230,9 @@ class _GalleryState extends State<Gallery> {
                             ? Center(
                                 child: AspectRatio(
                                   aspectRatio: _aspectRatio,
-                                  child: VideoPlayer(_controller),
+                                  child: Visibility(
+                                      visible: _controller != null,
+                                      child: VideoPlayer(_controller)),
                                 ),
                               )
                             : null,
