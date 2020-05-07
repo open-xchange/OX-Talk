@@ -71,7 +71,7 @@ class LocalNotificationManager {
 
   LocalNotificationManager._internal();
 
-  LocalNotificationManager.recreate() {
+  LocalNotificationManager.newInstance() {
     _instance = LocalNotificationManager._internal();
   }
 
