@@ -42,7 +42,6 @@
 
 import 'package:background_fetch/background_fetch.dart';
 import 'package:delta_chat_core/delta_chat_core.dart';
-import 'package:flutter/widgets.dart';
 import 'package:logging/logging.dart';
 import 'package:ox_coi/src/log/log_manager.dart';
 import 'package:ox_coi/src/notifications/local_notification_manager.dart';
@@ -59,18 +58,19 @@ void backgroundHeadlessTask(String taskId) async {
   var isSetup = await core.setupAsync(dbName: dbName, minimalSetup: true);
   if (isSetup) {
     logger.info("Callback (background) checking for new messages");
-    await getMessages(recreateNotificationManager: true);
+    await getMessages();
     await core.tearDownAsync();
   }
   logger.info("Callback (background) finishing");
   BackgroundFetch.finish(taskId);
 }
 
-Future<void> getMessages({@required bool recreateNotificationManager}) async {
-  final localNotificationManager = recreateNotificationManager ? LocalNotificationManager.newInstance() : LocalNotificationManager();
-  localNotificationManager.setup();
+Future<void> getMessages() async {
+  final localNotificationManager = LocalNotificationManager.newInstance();
+  localNotificationManager.setup(registerListeners: false);
   final context = Context();
   await context.interruptIdleForIncomingMessages();
+  await localNotificationManager.triggerNotificationAsync();
 }
 
 class BackgroundRefreshManager {
@@ -97,9 +97,7 @@ class BackgroundRefreshManager {
         requiredNetworkType: NetworkType.ANY,
       ),
       (String taskId) async {
-        _logger.info("Callback (foreground) triggered, checking for new messages");
-        await getMessages(recreateNotificationManager: false);
-        _logger.info("Callback (foreground) finishing");
+        _logger.info("Callback (foreground) triggered, no actions required");
         BackgroundFetch.finish(taskId);
       },
     ).then((value) {
