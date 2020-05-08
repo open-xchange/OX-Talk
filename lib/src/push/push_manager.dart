@@ -42,6 +42,7 @@
 
 import 'dart:convert';
 
+import 'package:delta_chat_core/delta_chat_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -99,7 +100,8 @@ class PushManager {
           } else {
             final pushChatMessage = _getPushChatMessage(decryptedContent);
             final fromEmail = pushChatMessage.fromEmail;
-            final body = "I sent you a new chat message"; // TODO replace decrypt
+            final context = Context();
+            final body = await context.decryptInMemory(pushChatMessage.contentType, pushChatMessage.content, fromEmail);
             _logger.info("Chat message received from: $fromEmail");
             await _notificationManager.showNotificationFromPushAsync(fromEmail, body);
           }
