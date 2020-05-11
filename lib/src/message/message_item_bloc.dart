@@ -182,6 +182,8 @@ class MessageItemBloc extends Bloc<MessageItemEvent, MessageItemState> {
           address: contactAddress,
           color: contactColor,
         );
+      }else if(state == ChatMsg.messageStateFailed){
+        contactStateData = await _getFailedContactStateDataAsync();
       }
 
       // Load possible URL preview data
@@ -281,7 +283,9 @@ class MessageItemBloc extends Bloc<MessageItemEvent, MessageItemState> {
         final eventMessageState = ChatMsg.messageStateFailed;
         final context = Context();
         final String messageInfo = await context.getMessageInfo(_messageId);
-        final messageStateData = (state as MessageItemStateSuccess).messageStateData.copyWith(state: eventMessageState, messageInfo: messageInfo);
+        final contactStateData = await _getFailedContactStateDataAsync();
+
+        final messageStateData = (state as MessageItemStateSuccess).messageStateData.copyWith(state: eventMessageState, messageInfo: messageInfo, contactStateData: contactStateData);
         _unregisterListeners();
         add(MessageUpdated(messageStateData: messageStateData));
       } else if (event.hasType(Event.msgsChanged) && state is MessageItemStateSuccess) {
@@ -360,5 +364,25 @@ class MessageItemBloc extends Bloc<MessageItemEvent, MessageItemState> {
     }
 
     return nextPadlock != padlock;
+  }
+
+  Future<ContactStateData> _getFailedContactStateDataAsync() async{
+    final context = Context();
+    final ChatMsg message = _getMessage(messageId: _messageId);
+    final chatId = await message.getChatId();
+    final chatContacts = await context.getChatContacts(chatId);
+    final chatContactId = chatContacts.first;
+    final Contact contact = _contactRepository.get(chatContactId);
+    final name = await contact.getName();
+    final email = await contact.getAddress();
+
+    final contactStateData = ContactStateData(
+      id: chatContactId,
+      name: name,
+      address: email,
+      color: null,
+    );
+
+    return contactStateData;
   }
 }
