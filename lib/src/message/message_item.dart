@@ -45,6 +45,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ox_coi/src/brandable/brandable_icon.dart';
 import 'package:ox_coi/src/brandable/custom_theme.dart';
+import 'package:ox_coi/src/extensions/numbers_apis.dart';
 import 'package:ox_coi/src/extensions/string_ui.dart';
 import 'package:ox_coi/src/gallery/gallery.dart';
 import 'package:ox_coi/src/l10n/l.dart';
@@ -146,93 +147,85 @@ class _MessageItemState extends State<MessageItem> with AutomaticKeepAliveClient
     super.build(context);
     return BlocProvider.value(
       value: _messageItemBloc,
-      child: BlocListener(
+      child: BlocConsumer(
         bloc: _messageItemBloc,
         listener: (context, state) {
           if (state is MessageItemStateSuccess) {
             final messageStateData = state.messageStateData;
             if (messageStateData.state == ChatMsg.messageStateFailed) {
               final contactData = messageStateData.contactStateData;
-              final message = messageStateData.text.isNotEmpty ? "\"${messageStateData.text}\" " : "";
-              final contactName = contactData.name.isNotEmpty ? "\"${contactData.name}\"" : "\"${contactData.address}\"";
+              final messageDate = messageStateData.timestamp.getDateAndTimeFromTimestamp();
+              final contactName = contactData.name.isNotEmpty ? '"${contactData.name}"' : '"${contactData.address}"';
               showConfirmationDialog(
                   context: context,
                   title: L10n.get(L.error),
-                  contentText: L10n.getFormatted(L.messageFailedDialogContentXY, [message, contactName]),
+                  contentText: L10n.getFormatted(L.messageFailedDialogContentXY, [contactName, messageDate]),
                   positiveButton: L10n.get(L.messageActionDeleteMessage),
                   positiveAction: _deleteMessage,
                   negativeButton: L10n.get(L.cancel),
-                  negativeAction: null,
                   navigatable: Navigatable(Type.messageFailedDialog));
             }
           }
         },
-        child: BlocBuilder<MessageItemBloc, MessageItemState>(
-          bloc: _messageItemBloc,
-          builder: (context, state) {
-            if (state is MessageItemStateSuccess) {
-              final messageStateData = state.messageStateData;
+        builder: (context, state) {
+          if (state is MessageItemStateSuccess) {
+            final messageStateData = state.messageStateData;
 
-              Widget message;
-              if (messageStateData.isInfo) {
-                message = MessageInfo(messageStateData: messageStateData, useInformationText: false);
-              } else if (messageStateData.isSetupMessage) {
-                message = MessageSetup(messageStateData: messageStateData);
-              } else if (messageStateData.isOutgoing) {
-                message = MessageSent(messageStateData: messageStateData);
-              } else {
-                message = MessageReceived(messageStateData: messageStateData);
-              }
+            Widget message;
+            if (messageStateData.isInfo) {
+              message = MessageInfo(messageStateData: messageStateData, useInformationText: false);
+            } else if (messageStateData.isSetupMessage) {
+              message = MessageSetup(messageStateData: messageStateData);
+            } else if (messageStateData.isOutgoing) {
+              message = MessageSent(messageStateData: messageStateData);
+            } else {
+              message = MessageReceived(messageStateData: messageStateData);
+            }
 
-              return Column(
-                crossAxisAlignment: messageStateData.isOutgoing ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-                children: [
-                  if (widget.hasDateMarker || messageStateData.showTime)
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: messagesVerticalPadding),
-                      child: MessageDateTime(
-                        timestamp: messageStateData.timestamp,
-                        hasDateMarker: widget.hasDateMarker,
-                        showTime: messageStateData.showTime,
-                      ),
-                    ),
-                  if (!widget.isFlaggedView && messageStateData.encryptionStatusChanged)
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: messagesVerticalOuterPadding),
-                      child: MessageInfo(
-                          messageStateData: messageStateData,
-                          useInformationText: true,
-                          icon: AdaptiveIcon(
-                            icon: IconSource.lock,
-                            color: CustomTheme.of(context).onInfo,
-                          )),
-                    ),
-                  GestureDetector(
-                    onTap: () => messageStateData.hasFile ? _onTap(messageStateData.isSetupMessage, messageStateData.attachmentStateData.type) : null,
-                    onTapDown: _onTapDown,
-                    onLongPress: () => _onLongPress(
-                        messageStateData),
-                    child: Container(
-                      padding: const EdgeInsets.only(bottom: messagesVerticalOuterPadding),
-                      child: message,
+            return Column(
+              crossAxisAlignment: messageStateData.isOutgoing ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+              children: [
+                if (widget.hasDateMarker || messageStateData.showTime)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: messagesVerticalPadding),
+                    child: MessageDateTime(
+                      timestamp: messageStateData.timestamp,
+                      hasDateMarker: widget.hasDateMarker,
+                      showTime: messageStateData.showTime,
                     ),
                   ),
-                ],
-              );
-            } else {
-              return Container();
-            }
-          },
-        ),
+                if (!widget.isFlaggedView && messageStateData.encryptionStatusChanged)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: messagesVerticalOuterPadding),
+                    child: MessageInfo(
+                        messageStateData: messageStateData,
+                        useInformationText: true,
+                        icon: AdaptiveIcon(
+                          icon: IconSource.lock,
+                          color: CustomTheme.of(context).onInfo,
+                        )),
+                  ),
+                GestureDetector(
+                  onTap: () => messageStateData.hasFile ? _onTap(messageStateData.isSetupMessage, messageStateData.attachmentStateData.type) : null,
+                  onTapDown: _onTapDown,
+                  onLongPress: () => _onLongPress(
+                      messageStateData),
+                  child: Container(
+                    padding: const EdgeInsets.only(bottom: messagesVerticalOuterPadding),
+                    child: message,
+                  ),
+                ),
+              ],
+            );
+          } else {
+            return Container();
+          }
+        },
       ),
     );
   }
 
-  _deleteMessage(){
-    List<int> messageList = List();
-    messageList.add(widget.messageId);
-    _messageItemBloc.add(DeleteMessage(id: widget.messageId));
-  }
+  _deleteMessage()=> _messageItemBloc.add(DeleteMessage(id: widget.messageId));
 
   _onTap(bool isSetupMessage, int attachmentType) {
     if (isSetupMessage) {

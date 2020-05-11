@@ -120,10 +120,6 @@ class MessageItemBloc extends Bloc<MessageItemEvent, MessageItemState> {
         isGroup = await chat.isGroup();
       }
 
-      final showContact = isGroup || chatId == Chat.typeInvite;
-      if (showContact) {
-        await _setupContact();
-      }
       if (nextMessageId != null) {
         await _setupNextMessage(nextMessageId);
       }
@@ -143,6 +139,11 @@ class MessageItemBloc extends Bloc<MessageItemEvent, MessageItemState> {
         informationText = L10n.get(L.autocryptChatMessagePlaceholder);
       } else if (encryptionStatusChanged) {
         informationText = L10n.get(L.chatEncryptionStatusChanged);
+      }
+
+      final showContact = isGroup || chatId == Chat.typeInvite || state == ChatMsg.messageStateFailed;
+      if (showContact) {
+        await _setupContact();
       }
 
       final isInfo = await message.isInfo();
@@ -171,19 +172,7 @@ class MessageItemBloc extends Bloc<MessageItemEvent, MessageItemState> {
 
       ContactStateData contactStateData;
       if (showContact) {
-        final contact = _getContact();
-        final contactId = contact.id;
-        final contactName = await contact.getName();
-        final contactAddress = await contact.getAddress();
-        final contactColor = colorFromArgb(await contact.getColor());
-        contactStateData = ContactStateData(
-          id: contactId,
-          name: contactName,
-          address: contactAddress,
-          color: contactColor,
-        );
-      }else if(state == ChatMsg.messageStateFailed){
-        contactStateData = await _getFailedContactStateDataAsync();
+        contactStateData = await _getContactDataAsync();
       }
 
       // Load possible URL preview data
@@ -217,6 +206,21 @@ class MessageItemBloc extends Bloc<MessageItemEvent, MessageItemState> {
     } catch (error) {
       yield MessageItemStateFailure(error: error.toString());
     }
+  }
+
+  Future<ContactStateData> _getContactDataAsync() async {
+    final contact = _getContact();
+    final contactId = contact.id;
+    final contactName = await contact.getName();
+    final contactAddress = await contact.getAddress();
+    final contactColor = colorFromArgb(await contact.getColor());
+    ContactStateData contactStateData = ContactStateData(
+      id: contactId,
+      name: contactName,
+      address: contactAddress,
+      color: contactColor,
+    );
+    return contactStateData;
   }
 
   Stream<MessageItemState> _deleteMessages(int id) async* {
@@ -283,9 +287,11 @@ class MessageItemBloc extends Bloc<MessageItemEvent, MessageItemState> {
         final eventMessageState = ChatMsg.messageStateFailed;
         final context = Context();
         final String messageInfo = await context.getMessageInfo(_messageId);
-        final contactStateData = await _getFailedContactStateDataAsync();
-
-        final messageStateData = (state as MessageItemStateSuccess).messageStateData.copyWith(state: eventMessageState, messageInfo: messageInfo, contactStateData: contactStateData);
+        await _setupContact();
+        final contactStateData = await _getContactDataAsync();
+        final messageStateData = (state as MessageItemStateSuccess)
+            .messageStateData
+            .copyWith(state: eventMessageState, messageInfo: messageInfo, contactStateData: contactStateData);
         _unregisterListeners();
         add(MessageUpdated(messageStateData: messageStateData));
       } else if (event.hasType(Event.msgsChanged) && state is MessageItemStateSuccess) {
@@ -364,25 +370,5 @@ class MessageItemBloc extends Bloc<MessageItemEvent, MessageItemState> {
     }
 
     return nextPadlock != padlock;
-  }
-
-  Future<ContactStateData> _getFailedContactStateDataAsync() async{
-    final context = Context();
-    final ChatMsg message = _getMessage(messageId: _messageId);
-    final chatId = await message.getChatId();
-    final chatContacts = await context.getChatContacts(chatId);
-    final chatContactId = chatContacts.first;
-    final Contact contact = _contactRepository.get(chatContactId);
-    final name = await contact.getName();
-    final email = await contact.getAddress();
-
-    final contactStateData = ContactStateData(
-      id: chatContactId,
-      name: name,
-      address: email,
-      color: null,
-    );
-
-    return contactStateData;
   }
 }

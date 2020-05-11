@@ -316,7 +316,7 @@ class L {
   static final messageActionDeleteMessage = _translationKey("Delete message");
 
   static final messageFailedDialogContentXY = _translationKey(
-      "Your message %sto %s cannot be sent. Often this is due to a too large file. Please delete the message to unblock sending subsequent messages.");
+      "Your message sent to %s on %s could not be transmitted. Often this happens due to a too large file. Please delete this message to unblock sending subsequent messages.");
 
   static final participantXP = _translationKey("1 participant", "%i participants");
   static final participantAdd = _translationKey("Add participants");
