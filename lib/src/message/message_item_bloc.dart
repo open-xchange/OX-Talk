@@ -121,6 +121,10 @@ class MessageItemBloc extends Bloc<MessageItemEvent, MessageItemState> {
         isGroup = await chat.isGroup();
       }
 
+      final showContact = isGroup || chatId == Chat.typeInvite;
+      if (showContact) {
+        await _setupContact();
+      }
       if (nextMessageId != null) {
         await _setupNextMessage(nextMessageId);
       }
@@ -140,11 +144,6 @@ class MessageItemBloc extends Bloc<MessageItemEvent, MessageItemState> {
         informationText = L10n.get(L.autocryptChatMessagePlaceholder);
       } else if (encryptionStatusChanged) {
         informationText = L10n.get(L.chatEncryptionStatusChanged);
-      }
-
-      final showContact = isGroup || chatId == Chat.typeInvite || state == ChatMsg.messageStateFailed;
-      if (showContact) {
-        await _setupContact();
       }
 
       final isInfo = await message.isInfo();
@@ -231,7 +230,7 @@ class MessageItemBloc extends Bloc<MessageItemEvent, MessageItemState> {
     final ChatMsg message = _getMessage(messageId: _messageId);
     final chatId = await message.getChatId();
     final chat = _chatRepository.get(chatId);
-    final chatName = await chat.get(Chat.methodChatGetName);
+    final chatName = await chat.getName();
     return ChatStateData(
       id: chatId,
       name: chatName,

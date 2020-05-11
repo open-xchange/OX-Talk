@@ -155,11 +155,10 @@ class _MessageItemState extends State<MessageItem> with AutomaticKeepAliveClient
             if (messageStateData.state == ChatMsg.messageStateFailed) {
               final chatData = messageStateData.chatStateData;
               final messageDate = messageStateData.timestamp.getDateAndTimeFromTimestamp();
-              final chatName = "${chatData.name}";
               showConfirmationDialog(
                   context: context,
                   title: L10n.get(L.error),
-                  contentText: L10n.getFormatted(L.messageFailedDialogContentXY, [chatName, messageDate]),
+                  contentText: L10n.getFormatted(L.messageFailedDialogContentXY, [chatData.name, messageDate]),
                   positiveButton: L10n.get(L.messageActionDeleteMessage),
                   positiveAction: _deleteMessage,
                   negativeButton: L10n.get(L.cancel),
