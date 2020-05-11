@@ -172,7 +172,7 @@ class MessageItemBloc extends Bloc<MessageItemEvent, MessageItemState> {
 
       ContactStateData contactStateData;
       if (showContact) {
-        contactStateData = await _getContactDataAsync();
+        contactStateData = await _getContactDataAsync(loadReceiverContact: state == ChatMsg.messageStateFailed);
       }
 
       // Load possible URL preview data
@@ -208,8 +208,8 @@ class MessageItemBloc extends Bloc<MessageItemEvent, MessageItemState> {
     }
   }
 
-  Future<ContactStateData> _getContactDataAsync() async {
-    final contact = _getContact();
+  Future<ContactStateData> _getContactDataAsync({loadReceiverContact = false}) async {
+    final contact = loadReceiverContact ? await _loadReceiverContactAsync() : _getContact();
     final contactId = contact.id;
     final contactName = await contact.getName();
     final contactAddress = await contact.getAddress();
@@ -221,6 +221,16 @@ class MessageItemBloc extends Bloc<MessageItemEvent, MessageItemState> {
       color: contactColor,
     );
     return contactStateData;
+  }
+
+  Future<Contact> _loadReceiverContactAsync() async{
+    final context = Context();
+    final ChatMsg message = _getMessage(messageId: _messageId);
+    final chatId = await message.getChatId();
+    final chatContacts = await context.getChatContacts(chatId);
+    final chatContactId = chatContacts.first;
+    final Contact contact = _contactRepository.get(chatContactId);
+    return contact;
   }
 
   Stream<MessageItemState> _deleteMessages(int id) async* {
@@ -288,7 +298,7 @@ class MessageItemBloc extends Bloc<MessageItemEvent, MessageItemState> {
         final context = Context();
         final String messageInfo = await context.getMessageInfo(_messageId);
         await _setupContact();
-        final contactStateData = await _getContactDataAsync();
+        final contactStateData = await _getContactDataAsync(loadReceiverContact: true);
         final messageStateData = (state as MessageItemStateSuccess)
             .messageStateData
             .copyWith(state: eventMessageState, messageInfo: messageInfo, contactStateData: contactStateData);
