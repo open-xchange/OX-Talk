@@ -61,6 +61,7 @@ import 'message_list_event_state.dart';
 
 class MessageItemBloc extends Bloc<MessageItemEvent, MessageItemState> {
   final Repository<Contact> _contactRepository = RepositoryManager.get(RepositoryType.contact);
+  final Repository<Chat> _chatRepository = RepositoryManager.get(RepositoryType.chat);
   final MessageListBloc messageListBloc;
 
   Stream _messageChangedStream;
@@ -153,9 +154,11 @@ class MessageItemBloc extends Bloc<MessageItemEvent, MessageItemState> {
       final teaser = await message.getSummaryText(200);
 
       String messageInfo = "";
+      ChatStateData chatStateData;
       if (state == ChatMsg.messageStateFailed) {
         final context = Context();
         messageInfo = await context.getMessageInfo(_messageId);
+        chatStateData = await _getChatDataAsync();
       }
 
       AttachmentStateData attachmentStateData;
@@ -172,7 +175,7 @@ class MessageItemBloc extends Bloc<MessageItemEvent, MessageItemState> {
 
       ContactStateData contactStateData;
       if (showContact) {
-        contactStateData = await _getContactDataAsync(loadReceiverContact: state == ChatMsg.messageStateFailed);
+        contactStateData = await _getContactDataAsync();
       }
 
       // Load possible URL preview data
@@ -190,6 +193,7 @@ class MessageItemBloc extends Bloc<MessageItemEvent, MessageItemState> {
         showPadlock: showPadlock,
         attachmentStateData: attachmentStateData,
         contactStateData: contactStateData,
+        chatStateData: chatStateData,
         preview: teaser,
         isFlagged: isFlagged,
         showTime: showTime,
@@ -208,8 +212,8 @@ class MessageItemBloc extends Bloc<MessageItemEvent, MessageItemState> {
     }
   }
 
-  Future<ContactStateData> _getContactDataAsync({loadReceiverContact = false}) async {
-    final contact = loadReceiverContact ? await _loadReceiverContactAsync() : _getContact();
+  Future<ContactStateData> _getContactDataAsync() async {
+    final contact = _getContact();
     final contactId = contact.id;
     final contactName = await contact.getName();
     final contactAddress = await contact.getAddress();
@@ -223,14 +227,15 @@ class MessageItemBloc extends Bloc<MessageItemEvent, MessageItemState> {
     return contactStateData;
   }
 
-  Future<Contact> _loadReceiverContactAsync() async{
-    final context = Context();
+  Future<ChatStateData> _getChatDataAsync() async {
     final ChatMsg message = _getMessage(messageId: _messageId);
     final chatId = await message.getChatId();
-    final chatContacts = await context.getChatContacts(chatId);
-    final chatContactId = chatContacts.first;
-    final Contact contact = _contactRepository.get(chatContactId);
-    return contact;
+    final chat = _chatRepository.get(chatId);
+    final chatName = await chat.get(Chat.methodChatGetName);
+    return ChatStateData(
+      id: chatId,
+      name: chatName,
+    );
   }
 
   Stream<MessageItemState> _deleteMessages(int id) async* {
@@ -298,10 +303,10 @@ class MessageItemBloc extends Bloc<MessageItemEvent, MessageItemState> {
         final context = Context();
         final String messageInfo = await context.getMessageInfo(_messageId);
         await _setupContact();
-        final contactStateData = await _getContactDataAsync(loadReceiverContact: true);
+        final chatStateData = await _getChatDataAsync();
         final messageStateData = (state as MessageItemStateSuccess)
             .messageStateData
-            .copyWith(state: eventMessageState, messageInfo: messageInfo, contactStateData: contactStateData);
+            .copyWith(state: eventMessageState, messageInfo: messageInfo, chatStateData: chatStateData);
         _unregisterListeners();
         add(MessageUpdated(messageStateData: messageStateData));
       } else if (event.hasType(Event.msgsChanged) && state is MessageItemStateSuccess) {
