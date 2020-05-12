@@ -77,6 +77,7 @@ class GalleryBloc extends Bloc<GalleryEvent, GalleryState> {
     _controller = VideoPlayerController.network("file://${Uri.encodeFull(path)}");
     addVideoPlayerListener();
     await _controller.initialize();
+    await Future.delayed(Duration(milliseconds: 100));
     yield VideoPlayerInitialized(videoPlayerController: _controller, duration: _videoPlayerDuration);
   }
 
