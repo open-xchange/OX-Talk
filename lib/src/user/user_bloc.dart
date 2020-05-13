@@ -53,22 +53,17 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   @override
   Stream<UserState> mapEventToState(UserEvent event) async* {
     if (event is RequestUser) {
-      yield UserStateLoading();
-
       try {
-        _setupUser();
+        yield* _setupUserAsync();
       } catch (error) {
         yield UserStateFailure(error: error.toString());
       }
-
-    } else if (event is UserLoaded) {
-      yield UserStateSuccess(config: event.config);
     }
   }
 
-  void _setupUser() async {
-    Config config = Config();
+  Stream<UserState> _setupUserAsync() async* {
+    final config = Config();
     await config.load();
-    add(UserLoaded(config: config));
+    yield UserStateSuccess(config: config);
   }
 }

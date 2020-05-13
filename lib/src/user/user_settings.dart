@@ -50,6 +50,7 @@ import 'package:ox_coi/src/l10n/l.dart';
 import 'package:ox_coi/src/l10n/l10n.dart';
 import 'package:ox_coi/src/navigation/navigatable.dart';
 import 'package:ox_coi/src/navigation/navigation.dart';
+import 'package:ox_coi/src/user/user_bloc.dart';
 import 'package:ox_coi/src/user/user_change_bloc.dart';
 import 'package:ox_coi/src/user/user_change_event_state.dart';
 import 'package:ox_coi/src/utils/keyMapping.dart';
@@ -62,24 +63,26 @@ class UserSettings extends StatefulWidget {
 }
 
 class _UserSettingsState extends State<UserSettings> {
-  UserChangeBloc _userChangeBloc = UserChangeBloc();
-  Navigation _navigation = Navigation();
-  TextEditingController _usernameController = TextEditingController();
+  final Navigation _navigation = Navigation();
+  final TextEditingController _usernameController = TextEditingController();
+  UserChangeBloc _userChangeBloc;
   String _avatar;
 
   @override
   void initState() {
     super.initState();
     _navigation.current = Navigatable(Type.settingsUser);
+    _userChangeBloc = BlocProvider.of<UserChangeBloc>(context);
     _userChangeBloc.add(RequestUser());
     _userChangeBloc.listen((state) => _handleUserChangeStateChange(state));
   }
 
   _handleUserChangeStateChange(UserChangeState state) {
     if (state is UserChangeStateSuccess) {
-      Config config = state.config;
+      final config = state.config;
+      final avatarPath = config.avatarPath;
       _usernameController.text = config.username;
-      String avatarPath = config.avatarPath;
+
       if (avatarPath != null && avatarPath.isNotEmpty) {
         _avatar = config.avatarPath;
       }
@@ -113,9 +116,9 @@ class _UserSettingsState extends State<UserSettings> {
               placeholder: L10n.get(L.username),
             );
           } else if (state is UserChangeStateFailure) {
-            return new Text(state.error);
+            return Text(state.error);
           } else {
-            return new Container();
+            return Container();
           }
         },
       ),
@@ -129,7 +132,7 @@ class _UserSettingsState extends State<UserSettings> {
   }
 
   void _saveChanges() async {
-    String avatarPath = !_avatar.isNullOrEmpty() ? _avatar : null;
+    final avatarPath = !_avatar.isNullOrEmpty() ? _avatar : null;
     _userChangeBloc.add(UserPersonalDataChanged(username: _usernameController.text, avatarPath: avatarPath));
   }
 }
