@@ -76,7 +76,6 @@ class AppDelegate: FlutterAppDelegate {
         Messaging.messaging().apnsToken = deviceToken
     }
     
-
     override func applicationDidEnterBackground(_ application: UIApplication) {
         if UserDefaults.applicationShouldTerminate {
             UserDefaults.applicationShouldTerminate = false

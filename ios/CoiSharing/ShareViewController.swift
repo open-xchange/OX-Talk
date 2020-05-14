@@ -16,7 +16,7 @@ class ShareViewController: UIViewController {
     let dataContentType = kUTTypeData as String
     let textContentType = kUTTypeText as String
     let urlContentType = kUTTypeURL as String
-    let fileURLType = kUTTypeFileURL as String;
+    let fileURLType = kUTTypeFileURL as String
     let appleKeynoteType = "com.apple.iwork.keynote.keynote"
     let applePagesType = "com.apple.iwork.pages.pages"
     let appleNumbersType = "com.apple.iwork.numbers.numbers"
@@ -24,7 +24,7 @@ class ShareViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let content = extensionContext!.inputItems[0] as? NSExtensionItem {
+        if let content = extensionContext?.inputItems[0] as? NSExtensionItem {
             if let contents = content.attachments {
                 for (index, attachment) in contents.enumerated() {
                     if attachment.hasItemConformingToTypeIdentifier(urlContentType) {
@@ -66,7 +66,7 @@ class ShareViewController: UIViewController {
                         this.handleFiles(content: content, attachment: attachment, index: index, identifier: this.fileURLType)
                     }
                     
-                } else if (attachment.hasItemConformingToTypeIdentifier(this.urlContentType)) {
+                } else if attachment.hasItemConformingToTypeIdentifier(this.urlContentType) {
                     let userDefaults = UserDefaults(suiteName: SharedData.SuiteName)
                     userDefaults?.set(DataType.url.rawValue, forKey: SharedData.DataType)
                     userDefaults?.set(shareURL.absoluteString, forKey: SharedData.Text)
@@ -82,20 +82,26 @@ class ShareViewController: UIViewController {
         if error == nil, let url = data as? URL, let this = self {
                 let fileExtension = this.getExtension(from: url, type: .file)
                 let newName = UUID().uuidString
-                let newPath = FileManager.default
-                    .containerURL(forSecurityApplicationGroupIdentifier: SharedData.SuiteName)!
-                    .appendingPathComponent("\(newName).\(fileExtension)")
-                _ = this.copyFile(at: url, to: newPath)
-                
-                if index == (content.attachments?.count)! - 1 {
+
+            guard let containerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: SharedData.SuiteName) else {
+                this.dismissWithError()
+                return
+            }
+            
+            let newPath = containerURL.appendingPathComponent("\(newName).\(fileExtension)")
+            _ = this.copyFile(at: url, to: newPath)
+            
+            if let attachmentsCount = content.attachments?.count {
+                if index == attachmentsCount - 1 {
                     let userDefaults = UserDefaults(suiteName: SharedData.SuiteName)
                     userDefaults?.set(DataType.file.rawValue, forKey: SharedData.DataType)
                     userDefaults?.set(newPath, forKey: SharedData.Path)
-                    userDefaults?.set(self!.mimeType(pathExtension: self!.getExtension(from: newPath, type: .file)), forKey: SharedData.MimeType)
+                    userDefaults?.set(this.mimeType(pathExtension: this.getExtension(from: newPath, type: .file)), forKey: SharedData.MimeType)
                     userDefaults?.set("\(newName).\(fileExtension)", forKey: SharedData.FileName)
                     userDefaults?.synchronize()
                     this.redirectToHostApp()
                 }
+            }
                 
             } else {
                  self?.dismissWithError()
@@ -113,16 +119,18 @@ class ShareViewController: UIViewController {
         
         alert.addAction(action)
         present(alert, animated: true, completion: nil)
-        extensionContext!.completeRequest(returningItems: [], completionHandler: nil)
+        extensionContext?.completeRequest(returningItems: [], completionHandler: nil)
     }
     
     func getExtension(from url: URL, type: SharedMediaType) -> String {
         let parts = url.lastPathComponent.components(separatedBy: ".")
-        var ex: String? = nil
-        if (parts.count > 1) {
+        var ex: String?
+
+        if parts.count > 1 {
             ex = parts.last
         }
-        if (ex == nil) {
+
+        if ex == nil {
             switch type {
                 case .image:
                     ex = "PNG"
@@ -147,7 +155,7 @@ class ShareViewController: UIViewController {
                 try FileManager.default.removeItem(at: dstURL)
             }
             try FileManager.default.copyItem(at: srcURL, to: dstURL)
-        } catch (let error) {
+        } catch let error {
             print("Cannot copy item at \(srcURL) to \(dstURL): \(error)")
             return false
         }
@@ -175,14 +183,16 @@ class ShareViewController: UIViewController {
         var responder = self as UIResponder?
         let selectorOpenURL = sel_registerName("openURL:")
     
-        while (responder != nil) {
-            if (responder?.responds(to: selectorOpenURL))! {
-                let _ = responder?.perform(selectorOpenURL, with: url)
-                break
+        while responder != nil {
+            if let responds = responder?.responds(to: selectorOpenURL) {
+                if responds {
+                    _ = responder?.perform(selectorOpenURL, with: url)
+                    break
+                }
             }
-            responder = responder!.next
+            responder = responder?.next
         }
-        extensionContext!.completeRequest(returningItems: [], completionHandler: nil)
+        extensionContext?.completeRequest(returningItems: [], completionHandler: nil)
     }
     
     enum DataType: String {

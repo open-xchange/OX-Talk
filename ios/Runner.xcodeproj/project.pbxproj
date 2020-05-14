@@ -11,7 +11,6 @@
 		2AB5BDA32396A33B005FDB10 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AB5BDA22396A33B005FDB10 /* GeneratedPluginRegistrant.m */; };
 		374E43D3FB49E295AE9799DD /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 899B7188477F2A02FA10829E /* Pods_Runner.framework */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
-		6490EEC5246BC78000B5E428 /* Sharing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6490EEC4246BC78000B5E428 /* Sharing.swift */; };
 		6490EEC8246BCAC500B5E428 /* Sharing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6490EEC7246BCAC500B5E428 /* Sharing.swift */; };
 		649470442445BCF800239B7B /* .gitlab-ci.yml in Resources */ = {isa = PBXBuildFile; fileRef = 649470432445BCF800239B7B /* .gitlab-ci.yml */; };
 		64B6D5B22449CC38001C73DE /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B6D5B12449CC38001C73DE /* ShareViewController.swift */; };
@@ -29,6 +28,7 @@
 		FD51737623267295007458CC /* UIApplication+Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD51737523267295007458CC /* UIApplication+Logging.swift */; };
 		FD5F8B06236AEA7500E05845 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FD5F8B08236AEA7500E05845 /* InfoPlist.strings */; };
 		FD961FB223D73ADC00AD0D90 /* AppDelegate+Sharing.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD961FB123D73ADC00AD0D90 /* AppDelegate+Sharing.swift */; };
+		FDC49D33246D4E1F00FDF561 /* Sharing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6490EEC7246BCAC500B5E428 /* Sharing.swift */; };
 		FDF8F9B523D7421D0009B368 /* Method.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A955E3F238677DF00DF7F3F /* Method.swift */; };
 /* End PBXBuildFile section */
 
@@ -95,7 +95,6 @@
 		646BAA7523D893CB004295B1 /* sv-SE */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "sv-SE"; path = "sv-SE.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		646BAA7623D894B2004295B1 /* zh-Hant-CN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant-CN"; path = "zh-Hant-CN.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		646BAA7723D894C7004295B1 /* zh-Hant-TW */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant-TW"; path = "zh-Hant-TW.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
-		6490EEC4246BC78000B5E428 /* Sharing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sharing.swift; sourceTree = "<group>"; };
 		6490EEC7246BCAC500B5E428 /* Sharing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sharing.swift; sourceTree = "<group>"; };
 		649470432445BCF800239B7B /* .gitlab-ci.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; name = ".gitlab-ci.yml"; path = "../.gitlab-ci.yml"; sourceTree = "<group>"; };
 		64B6D5AF2449CC38001C73DE /* CoiSharing.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = CoiSharing.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -323,7 +322,6 @@
 			isa = PBXGroup;
 			children = (
 				2A955E3F238677DF00DF7F3F /* Method.swift */,
-				6490EEC4246BC78000B5E428 /* Sharing.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -591,7 +589,7 @@
 				FD961FB223D73ADC00AD0D90 /* AppDelegate+Sharing.swift in Sources */,
 				FD2E2E22231FFEBB00ADF5C5 /* AppDelegate.swift in Sources */,
 				FD51737623267295007458CC /* UIApplication+Logging.swift in Sources */,
-				6490EEC5246BC78000B5E428 /* Sharing.swift in Sources */,
+				FDC49D33246D4E1F00FDF561 /* Sharing.swift in Sources */,
 				2AB5BDA32396A33B005FDB10 /* GeneratedPluginRegistrant.m in Sources */,
 				FD2D3A5523E09F900070F327 /* UIApplication+Firebase.swift in Sources */,
 				FD139C3D23FFF55700E891D5 /* UserDefaults+Extension.swift in Sources */,
