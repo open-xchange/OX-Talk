@@ -44,13 +44,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ox_coi/src/brandable/brandable_icon.dart';
-import 'package:ox_coi/src/data/config.dart';
 import 'package:ox_coi/src/extensions/string_apis.dart';
 import 'package:ox_coi/src/l10n/l.dart';
 import 'package:ox_coi/src/l10n/l10n.dart';
 import 'package:ox_coi/src/navigation/navigatable.dart';
 import 'package:ox_coi/src/navigation/navigation.dart';
-import 'package:ox_coi/src/user/user_bloc.dart';
 import 'package:ox_coi/src/user/user_change_bloc.dart';
 import 'package:ox_coi/src/user/user_change_event_state.dart';
 import 'package:ox_coi/src/utils/keyMapping.dart';
@@ -74,21 +72,6 @@ class _UserSettingsState extends State<UserSettings> {
     _navigation.current = Navigatable(Type.settingsUser);
     _userChangeBloc = BlocProvider.of<UserChangeBloc>(context);
     _userChangeBloc.add(RequestUser());
-    _userChangeBloc.listen((state) => _handleUserChangeStateChange(state));
-  }
-
-  _handleUserChangeStateChange(UserChangeState state) {
-    if (state is UserChangeStateSuccess) {
-      final config = state.config;
-      final avatarPath = config.avatarPath;
-      _usernameController.text = config.username;
-
-      if (avatarPath != null && avatarPath.isNotEmpty) {
-        _avatar = config.avatarPath;
-      }
-    } else if (state is UserChangeStateApplied) {
-      _navigation.pop(context);
-    }
   }
 
   @override
@@ -105,8 +88,20 @@ class _UserSettingsState extends State<UserSettings> {
           )
         ],
       ),
-      body: BlocBuilder(
+      body: BlocConsumer(
         bloc: _userChangeBloc,
+        listener: (context, state) {
+          if (state is UserChangeStateSuccess) {
+            final config = state.config;
+            final avatarPath = config.avatarPath;
+            _usernameController.text = config.username;
+            if (!avatarPath.isNullOrEmpty()) {
+              _avatar = config.avatarPath;
+            }
+          } else if (state is UserChangeStateApplied) {
+            _navigation.pop(context);
+          }
+        },
         builder: (context, state) {
           if (state is UserChangeStateSuccess) {
             return EditableProfileHeader(

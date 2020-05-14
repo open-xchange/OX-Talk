@@ -44,9 +44,26 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:ox_coi/src/data/config.dart';
+import 'package:ox_coi/src/user/user_change_event_state.dart' as user_change;
 import 'package:ox_coi/src/user/user_event_state.dart';
 
+import 'user_change_bloc.dart';
+
 class UserBloc extends Bloc<UserEvent, UserState> {
+  final UserChangeBloc userChangeBloc;
+  StreamSubscription _userChangeBlocSubscription;
+
+  UserBloc({this.userChangeBloc}) {
+    final listensToUserChanges = userChangeBloc != null;
+    if (listensToUserChanges) {
+      _userChangeBlocSubscription = userChangeBloc.listen((state) {
+        if (state is user_change.UserChangeStateApplied) {
+          add(RequestUser());
+        }
+      });
+    }
+  }
+
   @override
   UserState get initialState => UserStateInitial();
 
@@ -59,6 +76,12 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         yield UserStateFailure(error: error.toString());
       }
     }
+  }
+
+  @override
+  Future<void> close() {
+    _userChangeBlocSubscription.cancel();
+    return super.close();
   }
 
   Stream<UserState> _setupUserAsync() async* {

@@ -46,14 +46,8 @@ import 'package:bloc/bloc.dart';
 import 'package:delta_chat_core/delta_chat_core.dart';
 import 'package:ox_coi/src/data/config.dart';
 import 'package:ox_coi/src/user/user_change_event_state.dart';
-import 'package:ox_coi/src/user/user_event_state.dart' as User;
-
-import 'user_bloc.dart';
 
 class UserChangeBloc extends Bloc<UserChangeEvent, UserChangeState> {
-  final UserBloc userBloc;
-
-  UserChangeBloc({this.userBloc});
 
   @override
   UserChangeState get initialState => UserChangeStateInitial();
@@ -104,7 +98,6 @@ class UserChangeBloc extends Bloc<UserChangeEvent, UserChangeState> {
     final config = Config();
     await config.setValue(Context.configDisplayName, event.username);
     await config.setValue(Context.configSelfAvatar, event.avatarPath);
-    userBloc?.add(User.RequestUser());
     yield UserChangeStateApplied();
   }
 
@@ -132,7 +125,6 @@ class UserChangeBloc extends Bloc<UserChangeEvent, UserChangeState> {
     await config.setValue(Context.configSendServer, event.smtpServer);
     await config.setValue(Context.configSendPort, event.smtpPort);
     await config.setValue(Context.configSmtpSecurity, event.smtpSecurity);
-
     yield UserChangeStateApplied();
   }
 }

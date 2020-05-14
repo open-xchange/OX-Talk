@@ -108,20 +108,21 @@ class UserProfile extends RootChild {
 }
 
 class _ProfileState extends State<UserProfile> {
-  final UserBloc _userBloc = UserBloc();
   final Navigation _navigation = Navigation();
   final InviteBloc _inviteBloc = InviteBloc();
+  final UserChangeBloc _userChangeBloc = UserChangeBloc();
+
+  UserBloc _userBloc;
   OverlayEntry _progressOverlayEntry;
-  UserChangeBloc _userChangeBloc;
   String _avatarPath = "";
 
   @override
   void initState() {
     super.initState();
-
     _navigation.current = Navigatable(Type.profile);
+
+    _userBloc = UserBloc(userChangeBloc: _userChangeBloc);
     _userBloc.add(RequestUser());
-    _userChangeBloc = UserChangeBloc(userBloc: _userBloc);
   }
 
   @override
@@ -331,9 +332,7 @@ class _ProfileState extends State<UserProfile> {
   }
 
   void _logoutAction() {
-    // ignore: close_sinks
-    final mainBloc = BlocProvider.of<MainBloc>(context);
-    mainBloc.add(Logout());
+    BlocProvider.of<MainBloc>(context).add(Logout());
   }
 
   void _editPhotoCallback(String avatarPath) {
@@ -347,10 +346,11 @@ class _ProfileState extends State<UserProfile> {
     _navigation.push(
       context,
       MaterialPageRoute(
-          builder: (context) => BlocProvider.value(
-                value: _userChangeBloc,
-                child: UserSettings(),
-              )),
+        builder: (context) => BlocProvider.value(
+          value: _userChangeBloc,
+          child: UserSettings(),
+        ),
+      ),
     );
   }
 
