@@ -77,7 +77,7 @@ screenshots/
 **/ios/Podfile.lock
 
 # Customer specific files
-tools/customerSource/**
+tools/customerSource/*
 android/app/google-services.json
 ios/OX Coi/Firebase/GoogleService-Info-*.plist
 
