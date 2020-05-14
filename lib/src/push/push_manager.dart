@@ -101,7 +101,15 @@ class PushManager {
             final pushChatMessage = _getPushChatMessage(decryptedContent);
             final fromEmail = pushChatMessage.fromEmail;
             final context = Context();
-            final body = await context.decryptInMemory(pushChatMessage.contentType, pushChatMessage.content, fromEmail);
+            print("dboehrs starting decrypt for content $pushChatMessage");
+
+            var contentType = pushChatMessage.contentType;
+            if (contentType.isNullOrEmpty()) {
+              contentType = "text/plain; charset=utf-8";
+              print("dboehrs manually setting content type to avoid null / empty value");
+            }
+            final body = await context.decryptInMemory(contentType, pushChatMessage.content, fromEmail);
+            print("dboehrs decrypt done with result: $body");
             _logger.info("Chat message received from: $fromEmail");
             await _notificationManager.showNotificationFromPushAsync(fromEmail, body);
           }
