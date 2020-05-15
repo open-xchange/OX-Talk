@@ -44,11 +44,11 @@ import 'package:flutter/material.dart';
 import 'package:ox_coi/src/dynamic_screen/dynamic_screen_model.dart';
 
 mixin DynamicScreenCustomerDelegate {
-  void avatarPressedCallback({BuildContext context, dynamic data});
-  Future<void> buttonPressedAsync({BuildContext context, dynamic data});
-  Future<void> radioGroupValueChangedAsync({BuildContext context, DynamicScreenRadioListModel model, dynamic newValue});
-  Future<void> textfieldEditingCompleteAsync({BuildContext context, String value});
-  bool isNavigationNextAvailable({BuildContext context});
+  void avatarPressedCallback({@required BuildContext context, dynamic data});
+  Future<void> buttonPressedAsync({@required BuildContext context, dynamic data});
+  Future<void> radioGroupValueChangedAsync({@required BuildContext context, DynamicScreenRadioListModel model, dynamic newValue});
+  Future<void> textfieldEditingCompleteAsync({@required BuildContext context, String value});
+  bool isNavigationNextAvailable({@required BuildContext context});
   bool isPageAvailable({List<Map<String, bool>> availabilities});
-  void finishOnboarding({BuildContext context});
+  void finishOnboarding({@required BuildContext context});
 }

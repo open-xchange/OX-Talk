@@ -295,7 +295,7 @@
             "padding": [0.0, 24.0, 0.0, 32.0],
             "localizable": {
               "key": "feedbackDescription",
-              "value": "This is a beta version, therefore please keep in mind that the app is still in development. Do you want to share your thoughts? You can share your feedback in the profile section int the settings."
+              "value": "This is a beta version, therefore please keep in mind that the app is still in development. Do you want to share your thoughts? You can share your feedback in the profile section in the settings."
             }
           }
         },
