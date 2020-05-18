@@ -70,14 +70,11 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final _navigation = Navigation();
   LoginBloc _loginBloc;
-  // ignore: close_sinks
-  MainBloc _mainBloc;
 
   @override
   void initState() {
     super.initState();
     _navigation.current = Navigatable(Type.login);
-    _mainBloc = BlocProvider.of<MainBloc>(context);
     _loginBloc = LoginBloc(BlocProvider.of<ErrorBloc>(context));
     _loginBloc.add(RequestProviders(type: ProviderListType.login));
   }
@@ -85,105 +82,99 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocListener(
-        bloc: _mainBloc,
-        listener: (context, state) {
-          if (state is MainStateSuccess) {
-            _navigation.popUntilRoot(context);
-          }
-        },
-        child: LayoutBuilder(builder: (BuildContext context, BoxConstraints viewportConstraints) {
-          return SingleChildScrollView(
-            child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: viewportConstraints.maxHeight,
-                ),
-                child: IntrinsicHeight(
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        color: CustomTheme.of(context).primary,
-                        width: viewportConstraints.maxWidth,
-                        padding: const EdgeInsets.only(top: loginHeaderVerticalPadding, right: loginHorizontalPadding, left: loginHorizontalPadding),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            Image(
-                              image: AssetImage(appLogoPath),
-                              height: loginLogoSize,
-                              width: loginLogoSize,
+      body: LayoutBuilder(builder: (BuildContext context, BoxConstraints viewportConstraints) {
+        return SingleChildScrollView(
+          child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: viewportConstraints.maxHeight,
+              ),
+              child: IntrinsicHeight(
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      color: CustomTheme.of(context).primary,
+                      width: viewportConstraints.maxWidth,
+                      padding: const EdgeInsets.only(top: loginHeaderVerticalPadding, right: loginHorizontalPadding, left: loginHorizontalPadding),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          Image(
+                            image: AssetImage(appLogoPath),
+                            height: loginLogoSize,
+                            width: loginLogoSize,
+                          ),
+                          Padding(padding: const EdgeInsets.only(top: dimension16dp)),
+                          RichText(
+                            textAlign: TextAlign.center,
+                            text: TextSpan(
+                              style: Theme.of(context).textTheme.caption.apply(color: CustomTheme.of(context).onAccent),
+                              children: getWelcome(),
                             ),
-                            Padding(padding: const EdgeInsets.only(top: dimension16dp)),
-                            RichText(
-                              textAlign: TextAlign.center,
-                              text: TextSpan(
-                                style: Theme.of(context).textTheme.caption.apply(color: CustomTheme.of(context).onAccent),
-                                children: getWelcome(),
-                              ),
-                            ),
-                            Padding(padding: const EdgeInsets.only(top: loginWaveTopBottomPadding)),
-                          ],
-                        ),
+                          ),
+                          Padding(padding: const EdgeInsets.only(top: loginWaveTopBottomPadding)),
+                        ],
                       ),
-                      SizedBox(
+                    ),
+                    RepaintBoundary(
+                      child: SizedBox(
                         width: viewportConstraints.maxWidth,
                         height: loginWaveHeight,
                         child: CustomPaint(
                           painter: CurvePainter(color: CustomTheme.of(context).primary),
                         ),
                       ),
-                      Expanded(
-                        child: Container(
-                          color: CustomTheme.of(context).background,
-                          width: viewportConstraints.maxWidth,
-                          padding: const EdgeInsets.symmetric(horizontal: loginHorizontalPadding),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Padding(padding: const EdgeInsets.only(top: loginWaveTopBottomPadding)),
-                              ButtonImportanceHigh(
+                    ),
+                    Expanded(
+                      child: Container(
+                        color: CustomTheme.of(context).background,
+                        width: viewportConstraints.maxWidth,
+                        padding: const EdgeInsets.symmetric(horizontal: loginHorizontalPadding),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Padding(padding: const EdgeInsets.only(top: loginWaveTopBottomPadding)),
+                            ButtonImportanceHigh(
+                                minimumWidth: loginButtonWidth,
+                                child: Text(
+                                  L10n.get(L.loginSignIn),
+                                  key: Key(keyLoginLoginSignInText),
+                                ),
+                                onPressed: () {
+                                  _goToProviderList(ProviderListType.login);
+                                }),
+                            Padding(padding: const EdgeInsets.only(top: dimension24dp)),
+                            Padding(
+                              padding: const EdgeInsets.all(dimension8dp),
+                              child: ButtonImportanceLow(
                                   minimumWidth: loginButtonWidth,
                                   child: Text(
-                                    L10n.get(L.loginSignIn),
-                                    key: Key(keyLoginLoginSignInText),
+                                    L10n.get(L.register),
+                                    key: Key(keyLoginRegisterText),
                                   ),
                                   onPressed: () {
-                                    _goToProviderList(ProviderListType.login);
+                                    _goToProviderList(ProviderListType.register);
                                   }),
-                              Padding(padding: const EdgeInsets.only(top: dimension24dp)),
-                              Padding(
-                                padding: const EdgeInsets.all(dimension8dp),
-                                child: ButtonImportanceLow(
-                                    minimumWidth: loginButtonWidth,
-                                    child: Text(
-                                      L10n.get(L.register),
-                                      key: Key(keyLoginRegisterText),
-                                    ),
-                                    onPressed: () {
-                                      _goToProviderList(ProviderListType.register);
-                                    }),
-                              ),
-                              Padding(padding: const EdgeInsets.only(top: dimension64dp)),
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: dimension32dp),
-                                child: RichText(
-                                  textAlign: TextAlign.center,
-                                  text: TextSpan(
-                                    style: Theme.of(context).textTheme.caption.apply(color: CustomTheme.of(context).onBackground),
-                                    children: getAgreeTo(),
-                                  ),
+                            ),
+                            Padding(padding: const EdgeInsets.only(top: dimension64dp)),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: dimension32dp),
+                              child: RichText(
+                                textAlign: TextAlign.center,
+                                text: TextSpan(
+                                  style: Theme.of(context).textTheme.caption.apply(color: CustomTheme.of(context).onBackground),
+                                  children: getAgreeTo(),
                                 ),
-                              )
-                            ],
-                          ),
+                              ),
+                            )
+                          ],
                         ),
                       ),
-                    ],
-                  ),
-                )),
-          );
-        }),
-      ),
+                    ),
+                  ],
+                ),
+              )),
+        );
+      }),
     );
   }
 
