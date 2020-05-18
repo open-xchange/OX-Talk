@@ -185,15 +185,12 @@ class _OxCoiState extends State<OxCoi> {
               ],
               child: DynamicScreen()
             );
-
           } else if (state.configured && !state.hasAuthenticationError && !state.needsOnboarding) {
             child = Root();
-
           } else if (state.configured && state.hasAuthenticationError) {
-            child = PasswordChanged(passwordChangedCallback: () => _loginSuccess(isRelogin: true));
-
+            child = PasswordChanged(passwordChangedCallback: () => _loginSuccess);
           } else {
-            child = Login(success: _loginSuccess);
+            child = Login();
           }
         } else {
           child = Splash();
@@ -203,10 +200,8 @@ class _OxCoiState extends State<OxCoi> {
     );
   }
 
-  void _loginSuccess({bool isRelogin = false}) {
-    if (!isRelogin) {
-      BlocProvider.of<PushBloc>(context).add(RegisterPushResource());
-    }
+  void _loginSuccess() {
+    BlocProvider.of<PushBloc>(context).add(RegisterPushResource());
     _navigation.popUntilRoot(context);
     _mainBloc.add(AppLoaded());
   }
