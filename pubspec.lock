@@ -266,7 +266,7 @@ packages:
       name: firebase_messaging
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.0.13"
+    version: "6.0.15"
   fixnum:
     dependency: transitive
     description:

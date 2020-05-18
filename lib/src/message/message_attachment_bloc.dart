@@ -47,9 +47,7 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:crypto/crypto.dart';
 import 'package:delta_chat_core/delta_chat_core.dart' as Core;
-import 'package:flutter/services.dart';
 import 'package:logging/logging.dart';
-import 'package:delta_chat_core/delta_chat_core.dart';
 import 'package:open_file/open_file.dart';
 import 'package:ox_coi/src/data/repository.dart';
 import 'package:ox_coi/src/data/repository_manager.dart';
@@ -63,10 +61,8 @@ import 'package:path/path.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
 class MessageAttachmentBloc extends Bloc<MessageAttachmentEvent, MessageAttachmentState> {
-  static const sharingChannel = const MethodChannel(kMethodChannelSharing);
-  final _logger = Logger("message_attachment_bloc");
+  static final _logger = Logger("message_attachment_bloc");
   Repository<Core.ChatMsg> _messageListRepository;
-  Repository<ChatMsg> _messageListRepository;
 
   @override
   MessageAttachmentState get initialState => MessageAttachmentStateInitial();
