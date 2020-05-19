@@ -110,17 +110,22 @@ class BackgroundRefreshManager {
     if (_running) {
       return;
     }
-    await BackgroundFetch.start();
-    _logger.info("Started background fetch");
-    _running = true;
+    await BackgroundFetch.start().then((int status) {
+      _logger.info("Start success: $status");
+      _running = true;
+    }).catchError((e) {
+      print('Start FAILURE: $e');
+      _running = false;
+    });
   }
 
   void stop() {
     if (!_running) {
       return;
     }
-    BackgroundFetch.stop();
-    _logger.info("Stopped background fetch");
+    BackgroundFetch.stop().then((int status) {
+      _logger.info('Stop success: $status');
+    });
     _running = false;
   }
 }

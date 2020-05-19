@@ -26,7 +26,7 @@
 * https://www.open-xchange.com/legal/. The contributing author shall be
 * given Attribution for the derivative code and a license granting use.
 *
-* Copyright (C) 2016-2019 OX Software GmbH
+* Copyright (C) 2016-2020 OX Software GmbH
 * Mail: info@open-xchange.com
 *
 *
@@ -41,21 +41,38 @@
 */
 
 import UIKit
-import SwiftyBeaver
 
-let log = SwiftyBeaver.self
+extension AppDelegate {
 
-extension UIApplication {
+    internal func setupSecurityMethodChannel() {
+        guard let controller = window.rootViewController as? FlutterViewController else {
+            return
+        }
+        
+        let channel = FlutterMethodChannel(name: MethodChannel.Security.Name, binaryMessenger: controller.binaryMessenger)
+        channel.setMethodCallHandler {(call: FlutterMethodCall, result: FlutterResult) -> Void in
+            switch call.method {
+                case MethodChannel.Security.Method.Decrypt:
+                    if let messageDict = call.arguments as? [String: String] {
+                        let securityHelper = SecurityHelper(message: messageDict)
+                        result(securityHelper.decryptedMessage)
+                        return
+                    }
 
-    // MARK: - Logging
-
-    class func setupLogging() {
-        // https://docs.swiftybeaver.com/article/20-custom-format
-        let console = ConsoleDestination()
-        console.format = "$Dyyyy-MM-dd HH:mm:ss $N.$F:$l [$L] $M"
-        log.addDestination(console)
-
-        log.debug("Logging Setup: done")
+                default:
+                    break
+            }
+            result(nil)
+        }
     }
-
 }
+
+/*
+     String encryptedBase64Content = call.argument(MethodChannels.Security.Arguments.CONTENT);
+     String privateKeyBase64 = call.argument(MethodChannels.Security.Arguments.PRIVATE_KEY);
+     String publicKeyBase64 = call.argument(MethodChannels.Security.Arguments.PUBLIC_KEY);
+     String authBase64 = call.argument(MethodChannels.Security.Arguments.AUTH);
+     byte[] inputBytes = Base64.decode(encryptedBase64Content, Base64.DEFAULT);
+     String decryptMessage = securityHelper.decryptMessage(inputBytes, privateKeyBase64, publicKeyBase64, authBase64);
+     result.success(decryptMessage);
+ */

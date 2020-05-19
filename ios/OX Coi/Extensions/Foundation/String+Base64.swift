@@ -40,35 +40,19 @@
  * for more details.
  */
 
-import 'dart:io';
+import Foundation
 
-class NotificationData {
-  String content;
-  bool valid;
+extension String {
 
-  NotificationData.fromJson(Map<String, dynamic> json) {
-    try {
-      content = Platform.isIOS ? json['content'] : json['data']['content'];
-      valid = content != null && content.isNotEmpty;
-    } catch (error) {
-      throw NotificationDataException(error, json: json);
+    var base64DecodedString: String? {
+        guard let data = Data(base64Encoded: self) else {
+            return nil
+        }
+        return String(data: data, encoding: .utf8)
     }
-  }
 
-  @override
-  String toString() {
-    return content;
-  }
-}
+    var base64EncodedString: String {
+        Data(self.utf8).base64EncodedString()
+    }
 
-class NotificationDataException implements Exception {
-  final Map<String, dynamic> json;
-  final String error;
-
-  NotificationDataException(this.error, {this.json});
-
-  @override
-  String toString() {
-    return "Invalid notification data: '$error'\nJSON: ${json.toString()}";
-  }
 }

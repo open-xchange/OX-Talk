@@ -124,20 +124,23 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         await Customer().configureAsync();
         await UrlPreviewCache().prepareCache();
 
-        add(AppLoaded());
+        add(AppLoaded(context: event.context));
       } catch (error) {
         yield MainStateFailure(error: error.toString());
       }
     } else if (event is AppLoaded) {
-      final bool configured = await _context.isConfigured();
-      if (configured) {
-        await _setupLoggedInAppState();
-      }
+      try {
+        final bool configured = await _context.isConfigured();
+        if (configured) {
+          await _setupLoggedInAppState();
+        }
 
-      final needsOnboarding = Customer.needsOnboarding;
-      if (needsOnboarding) {
-        await Customer().configureOnboardingAsync();
-      }
+        final needsOnboarding = Customer.needsOnboarding;
+        if (needsOnboarding) {
+          await Customer().configureOnboardingAsync();
+        } else {
+          await setupManagers(event.context);
+        }
 
       final notificationsActivated = await Permission.notification.isGranted;
       if (!needsOnboarding && notificationsActivated) {

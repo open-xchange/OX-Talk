@@ -177,7 +177,7 @@ class LogManager {
     final dccLogLevel = event.data2;
     final message = "$dccLogLevel: $dccLogMessage";
     final logRecord = LogRecord(Level.INFO, message, _coreLoggerName);
-    _writeToLogFile(logRecord);
+    _logEntry(logRecord, true);
   }
 
   Future<void> logDeviceInfo() async {

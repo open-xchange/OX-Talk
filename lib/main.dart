@@ -211,6 +211,6 @@ class _OxCoiState extends State<OxCoi> {
   void _loginSuccess() {
     BlocProvider.of<PushBloc>(context).add(RegisterPushResource());
     _navigation.popUntilRoot(context);
-    _mainBloc.add(AppLoaded());
+    _mainBloc.add(AppLoaded(context: context));
   }
 }

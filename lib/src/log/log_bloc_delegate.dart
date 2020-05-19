@@ -53,7 +53,7 @@ class LogBlocDelegate implements BlocDelegate {
 
   @override
   void onError(Bloc bloc, Object error, StackTrace stacktrace) {
-    _logger.warning("Error: $error (Stacktrace: $stacktrace)");
+    _logger.warning("Error: $error (Stacktrace: $stacktrace, Bloc Runtime-Type: ${bloc.runtimeType})");
   }
 
   @override

@@ -49,7 +49,7 @@ dependencies:
   path: ^1.6.4
   path_provider: ^1.5.1
   provider: ^4.0.4
-  permission_handler: ^5.0.0+hotfix.6
+  permission_handler: ^5.0.0+hotfix.8
   pointycastle: ^1.0.2
   rxdart: ^0.23.1
   shared_preferences: ^0.5.6
