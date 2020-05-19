@@ -180,7 +180,6 @@ class _OxCoiState extends State<OxCoi> {
         builder: (context, state) {
           if (state is MainStateSuccess) {
             if (state.configured && !state.hasAuthenticationError && state.needsOnboarding) {
-              print("dboehrs DynamicScreen");
               // TODO: NEEDS TO BE DISCUSSED!
               // TODO: Maybe we should add an additional 'Onboarding' layer here, from within the 'DynamicScreen' is being called, just for separation purposes.
               return MultiProvider(providers: [
@@ -189,13 +188,10 @@ class _OxCoiState extends State<OxCoi> {
                 ChangeNotifierProvider<CustomerDelegateChangeNotifier>.value(value: _customerDelegate.changeNotifier)
               ], child: DynamicScreen());
             } else if (state.configured && !state.hasAuthenticationError && !state.needsOnboarding) {
-              print("dboehrs Root");
               return Root();
             } else if (state.configured && state.hasAuthenticationError) {
-              print("dboehrs PasswordChanged");
               return PasswordChanged(passwordChangedCallback: () => _loginSuccess);
             } else {
-              print("dboehrs Login");
               return Login();
             }
           } else {

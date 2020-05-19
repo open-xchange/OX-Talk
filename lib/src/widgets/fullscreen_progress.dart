@@ -95,7 +95,6 @@ class FullscreenProgress<T extends Bloc> extends StatelessWidget {
         if (state is ProgressState && state.progress != null) {
           progress = state.progress;
         }
-        print("dboehrs $state with $progress");
         return GestureDetector(
           behavior: HitTestBehavior.opaque,
           child: BackdropFilter(
