@@ -426,6 +426,7 @@ class L {
   // "user echo" is an own name. Please don't translate it
   static final settingAboutFeatureRequestsText = translationKey("Please suggest your ideas on user echo.");
   static final settingSignatureTitle = translationKey("Email signature");
+  static final settingSignatureDescription = translationKey("Change your Signature");
 
   static final settingGroupHeaderGeneralTitle = translationKey("General Settings");
   static final settingGroupHeaderEmailTitle = translationKey("Email Settings");
