@@ -73,9 +73,7 @@ class Customer {
 
   Future<void> configureOnboardingAsync() async {
     try {
-      _isCoiEnabled = (await Context().isCoiSupported()) == 1;
-      _isCoiSupported = (await Context().isCoiSupported()) == 1;
-
+      await _loadCoiSettings();
       Map<String, dynamic> jsonFile = await rootBundle.loadString(customerOnboardingConfigPath).then((jsonStr) => jsonDecode(jsonStr));
       _onboardingModel = DynamicScreenModel.fromJson(jsonFile);
 
@@ -89,6 +87,7 @@ class Customer {
 
   Future<void> _configureCustomerAsync() async {
     try {
+      await _loadCoiSettings();
       Map<String, dynamic> jsonFile = await rootBundle.loadString(customerConfigPath).then((jsonStr) => jsonDecode(jsonStr));
       _config = CustomerConfig.fromJson(jsonFile);
       _needsOnboarding = await getPreference(preferenceNeedsOnboarding) as bool ?? true;
@@ -97,6 +96,11 @@ class Customer {
       _logger.shout("[Configure Customer] ** ERROR **: ${error.toString()}");
       throw(error.toString());
     }
+  }
+
+  Future<void> _loadCoiSettings()async{
+    _isCoiEnabled = (await Context().isCoiSupported()) == 1;
+    _isCoiSupported = (await Context().isCoiSupported()) == 1;
   }
 
   // Customer Config
