@@ -165,6 +165,8 @@ class ProfileAvatar extends StatelessWidget {
   Widget build(BuildContext context) {
     Navigation _navigation = Navigation();
 
+    bool _isImageAvailable = !(ProfileData.of(context) != null && ProfileData.of(context).avatarPath.isNullOrEmpty());
+
     _getNewAvatarPath(ImageSource source) async {
       _navigation.pop(context);
       File newAvatar = await ImagePicker.pickImage(source: source);
@@ -176,8 +178,11 @@ class ProfileAvatar extends StatelessWidget {
           maxHeight: editUserAvatarImageMaxSize,
         );
         if (croppedAvatar != null) {
+          _isImageAvailable = true;
           ProfileData.of(context).imageActionCallback(croppedAvatar.path);
         }
+      } else {
+        _isImageAvailable = false;
       }
     }
 
@@ -203,10 +208,13 @@ class ProfileAvatar extends StatelessWidget {
                   title: Text(L10n.get(L.camera)),
                   onTap: () => _getNewAvatarPath(ImageSource.camera),
                 ),
-                ListTile(
-                  leading: AdaptiveIcon(icon: IconSource.delete),
-                  title: Text(L10n.get(L.groupRemoveImage)),
-                  onTap: () => _removeAvatar(),
+                Visibility(
+                  visible: _isImageAvailable,
+                  child: ListTile(
+                    leading: AdaptiveIcon(icon: IconSource.delete),
+                    title: Text(L10n.get(L.groupRemoveImage)),
+                    onTap: () => _removeAvatar(),
+                  ),
                 )
               ],
             );
