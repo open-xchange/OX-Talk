@@ -178,11 +178,8 @@ class ProfileAvatar extends StatelessWidget {
           maxHeight: editUserAvatarImageMaxSize,
         );
         if (croppedAvatar != null) {
-          _isImageAvailable = true;
           ProfileData.of(context).imageActionCallback(croppedAvatar.path);
         }
-      } else {
-        _isImageAvailable = false;
       }
     }
 
