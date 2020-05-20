@@ -92,15 +92,15 @@ class _UserSettingsState extends State<UserSettings> {
       body: BlocConsumer(
         bloc: _userBloc,
         listener: (context, state) {
-          if (state is UserStateSuccess) {
+          if (state is UserStateSuccess && state.manuallyChanged) {
+            _navigation.pop(context);
+          } else if (state is UserStateSuccess) {
             final config = state.config;
             final avatarPath = config.avatarPath;
             _usernameController.text = config.username;
             if (!avatarPath.isNullOrEmpty()) {
               _avatar = config.avatarPath;
             }
-          } else if (state is UserStateApplied) {
-            _navigation.pop(context);
           }
         },
         builder: (context, state) {

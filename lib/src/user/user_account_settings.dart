@@ -89,7 +89,7 @@ class _UserAccountSettingsState extends State<UserAccountSettings> {
   }
 
   _handleUserChangeStateChange(UserState state) {
-    if (state is UserStateApplied) {
+    if (state is UserStateSuccess && state.manuallyChanged) {
       _showedErrorDialog = false;
       _loginBloc.add(EditButtonPressed());
     } else if (state is UserStateFailure) {

@@ -101,8 +101,9 @@ class UserStateLoading extends UserState {}
 
 class UserStateSuccess extends UserState {
   final Config config;
+  final bool manuallyChanged;
 
-  UserStateSuccess({@required this.config});
+  UserStateSuccess({@required this.config, this.manuallyChanged = false});
 }
 
 class UserStateFailure extends UserState {
@@ -110,5 +111,3 @@ class UserStateFailure extends UserState {
 
   UserStateFailure({@required this.error});
 }
-
-class UserStateApplied extends UserState {}

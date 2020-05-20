@@ -86,11 +86,11 @@ class _EmailSignatureState extends State<EmailSignature> {
       body: BlocListener(
         bloc: _userBloc,
         listener: (context, state) {
-          if (state is UserStateSuccess) {
+          if (state is UserStateSuccess && state.manuallyChanged) {
+            navigation.pop(context);
+          } else if (state is UserStateSuccess) {
             Config config = state.config;
             _signatureController.text = config.status;
-          } else if (state is UserStateApplied) {
-            navigation.pop(context);
           }
         },
         child: Padding(
