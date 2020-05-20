@@ -94,7 +94,7 @@ class _SettingsNotificationsState extends State<SettingsNotifications> {
           return ListView(
             children: ListTile.divideTiles(context: context, tiles: [
               Visibility(
-                visible: true,
+                visible: !state.coiSupported,
                 child: ListTile(
                   contentPadding: const EdgeInsets.symmetric(vertical: listItemPadding, horizontal: listItemPadding),
                   title: Text(L10n.get(L.settingNotificationPull)),
@@ -107,7 +107,7 @@ class _SettingsNotificationsState extends State<SettingsNotifications> {
                 ),
               ),
               Visibility(
-                visible: true,
+                visible: state.coiSupported,
                 child: ListTile(
                   contentPadding: const EdgeInsets.symmetric(vertical: listItemPadding, horizontal: listItemPadding),
                   title: Text(L10n.get(L.settingNotificationPush)),
