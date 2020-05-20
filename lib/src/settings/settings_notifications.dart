@@ -40,6 +40,8 @@
  * for more details.
  */
 
+import 'dart:io';
+
 import 'package:app_settings/app_settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -92,7 +94,7 @@ class _SettingsNotificationsState extends State<SettingsNotifications> {
           return ListView(
             children: ListTile.divideTiles(context: context, tiles: [
               Visibility(
-                visible: !state.coiSupported,
+                visible: true,
                 child: ListTile(
                   contentPadding: const EdgeInsets.symmetric(vertical: listItemPadding, horizontal: listItemPadding),
                   title: Text(L10n.get(L.settingNotificationPull)),
@@ -105,24 +107,20 @@ class _SettingsNotificationsState extends State<SettingsNotifications> {
                 ),
               ),
               Visibility(
-                visible: state.coiSupported,
+                visible: true,
                 child: ListTile(
                   contentPadding: const EdgeInsets.symmetric(vertical: listItemPadding, horizontal: listItemPadding),
                   title: Text(L10n.get(L.settingNotificationPush)),
                   subtitle: Text(L10n.get(L.settingNotificationPushText)),
-                  trailing: AdaptiveIcon(
-                      icon: IconSource.arrowForward
-                  ),
-                  onTap: ()=> {AppSettings.openAppSettings()},
+                  trailing: Platform.isIOS ? AdaptiveIcon(icon: IconSource.iosChevron) : AdaptiveIcon(icon: IconSource.arrowForward),
+                  onTap: () => {AppSettings.openAppSettings()},
                 ),
               )
             ]).toList(),
           );
         } else {
           return Center(
-            child: AdaptiveIcon(
-                icon: IconSource.error
-            ),
+            child: AdaptiveIcon(icon: IconSource.error),
           );
         }
       },
