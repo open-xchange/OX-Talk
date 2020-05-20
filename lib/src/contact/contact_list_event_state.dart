@@ -46,8 +46,9 @@ abstract class ContactListEvent {}
 
 class RequestContacts extends ContactListEvent {
   final int typeOrChatId;
+  final int chatId;
 
-  RequestContacts({@required this.typeOrChatId});
+  RequestContacts({@required this.typeOrChatId, this.chatId});
 }
 
 class RequestContactsForGroup extends ContactListEvent {
@@ -58,10 +59,9 @@ class RequestContactsForGroup extends ContactListEvent {
 }
 
 class ContactsChanged extends ContactListEvent {
-  final List<int> ids;
-  final List<int> lastUpdates;
+  final List<dynamic> ids;
 
-  ContactsChanged({@required this.ids, @required this.lastUpdates});
+  ContactsChanged({@required this.ids});
 }
 
 class ContactsSelectionChanged extends ContactListEvent {
@@ -79,10 +79,9 @@ class SearchContacts extends ContactListEvent {
 }
 
 class ContactsSearched extends ContactListEvent {
-  final List<int> ids;
-  final List<int> lastUpdates;
+  final List<dynamic> ids;
 
-  ContactsSearched({@required this.ids, @required this.lastUpdates});
+  ContactsSearched({@required this.ids});
 }
 
 abstract class ContactListState {}
@@ -92,11 +91,10 @@ class ContactListStateInitial extends ContactListState {}
 class ContactListStateLoading extends ContactListState {}
 
 class ContactListStateSuccess extends ContactListState {
-  final List<int> contactIds;
-  final List<int> contactLastUpdateValues;
+  final List<dynamic> contactElements;
   final List<int> contactsSelected;
 
-  ContactListStateSuccess({@required this.contactIds, @required this.contactLastUpdateValues, @required this.contactsSelected});
+  ContactListStateSuccess({@required this.contactElements, @required this.contactsSelected});
 }
 
 class ContactListStateFailure extends ContactListState {

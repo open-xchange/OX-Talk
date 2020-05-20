@@ -51,6 +51,9 @@ import 'package:ox_coi/src/data/repository.dart';
 import 'package:ox_coi/src/data/repository_manager.dart';
 import 'package:ox_coi/src/data/repository_stream_handler.dart';
 import 'package:ox_coi/src/extensions/string_apis.dart';
+import 'package:ox_coi/src/l10n/l.dart';
+import 'package:ox_coi/src/l10n/l10n.dart';
+import 'package:ox_coi/src/utils/key_generator.dart';
 
 class ContactListBloc extends Bloc<ContactListEvent, ContactListState> with ContactsUpdaterMixin {
   Repository<Contact> _contactRepository = RepositoryManager.get(RepositoryType.contact);
@@ -75,7 +78,7 @@ class ContactListBloc extends Bloc<ContactListEvent, ContactListState> with Cont
         _currentSearch = null;
         _typeOrChatId = event.typeOrChatId;
         _registerListeners();
-        yield* _setupContacts();
+        yield* _setupContacts(chatId: event.chatId);
       } catch (error) {
         yield ContactListStateFailure(error: error.toString());
       }
@@ -88,14 +91,12 @@ class ContactListBloc extends Bloc<ContactListEvent, ContactListState> with Cont
       }
     } else if (event is ContactsChanged) {
       yield ContactListStateSuccess(
-        contactIds: event.ids,
-        contactLastUpdateValues: event.lastUpdates,
+        contactElements: event.ids,
         contactsSelected: _contactsSelected,
       );
     } else if (event is ContactsSearched) {
       yield ContactListStateSuccess(
-        contactIds: event.ids,
-        contactLastUpdateValues: event.lastUpdates,
+        contactElements: event.ids,
         contactsSelected: _contactsSelected,
       );
     } else if (event is ContactsSelectionChanged) {
@@ -110,27 +111,28 @@ class ContactListBloc extends Bloc<ContactListEvent, ContactListState> with Cont
   }
 
   void _registerListeners() {
-      if (!_listenersRegistered) {
-        _listenersRegistered = true;
-        _repositoryStreamHandler = RepositoryMultiEventStreamHandler(Type.publish, [Event.contactsChanged, Event.chatModified], _onContactsChanged);
-        _contactRepository.addListener(_repositoryStreamHandler);
-      }
+    if (!_listenersRegistered) {
+      _listenersRegistered = true;
+      _repositoryStreamHandler = RepositoryMultiEventStreamHandler(Type.publish, [Event.contactsChanged, Event.chatModified], _onContactsChanged);
+      _contactRepository.addListener(_repositoryStreamHandler);
+    }
   }
 
   void _unregisterListeners() {
-      if (_listenersRegistered) {
-        _listenersRegistered = false;
-        _contactRepository.removeListener(_repositoryStreamHandler);
-      }
+    if (_listenersRegistered) {
+      _listenersRegistered = false;
+      _contactRepository.removeListener(_repositoryStreamHandler);
+    }
   }
 
   void _onContactsChanged([event]) async {
     List<int> ids = await getIds(_typeOrChatId);
-    List<int> lastUpdates = _contactRepository.getLastUpdateValuesForIds(ids);
-    add(ContactsChanged(ids: ids, lastUpdates: lastUpdates));
+    final contactHeaderList = await _mergeHeaderAndContacts(contactIds: ids);
+
+    add(ContactsChanged(ids: contactHeaderList));
   }
 
-  Stream<ContactListStateSuccess> _setupContacts() async* {
+  Stream<ContactListStateSuccess> _setupContacts({int chatId}) async* {
     List<int> contactIds = await getIds(_typeOrChatId);
     _contactRepository.update(ids: contactIds);
     var contactExtensionProvider = ContactExtensionProvider();
@@ -142,25 +144,67 @@ class ContactListBloc extends Bloc<ContactListEvent, ContactListState> with Cont
       }
     });
 
-    List<int> lastUpdates = _contactRepository.getLastUpdateValuesForIds(contactIds);
+    final contactHeaderList = await _mergeHeaderAndContacts(contactIds: contactIds, chatId: chatId);
+
     yield ContactListStateSuccess(
-      contactIds: contactIds,
-      contactLastUpdateValues: lastUpdates,
+      contactElements: contactHeaderList,
       contactsSelected: _contactsSelected,
     );
+  }
+
+  Future<List<dynamic>> _mergeHeaderAndContacts({List<int> contactIds, int chatId}) async {
+    final headerList = List();
+    final context = Context();
+    List<int> chatParticipants;
+
+    if (chatId != null) {
+      chatParticipants = await context.getChatContacts(chatId);
+    }
+
+    contactIds.forEach((id) async {
+      if(chatParticipants != null && chatParticipants.contains(id)){
+        return;
+      }
+      final Contact contact = _contactRepository.get(id);
+      final String name = await contact.getName();
+      final String email = await contact.getAddress();
+      final int lastUpdate = contact.lastUpdate;
+      final index = contactIds.indexOf(id);
+      final previousContactId = (index > 0) ? contactIds[index - 1] : null;
+
+      String headerText = name.isNullOrEmpty() ? email.getFirstCharacter()?.toUpperCase() : name.getFirstCharacter()?.toUpperCase();
+      if (Contact.idSelf == id) {
+        headerText = L10n.get(L.contactOwnCardGroupHeaderText);
+      }
+
+      if (previousContactId != null) {
+        String previousName = await _contactRepository.get(previousContactId).getName();
+        if (previousName.isNullOrEmpty()) {
+          previousName = await _contactRepository.get(previousContactId).getAddress();
+        }
+
+        if (headerText == previousName.getFirstCharacter()?.toUpperCase()) {
+          headerList.add(createKeyFromId(id, [lastUpdate]));
+        } else {
+          headerList.add(headerText);
+          headerList.add(createKeyFromId(id, [lastUpdate]));
+        }
+      } else {
+        headerList.add(headerText);
+        headerList.add(createKeyFromId(id, [lastUpdate]));
+      }
+    });
+
+    return headerList;
   }
 
   Stream<ContactListStateSuccess> _searchContacts() async* {
     Context context = Context();
     List<int> contactIds = List.from(await context.getContacts(2, _currentSearch));
-    List<int> lastUpdates = List();
-    contactIds.forEach((contactId) {
-      lastUpdates.add(_contactRepository.get(contactId).lastUpdate);
-    });
+    final contactHeaderList = await _mergeHeaderAndContacts(contactIds: contactIds);
 
     yield ContactListStateSuccess(
-      contactIds: contactIds,
-      contactLastUpdateValues: lastUpdates,
+      contactElements: contactHeaderList,
       contactsSelected: _contactsSelected,
     );
   }
