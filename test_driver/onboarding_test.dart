@@ -73,10 +73,10 @@ void main() {
   });
 
   group('Performing onboarding test', () {
-    final name = "Type";
+    final keyName = "Type";
     final letsGo = "Lets Go";
     final allowNotifications = "Allow Notifications";
-    final nameFinder = find.byValueKey(name);
+    final nameFinder = find.byValueKey(keyName);
 
     test(': Welcome to onboarding test', () async {
       await driver.tap(nameFinder);
