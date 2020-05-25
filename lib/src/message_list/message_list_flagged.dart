@@ -67,19 +67,19 @@ class MessageListFlagged extends StatefulWidget {
 class _MessageListFlaggedState extends State<MessageListFlagged> with InviteMixin {
   final _navigation = Navigation();
   final _scrollController = ScrollController();
-  final _bloc = MessageListBloc();
+  final _messageListBloc = MessageListBloc();
 
   @override
   void initState() {
     super.initState();
     _navigation.current = Navigatable(Type.flagged);
-    _bloc.add(RequestFlaggedMessageList(chatId: widget.chatId));
+    _messageListBloc.add(RequestFlaggedMessageList(chatId: widget.chatId));
   }
 
   @override
   void dispose() {
     super.dispose();
-    _bloc.close();
+    _messageListBloc.close();
   }
 
   @override
@@ -90,7 +90,7 @@ class _MessageListFlaggedState extends State<MessageListFlagged> with InviteMixi
         leading: AppBarBackButton(context: context),
       ),
       body: BlocProvider.value(
-        value: _bloc,
+        value: _messageListBloc,
         child: MessageList(
           scrollController: _scrollController,
           chatId: widget.chatId,
