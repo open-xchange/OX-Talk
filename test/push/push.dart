@@ -68,6 +68,7 @@ void main() {
     var bytes = utf8.encode(publicKey.Q.toString());
     var base64Str = base64UrlEncode(bytes);
     ECPrivateKey privateKey = generateKeyPair.privateKey;
+    print("Base64: $base64Str");
     print("Private Point: ${privateKey.d}");
   });
 

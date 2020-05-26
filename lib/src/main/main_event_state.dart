@@ -50,11 +50,7 @@ class PrepareApp extends MainEvent {}
 
 class LoadApp extends MainEvent {}
 
-class AppLoaded extends MainEvent {
-  BuildContext context;
-
-  AppLoaded({@required this.context});
-}
+class AppLoaded extends MainEvent {}
 
 class Logout extends MainEvent {}
 

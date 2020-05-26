@@ -45,8 +45,6 @@ import 'dart:io';
 
 import 'package:delta_chat_core/delta_chat_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logging/logging.dart';
 import 'package:ox_coi/src/data/notification.dart';
 import 'package:ox_coi/src/data/push_chat_message.dart';
@@ -67,7 +65,6 @@ class PushManager {
   final _firebaseMessaging = FirebaseMessaging();
   final _notificationManager = DisplayNotificationManager();
 
-  BuildContext _buildContext;
   PushBloc _pushBloc;
 
   static PushManager _instance;
@@ -76,7 +73,7 @@ class PushManager {
 
   Future<void> setup(PushBloc pushBloc) async {
     this._pushBloc = pushBloc;
-    //firebase setup
+
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         _logger.info("Received: $message");

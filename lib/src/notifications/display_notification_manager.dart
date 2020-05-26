@@ -54,8 +54,6 @@ import 'package:ox_coi/src/navigation/navigatable.dart';
 import 'package:ox_coi/src/navigation/navigation.dart';
 import 'package:ox_coi/src/utils/constants.dart';
 
-
-
 class DisplayNotificationManager {
   static const _androidIconPath = '@mipmap/ic_notification';
   static const _payloadIdSeparator = "_";
