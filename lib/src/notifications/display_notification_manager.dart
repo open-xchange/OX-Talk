@@ -128,23 +128,21 @@ class DisplayNotificationManager {
     return idString != null ? int.parse(idString) : null;
   }
 
-  Future<void> showNotificationFromPushAsync(String fromEmail, String body) async {
+  Future<void> showNotificationFromPushAsync(String fromEmail, dcc.DecryptedChatMessage decryptedChatMessage) async {
     if (_buildContext != null && _isAppResumed()) {
       return;
     }
     final contactRepository = RepositoryManager.get<dcc.Contact>(RepositoryType.contact);
     String name = fromEmail;
-    int chatId;
+    int chatId = decryptedChatMessage.chatId;
     await Future.forEach(contactRepository.getAll(), (dcc.Contact contact) async {
       final address = await contact.getAddress();
       if (address == fromEmail) {
         final contactName = await contact.getName();
         name = contactName.isNotEmpty ? contactName : fromEmail;
-        final context = dcc.Context();
-        chatId = await context.getChatByContactId(contact.id);
       }
     });
-    await _flutterLocalNotificationsPlugin.show(chatId, name, body, platformChannelSpecifics, payload: chatId != 0 ? chatId.toString() : null);
+    await _flutterLocalNotificationsPlugin.show(chatId, name, decryptedChatMessage.content, platformChannelSpecifics, payload: chatId != 0 ? chatId.toString() : null);
   }
 
   Future<void> showNotificationFromLocalAsync(int chatId, String title, String body, {String payload}) async {

@@ -17,7 +17,7 @@
 
     <!-- TODO this entry is a temporary hack to be able to try stuff with the FirebaseMessagingPlugin - See https://github.com/FirebaseExtended/flutterfire/issues/1754 for more information -->
     <application
-        android:name=".MainApplication"
+        android:name="io.flutter.app.FlutterApplication"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         tools:replace="android:label">

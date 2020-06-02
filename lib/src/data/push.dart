@@ -42,11 +42,11 @@
 
 import 'dart:io';
 
-class NotificationData {
+class Push {
   String content;
   bool valid;
 
-  NotificationData.fromJson(Map<String, dynamic> json) {
+  Push.fromJson(Map<String, dynamic> json) {
     try {
       content = Platform.isIOS ? json['content'] : json['data']['content'];
       valid = content != null && content.isNotEmpty;

@@ -41,16 +41,14 @@
  */
 
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:delta_chat_core/delta_chat_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:logging/logging.dart';
-import 'package:ox_coi/src/data/notification.dart';
+import 'package:ox_coi/src/data/push.dart';
 import 'package:ox_coi/src/data/push_chat_message.dart';
 import 'package:ox_coi/src/data/push_validation.dart';
 import 'package:ox_coi/src/extensions/string_apis.dart';
-import 'package:ox_coi/src/log/log_manager.dart';
 import 'package:ox_coi/src/notifications/display_notification_manager.dart';
 import 'package:ox_coi/src/platform/method_channels.dart';
 import 'package:ox_coi/src/platform/preferences.dart';
@@ -68,7 +66,9 @@ class PushManager {
   PushBloc _pushBloc;
 
   static PushManager _instance;
+
   factory PushManager() => _instance ??= PushManager._internal();
+
   PushManager._internal();
 
   Future<void> setup(PushBloc pushBloc) async {
@@ -77,30 +77,33 @@ class PushManager {
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         _logger.info("Received: $message");
-        final notificationData = NotificationData.fromJson(message);
-        if (notificationData.valid) {
+        final pushData = Push.fromJson(message);
+        if (pushData.valid) {
           _logger.info("Data is valid");
-          final decryptedContent = await decryptAesAsync(notificationData.content);
-          if (_isValidationPush(decryptedContent)) {
+          _logger.info("Decrypt AES started");
+          final decryptedPush = await decryptAesAsync(pushData.content);
+          _logger.info("Decrypt AES done");
+          if (_isValidationPush(decryptedPush)) {
             _logger.info("Data is validation message");
-            final validation = _getPushValidation(decryptedContent).validation;
-            _logger.info("Decrypted data: $validation");
-            _pushBloc.add(ValidateMetadata(validation: validation));
+            final pushValidationMessage = _getPushValidation(decryptedPush).validation;
+            _logger.info("Decrypted data: $pushValidationMessage");
+            _pushBloc.add(ValidateMetadata(validation: pushValidationMessage));
           } else {
             _logger.info("Data is chat message");
-            final pushChatMessage = _getPushChatMessage(decryptedContent);
+            final pushChatMessage = _getPushChatMessage(decryptedPush);
             final fromEmail = pushChatMessage.fromEmail;
-            final context = Context();
             _logger.info("Decrypted data: $pushChatMessage for $fromEmail");
-
             var contentType = pushChatMessage.contentType;
             if (contentType.isNullOrEmpty()) {
               contentType = "text/plain; charset=utf-8";
               _logger.info("Manually setting content type to avoid null / empty value");
             }
-            await decryptPgpAsync(context, contentType, pushChatMessage, fromEmail);
-            _logger.info("Chat message received from: $fromEmail");
-            await _notificationManager.showNotificationFromPushAsync(fromEmail, body);
+            _logger.info("Decrypt PGP started");
+            final decryptedChatMessage = await decryptPgpAsync(contentType, pushChatMessage, fromEmail);
+            _logger.info("Decrypt PGP done");
+            _logger.info(
+                "Decrypted and mapped data: $fromEmail sent in chat ${decryptedChatMessage.chatId} the message '${decryptedChatMessage.content}'");
+            await _notificationManager.showNotificationFromPushAsync(fromEmail, decryptedChatMessage);
           }
         } else {
           _logger.info("Data is *NOT* valid");
@@ -146,9 +149,10 @@ class PushManager {
     });
   }
 
-  Future<DecryptedPushMessage> decryptPgpAsync(Context context, String contentType, PushChatMessage pushChatMessage, String fromEmail) async {
+  Future<DecryptedChatMessage> decryptPgpAsync(String contentType, PushChatMessage pushChatMessage, String fromEmail) async {
+    final context = Context();
     final decrypted = await context.decryptInMemory(contentType, pushChatMessage.content, fromEmail);
-    return DecryptedPushMessage.fromMethodChannel(decrypted);
+    return DecryptedChatMessage.fromMethodChannel(decrypted);
   }
 
   bool _isValidationPush(String decryptedContent) {
