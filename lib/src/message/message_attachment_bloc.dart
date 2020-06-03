@@ -53,7 +53,7 @@ import 'package:ox_coi/src/data/repository.dart';
 import 'package:ox_coi/src/data/repository_manager.dart';
 import 'package:ox_coi/src/extensions/numbers_apis.dart';
 import 'package:ox_coi/src/message/message_attachment_event_state.dart';
-import 'package:ox_coi/src/platform/method_channels.dart';
+import 'package:ox_coi/src/platform/method_channel.dart';
 import 'package:ox_coi/src/share/outgoing_shared_data.dart';
 import 'package:ox_coi/src/utils/constants.dart';
 import 'package:ox_coi/src/utils/video.dart';

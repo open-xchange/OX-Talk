@@ -57,7 +57,7 @@ import 'package:ox_coi/src/extensions/string_apis.dart';
 import 'package:ox_coi/src/invite/invite_service.dart';
 import 'package:ox_coi/src/l10n/l.dart';
 import 'package:ox_coi/src/l10n/l10n.dart';
-import 'package:ox_coi/src/platform/method_channels.dart';
+import 'package:ox_coi/src/platform/method_channel.dart';
 import 'package:ox_coi/src/share/outgoing_shared_data.dart';
 import 'package:ox_coi/src/utils/http.dart';
 import 'package:ox_coi/src/utils/image.dart';

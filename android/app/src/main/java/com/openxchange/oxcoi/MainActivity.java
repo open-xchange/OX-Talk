@@ -58,7 +58,6 @@ import androidx.core.content.FileProvider;
 import io.flutter.embedding.android.FlutterActivity;
 import io.flutter.embedding.engine.FlutterEngine;
 import io.flutter.embedding.engine.dart.DartExecutor;
-import io.flutter.plugin.common.MethodChannel;
 
 public class MainActivity extends FlutterActivity {
     private Map<String, String> sharedData = new HashMap<>();
@@ -75,8 +74,7 @@ public class MainActivity extends FlutterActivity {
         super.configureFlutterEngine(flutterEngine);
         DartExecutor dartExecutor = flutterEngine.getDartExecutor();
         setupSharingMethodChannel(dartExecutor);
-        SecurityHelper securityHelper = new SecurityHelper();
-        setupSecurityMethodChannel(dartExecutor, securityHelper);
+        setupSecurityMethodChannel(dartExecutor);
     }
 
     @Override
@@ -86,33 +84,34 @@ public class MainActivity extends FlutterActivity {
     }
 
     private void setupSharingMethodChannel(DartExecutor dartExecutor) {
-        new MethodChannel(dartExecutor, MethodChannels.Sharing.NAME).setMethodCallHandler(
+        new io.flutter.plugin.common.MethodChannel(dartExecutor, MethodChannel.Sharing.NAME).setMethodCallHandler(
                 (call, result) -> {
-                    if (call.method.contentEquals(MethodChannels.Sharing.Methods.GET_SHARE_DATA)) {
+                    if (call.method.contentEquals(MethodChannel.Sharing.Methods.GET_SHARE_DATA)) {
                         result.success(sharedData);
                         sharedData.clear();
-                    } else if (call.method.contentEquals(MethodChannels.Sharing.Methods.GET_INITIAL_LINK)) {
+                    } else if (call.method.contentEquals(MethodChannel.Sharing.Methods.GET_INITIAL_LINK)) {
                         if (startString != null && !startString.isEmpty()) {
                             result.success(startString);
                             startString = "";
                         } else {
                             result.success(null);
                         }
-                    } else if (call.method.contentEquals(MethodChannels.Sharing.Methods.SEND_SHARE_DATA)) {
+                    } else if (call.method.contentEquals(MethodChannel.Sharing.Methods.SEND_SHARE_DATA)) {
                         shareDataWithPlatform(call.arguments);
                         result.success(null);
                     }
                 });
     }
 
-    private void setupSecurityMethodChannel(DartExecutor dartExecutor, SecurityHelper securityHelper) {
-        new MethodChannel(dartExecutor, MethodChannels.Security.NAME).setMethodCallHandler(
+    private void setupSecurityMethodChannel(DartExecutor dartExecutor) {
+        SecurityHelper securityHelper = new SecurityHelper();
+        new io.flutter.plugin.common.MethodChannel(dartExecutor, MethodChannel.Security.NAME).setMethodCallHandler(
                 (call, result) -> {
-                    if (call.method.contentEquals(MethodChannels.Security.Methods.DECRYPT)) {
-                        String encryptedBase64Content = call.argument(MethodChannels.Security.Arguments.CONTENT);
-                        String privateKeyBase64 = call.argument(MethodChannels.Security.Arguments.PRIVATE_KEY);
-                        String publicKeyBase64 = call.argument(MethodChannels.Security.Arguments.PUBLIC_KEY);
-                        String authBase64 = call.argument(MethodChannels.Security.Arguments.AUTH);
+                    if (call.method.contentEquals(MethodChannel.Security.Methods.DECRYPT)) {
+                        String encryptedBase64Content = call.argument(MethodChannel.Security.Arguments.CONTENT);
+                        String privateKeyBase64 = call.argument(MethodChannel.Security.Arguments.PRIVATE_KEY);
+                        String publicKeyBase64 = call.argument(MethodChannel.Security.Arguments.PUBLIC_KEY);
+                        String authBase64 = call.argument(MethodChannel.Security.Arguments.AUTH);
                         byte[] inputBytes = Base64.decode(encryptedBase64Content, Base64.DEFAULT);
                         String decryptMessage = securityHelper.decryptMessage(inputBytes, privateKeyBase64, publicKeyBase64, authBase64);
                         result.success(decryptMessage);
@@ -129,8 +128,8 @@ public class MainActivity extends FlutterActivity {
         if (Intent.ACTION_SEND.equals(action) && type != null) {
             if (type.startsWith("text/")) {
                 String text = intent.getStringExtra(Intent.EXTRA_TEXT);
-                sharedData.put(MethodChannels.Sharing.Arguments.MIME_TYPE, type);
-                sharedData.put(MethodChannels.Sharing.Arguments.TEXT, text);
+                sharedData.put(MethodChannel.Sharing.Arguments.MIME_TYPE, type);
+                sharedData.put(MethodChannel.Sharing.Arguments.TEXT, text);
             } else if (type.startsWith("application/") || type.startsWith("audio/") || type.startsWith("image/") || type.startsWith("video/")) {
                 Uri uri = (Uri) Objects.requireNonNull(getIntent().getExtras()).get(Intent.EXTRA_STREAM);
                 if (uri == null) {
@@ -145,11 +144,11 @@ public class MainActivity extends FlutterActivity {
                     ShareHelper shareHelper = new ShareHelper();
                     String uriPath = shareHelper.getFilePathForUri(this, uri);
                     if (text != null && !text.isEmpty()) {
-                        sharedData.put(MethodChannels.Sharing.Arguments.TEXT, text);
+                        sharedData.put(MethodChannel.Sharing.Arguments.TEXT, text);
                     }
-                    sharedData.put(MethodChannels.Sharing.Arguments.MIME_TYPE, type);
-                    sharedData.put(MethodChannels.Sharing.Arguments.PATH, uriPath);
-                    sharedData.put(MethodChannels.Sharing.Arguments.NAME, shareHelper.getFileName());
+                    sharedData.put(MethodChannel.Sharing.Arguments.MIME_TYPE, type);
+                    sharedData.put(MethodChannel.Sharing.Arguments.PATH, uriPath);
+                    sharedData.put(MethodChannel.Sharing.Arguments.NAME, shareHelper.getFileName());
                 }
             }
         } else if (Intent.ACTION_VIEW.equals(action) && data != null) {
@@ -160,10 +159,10 @@ public class MainActivity extends FlutterActivity {
     private void shareDataWithPlatform(Object arguments) {
         @SuppressWarnings("unchecked")
         HashMap<String, String> argsMap = (HashMap<String, String>) arguments;
-        String title = argsMap.get(MethodChannels.Sharing.Arguments.TITLE);
-        String path = argsMap.get(MethodChannels.Sharing.Arguments.PATH);
-        String mimeType = argsMap.get(MethodChannels.Sharing.Arguments.MIME_TYPE);
-        String text = argsMap.get(MethodChannels.Sharing.Arguments.TEXT);
+        String title = argsMap.get(MethodChannel.Sharing.Arguments.TITLE);
+        String path = argsMap.get(MethodChannel.Sharing.Arguments.PATH);
+        String mimeType = argsMap.get(MethodChannel.Sharing.Arguments.MIME_TYPE);
+        String text = argsMap.get(MethodChannel.Sharing.Arguments.TEXT);
 
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType(mimeType);

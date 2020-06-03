@@ -42,7 +42,7 @@
 
 package com.openxchange.oxcoi;
 
-class MethodChannels {
+class MethodChannel {
 
     abstract static class Security {
         static final String NAME = "oxcoi.security";

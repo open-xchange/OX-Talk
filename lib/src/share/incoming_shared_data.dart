@@ -40,7 +40,7 @@
  * for more details.
  */
 
-import 'package:ox_coi/src/platform/method_channels.dart';
+import 'package:ox_coi/src/platform/method_channel.dart';
 
 class IncomingSharedData {
   String mimeType;
