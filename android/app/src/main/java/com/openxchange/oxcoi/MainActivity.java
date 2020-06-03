@@ -66,7 +66,7 @@ public class MainActivity extends FlutterActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        cacheDateFromPlatform(getIntent());
+        cacheDataFromPlatform(getIntent());
     }
 
     @Override
@@ -80,7 +80,7 @@ public class MainActivity extends FlutterActivity {
     @Override
     protected void onNewIntent(@NonNull Intent intent) {
         super.onNewIntent(intent);
-        cacheDateFromPlatform(intent);
+        cacheDataFromPlatform(intent);
     }
 
     private void setupSharingMethodChannel(DartExecutor dartExecutor) {
@@ -120,7 +120,7 @@ public class MainActivity extends FlutterActivity {
                 });
     }
 
-    private void cacheDateFromPlatform(Intent intent) {
+    private void cacheDataFromPlatform(Intent intent) {
         String action = intent.getAction();
         String type = intent.getType();
         Uri data = intent.getData();
