@@ -223,8 +223,10 @@ class ContactListBloc extends Bloc<ContactListEvent, ContactListState> with Cont
         headerList.add(createKeyFromId(id, [lastUpdate]));
       }
     });
-    headerList.add(meHeader);
-    headerList.add(meContactDetails);
+    if (chatId == null) {
+      headerList.add(meHeader);
+      headerList.add(meContactDetails);
+    }
     return headerList;
   }
 
