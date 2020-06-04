@@ -48,9 +48,8 @@ import 'package:ox_coi/src/contact/contact_list_bloc.dart';
 import 'package:ox_coi/src/contact/contact_list_event_state.dart';
 import 'package:ox_coi/src/data/contact_repository.dart';
 import 'package:ox_coi/src/platform/method_channel.dart';
-import 'package:ox_coi/src/platform/preferences.dart';
-import 'package:ox_coi/src/share/share_event_state.dart';
 import 'package:ox_coi/src/share/incoming_shared_data.dart';
+import 'package:ox_coi/src/share/share_event_state.dart';
 
 class ShareBloc extends Bloc<ShareEvent, ShareState> {
   ChatListBloc _chatListBloc = ChatListBloc();

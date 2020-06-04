@@ -162,7 +162,7 @@ class _ContactChangeState extends State<ContactChange> {
                     _navigation.pop(context);
                   } else {
                     if (state.contactStateData.id != null) {
-                      Core.Context coreContext = Core.Context();
+                      dcc.Context coreContext = dcc.Context();
                       var chatId = await coreContext.createChatByContactId(state.contactStateData.id);
                       chatRepository.putIfAbsent(id: chatId);
                       _navigation.pushAndRemoveUntil(
