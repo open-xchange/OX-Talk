@@ -41,6 +41,7 @@
  */
 
 import 'package:meta/meta.dart';
+import 'package:ox_coi/src/contact/contact_list_bloc.dart';
 
 abstract class ContactListEvent {}
 
@@ -84,6 +85,16 @@ class ContactsSearched extends ContactListEvent {
   ContactsSearched({@required this.ids});
 }
 
+class AddGoogleContacts extends ContactListEvent {
+  final bool changeEmail;
+
+  AddGoogleContacts({@required this.changeEmail});
+}
+
+class MarkContactsAsInitiallyLoaded extends ContactListEvent {}
+
+class PerformImport extends ContactListEvent {}
+
 abstract class ContactListState {}
 
 class ContactListStateInitial extends ContactListState {}
@@ -93,8 +104,9 @@ class ContactListStateLoading extends ContactListState {}
 class ContactListStateSuccess extends ContactListState {
   final List<dynamic> contactElements;
   final List<int> contactsSelected;
+  final ContactImportState importState;
 
-  ContactListStateSuccess({@required this.contactElements, @required this.contactsSelected});
+  ContactListStateSuccess({@required this.contactElements, @required this.contactsSelected, this.importState});
 }
 
 class ContactListStateFailure extends ContactListState {
@@ -102,3 +114,5 @@ class ContactListStateFailure extends ContactListState {
 
   ContactListStateFailure({@required this.error});
 }
+
+class GooglemailContactsDetected extends ContactListState {}

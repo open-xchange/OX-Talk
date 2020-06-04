@@ -139,7 +139,7 @@ class _ChatCreateGroupParticipantsState extends State<ChatCreateGroupParticipant
         (BuildContext context, int index) {
           final contactElement = state.contactElements[index];
 
-          return ContactListContent(contactElement: contactElement, isSelectable: true, selectedContacts: state.contactsSelected, callback: _itemTapped,);
+          return ContactListContent(contactElement: contactElement, hasHeader: true, isSelectable: true, selectedContacts: state.contactsSelected, callback: _itemTapped,);
         },
         childCount: contactIds.length,
         findChildIndexCallback: (Key key) {

@@ -84,31 +84,12 @@ class DeleteContact extends ContactItemEvent {
   List<Object> get props => [id];
 }
 
-class ContactAdded extends ContactItemEvent {
-  final int id;
-
-  ContactAdded({@required this.id});
-
-  @override
-  List<Object> get props => [id];
-}
-
-class ContactEdited extends ContactItemEvent {
-  @override
-  List<Object> get props => null;
-}
-
-class ContactDeleted extends ContactItemEvent {
-  @override
-  List<Object> get props => null;
-}
-
 class AddGoogleContact extends ContactItemEvent {
   final String name;
   final String email;
   final bool changeEmail;
 
-  AddGoogleContact({@required this.name, @required this.email, @required this.changeEmail});
+  AddGoogleContact({@required this.name,  @required this.email, @required this.changeEmail});
 
   @override
   List<Object> get props => [name, email, changeEmail];
@@ -125,15 +106,6 @@ class BlockContact extends ContactItemEvent {
   List<Object> get props => [id, chatId, messageId];
 }
 
-class ContactBlocked extends ContactItemEvent {
-  final int id;
-
-  ContactBlocked({@required this.id});
-
-  @override
-  List<Object> get props => [id];
-}
-
 class UnblockContact extends ContactItemEvent {
   final int id;
 
@@ -141,30 +113,6 @@ class UnblockContact extends ContactItemEvent {
 
   @override
   List<Object> get props => [id];
-}
-
-class ContactUnblocked extends ContactItemEvent {
-  @override
-  List<Object> get props => null;
-}
-
-class MarkContactsAsInitiallyLoaded extends ContactItemEvent {
-  @override
-  List<Object> get props => null;
-}
-
-class PerformImport extends ContactItemEvent {
-  @override
-  List<Object> get props => null;
-}
-
-class ImportGooglemailContacts extends ContactItemEvent {
-  final bool changeEmails;
-
-  ImportGooglemailContacts({@required this.changeEmails});
-
-  @override
-  List<Object> get props => [changeEmails];
 }
 
 abstract class ContactItemState extends Equatable{}
@@ -194,6 +142,7 @@ class ContactItemStateFailure extends ContactItemState {
   final int id;
   final String error;
 
+
   ContactItemStateFailure({this.id, @required this.error});
 
   @override
@@ -209,22 +158,6 @@ class GoogleContactDetected extends ContactItemState {
   @override
   List<Object> get props => [name, email];
 }
-
-class ContactsImportSuccess extends ContactItemState {
-  @override
-  List<Object> get props => null;
-}
-
-class ContactsImportFailure extends ContactItemState {
-  @override
-  List<Object> get props => null;
-}
-
-class GooglemailContactsDetected extends ContactItemState {
-  @override
-  List<Object> get props => null;
-}
-
 
 class ContactStateData extends Equatable {
   final int id;

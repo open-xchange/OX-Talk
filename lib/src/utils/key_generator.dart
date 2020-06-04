@@ -60,7 +60,7 @@ dynamic extractId(ValueKey valueKey) {
     if (id != null) {
       return id;
     } else {
-      return splitList[0];
+      return splitList.first;
     }
   }
   throw ArgumentError("Value key does not contain an id");

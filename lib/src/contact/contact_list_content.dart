@@ -81,9 +81,9 @@ class ContactListContent extends StatelessWidget with ChatCreateMixin {
   Widget build(BuildContext context) {
     final key = getKeyFromContactElement(contactElement);
     final idOrHeader = extractId(key);
-    final isInt = idOrHeader is int;
+    final isId = idOrHeader is int;
 
-    if (isDismissible && isInt) {
+    if (isDismissible && isId) {
       final contactItem = ContactItem(contactId: idOrHeader, key: key);
       final chatIcon = AdaptiveIcon(icon: IconSource.chat, color: CustomTheme.of(context).white);
 
@@ -102,7 +102,7 @@ class ContactListContent extends StatelessWidget with ChatCreateMixin {
         direction: DismissDirection.endToStart,
         child: contactItem,
       );
-    } else if (isSelectable && isInt) {
+    } else if (isSelectable && isId) {
       final bool isSelected = selectedContacts.contains(idOrHeader);
       return ContactItemSelectable(
         contactId: idOrHeader,
@@ -110,14 +110,14 @@ class ContactListContent extends StatelessWidget with ChatCreateMixin {
         isSelected: isSelected,
         key: key,
       );
-    } else if (isInt && isGroupMember) {
+    } else if (isId && isGroupMember) {
       return ChatProfileGroupContactItem(
         chatId: chatId,
         contactId: idOrHeader,
         showMoreButton: showMoreButton,
         key: key,
       );
-    } else if (isInt) {
+    } else if (isId) {
       return ContactItem(
         contactId: idOrHeader,
         contactItemType: contactItemType,

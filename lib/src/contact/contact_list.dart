@@ -69,7 +69,6 @@ import 'package:ox_coi/src/widgets/superellipse_icon.dart';
 import 'package:provider/provider.dart';
 
 import 'contact_item_bloc.dart';
-import 'contact_item_event_state.dart';
 import 'contact_list_content.dart';
 
 _showAddContactView(BuildContext context, Navigation navigation) {
@@ -167,8 +166,8 @@ class _ContactListState extends State<ContactList> with ChatCreateMixin {
 
   @override
   void dispose() {
-    _contactItemBloc.close();
     _contactListBloc.close();
+    _contactItemBloc.close();
     _appBarActionsSubscription.cancel();
     super.dispose();
   }
@@ -176,8 +175,8 @@ class _ContactListState extends State<ContactList> with ChatCreateMixin {
   void requestValidContacts() => _contactListBloc.add(RequestContacts(typeOrChatId: validContacts));
 
   setupContactImport() async {
-    if (await _contactItemBloc.isInitialContactsOpeningAsync()) {
-      _contactItemBloc.add(MarkContactsAsInitiallyLoaded());
+    if (await _contactListBloc.isInitialContactsOpeningAsync()) {
+      _contactListBloc.add(MarkContactsAsInitiallyLoaded());
       _showImportDialog(true, context);
     }
   }
@@ -185,16 +184,17 @@ class _ContactListState extends State<ContactList> with ChatCreateMixin {
   @override
   Widget build(BuildContext context) {
     return BlocListener(
-      bloc: _contactItemBloc,
+      bloc: _contactListBloc,
       listener: (context, state) {
         _progressOverlayEntry?.remove();
-        if (state is ContactsImportSuccess) {
-          requestValidContacts();
-          String contactImportSuccess = L10n.get(L.contactImportSuccessful);
-          contactImportSuccess.showToast();
-        } else if (state is ContactsImportFailure) {
-          String contactImportFailure = L10n.get(L.contactImportFailed);
-          contactImportFailure.showToast();
+        if (state is ContactListStateSuccess) {
+          if(state.importState == ContactImportState.success){
+            String contactImportSuccess = L10n.get(L.contactImportSuccessful);
+            contactImportSuccess.showToast();
+          } else if(state.importState == ContactImportState.fail){
+            String contactImportFailure = L10n.get(L.contactImportFailed);
+            contactImportFailure.showToast();
+          }
         } else if (state is GooglemailContactsDetected) {
           showConfirmationDialog(
             context: context,
@@ -214,6 +214,13 @@ class _ContactListState extends State<ContactList> with ChatCreateMixin {
         bloc: _contactListBloc,
         builder: (context, state) {
           if (state is ContactListStateSuccess) {
+            if(state.importState == ContactImportState.success){
+              String contactImportSuccess = L10n.get(L.contactImportSuccessful);
+              contactImportSuccess.showToast();
+            } else if(state.importState == ContactImportState.fail){
+              String contactImportFailure = L10n.get(L.contactImportFailed);
+              contactImportFailure.showToast();
+            }
             final contactIds = state.contactElements;
 
             return CustomScrollView(
@@ -272,7 +279,7 @@ class _ContactListState extends State<ContactList> with ChatCreateMixin {
           text: L10n.get(L.contactImportRunning),
         ));
         Overlay.of(context).insert(_progressOverlayEntry);
-        _contactItemBloc.add(PerformImport());
+        _contactListBloc.add(PerformImport());
       },
       navigatable: Navigatable(Type.contactImportDialog),
     );
@@ -283,6 +290,6 @@ class _ContactListState extends State<ContactList> with ChatCreateMixin {
   }
 
   _googleMailAddressAction(bool changeEmail) {
-    _contactItemBloc.add(ImportGooglemailContacts(changeEmails: changeEmail));
+    _contactListBloc.add(AddGoogleContacts(changeEmail: changeEmail));
   }
 }
