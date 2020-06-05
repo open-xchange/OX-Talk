@@ -147,5 +147,6 @@ enum SecurityHelperError: Error {
     case authSecretGenerationFailed(error: String)
     case privateKeyGenerationFailed(error: String)
     case publicKeyGenerationFailed(error: String)
+    case decryptMessageFailed(error: String)
 }
     

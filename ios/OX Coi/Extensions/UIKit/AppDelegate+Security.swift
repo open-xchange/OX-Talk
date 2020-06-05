@@ -54,8 +54,14 @@ extension AppDelegate {
             switch call.method {
                 case MethodChannel.Security.Method.Decrypt:
                     if let messageDict = call.arguments as? [String: String] {
-                        let securityHelper = SecurityHelper(message: messageDict)
-                        result(securityHelper.decryptedMessage)
+//                        do {
+//                            let securityHelper = try SecurityHelper(message: messageDict)
+//                            let decryptedMessage = try securityHelper.getDecryptedMessage()
+//                            result(decryptedMessage)
+//
+//                        } catch {
+//                            throw SecurityHelperError.decryptMessageFailed(error: error.localizedDescription)
+//                        }
                         return
                     }
 
