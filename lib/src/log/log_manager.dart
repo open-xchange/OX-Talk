@@ -177,7 +177,11 @@ class LogManager {
     final dccLogLevel = event.data2;
     final message = "$dccLogLevel: $dccLogMessage";
     final logRecord = LogRecord(Level.INFO, message, _coreLoggerName);
-    _logEntry(logRecord, true);
+    if (Platform.isIOS) {
+      _logEntry(logRecord, true); // Enables iOS developers to receive DCC logs during Android Studio sessions
+    } else if (Platform.isAndroid) {
+      _writeToLogFile(logRecord);
+    }
   }
 
   Future<void> logDeviceInfo() async {

@@ -12,7 +12,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   app_settings: ^3.0.0+1
-  background_fetch: ^0.5.5
+  background_fetch: ^0.5.6
   bloc: ^3.0.0
   cached_network_image: ^2.0.0
   contacts_service: ^0.3.10
