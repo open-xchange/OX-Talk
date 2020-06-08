@@ -44,12 +44,12 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 
-Future<String> loadTextAssetAsString(String path) async {
+Future<String> loadTextAssetAsStringAsync(String path) async {
   final ByteData data = await rootBundle.load(path);
   return utf8.decode(data.buffer.asUint8List());
 }
 
-Future<Map<String, dynamic>> loadJsonAssetAsMap(String path) async {
-  final jsonContent = await loadTextAssetAsString(path);
+Future<Map<String, dynamic>> loadJsonAssetAsMapAsync(String path) async {
+  final jsonContent = await loadTextAssetAsStringAsync(path);
   return jsonDecode(jsonContent);
 }

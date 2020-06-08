@@ -94,7 +94,7 @@ class L10n {
     if (loadedLocales.contains(localeString)) {
       return;
     }
-    loadTextAssetAsString('assets/l10n/$localeString.po').then((data) {
+    loadTextAssetAsStringAsync('assets/l10n/$localeString.po').then((data) {
       _getText.addLocale(po.parse(data));
       loadedLocales.add(localeString);
     }).catchError((error) {});

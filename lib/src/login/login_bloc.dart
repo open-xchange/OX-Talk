@@ -199,7 +199,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   void _loadProviders(ProviderListType type) async {
-    Map<String, dynamic> json = await loadJsonAssetAsMap('assets/customer/json/providers.json');
+    Map<String, dynamic> json = await loadJsonAssetAsMapAsync('assets/customer/json/providers.json');
 
     Providers providers = Providers.fromJson(json);
     if (type == ProviderListType.register) {

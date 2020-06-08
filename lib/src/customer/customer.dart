@@ -69,7 +69,7 @@ class Customer {
 
   Future<void> configureOnboardingAsync() async {
     try {
-      Map<String, dynamic> jsonFile = await loadJsonAssetAsMap(customerOnboardingConfigPath);
+      Map<String, dynamic> jsonFile = await loadJsonAssetAsMapAsync(customerOnboardingConfigPath);
       _onboardingModel = DynamicScreenModel.fromJson(jsonFile);
     } catch (error) {
       _logger.shout("[Configure Onboarding] ** ERROR **: ${error.toString()}");
@@ -79,7 +79,7 @@ class Customer {
 
   Future<void> _configureCustomerAsync() async {
     try {
-      Map<String, dynamic> jsonFile = await loadJsonAssetAsMap(customerConfigPath);
+      Map<String, dynamic> jsonFile = await loadJsonAssetAsMapAsync(customerConfigPath);
       _config = CustomerConfig.fromJson(jsonFile);
       _needsOnboarding = await getPreference(preferenceNeedsOnboarding) as bool ?? true;
 

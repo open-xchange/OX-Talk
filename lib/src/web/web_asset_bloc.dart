@@ -64,7 +64,7 @@ class WebAssetBloc extends Bloc<WebAssetEvent, WebAssetState> {
   }
 
   void _loadAsset(String asset) async{
-    final loadedAsset = await loadTextAssetAsString(asset);
+    final loadedAsset = await loadTextAssetAsStringAsync(asset);
     add(AssetLoaded(asset: loadedAsset));
   }
 }
