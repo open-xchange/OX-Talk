@@ -54,6 +54,10 @@ import 'package:ox_coi/src/widgets/dynamic_appbar.dart';
 import 'package:ox_coi/src/widgets/state_info.dart';
 
 class SettingsAbout extends StatefulWidget {
+  static get viewTitle => L10n.get(L.about);
+
+  SettingsAbout();
+
   @override
   _SettingsAboutState createState() => _SettingsAboutState();
 }
@@ -79,7 +83,7 @@ class _SettingsAboutState extends State<SettingsAbout> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: DynamicAppBar(
-          title: L10n.get(L.about),
+          title: SettingsAbout.viewTitle,
           leading: AppBarBackButton(context: context),
         ),
         body: _buildPreferenceList(context));

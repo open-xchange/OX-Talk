@@ -57,6 +57,10 @@ import 'user_bloc.dart';
 import 'user_event_state.dart';
 
 class UserSettings extends StatefulWidget {
+  static get viewTitle => L10n.get(L.profileEdit);
+
+  UserSettings();
+
   @override
   _UserSettingsState createState() => _UserSettingsState();
 }
@@ -79,7 +83,7 @@ class _UserSettingsState extends State<UserSettings> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: DynamicAppBar(
-        title: L10n.get(L.profileEdit),
+        title: UserSettings.viewTitle,
         leading: AppBarCloseButton(context: context),
         trailingList: [
           IconButton(
