@@ -70,8 +70,7 @@ Future<FlutterDriver> setupAndGetDriver({bool isNormalLogin = false}) async {
   targetPlatform = Platform.environment[environmentTargetPlatform];
   targetProvider = Platform.environment[environmentProvider];
 
-
-  initProviders();
+  await initProviders();
 
   if (targetPlatform == environmentTargetPlatformAndroid) {
     await setupAndroid();

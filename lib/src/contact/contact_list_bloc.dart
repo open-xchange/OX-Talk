@@ -50,6 +50,7 @@ import 'package:flutter/material.dart';
 import 'package:ox_coi/src/contact/contact_list_event_state.dart';
 import 'package:ox_coi/src/contact/contacts_updater_mixin.dart';
 import 'package:ox_coi/src/data/contact_extension.dart';
+import 'package:ox_coi/src/data/contact_repository.dart';
 import 'package:ox_coi/src/data/repository.dart';
 import 'package:ox_coi/src/data/repository_manager.dart';
 import 'package:ox_coi/src/data/repository_stream_handler.dart';
@@ -98,7 +99,7 @@ class ContactListBloc extends Bloc<ContactListEvent, ContactListState> with Cont
     } else if (event is SearchContacts) {
       try {
         _currentSearch = event.query;
-        yield* _searchContacts();
+        yield* _searchContacts(chatId: event.chatId);
       } catch (error) {
         yield ContactListStateFailure(error: error.toString());
       }
@@ -115,7 +116,7 @@ class ContactListBloc extends Bloc<ContactListEvent, ContactListState> with Cont
     } else if (event is AddGoogleContacts) {
       yield* _addUpdateContactsAsync(changeEmails: event.changeEmail);
     } else if (event is ContactsSelectionChanged) {
-      yield* _selectionChanged(event.id);
+      yield* _selectionChanged(event.id, event.chatId);
     } else if (event is MarkContactsAsInitiallyLoaded) {
       await _markContactsAsInitiallyLoadedAsync();
     } else if (event is PerformImport) {
@@ -153,7 +154,12 @@ class ContactListBloc extends Bloc<ContactListEvent, ContactListState> with Cont
   void _onContactsChanged([event]) async {
     List<int> ids = await getIds(_typeOrChatId);
     final contactHeaderList = await _mergeHeaderAndContacts(contactIds: ids);
+    add(ContactsChanged(ids: contactHeaderList));
+  }
 
+  void _onContactSelected(int chatId) async {
+    List<int> ids = await getIds(_typeOrChatId);
+    final contactHeaderList = await _mergeHeaderAndContacts(contactIds: ids, chatId: chatId);
     add(ContactsChanged(ids: contactHeaderList));
   }
 
@@ -223,17 +229,21 @@ class ContactListBloc extends Bloc<ContactListEvent, ContactListState> with Cont
         headerList.add(createKeyFromId(id, [lastUpdate]));
       }
     });
-    if (chatId == null) {
+    if (showMe(contactIds, chatParticipants)) {
       headerList.add(meHeader);
       headerList.add(meContactDetails);
     }
     return headerList;
   }
 
-  Stream<ContactListStateSuccess> _searchContacts() async* {
+  bool showMe(List<int> contactIds, List<int> chatParticipants) {
+    return contactIds.contains(Contact.idSelf) && (chatParticipants == null || !chatParticipants.contains(Contact.idSelf));
+  }
+
+  Stream<ContactListStateSuccess> _searchContacts({@required int chatId}) async* {
     Context context = Context();
     List<int> contactIds = List.from(await context.getContacts(2, _currentSearch));
-    final contactHeaderList = await _mergeHeaderAndContacts(contactIds: contactIds);
+    final contactHeaderList = await _mergeHeaderAndContacts(contactIds: contactIds, chatId: chatId);
 
     yield ContactListStateSuccess(
       contactElements: contactHeaderList,
@@ -241,16 +251,16 @@ class ContactListBloc extends Bloc<ContactListEvent, ContactListState> with Cont
     );
   }
 
-  Stream<ContactListStateSuccess> _selectionChanged(int id) async* {
+  Stream<ContactListStateSuccess> _selectionChanged(int id, chatId) async* {
     if (_contactsSelected.contains(id)) {
       _contactsSelected.remove(id);
     } else {
       _contactsSelected.add(id);
     }
     if (_currentSearch.isNullOrEmpty()) {
-      _onContactsChanged();
+      _onContactSelected(chatId);
     } else {
-      yield* _searchContacts();
+      yield* _searchContacts(chatId: chatId);
     }
   }
 
@@ -279,7 +289,7 @@ class ContactListBloc extends Bloc<ContactListEvent, ContactListState> with Cont
       if (contact.emails.length != 0) {
         contact.emails.forEach((email) {
           if (email.value.isEmail) {
-            if (!googlemailDetected) {
+            if (shouldUpdateUi && !googlemailDetected) {
               googlemailDetected = email.value.contains(googlemailDomain);
             }
             _coreContacts += getFormattedContactData(contact, email);
@@ -308,12 +318,12 @@ class ContactListBloc extends Bloc<ContactListEvent, ContactListState> with Cont
       await updateContactExtensions(ids, _phoneNumbers);
     }
 
-    if (shouldUpdateUi) {
-      await Future.forEach(_contactRepository.getAll(), (contact) async {
-        await updateAvatar(_systemContacts, contact);
+    await Future.forEach(_contactRepository.getAll(), (contact) async {
+      await updateAvatar(_systemContacts, contact);
+      if (shouldUpdateUi) {
         await reloadChatName(context, contact.id);
-      });
-    }
+      }
+    });
     _systemContacts = null;
     _phoneNumbers.clear();
 
