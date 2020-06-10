@@ -64,8 +64,6 @@ import 'package:ox_coi/src/widgets/state_info.dart';
 class ChatCreate extends StatefulWidget {
   static get viewTitle => L10n.get(L.chatCreate);
 
-  ChatCreate();
-
   @override
   _ChatCreateState createState() => _ChatCreateState();
 }

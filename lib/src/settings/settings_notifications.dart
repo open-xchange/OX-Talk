@@ -61,8 +61,6 @@ import 'package:ox_coi/src/widgets/state_info.dart';
 class SettingsNotifications extends StatefulWidget {
   static get viewTitle => L10n.get(L.settingNotificationP, count: L10n.plural);
 
-  SettingsNotifications();
-
   @override
   _SettingsNotificationsState createState() => _SettingsNotificationsState();
 }

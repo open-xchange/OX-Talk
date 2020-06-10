@@ -56,8 +56,6 @@ import 'package:ox_coi/src/widgets/dynamic_appbar.dart';
 class EmailSignature extends StatefulWidget {
   static get viewTitle => L10n.get(L.settingSignatureTitle);
 
-  EmailSignature();
-
   @override
   _EmailSignatureState createState() => _EmailSignatureState();
 }

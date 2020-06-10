@@ -62,8 +62,6 @@ import 'package:ox_coi/src/widgets/state_info.dart';
 class SettingsDebug extends StatefulWidget {
   static get viewTitle => L10n.get(L.debug);
 
-  SettingsDebug();
-
   @override
   _SettingsDebugState createState() => _SettingsDebugState();
 }

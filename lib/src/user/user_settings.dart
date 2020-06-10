@@ -59,8 +59,6 @@ import 'user_event_state.dart';
 class UserSettings extends StatefulWidget {
   static get viewTitle => L10n.get(L.profileEdit);
 
-  UserSettings();
-
   @override
   _UserSettingsState createState() => _UserSettingsState();
 }

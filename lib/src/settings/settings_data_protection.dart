@@ -60,8 +60,6 @@ import 'package:ox_coi/src/widgets/state_info.dart';
 class SettingsDataProtection extends StatefulWidget {
   static get viewTitle => L10n.get(L.settingAntiMobbing);
 
-  SettingsDataProtection();
-
   @override
   _DataProtectionState createState() => _DataProtectionState();
 }

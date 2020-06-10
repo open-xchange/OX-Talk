@@ -61,8 +61,6 @@ import 'anti_mobbing_list_event_state.dart';
 class AntiMobbingList extends StatefulWidget {
   static get viewTitle => L10n.get(L.invites);
 
-  AntiMobbingList();
-
   @override
   _AntiMobbingListState createState() => _AntiMobbingListState();
 }

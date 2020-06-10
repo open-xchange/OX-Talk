@@ -68,8 +68,6 @@ import 'user_event_state.dart';
 class UserAccountSettings extends StatefulWidget {
   static get viewTitle => L10n.get(L.settingAccount);
 
-  UserAccountSettings();
-
   @override
   _UserAccountSettingsState createState() => _UserAccountSettingsState();
 }

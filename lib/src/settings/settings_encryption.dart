@@ -64,8 +64,6 @@ import 'package:ox_coi/src/widgets/fullscreen_progress.dart';
 class SettingsEncryption extends StatefulWidget {
   static get viewTitle => L10n.get(L.settingItemEncryptionTitle);
 
-  SettingsEncryption();
-
   @override
   _SettingsEncryptionState createState() => _SettingsEncryptionState();
 }
