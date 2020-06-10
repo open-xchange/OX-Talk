@@ -106,7 +106,7 @@ Future<void> composeChatMessagesAsync(FlutterDriver driver, int messageId) async
   await driver.tap(find.byValueKey(KeyChatOnSendTextIcon));
 }
 /// Composes and sends a text message in chat.
-/// Default [inputHelloWorld] will be send if no [text] to send in given.
+/// Default [inputHelloWorld] will be send if no [text] to send is given.
 Future<void> composeTextAsync(FlutterDriver driver, int messageId, [String text = ""]) async {
   await driver.tap(composeInputFinder);
   if (text.isEmpty) {
